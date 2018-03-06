@@ -15,6 +15,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Game\Header">
+      <UniqueIdentifier>{1b77dd06-a463-4547-96e8-2aa9fa0e58b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Source">
+      <UniqueIdentifier>{f35fb501-bb63-46d3-bb3e-28b32f8be9d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CRC.cpp">
@@ -47,15 +53,6 @@
     <ClCompile Include="WindowUtils.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="FX.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderTypes.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="SpriteAnim.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -77,8 +74,17 @@
     <ClCompile Include="FPSCamera.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Game\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FX.cpp">
+      <Filter>Game\Source</Filter>
+    </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderTypes.cpp">
+      <Filter>Game\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,12 +121,6 @@
     <ClInclude Include="GeometryBuilder.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="FX.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderTypes.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteAnim.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -142,8 +142,14 @@
     <ClInclude Include="FPSCamera.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="FX.h">
+      <Filter>Game\Header</Filter>
+    </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Game</Filter>
+      <Filter>Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderTypes.h">
+      <Filter>Game\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

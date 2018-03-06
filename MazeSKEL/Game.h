@@ -7,6 +7,8 @@
 #include "Mesh.h"
 #include "Model.h"
 #include "FPSCamera.h"
+#include "Player.h"
+#include "Wall.h"
 
 
 class Game
@@ -24,16 +26,15 @@ public:
 	void Release();
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	Model mBox, mQuad, mSkybox;
-
 private:
 	Game& operator=(const Game&) = delete;
 	Game(const Game& m) = delete;
 
 	float gAngle = 0;
 	FPSCamera mCamera;
-	std::vector<Model*> mOpaques;
 
+	Wall gWall;
+	Player gPlayer;
 };
 
 #endif

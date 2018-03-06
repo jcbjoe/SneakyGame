@@ -7,6 +7,8 @@
 #include "UserFolder.h"
 #include "AudioMgrFMOD.h"
 #include "Game.h"
+#include "Wall.h"
+#include "Player.h"
 
 
 using namespace std;
@@ -22,7 +24,7 @@ void Update(float dTime)
 }
 
 void Render(float dTime)
-{
+{ 
 	gGame.Render(dTime);
 }
 
