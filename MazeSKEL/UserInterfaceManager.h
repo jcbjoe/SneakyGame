@@ -32,12 +32,18 @@ private:
 	bool showFPS;
 	bool isCrouching;
 
-	std::vector<std::string> debugText;
+	struct debugText {
+		std::string text;
+		int timeAdded;
+	};
+	std::vector<debugText> debugTextVector;
 
 	DirectX::SpriteBatch *mpSpriteBatch = nullptr;
 	DirectX::SpriteFont *mpComicSans = nullptr, *mpAlgerian = nullptr;
 
 	float FPS;
+
+	time_t start;
 };
 SINGLETON_GET(UserInterfaceManager);
 

@@ -265,6 +265,9 @@ LRESULT Game::WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case 'Q':
 			PostQuitMessage(0);
 			return 0;
+		case 'j':
+			GetUserInterfaceManager()->printDebugText("TEST123");
+			break;
 		}
 	}
 

@@ -1,5 +1,6 @@
 #include "UserInterfaceManager.h"
 #include <sstream>
+#include <time.h>
 
 using namespace std;
 using namespace DirectX;
@@ -15,10 +16,13 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	assert(mpComicSans);
 	mpAlgerian = new SpriteFont(gd3dDevice, L"../bin/data/algerian.spritefont");
 	assert(mpAlgerian);
+
+	start = time(0);
 }
 
 void UserInterfaceManager::printDebugText(string text) {
-	debugText.push_back(text);
+	int seconds_since_start = difftime(time(0), start);
+	debugTextVector.push_back(debugText{"text", seconds_since_start});
 }
 
 void UserInterfaceManager::setCrouch(bool crouching) {
@@ -51,14 +55,24 @@ void UserInterfaceManager::updateUI() {
 	//--- End FPS Counter
 
 	//--- Begin Debug Text
-	for (int elementInVector = debugText.size(); elementInVector > 0; elementInVector--) {
+	for (int elementInVector = debugTextVector.size(); elementInVector > 0; elementInVector--) {
 		wstringstream textToAdd;
-		textToAdd << debugText.at(elementInVector).c_str();
-		mpComicSans->DrawString(mpSpriteBatch, textToAdd.str().c_str(), Vector2(100, 50*(elementInVector - debugText.size())), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		textToAdd << debugTextVector.at(elementInVector - 1).text.c_str();
+		int height = 25 * elementInVector;
+		mpComicSans->DrawString(mpSpriteBatch, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	}
 	//--- End Debug Text
 
 	mpSpriteBatch->End();
+
+	int seconds_since_start = difftime(time(0), start);
+	for (int elementInVector = 0; elementInVector < debugTextVector.size(); elementInVector++) {
+		const int secondsToStayOnScreen = 5;
+		debugText currentText = debugTextVector.at(elementInVector);
+		if ((seconds_since_start - currentText.timeAdded) > secondsToStayOnScreen) {
+			debugTextVector.erase(debugTextVector.begin() + elementInVector);
+		}
+	}
 
 }
 
