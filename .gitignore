@@ -319,3 +319,5 @@ ASALocalRun/
 *.binlog
 
 *.exe
+
+*.cso
