@@ -60,6 +60,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	//startup
 	new FX::MyFX(gd3dDevice);
 	new MeshManager;
+	new UserInterfaceManager;
 	new MouseAndKeys;
 	GetMouseAndKeys()->Initialise(GetMainWnd());
 	gGame.Initialise();
@@ -70,6 +71,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	gGame.Release();
 	delete GetMouseAndKeys();
 	delete GetMeshManager();
+	delete GetUserInterfaceManager();
 	delete FX::GetMyFX();
 
 	ReleaseD3D();

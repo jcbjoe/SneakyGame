@@ -32,14 +32,6 @@ void Game::Initialise()
 	mQuad.Initialise(BuildQuad(*GetMeshManager()));
 	//mWall.Initialise(BuildCube(*GetMeshManager()));
 
-	mpSpriteBatch = new SpriteBatch(gd3dImmediateContext);
-	assert(mpSpriteBatch);
-	mpFont = new SpriteFont(gd3dDevice, L"../bin/data/comicSansMS.spritefont");
-	assert(mpFont);
-
-	mpFont2 = new SpriteFont(gd3dDevice, L"../bin/data/algerian.spritefont");
-	assert(mpFont2);
-
 	//textured lit box
 	mBox.Initialise(BuildCube(*GetMeshManager()));
 	mBox.GetPosition() = Vector3(0, 0, 0);
@@ -155,6 +147,8 @@ void Game::Initialise()
 		obj.GetPosition() *= gWorldScale;
 	}
 
+	//--- Init the UI - 1st Arg = ShowFPS
+	GetUserInterfaceManager()->initialiseUI(true);
 
 	FX::SetupDirectionalLight(0, true, Vector3(-0.7f, -0.7f, 0.7f), Vector3(0.67f, 0.67f, 0.67f), Vector3(0.25f, 0.25f, 0.25f), Vector3(0.15f, 0.15f, 0.15f));
 
@@ -163,18 +157,18 @@ void Game::Initialise()
 
 void Game::LoadDisplay(float dTime)
 {
-	//BeginRender(Colours::Black);
+	////BeginRender(Colours::Black);
 
-	mpSpriteBatch->Begin();
+	//mpSpriteBatch->Begin();
 
-	wstringstream ss;
-	ss << L"Crouching: ";
-	ss << isCrouched;
-	mpFont2->DrawString(mpSpriteBatch, ss.str().c_str(), Vector2(100, 200), Colours::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//wstringstream ss;
+	//ss << L"Crouching: ";
+	//ss << isCrouched;
+	//mpFont2->DrawString(mpSpriteBatch, ss.str().c_str(), Vector2(100, 200), Colours::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
-	mpSpriteBatch->End();
+	//mpSpriteBatch->End();
 
-	//EndRender();
+	////EndRender();
 }
 
 void Game::Release()
@@ -189,6 +183,7 @@ void Game::Update(float dTime)
 	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
 	{
 		isCrouched = !isCrouched;
+		GetUserInterfaceManager()->setCrouch(isCrouched);
 		//Crouch function
 		mCamera.Crouch(isCrouched);
 		//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
@@ -211,8 +206,12 @@ void Game::Update(float dTime)
 	//	
 	//}
 
+	GetUserInterfaceManager()->setFPS(1 / dTime);
+
 	gAngle += dTime * 0.5f;
 	mBox.GetRotation().y = gAngle;
+
+	GetUserInterfaceManager()->updateUI();
 }
 
 void Game::Render(float dTime)
@@ -241,6 +240,8 @@ void Game::Render(float dTime)
 	}
 
 	LoadDisplay(dTime);
+	GetUserInterfaceManager()->updateUI();
+	//*GetUserInterfaceManager();
 	EndRender();
 
 	GetMouseAndKeys()->PostProcess();

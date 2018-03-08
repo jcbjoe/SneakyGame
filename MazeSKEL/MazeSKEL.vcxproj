@@ -115,6 +115,7 @@
     <ClCompile Include="ShaderTypes.cpp" />
     <ClCompile Include="SpriteAnim.cpp" />
     <ClCompile Include="UserFolder.cpp" />
+    <ClCompile Include="UserInterfaceManager.cpp" />
     <ClCompile Include="UtilsDefines.cpp" />
     <ClCompile Include="WindowUtils.cpp" />
   </ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SpriteAnim.h" />
     <ClInclude Include="UserFolder.h" />
+    <ClInclude Include="UserInterfaceManager.h" />
     <ClInclude Include="UtilsDefines.h" />
     <ClInclude Include="WindowUtils.h" />
   </ItemGroup>
