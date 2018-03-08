@@ -30,7 +30,7 @@ private:
 	void Release();
 
 	bool showFPS;
-	bool isCrouching;
+	bool isCrouching = false;
 
 	struct debugText {
 		std::string text;
