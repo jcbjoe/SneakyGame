@@ -186,13 +186,18 @@ void Game::Update(float dTime)
 	float moveSpeed = dTime / 5.0f;
 	float turnSpeed = 20.0f;
 
-	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
-	{
-		isCrouched = !isCrouched;
-		//Crouch function
-		mCamera.Crouch(isCrouched);
-		//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
-
+	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT)) {
+		if (!isCrouched) {
+			isCrouched = true;
+			//Crouch function
+			mCamera.Crouch(isCrouched);
+			//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
+		}
+	} else {
+		if (isCrouched) {
+			isCrouched = false;
+			mCamera.Crouch(isCrouched);
+		}
 	}
 	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
 	
