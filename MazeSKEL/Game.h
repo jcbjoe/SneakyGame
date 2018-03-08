@@ -9,6 +9,7 @@
 #include "Model.h"
 #include "SpriteFont.h"
 #include "FPSCamera.h"
+#include "UserInterfaceManager.h"
 
 
 class Game
@@ -44,8 +45,7 @@ private:
 
 	//Message Handling
 	void LoadDisplay(float dTime);
-	DirectX::SpriteBatch *mpSpriteBatch = nullptr;
-	DirectX::SpriteFont *mpFont = nullptr, *mpFont2 = nullptr;
+	
 };
 
 #endif
