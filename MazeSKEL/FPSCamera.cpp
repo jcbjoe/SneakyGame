@@ -13,9 +13,9 @@ void FPSCamera::Initialise(const Vector3& pos, const DirectX::SimpleMath::Vector
 	mCamPos = pos;
 }
 
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right)
+void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool crouch, bool isCrouched)
 {
-	if (!forward && !back && !left && !right)
+	if (!forward && !back && !left && !right && !crouch)
 		return;
 
 	Matrix ori = Matrix::CreateFromYawPitchRoll(yaw, pitch, roll);
@@ -38,14 +38,27 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 
 	if (mLockAxis.x != UNLOCK)
 		pos.x = mLockAxis.x;
-	if (mLockAxis.y != UNLOCK)
-		pos.y = mLockAxis.y;
+	//if (mLockAxis.y != UNLOCK)
+	//	pos.y = mLockAxis.y;
 	if (mLockAxis.z != UNLOCK)
 		pos.z = mLockAxis.z;
 
 	CreateViewMatrix(*mpViewSpaceTfm, pos, pos + dir, up);
-	mCamPos = pos;
+
+	mCamPos = Vector3(pos.x, mCamPos.y, pos.z);
+		
+		
 }
+
+void FPSCamera::Crouch(bool isCrouched)
+{
+	if (isCrouched)
+		mCamPos.y = 0.25f;
+	else
+		mCamPos.y = 0.5f;
+}
+
+
 
 void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 {
@@ -53,6 +66,15 @@ void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 	pitch += _pitch * dTime * rspeed;
 	roll += _roll * dTime * rspeed;
 	Matrix ori;
+
+	//Fix gimble lock
+	if (pitch < -0.3f)
+		pitch = -0.3f;
+
+	if (pitch > 0.75f)
+		pitch = 0.75f;
+
+
 	ori = Matrix::CreateFromYawPitchRoll(yaw, pitch, roll);
 	Vector3 dir(0, 0, 1), up(0, 1, 0);
 	dir = Vector3::TransformNormal(dir, ori);

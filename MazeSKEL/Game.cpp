@@ -130,7 +130,7 @@ void Game::Initialise()
 			case 2:
 				//Place camera
 				mCamera.Initialise(Vector3(i, 0.5f, j), Vector3(0, 0, 1), FX::GetViewMatrix());
-				mCamera.LockMovementAxis(FPSCamera::UNLOCK, 0.5f, FPSCamera::UNLOCK);
+				mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 				//Place floor
 				mQuad.GetPosition() = Vector3(i, 0, j);
 				mOpaques.push_back(mQuad);
@@ -142,6 +142,7 @@ void Game::Initialise()
 				//Place floor
 				mQuad.GetPosition() = Vector3(i, 0, j);
 				mOpaques.push_back(mQuad);
+				break;
 
 			}		
 
@@ -168,6 +169,7 @@ void Game::LoadDisplay(float dTime)
 
 	wstringstream ss;
 	ss << L"Crouching: ";
+	ss << isCrouched;
 	mpFont2->DrawString(mpSpriteBatch, ss.str().c_str(), Vector2(100, 200), Colours::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
 	mpSpriteBatch->End();
@@ -184,13 +186,30 @@ void Game::Update(float dTime)
 	float moveSpeed = dTime / 5.0f;
 	float turnSpeed = 20.0f;
 
-	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D));
+	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
+	{
+		isCrouched = !isCrouched;
+		//Crouch function
+		mCamera.Crouch(isCrouched);
+		//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
+
+	}
+	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
+	
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
+
 	if (m.x != 0 || m.y != 0)
 	{
 		
 		mCamera.Rotate(dTime, m.x, m.y, 0);
 	}
+
+	//if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
+	//{
+	//	isCrouched = !isCrouched;
+	//	//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
+	//	
+	//}
 
 	gAngle += dTime * 0.5f;
 	mBox.GetRotation().y = gAngle;

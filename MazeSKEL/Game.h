@@ -30,9 +30,13 @@ public:
 
 	Model mBox, mWall, mQuad, mSkybox, mLoot;
 
+	bool isCrouched = false;
+
 private:
 	Game& operator=(const Game&) = delete;
 	Game(const Game& m) = delete;
+
+	
 
 	float gAngle = 0;
 	FPSCamera mCamera;

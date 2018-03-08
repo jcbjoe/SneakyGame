@@ -15,7 +15,11 @@ public:
 	void Initialise(const DirectX::SimpleMath::Vector3& pos, const DirectX::SimpleMath::Vector3& tgt, DirectX::SimpleMath::Matrix& viewSpaceTfm);
 
 	//movement can be driven by WASD
-	void Move(float dTime, bool forward, bool back, bool left, bool right);
+	void Move(float dTime, bool forward, bool back, bool left, bool right, bool crouch, bool isCrouched);
+
+
+	void Crouch(bool isCrouched);
+
 	//rotation can be driven by mouse x=yaw and y=pitch
 	void Rotate(float dTime, float _yaw, float _pitch, float _roll);
 	//stop camera moving in a certain axis, e.g. a FPS camera that always stays a fixed height in Y
