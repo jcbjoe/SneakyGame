@@ -22,7 +22,7 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 
 void UserInterfaceManager::printDebugText(string text) {
 	int seconds_since_start = difftime(time(0), start);
-	debugTextVector.push_back(debugText{"text", seconds_since_start});
+	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
 void UserInterfaceManager::setCrouch(bool crouching) {
