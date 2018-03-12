@@ -90,6 +90,8 @@ void Game::Initialise()
 	//1 = Wall
 	//2 = Spawn/Entrance/Exit
 	//3 = Coins
+	//4 = Enemy
+	//5 = Enemy Waypoint
 	int level1[][levelx] = 
 	{
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -100,7 +102,7 @@ void Game::Initialise()
 		{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 },
 		{ 1, 0, 1, 0, 0, 3, 0, 0, 0, 1 },
 		{ 1, 3, 0, 3, 0, 0, 0, 2, 0, 1 },
-		{ 1, 0, 0, 0, 1, 1, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 1, 1, 0, 0, 4, 1 },
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
 
@@ -135,7 +137,10 @@ void Game::Initialise()
 				mQuad.GetPosition() = Vector3(i, 0, j);
 				mOpaques.push_back(mQuad);
 				break;
-
+			case 4:
+				Vector3 pos = Vector3(i, 0.5, j);
+				mEnemy = Enemy(pos);
+				break;
 			}		
 
 		}
@@ -177,6 +182,7 @@ void Game::Release()
 
 void Game::Update(float dTime)
 {
+
 	float moveSpeed = dTime / 5.0f;
 	float turnSpeed = 20.0f;
 
@@ -272,7 +278,7 @@ LRESULT Game::WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			PostQuitMessage(0);
 			return 0;
 		case 'j':
-			GetUserInterfaceManager()->printDebugText("TEST123");
+			GetUserInterfaceManager()->printDebugText(to_string(mCamera.GetPos().x));
 			break;
 		}
 	}

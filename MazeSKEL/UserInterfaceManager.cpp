@@ -58,7 +58,7 @@ void UserInterfaceManager::updateUI() {
 	for (int elementInVector = debugTextVector.size(); elementInVector > 0; elementInVector--) {
 		wstringstream textToAdd;
 		textToAdd << debugTextVector.at(elementInVector - 1).text.c_str();
-		int height = 25 * elementInVector;
+		int height = 25 * (debugTextVector.size() - elementInVector);
 		mpComicSans->DrawString(mpSpriteBatch, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	}
 	//--- End Debug Text

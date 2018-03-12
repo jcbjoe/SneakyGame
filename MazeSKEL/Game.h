@@ -10,6 +10,7 @@
 #include "SpriteFont.h"
 #include "FPSCamera.h"
 #include "UserInterfaceManager.h"
+#include "Enemy.h"
 
 
 class Game
@@ -45,6 +46,8 @@ private:
 
 	//Message Handling
 	void LoadDisplay(float dTime);
+
+	Enemy mEnemy;
 	
 };
 
