@@ -7,11 +7,11 @@ class Enemy
 {
 public:
 
-	Enemy();
+	Enemy(Vector3 position);
 
 
 private:
-
+	Vector3 Pos
 
 };
 
