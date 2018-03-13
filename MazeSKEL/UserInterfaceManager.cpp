@@ -55,11 +55,16 @@ void UserInterfaceManager::updateUI() {
 	//--- End FPS Counter
 
 	//--- Begin Debug Text
+	int count = 0;
 	for (int elementInVector = debugTextVector.size(); elementInVector > 0; elementInVector--) {
 		wstringstream textToAdd;
 		textToAdd << debugTextVector.at(elementInVector - 1).text.c_str();
-		int height = 25 * (debugTextVector.size() - elementInVector);
+		int height = 25 * ((debugTextVector.size() - elementInVector) + 1);
 		mpComicSans->DrawString(mpSpriteBatch, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+
+		count++;
+		if (count == 30)
+			break;
 	}
 	//--- End Debug Text
 

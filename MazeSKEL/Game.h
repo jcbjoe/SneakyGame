@@ -47,8 +47,9 @@ private:
 	//Message Handling
 	void LoadDisplay(float dTime);
 
-	Enemy mEnemy;
-	
+	//Enemy mEnemy;
+	vector<Enemy> enemysVector;
+	vector<Vector3> waypointsVector;
 };
 
 #endif

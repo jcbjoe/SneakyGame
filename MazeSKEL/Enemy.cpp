@@ -1,9 +1,4 @@
 #include "Enemy.h"
-#include "D3D.h"
-
-using namespace std;
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
 
 Enemy::Enemy(Vector3 position) {
 	
@@ -14,5 +9,9 @@ Enemy::Enemy(Vector3 position) {
 
 
 
+}
+
+void Enemy::setWaypoints(vector<Vector3> wayPoints) {
+	wayPointsList = wayPoints;
 }
 

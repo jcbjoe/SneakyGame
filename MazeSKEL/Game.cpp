@@ -113,34 +113,57 @@ void Game::Initialise()
 		{
 			switch (level1[i][j])
 			{
-			case 0://Floor to be placed
-				mQuad.GetPosition() = Vector3(i, 0, j);
-				mOpaques.push_back(mQuad);
-				break;
-			case 1: //Wall to be placed
-				mBox.GetPosition() = Vector3(i, 0.5f, j);
-				mOpaques.push_back(mBox);
-				break;
-			case 2:
-				//Place camera
-				mCamera.Initialise(Vector3(i, 0.5f, j), Vector3(0, 0, 1), FX::GetViewMatrix());
-				mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
-				//Place floor
-				mQuad.GetPosition() = Vector3(i, 0, j);
-				mOpaques.push_back(mQuad);
-				break;
-			case 3:
-				mLoot.GetPosition() = Vector3(i, 0.3f, j);
-				mOpaques.push_back(mLoot);
-				
-				//Place floor
-				mQuad.GetPosition() = Vector3(i, 0, j);
-				mOpaques.push_back(mQuad);
-				break;
-			case 4:
-				Vector3 pos = Vector3(i, 0.5, j);
-				mEnemy = Enemy(pos);
-				break;
+				case 0: {//Floor to be placed
+					mQuad.GetPosition() = Vector3(i, 0, j);
+					mOpaques.push_back(mQuad);
+					break;
+				}
+
+				case 1: { //Wall to be placed
+					mBox.GetPosition() = Vector3(i, 0.5f, j);
+					mOpaques.push_back(mBox);
+					break;
+				}
+
+				case 2: {
+					//Place camera
+					mCamera.Initialise(Vector3(i, 0.5f, j), Vector3(0, 0, 1), FX::GetViewMatrix());
+					mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
+					//Place floor
+					mQuad.GetPosition() = Vector3(i, 0, j);
+					mOpaques.push_back(mQuad);
+					break;
+				}
+
+				case 3: {
+					mLoot.GetPosition() = Vector3(i, 0.3f, j);
+					mOpaques.push_back(mLoot);
+
+					//Place floor
+					mQuad.GetPosition() = Vector3(i, 0, j);
+					mOpaques.push_back(mQuad);
+					break;
+
+				}
+
+				case 4: {
+					Vector3 pos = Vector3(i, 0.5, j);
+					Enemy mEnemy = Enemy(pos);
+					enemysVector.push_back(mEnemy);
+
+					//Place floor
+					mQuad.GetPosition() = Vector3(i, 0, j);
+					mOpaques.push_back(mQuad);
+					break;
+				}
+
+				case 5: {
+
+					//Place floor
+					mQuad.GetPosition() = Vector3(i, 0, j);
+					mOpaques.push_back(mQuad);
+					break;
+				}
 			}		
 
 		}
@@ -150,6 +173,10 @@ void Game::Initialise()
 	{
 		obj.GetScale() *= gWorldScale;
 		obj.GetPosition() *= gWorldScale;
+	}
+
+	for (Enemy enemy : enemysVector) {
+		enemy.setWaypoints(waypointsVector);
 	}
 
 	//--- Init the UI - 1st Arg = ShowFPS
