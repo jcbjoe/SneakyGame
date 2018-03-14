@@ -13,6 +13,7 @@
 #include "UserInterfaceManager.h"
 #include "Enemy.h"
 #include "ObjectManager.h"
+#include "WindowUtils.h"
 
 #include <algorithm>
 #include <sstream>
@@ -32,12 +33,12 @@ public:
 	void Render(float dTime);
 	void OnResize(int screenWidth, int screenHeight);
 	void Initialise();
-	void Release();
 
 	//Message handling
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	bool isCrouched = false;
+	void Release();
 
 private:
 	Game& operator=(const Game&) = delete;
@@ -48,10 +49,13 @@ private:
 	float gAngle = 0;
 	FPSCamera mCamera;
 
+	Player gPlayer;
 
 	//Enemy mEnemy;
 	vector<Enemy> enemysVector;
 	vector<Vector3> waypointsVector;
+
+
 };
 
 #endif

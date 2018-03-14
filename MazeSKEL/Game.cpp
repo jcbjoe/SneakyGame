@@ -16,6 +16,8 @@ void Game::OnResize(int screenWidth, int screenHeight)
 
 void Game::Initialise()
 {
+
+	gPlayer.Initialise();
 	objectManager.initialiseObjects();
 
 	waypointsVector.push_back(Vector3(8, 0.4, 6));
@@ -90,40 +92,17 @@ void Game::Initialise()
 
 				}
 
-				case 4: {
-					Model* enemyModel = objectManager.createEnemy(Vector3(i, 0.5f, j));
-					Enemy enemy = Enemy(Vector3(i, 0.5f, j), enemyModel);
-					enemy.setWaypoints(waypointsVector);
-					enemysVector.push_back(enemy);
+				//case 4: {
+				//	Model* enemyModel = objectManager.createEnemy(Vector3(i, 0.5f, j));
+				//	Enemy enemy = Enemy(Vector3(i, 0.5f, j), enemyModel);
+				//	enemy.setWaypoints(waypointsVector);
+				//	enemysVector.push_back(enemy);
 
-					//Place floor
-					objectManager.createFloor(Vector3(i, 0.f, j));
-					break;
-				}
-
-			case 0://Floor to be placed
-				gFloor.setPosition(i, 0, j);
-				mOpaques.push_back(gFloor.getModel());
-				break;
-			case 1: //Wall to be placed
-				gWall.setPosition(i, 0.5f, j);
-				mOpaques.push_back(gWall.getModel());
-				break;
-			case 2:
-				//Place camera
-				gPlayer.initCamera(i, j);
-				//Place floor
-				gFloor.setPosition(i, 0, j);
-				mOpaques.push_back(gFloor.getModel());
-				break;
-			case 3:
-				gLoot.setPosition(i, 0.3f, j);
-				mOpaques.push_back(gLoot.getModel());
-				//Place floor
-				gFloor.setPosition(i, 0, j);
-				mOpaques.push_back(gFloor.getModel());
-				break;
-			}		
+				//	//Place floor
+				//	objectManager.createFloor(Vector3(i, 0.f, j));
+				//	break;
+				//}
+			}
 		}
 	}
 
@@ -131,11 +110,6 @@ void Game::Initialise()
 	GetUserInterfaceManager()->initialiseUI(true);
 
 	FX::SetupDirectionalLight(0, true, Vector3(-0.7f, -0.7f, 0.7f), Vector3(0.67f, 0.67f, 0.67f), Vector3(0.25f, 0.25f, 0.25f), Vector3(0.15f, 0.15f, 0.15f));
-}
-
-void Game::Release()
-{
-
 }
 
 void Game::Update(float dTime)
@@ -148,13 +122,11 @@ void Game::Update(float dTime)
 		if (!isCrouched) {
 			isCrouched = true;
 			mCamera.Crouch(isCrouched);
-			GetUserInterfaceManager()->setCrouch(isCrouched);
 		}
 	} else {
 		if (isCrouched) {
 			isCrouched = false;
 			mCamera.Crouch(isCrouched);
-			GetUserInterfaceManager()->setCrouch(isCrouched);
 		}
 	}
 	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
@@ -171,14 +143,12 @@ void Game::Update(float dTime)
 	GetUserInterfaceManager()->setFPS(1 / dTime);
 
 	GetUserInterfaceManager()->updateUI(gPlayer.getCrouchStatus());
-	GetUserInterfaceManager()->updateUI();
 
 	for (Enemy enemy : enemysVector) {
 		enemy.enemyTick(dTime);
 	}
 	gPlayer.Update(dTime);
 	gAngle += dTime * 0.5f;
-	gLoot.setRotation(00.f, gAngle, 0.0f);
 }
 
 void Game::Render(float dTime)
@@ -199,11 +169,15 @@ void Game::Render(float dTime)
 	objectManager.render();
 
 
-	GetUserInterfaceManager()->updateUI();
+	GetUserInterfaceManager()->updateUI(gPlayer.getCrouchStatus());
 	//*GetUserInterfaceManager();
 	EndRender();
 
 	GetMouseAndKeys()->PostProcess();
+}
+
+void Game::Release() {
+
 }
 
 LRESULT Game::WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
