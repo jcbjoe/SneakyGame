@@ -30,7 +30,22 @@ public:
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	Model mBox, mWall, mQuad, mSkybox, mLoot;
-	
+	const int levelx = 10;
+	const int levely = 10;
+
+	int level1[10][10] =
+	{
+		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+		{ 1, 3, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 1, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
+		{ 1, 0, 0, 1, 1, 1, 0, 0, 3, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+		{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 },
+		{ 1, 0, 1, 0, 0, 3, 0, 0, 0, 1 },
+		{ 1, 3, 0, 3, 0, 0, 0, 2, 0, 1 },
+		{ 1, 0, 0, 0, 1, 1, 0, 0, 0, 1 },
+		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+	};
 
 	float maxX, maxY;
 

@@ -18,7 +18,7 @@ void FPSCamera::Update()
 	//CreateViewMatrix(*mpViewSpaceTfm, mCamPos, mCamPos, mCamPos.Up);
 }
 
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, float maxX, float maxY)
+void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, float maxX, float maxY, int level[][10])
 {
 	if (!forward && !back && !left && !right)
 		return;

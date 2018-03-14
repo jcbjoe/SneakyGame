@@ -25,11 +25,6 @@ void Game::OnResize(int screenWidth, int screenHeight)
 void Game::Initialise()
 {
 
-	//Test
-	const int levelx = 10;
-	const int levely = 10;
-
-
 	mQuad.Initialise(BuildQuad(*GetMeshManager()));
 	//mWall.Initialise(BuildCube(*GetMeshManager()));
 
@@ -91,19 +86,6 @@ void Game::Initialise()
 	//1 = Wall
 	//2 = Spawn/Entrance/Exit
 	//3 = Coins
-	int level1[][levelx] = 
-	{
-		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-		{ 1, 3, 0, 0, 0, 0, 0, 0, 0, 1 },
-		{ 1, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
-		{ 1, 0, 0, 1, 1, 1, 0, 0, 3, 1 },
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
-		{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 },
-		{ 1, 0, 1, 0, 0, 3, 0, 0, 0, 1 },
-		{ 1, 3, 0, 3, 0, 0, 0, 2, 0, 1 },
-		{ 1, 0, 0, 0, 1, 1, 0, 0, 0, 1 },
-		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-	};
 
 	maxX = levelx - 1.5f;
 	maxY = levely - 1.5f;
@@ -199,7 +181,7 @@ void Game::Update(float dTime)
 			moveSpeed = dTime / 5.0f;
 	}
 
-	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), maxX, maxY);
+	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), maxX, maxY, level1);
 	
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 
