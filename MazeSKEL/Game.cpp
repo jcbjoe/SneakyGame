@@ -105,6 +105,10 @@ void Game::Initialise()
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
 
+	maxX = levelx - 1.5f;
+	maxY = levely - 1.5f;
+
+
 	//For every space in the leve
 	for (int i(0); i < levelx; i++)
 	{
@@ -195,8 +199,7 @@ void Game::Update(float dTime)
 			moveSpeed = dTime / 5.0f;
 	}
 
-	//If a movement key is pressed
-	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D));
+	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), maxX, maxY);
 	
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 
@@ -231,7 +234,7 @@ void Game::Render(float dTime)
 	FX::SetPerFrameConsts(gd3dImmediateContext, mCamera.GetPos());
 
 	//CreateViewMatrix(FX::GetViewMatrix(), mCamPos, Vector3(0, 0, 0), Vector3(0, 1, 0));
-	CreateProjectionMatrix(FX::GetProjectionMatrix(), 0.25f*PI, GetAspectRatio(), 1, 1000.f);
+	CreateProjectionMatrix(FX::GetProjectionMatrix(), 0.25f*PI, GetAspectRatio(), 0.25f, 10.f);
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 

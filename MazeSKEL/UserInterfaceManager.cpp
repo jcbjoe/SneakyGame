@@ -43,7 +43,7 @@ void UserInterfaceManager::updateUI() {
 	if (isCrouching)
 	{
 		wstringstream crosshair;
-		crosshair << "-----";
+		crosshair << "--=--";
 		//mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(1024 / 2, 768 / 2), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(495, 384), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		crouching << "Crouched";

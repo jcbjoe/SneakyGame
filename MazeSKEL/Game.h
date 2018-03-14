@@ -30,6 +30,9 @@ public:
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	Model mBox, mWall, mQuad, mSkybox, mLoot;
+	
+
+	float maxX, maxY;
 
 	bool isCrouched = false;
 

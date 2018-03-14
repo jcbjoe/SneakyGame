@@ -18,7 +18,7 @@ void FPSCamera::Update()
 	//CreateViewMatrix(*mpViewSpaceTfm, mCamPos, mCamPos, mCamPos.Up);
 }
 
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right)
+void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, float maxX, float maxY)
 {
 	if (!forward && !back && !left && !right)
 		return;
@@ -28,7 +28,6 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	dir = Vector3::TransformNormal(dir, ori);
 	up = Vector3::TransformNormal(up, ori);
 	Vector3 strafe = dir.Cross(up);
-
 
 	Vector3 pos(mCamPos);
 
@@ -52,6 +51,22 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 
 	//Set y
 	pos.y = mCamPos.y;
+
+
+	if (pos.x > maxX - 0.30f) //|| pos.y < 0.5f || pos.x > maxX - 1.5f || pos.y > maxY - 1.5f);
+		pos.x = maxX -0.30f;
+	else if (pos.x < 0.8f)
+		pos.x = 0.8f;
+
+	if (pos.z > maxY - 0.30f)
+		pos.z = maxY - 0.30f;
+	else if (pos.z < 0.8f)
+		pos.z = 0.8f;
+
+	//if ((pos.z > maxY - 0.30f) || (pos.z < 0.8f))
+	//{
+	//	pos = mCamPos;
+	//}
 
 	//Update screen
 	CreateViewMatrix(*mpViewSpaceTfm, mCamPos, pos + dir, up);
