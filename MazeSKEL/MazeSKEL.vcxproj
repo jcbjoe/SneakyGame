@@ -103,20 +103,24 @@
     <ClCompile Include="D3DUtil.cpp" />
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="FX.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GeometryBuilder.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LightManager.cpp" />
+    <ClCompile Include="Loot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShaderTypes.cpp" />
     <ClCompile Include="SpriteAnim.cpp" />
     <ClCompile Include="UserFolder.cpp" />
     <ClCompile Include="UserInterfaceManager.cpp" />
     <ClCompile Include="UtilsDefines.cpp" />
+    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WindowUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,20 +131,24 @@
     <ClInclude Include="D3DUtil.h" />
     <ClInclude Include="Error.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="FX.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GeometryBuilder.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="LightManager.h" />
+    <ClInclude Include="Loot.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ShaderTypes.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SpriteAnim.h" />
     <ClInclude Include="UserFolder.h" />
     <ClInclude Include="UserInterfaceManager.h" />
     <ClInclude Include="UtilsDefines.h" />
+    <ClInclude Include="Wall.h" />
     <ClInclude Include="WindowUtils.h" />
   </ItemGroup>
   <ItemGroup>

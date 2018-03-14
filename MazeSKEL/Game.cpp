@@ -1,15 +1,4 @@
-#include <algorithm>
-
-#include "WindowUtils.h"
-#include "D3D.h"
 #include "Game.h"
-#include "GeometryBuilder.h"
-#include "FX.h"
-#include "Input.h"
-
-#include <sstream>
-#include <iomanip>
-#include <thread>
 
 using namespace std;
 using namespace DirectX;
@@ -28,34 +17,6 @@ void Game::Initialise()
 	const int levelx = 10;
 	const int levely = 10;
 
-
-	mQuad.Initialise(BuildQuad(*GetMeshManager()));
-	//mWall.Initialise(BuildCube(*GetMeshManager()));
-
-	//textured lit box
-	mBox.Initialise(BuildCube(*GetMeshManager()));
-	mBox.GetPosition() = Vector3(0, 0, 0);
-	mBox.GetScale() = Vector3(0.5f, 0.5f, 0.5f);
-	MaterialExt mat = mQuad.GetMesh().GetSubMesh(0).material;
-	mat.gfxData.Set(Vector4(0.5, 0.5, 0.5, 1), Vector4(1, 1, 1, 0), Vector4(1, 1, 1, 1));
-	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("WallGarage.dds", true, gd3dDevice);
-	mat.texture = "WallGarage.dds";
-	mBox.SetOverrideMat(&mat);
-
-	// floor
-	//Set up geometry
-	mQuad.GetScale() = Vector3(0.5, 0.5, 0.5);
-	mQuad.GetPosition() = Vector3(0, 0, 0);
-	//Set up material
-	mat = mQuad.GetMesh().GetSubMesh(0).material;
-	mat.gfxData.Set(Vector4(0.9f, 0.8f, 0.8f, 0), Vector4(0.9f, 0.8f, 0.8f, 0), Vector4(0.9f, 0.8f, 0.8f, 1));
-	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("test.dds", true, gd3dDevice);
-	mat.texture = "test.dds";
-	mat.texTrsfm.scale = Vector2(1, 1);
-	mQuad.SetOverrideMat(&mat);
-
-	
-
 	//Skybox
 	Mesh& sb = GetMeshManager()->CreateMesh("skybox");
 	sb.CreateFrom("data/skybox.fbx", gd3dDevice, FX::GetMyFX()->mCache);
@@ -67,23 +28,10 @@ void Game::Initialise()
 	defMat.flags &= ~MaterialExt::LIT;
 	defMat.flags &= ~MaterialExt::ZTEST;
 
-
-	//Loot Test
-	Model mLoot = mBox;
-	mLoot.GetScale() = Vector3(0.1f, 0.1f, 0.1f);
-	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("Metal.dds", true, gd3dDevice);
-	mat.texture = "Metal.dds";
-	mLoot.SetOverrideMat(&mat);
-
-	//mLoot.Initialise(BuildCube(*GetMeshManager()));
-	//mBox.GetPosition() = Vector3(0, 0, 0);
-	//mBox.GetScale() = Vector3(0.5f, 0.5f, 0.5f);
-	//MaterialExt mat = mQuad.GetMesh().GetSubMesh(0).material;
-	//mat.gfxData.Set(Vector4(0.5, 0.5, 0.5, 1), Vector4(1, 1, 1, 0), Vector4(1, 1, 1, 1));
-	//mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("WallGarage.dds", true, gd3dDevice);
-	//mat.texture = "WallGarage.dds";
-	//mBox.SetOverrideMat(&mat);
-
+	gWall.Initialise();
+	gFloor.Initialise();
+	gPlayer.Initialise();
+	gLoot.Initialise();	
 
 	//Level testing
 	//0 = Floor
@@ -112,32 +60,29 @@ void Game::Initialise()
 			switch (level1[i][j])
 			{
 			case 0://Floor to be placed
-				mQuad.GetPosition() = Vector3(i, 0, j);
-				mOpaques.push_back(mQuad);
+				gFloor.mFloor.GetPosition() = Vector3(i, 0, j);
+				mOpaques.push_back(gFloor.mFloor);
 				break;
 			case 1: //Wall to be placed
-				mBox.GetPosition() = Vector3(i, 0.5f, j);
-				mOpaques.push_back(mBox);
+				gWall.mWall.GetPosition() = Vector3(i, 0.5f, j);
+				mOpaques.push_back(gWall.mWall);
 				break;
 			case 2:
 				//Place camera
 				mCamera.Initialise(Vector3(i, 0.5f, j), Vector3(0, 0, 1), FX::GetViewMatrix());
 				mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 				//Place floor
-				mQuad.GetPosition() = Vector3(i, 0, j);
-				mOpaques.push_back(mQuad);
+				gFloor.mFloor.GetPosition() = Vector3(i, 0, j);
+				mOpaques.push_back(gFloor.mFloor);
 				break;
 			case 3:
-				mLoot.GetPosition() = Vector3(i, 0.3f, j);
-				mOpaques.push_back(mLoot);
-				
+				gLoot.mLoot.GetPosition() = Vector3(i, 0.3f, j);
+				mOpaques.push_back(gLoot.mLoot);
 				//Place floor
-				mQuad.GetPosition() = Vector3(i, 0, j);
-				mOpaques.push_back(mQuad);
+				gFloor.mFloor.GetPosition() = Vector3(i, 0, j);
+				mOpaques.push_back(gFloor.mFloor);
 				break;
-
 			}		
-
 		}
 	}
 
@@ -151,28 +96,14 @@ void Game::Initialise()
 	GetUserInterfaceManager()->initialiseUI(true);
 
 	FX::SetupDirectionalLight(0, true, Vector3(-0.7f, -0.7f, 0.7f), Vector3(0.67f, 0.67f, 0.67f), Vector3(0.25f, 0.25f, 0.25f), Vector3(0.15f, 0.15f, 0.15f));
-
-	
-}
-
-void Game::LoadDisplay(float dTime)
-{
-	////BeginRender(Colours::Black);
-
-	//mpSpriteBatch->Begin();
-
-	//wstringstream ss;
-	//ss << L"Crouching: ";
-	//ss << isCrouched;
-	//mpFont2->DrawString(mpSpriteBatch, ss.str().c_str(), Vector2(100, 200), Colours::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-
-	//mpSpriteBatch->End();
-
-	////EndRender();
 }
 
 void Game::Release()
 {
+	gWall.Release();
+	gPlayer.Release();
+	gFloor.Release();
+	gLoot.Release();
 }
 
 void Game::Update(float dTime)
@@ -181,15 +112,18 @@ void Game::Update(float dTime)
 	float turnSpeed = 20.0f;
 
 	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT)) {
-		if (!isCrouched) {
+		if (!isCrouched) 
+		{
 			isCrouched = true;
 			//Crouch function
 			mCamera.Crouch(isCrouched);
 			GetUserInterfaceManager()->setCrouch(isCrouched);
-			//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
 		}
-	} else {
-		if (isCrouched) {
+	} 
+	else 
+	{
+		if (isCrouched) 
+		{
 			isCrouched = false;
 			mCamera.Crouch(isCrouched);
 			GetUserInterfaceManager()->setCrouch(isCrouched);
@@ -205,17 +139,10 @@ void Game::Update(float dTime)
 		mCamera.Rotate(dTime, m.x, m.y, 0);
 	}
 
-	//if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
-	//{
-	//	isCrouched = !isCrouched;
-	//	//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
-	//	
-	//}
-
 	GetUserInterfaceManager()->setFPS(1 / dTime);
 
 	gAngle += dTime * 0.5f;
-	mBox.GetRotation().y = gAngle;
+	gLoot.mLoot.GetRotation().y = gAngle;
 
 	GetUserInterfaceManager()->updateUI();
 }
@@ -224,11 +151,7 @@ void Game::Render(float dTime)
 {
 	BeginRender(Colours::Black);
 
-	//Load the text
-	
-
 	float alpha = 0.5f + sinf(gAngle * 2)*0.5f;
-
 
 	FX::SetPerFrameConsts(gd3dImmediateContext, mCamera.GetPos());
 
@@ -245,7 +168,6 @@ void Game::Render(float dTime)
 		FX::GetMyFX()->Render(p, gd3dImmediateContext);
 	}
 
-	LoadDisplay(dTime);
 	GetUserInterfaceManager()->updateUI();
 	//*GetUserInterfaceManager();
 	EndRender();

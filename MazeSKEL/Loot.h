@@ -1,0 +1,33 @@
+#ifndef LOOT_H 
+#define LOOT_H 
+
+#include <vector> 
+
+#include "Mesh.h" 
+#include "Model.h" 
+#include "GeometryBuilder.h" 
+#include "FX.h" 
+
+using namespace std;
+using namespace DirectX;
+using namespace DirectX::SimpleMath;
+
+class Loot
+{
+public:
+	~Loot()
+	{
+		Release();
+	}
+	void Initialise();
+	void Update(float dTime);
+	void Render(float dTime);
+	void Release();
+
+	Model mLoot;
+
+private:
+	std::vector<Model*> mOpaques;
+};
+#endif
+
