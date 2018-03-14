@@ -1,11 +1,4 @@
-#include <algorithm>
-
-#include "WindowUtils.h"
-#include "D3D.h"
 #include "Game.h"
-#include "GeometryBuilder.h"
-#include "FX.h"
-#include "Input.h"
 
 #include <sstream>
 #include <iomanip>
@@ -108,8 +101,29 @@ void Game::Initialise()
 					break;
 				}
 
+			case 0://Floor to be placed
+				gFloor.setPosition(i, 0, j);
+				mOpaques.push_back(gFloor.getModel());
+				break;
+			case 1: //Wall to be placed
+				gWall.setPosition(i, 0.5f, j);
+				mOpaques.push_back(gWall.getModel());
+				break;
+			case 2:
+				//Place camera
+				gPlayer.initCamera(i, j);
+				//Place floor
+				gFloor.setPosition(i, 0, j);
+				mOpaques.push_back(gFloor.getModel());
+				break;
+			case 3:
+				gLoot.setPosition(i, 0.3f, j);
+				mOpaques.push_back(gLoot.getModel());
+				//Place floor
+				gFloor.setPosition(i, 0, j);
+				mOpaques.push_back(gFloor.getModel());
+				break;
 			}		
-
 		}
 	}
 
@@ -117,8 +131,6 @@ void Game::Initialise()
 	GetUserInterfaceManager()->initialiseUI(true);
 
 	FX::SetupDirectionalLight(0, true, Vector3(-0.7f, -0.7f, 0.7f), Vector3(0.67f, 0.67f, 0.67f), Vector3(0.25f, 0.25f, 0.25f), Vector3(0.15f, 0.15f, 0.15f));
-
-	
 }
 
 void Game::Release()
@@ -158,24 +170,24 @@ void Game::Update(float dTime)
 
 	GetUserInterfaceManager()->setFPS(1 / dTime);
 
+	GetUserInterfaceManager()->updateUI(gPlayer.getCrouchStatus());
 	GetUserInterfaceManager()->updateUI();
 
 	for (Enemy enemy : enemysVector) {
 		enemy.enemyTick(dTime);
 	}
+	gPlayer.Update(dTime);
+	gAngle += dTime * 0.5f;
+	gLoot.setRotation(00.f, gAngle, 0.0f);
 }
 
 void Game::Render(float dTime)
 {
 	BeginRender(Colours::Black);
 
-	//Load the text
-	
-
 	float alpha = 0.5f + sinf(gAngle * 2)*0.5f;
 
-
-	FX::SetPerFrameConsts(gd3dImmediateContext, mCamera.GetPos());
+	FX::SetPerFrameConsts(gd3dImmediateContext, gPlayer.getCameraPosition());
 
 	//CreateViewMatrix(FX::GetViewMatrix(), mCamPos, Vector3(0, 0, 0), Vector3(0, 1, 0));
 	CreateProjectionMatrix(FX::GetProjectionMatrix(), 0.25f*PI, GetAspectRatio(), 1, 1000.f);

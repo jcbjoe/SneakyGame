@@ -5,18 +5,20 @@ class MeshManager;
 class Model;
 class Mesh;
 
-Mesh& BuildQuad(MeshManager& mgr);
+Mesh& BuildQuad(MeshManager& mgr); //Default Build Quad
 
 Mesh& BuildPyramid(MeshManager& mgr);
 
 Mesh& BuildQuadPyramid(MeshManager& mgr);
 
-Mesh& BuildCube(MeshManager& mgr);
+Mesh& BuildCube(MeshManager& mgr); //Default Build Cube
 
-Mesh& BuildEnemy(MeshManager& mgr);
+Mesh& BuildSphere(MeshManager& mgr, int LatLines, int LongLines); // Default build sphere
 
-Mesh& BuildWall(MeshManager& mgr);
+Mesh& BuildWall(MeshManager& mgr); // for Wall
 
-Mesh& BuildSphere(MeshManager& mgr, int LatLines, int LongLines);
+Mesh& BuildFloor(MeshManager& mgr); // for Floor
+
+Mesh& BuildLoot(MeshManager& mgr, int LatLines, int LongLines); // for Loot
 
 #endif

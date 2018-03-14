@@ -1,17 +1,23 @@
-#pragma once
 #ifndef GAME_H
 #define GAME_H
 
 #include <vector>
 #include <future>
 
-#include "Mesh.h"
-#include "Model.h"
 #include "SpriteFont.h"
-#include "FPSCamera.h"
+#include "Player.h"
+#include "Wall.h"
+#include "Loot.h"
+#include "Floor.h"
+#include "Skybox.h"
 #include "UserInterfaceManager.h"
 #include "Enemy.h"
 #include "ObjectManager.h"
+
+#include <algorithm>
+#include <sstream>
+#include <iomanip>
+#include <thread>
 
 
 class Game
