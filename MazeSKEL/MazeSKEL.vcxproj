@@ -116,6 +116,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShaderTypes.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpriteAnim.cpp" />
     <ClCompile Include="UserFolder.cpp" />
     <ClCompile Include="UserInterfaceManager.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="ShaderTypes.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpriteAnim.h" />
     <ClInclude Include="UserFolder.h" />
     <ClInclude Include="UserInterfaceManager.h" />

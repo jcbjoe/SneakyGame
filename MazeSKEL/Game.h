@@ -1,22 +1,17 @@
-#pragma once
 #ifndef GAME_H
 #define GAME_H
 
 #include <vector>
 #include <future>
 
-#include "Mesh.h"
-#include "Model.h"
 #include "SpriteFont.h"
-#include "FPSCamera.h"
 #include "Player.h"
 #include "Wall.h"
 #include "Loot.h"
 #include "Floor.h"
+#include "Skybox.h"
 #include "UserInterfaceManager.h"
 #include "GeometryBuilder.h"
-#include "FX.h"
-#include "Input.h"
 #include "WindowUtils.h"
 #include "D3D.h"
 
@@ -43,22 +38,18 @@ public:
 	//Message handling
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	Model mSkybox;
-
-	bool isCrouched = false;
-
 private:
 	Game& operator=(const Game&) = delete;
 	Game(const Game& m) = delete;
 
 	float gAngle = 0;
-	FPSCamera mCamera;
 	std::vector<Model> mOpaques;
 
 	Wall gWall;
 	Player gPlayer;
 	Loot gLoot;
 	Floor gFloor;
+	Skybox gSkybox;
 
 	//Message Handling
 	DirectX::SpriteBatch *mpSpriteBatch = nullptr;

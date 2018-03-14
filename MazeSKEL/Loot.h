@@ -25,7 +25,7 @@ public:
 	void Release();
 
 	Model getModel();
-	Vector3 getPosition();
+	void setPosition(const float&, const float&, const float&);
 	void setRotation(const float&, const float&, const float&);
 
 private:

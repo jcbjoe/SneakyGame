@@ -24,7 +24,17 @@ public:
 	void Render(float dTime);
 	void Initialise();
 	void Release();
+
+	void toggleCrouch();
+	Vector3 getCameraPosition();
+	void initCamera(const float&, const float&);
+	bool getCrouchStatus();
 private:
+
+	float moveSpeed = 5.0f;
+	float turnSpeed = 20.0f;
+	bool isCrouched = false;
+
 	FPSCamera mCamera;
 };
 

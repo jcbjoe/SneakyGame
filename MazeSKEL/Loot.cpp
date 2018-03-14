@@ -33,9 +33,9 @@ Model Loot::getModel()
 	return mLoot;
 }
 
-Vector3 Loot::getPosition()
+void Loot::setPosition(const float& x, const float& y, const float& z)
 {
-	return mLoot.GetPosition();
+	mLoot.GetPosition() = Vector3(x, y, z);
 }
 
 void Loot::setRotation(const float& angleX, const float& angleY, const float& angleZ)

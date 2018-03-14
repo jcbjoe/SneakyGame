@@ -33,7 +33,7 @@ Model Floor::getModel()
 	return mFloor;
 }
 
-void Floor::setPosition(const int& x, const int& y, const int& z)
+void Floor::setPosition(const float& x, const float& y, const float& z)
 {
 	mFloor.GetPosition() = Vector3(x, y, z);
 }

@@ -25,15 +25,11 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::setCrouch(bool crouching) {
-	isCrouching = crouching;
-}
-
 void UserInterfaceManager::setFPS(float fpsNumber) {
 	FPS = fpsNumber;
 }
 
-void UserInterfaceManager::updateUI() {
+void UserInterfaceManager::updateUI(const bool& isCrouching) {
 
 	mpSpriteBatch->Begin();
 

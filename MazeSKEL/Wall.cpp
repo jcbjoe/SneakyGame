@@ -33,7 +33,7 @@ Model Wall::getModel()
 	return mWall;
 }
 
-Vector3 Wall::getPosition()
+void Wall::setPosition(const float& x, const float& y, const float& z)
 {
-	return mWall.GetPosition();
+	mWall.GetPosition() = Vector3(x, y, z);
 }

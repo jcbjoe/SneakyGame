@@ -25,7 +25,7 @@ public:
 	void Release();
 
 	Model getModel();
-	void setPosition(const int&, const int&, const int&);
+	void setPosition(const float&, const float&, const float&);
 
 private:
 

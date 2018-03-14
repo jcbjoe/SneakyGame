@@ -17,12 +17,10 @@ public:
 		Release();
 	}
 
-	void updateUI();
+	void updateUI(const bool&);
 	void initialiseUI(bool showFPS);
 
 	void printDebugText(std::string text);
-
-	void setCrouch(bool crouching);
 
 	void setFPS(float fpsNumber);
 
@@ -30,8 +28,7 @@ private:
 	void Release();
 
 	bool showFPS;
-	bool isCrouching = false;
-
+	
 	struct debugText {
 		std::string text;
 		int timeAdded;
