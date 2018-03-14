@@ -3,6 +3,9 @@
 #include <sstream>
 #include <iomanip>
 #include <thread>
+#include "GameObject.h"
+
+#include "GameObjectManager.h"
 
 using namespace std;
 using namespace DirectX;
@@ -17,21 +20,21 @@ void Game::OnResize(int screenWidth, int screenHeight)
 void Game::Initialise()
 {
 
-	gPlayer.Initialise();
-	objectManager.initialiseObjects();
+	//gPlayer.Initialise();
+	//objectManager.initialiseObjects();
 
-	waypointsVector.push_back(Vector3(8, 0.4, 6));
-	waypointsVector.push_back(Vector3(7, 0.4, 6));
-	waypointsVector.push_back(Vector3(7, 0.4, 1));
-	waypointsVector.push_back(Vector3(4, 0.4, 1));
-	waypointsVector.push_back(Vector3(4, 0.4, 7));
-	waypointsVector.push_back(Vector3(5, 0.4, 7));
-	waypointsVector.push_back(Vector3(5, 0.4, 8));
-	waypointsVector.push_back(Vector3(8, 0.4, 8));
+	//waypointsVector.push_back(Vector3(8, 0.4, 6));
+	//waypointsVector.push_back(Vector3(7, 0.4, 6));
+	//waypointsVector.push_back(Vector3(7, 0.4, 1));
+	//waypointsVector.push_back(Vector3(4, 0.4, 1));
+	//waypointsVector.push_back(Vector3(4, 0.4, 7));
+	//waypointsVector.push_back(Vector3(5, 0.4, 7));
+	//waypointsVector.push_back(Vector3(5, 0.4, 8));
+	//waypointsVector.push_back(Vector3(8, 0.4, 8));
 
-	for (Vector3 loc : waypointsVector) {
-		objectManager.createWaypoint(loc);
-	}
+	//for (Vector3 loc : waypointsVector) {
+	//	objectManager.createWaypoint(loc);
+	//}
 
 	//Test
 	const int levelx = 10;
@@ -57,6 +60,8 @@ void Game::Initialise()
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
 
+	BuildFloor(*GetMeshManager());
+
 	//For every space in the leve
 	for (int i(0); i < levelx; i++)
 	{
@@ -65,12 +70,16 @@ void Game::Initialise()
 			switch (level1[i][j])
 			{
 				case 0: {//Floor to be placed
-					objectManager.createFloor(Vector3(i, 0.f, j));
+					Floor floor("Floor", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(i, 0.f, j));
+					GetGameObjectManager()->addGameObject(floor);
 					break;
 				}
 
 				case 1: { //Wall to be placed
-					objectManager.createWall(Vector3(i, 0.5f, j));
+
+					//Wall wall("Wall", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(i, 0.5f, j));
+					//GetGameObjectManager()->addGameObject(wall);
+
 					break;
 				}
 
@@ -78,19 +87,21 @@ void Game::Initialise()
 					//Place camera
 					mCamera.Initialise(Vector3(i, 0.5f, j), Vector3(0, 0, 1), FX::GetViewMatrix());
 					mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
-					//Place floor
-					objectManager.createFloor(Vector3(i, 0.f, j));;
-					break;
-				}
-
-				case 3: {
-					objectManager.createLoot(Vector3(i, 0.3f, j));
 
 					//Place floor
-					objectManager.createFloor(Vector3(i, 0.f, j));
-					break;
-
+					/*Floor floor("Floor", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(i, 0.f, j));
+					GetGameObjectManager()->addGameObject(floor);
+					break;*/
 				}
+
+				//case 3: {
+				//	objectManager.createLoot(Vector3(i, 0.3f, j));
+
+				//	//Place floor
+				//	objectManager.createFloor(Vector3(i, 0.f, j));
+				//	break;
+
+				//}
 
 				//case 4: {
 				//	Model* enemyModel = objectManager.createEnemy(Vector3(i, 0.5f, j));
@@ -147,7 +158,7 @@ void Game::Update(float dTime)
 	for (Enemy enemy : enemysVector) {
 		enemy.enemyTick(dTime);
 	}
-	gPlayer.Update(dTime);
+	//gPlayer.Update(dTime);
 	gAngle += dTime * 0.5f;
 }
 
@@ -166,7 +177,9 @@ void Game::Render(float dTime)
 
 	objectManager.setSkyboxPos(mCamera.GetPos());
 
-	objectManager.render();
+	for (GameObject obj : GetGameObjectManager()->getGameObjects()) {
+			obj.Render();
+	}
 
 
 	GetUserInterfaceManager()->updateUI(gPlayer.getCrouchStatus());

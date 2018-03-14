@@ -7,30 +7,20 @@
 #include "Model.h" 
 #include "GeometryBuilder.h" 
 #include "FX.h" 
+#include "GameObject.h"
 
 using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class Floor
+class Floor : public GameObject
 {
 public:
-	~Floor()
-	{
-		Release();
-	}
-	void Initialise();
+	Floor(string name, Vector3 position, Quaternion rotation, Vector3 scale);
+	void start();
 	void Update(float dTime);
-	void Render(float dTime);
-	void Release();
-
-	Model getModel();
-	void setPosition(const float&, const float&, const float&);
 
 private:
-
-	std::vector<Model*> mOpaques;
-	Model mFloor;
 
 };
 #endif

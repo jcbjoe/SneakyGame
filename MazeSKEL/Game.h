@@ -14,6 +14,7 @@
 #include "Enemy.h"
 #include "ObjectManager.h"
 #include "WindowUtils.h"
+#include "GameObjectManager.h"
 
 #include <algorithm>
 #include <sstream>

@@ -1,4 +1,4 @@
-#pragma once
+
 #ifndef USERINTERFACEMANAGER_H
 #define USERINTERFACEMANAGER_H
 

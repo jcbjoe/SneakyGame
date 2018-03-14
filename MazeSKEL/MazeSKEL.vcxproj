@@ -108,6 +108,8 @@
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="FX.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GeometryBuilder.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LightManager.cpp" />
@@ -139,6 +141,8 @@
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="FX.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GeometryBuilder.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="LightManager.h" />
