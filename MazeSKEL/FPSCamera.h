@@ -17,6 +17,7 @@ public:
 	//movement can be driven by WASD
 	void Move(float dTime, bool forward, bool back, bool left, bool right, bool crouch, bool isCrouched);
 
+	void Update();
 
 	void Crouch(bool isCrouched);
 

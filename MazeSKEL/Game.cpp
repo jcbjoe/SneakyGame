@@ -186,6 +186,7 @@ void Game::Update(float dTime)
 			//Crouch function
 			mCamera.Crouch(isCrouched);
 			GetUserInterfaceManager()->setCrouch(isCrouched);
+			//mCamera.Update();
 			//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
 		}
 	} else {
@@ -193,6 +194,7 @@ void Game::Update(float dTime)
 			isCrouched = false;
 			mCamera.Crouch(isCrouched);
 			GetUserInterfaceManager()->setCrouch(isCrouched);
+			//mCamera.Update();
 		}
 	}
 	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
@@ -211,6 +213,8 @@ void Game::Update(float dTime)
 	//	//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
 	//	
 	//}
+
+	mCamera.Rotate(dTime, 0, 0, 0);
 
 	GetUserInterfaceManager()->setFPS(1 / dTime);
 
@@ -237,8 +241,11 @@ void Game::Render(float dTime)
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	mSkybox.GetPosition() = mCamera.GetPos();
+	Vector3 skyPos = mCamera.GetPos();
+	mSkybox.GetPosition() = skyPos;
 	FX::GetMyFX()->Render(mSkybox, gd3dImmediateContext);
+
+
 	//render all the solid models first in no particular order
 	for (Model p: mOpaques)
 	{

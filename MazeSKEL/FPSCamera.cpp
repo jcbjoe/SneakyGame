@@ -13,6 +13,11 @@ void FPSCamera::Initialise(const Vector3& pos, const DirectX::SimpleMath::Vector
 	mCamPos = pos;
 }
 
+void FPSCamera::Update()
+{
+	//CreateViewMatrix(*mpViewSpaceTfm, mCamPos, mCamPos, mCamPos.Up);
+}
+
 void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool crouch, bool isCrouched)
 {
 	if (!forward && !back && !left && !right && !crouch)
@@ -26,6 +31,8 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 
 
 	Vector3 pos(mCamPos);
+
+	//Set x and z
 	if (forward)
 		pos += dir * dTime* speed;
 	else if (back)
@@ -43,8 +50,13 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	if (mLockAxis.z != UNLOCK)
 		pos.z = mLockAxis.z;
 
-	CreateViewMatrix(*mpViewSpaceTfm, pos, pos + dir, up);
+	//Set y
+	pos.y = mCamPos.y;
 
+	//Update screen
+	CreateViewMatrix(*mpViewSpaceTfm, mCamPos, pos + dir, up);
+
+	//Save Camera Position
 	mCamPos = Vector3(pos.x, mCamPos.y, pos.z);
 		
 		
