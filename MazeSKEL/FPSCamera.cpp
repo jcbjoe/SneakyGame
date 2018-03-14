@@ -65,9 +65,26 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 void FPSCamera::Crouch(bool isCrouched)
 {
 	if (isCrouched)
-		mCamPos.y = 0.25f;
+	{
+		if (mCamPos.y > 0.25f)
+		{
+			mCamPos.y -= 0.01f;
+		}
+		else
+		{
+			mCamPos.y = 0.25f;
+		}
+	}
 	else
-		mCamPos.y = 0.5f;
+	{
+		if (mCamPos.y < 0.5f)
+		{
+			mCamPos.y += 0.01f;
+		}
+		else
+			mCamPos.y = 0.5f;
+	}
+		
 }
 
 

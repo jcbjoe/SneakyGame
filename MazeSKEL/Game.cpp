@@ -181,22 +181,21 @@ void Game::Update(float dTime)
 	float turnSpeed = 20.0f;
 
 	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT)) {
-		if (!isCrouched) {
 			isCrouched = true;
 			//Crouch function
 			mCamera.Crouch(isCrouched);
 			GetUserInterfaceManager()->setCrouch(isCrouched);
-			//mCamera.Update();
-			//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
-		}
+			
+		
 	} else {
-		if (isCrouched) {
 			isCrouched = false;
 			mCamera.Crouch(isCrouched);
 			GetUserInterfaceManager()->setCrouch(isCrouched);
-			//mCamera.Update();
-		}
+		
 	}
+
+
+	//If a movement key is pressed
 	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
 	
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
@@ -214,8 +213,10 @@ void Game::Update(float dTime)
 	//	
 	//}
 
+	//Update camera position on update (fixes bugs)
 	mCamera.Rotate(dTime, 0, 0, 0);
 
+	//display fps
 	GetUserInterfaceManager()->setFPS(1 / dTime);
 
 	gAngle += dTime * 0.5f;
@@ -241,6 +242,7 @@ void Game::Render(float dTime)
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
+	//Render the skybox based on camera position
 	Vector3 skyPos = mCamera.GetPos();
 	mSkybox.GetPosition() = skyPos;
 	FX::GetMyFX()->Render(mSkybox, gd3dImmediateContext);
