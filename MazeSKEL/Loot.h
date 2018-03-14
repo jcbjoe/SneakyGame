@@ -24,10 +24,13 @@ public:
 	void Render(float dTime);
 	void Release();
 
-	Model mLoot;
+	Model getModel();
+	Vector3 getPosition();
+	void setRotation(const float&, const float&, const float&);
 
 private:
 	std::vector<Model*> mOpaques;
+	Model mLoot;
 };
 #endif
 

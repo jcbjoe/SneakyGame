@@ -24,9 +24,13 @@ public:
 	void Render(float dTime);
 	void Release();
 
-	Model mFloor;
+	Model getModel();
+	void setPosition(const int&, const int&, const int&);
 
 private:
+
 	std::vector<Model*> mOpaques;
+	Model mFloor;
+
 };
 #endif

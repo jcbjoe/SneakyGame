@@ -24,9 +24,11 @@ public:
 	void Render(float dTime);
 	void Release();
 
-	Model mWall;
+	Model getModel();
+	Vector3 getPosition();
 
 private:
 	std::vector<Model*> mOpaques;
+	Model mWall;
 };
 #endif

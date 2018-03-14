@@ -60,27 +60,27 @@ void Game::Initialise()
 			switch (level1[i][j])
 			{
 			case 0://Floor to be placed
-				gFloor.mFloor.GetPosition() = Vector3(i, 0, j);
-				mOpaques.push_back(gFloor.mFloor);
+				gFloor.setPosition(i, 0, j);
+				mOpaques.push_back(gFloor.getModel());
 				break;
 			case 1: //Wall to be placed
-				gWall.mWall.GetPosition() = Vector3(i, 0.5f, j);
-				mOpaques.push_back(gWall.mWall);
+				gWall.getPosition() = Vector3(i, 0.5f, j);
+				mOpaques.push_back(gWall.getModel());
 				break;
 			case 2:
 				//Place camera
 				mCamera.Initialise(Vector3(i, 0.5f, j), Vector3(0, 0, 1), FX::GetViewMatrix());
 				mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 				//Place floor
-				gFloor.mFloor.GetPosition() = Vector3(i, 0, j);
-				mOpaques.push_back(gFloor.mFloor);
+				gFloor.setPosition(i, 0, j);
+				mOpaques.push_back(gFloor.getModel());
 				break;
 			case 3:
-				gLoot.mLoot.GetPosition() = Vector3(i, 0.3f, j);
-				mOpaques.push_back(gLoot.mLoot);
+				gLoot.getPosition() = Vector3(i, 0.3f, j);
+				mOpaques.push_back(gLoot.getModel());
 				//Place floor
-				gFloor.mFloor.GetPosition() = Vector3(i, 0, j);
-				mOpaques.push_back(gFloor.mFloor);
+				gFloor.setPosition(i, 0, j);
+				mOpaques.push_back(gFloor.getModel());
 				break;
 			}		
 		}
@@ -142,7 +142,7 @@ void Game::Update(float dTime)
 	GetUserInterfaceManager()->setFPS(1 / dTime);
 
 	gAngle += dTime * 0.5f;
-	gLoot.mLoot.GetRotation().y = gAngle;
+	//gLoot.setRotation(00.f, gAngle, 0.0f);
 
 	GetUserInterfaceManager()->updateUI();
 }

@@ -28,3 +28,12 @@ void Floor::Render(float dTime)
 	for (Model*p : mOpaques)
 		FX::GetMyFX()->Render(*p, gd3dImmediateContext);
 }
+Model Floor::getModel()
+{
+	return mFloor;
+}
+
+void Floor::setPosition(const int& x, const int& y, const int& z)
+{
+	mFloor.GetPosition() = Vector3(x, y, z);
+}

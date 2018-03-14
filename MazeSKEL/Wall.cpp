@@ -27,3 +27,13 @@ void Wall::Render(float dTime)
 	for (Model*p : mOpaques)
 		FX::GetMyFX()->Render(*p, gd3dImmediateContext);
 }
+
+Model Wall::getModel()
+{
+	return mWall;
+}
+
+Vector3 Wall::getPosition()
+{
+	return mWall.GetPosition();
+}

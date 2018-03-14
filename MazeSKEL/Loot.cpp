@@ -27,3 +27,18 @@ void Loot::Render(float dTime)
 	for (Model*p : mOpaques)
 		FX::GetMyFX()->Render(*p, gd3dImmediateContext);
 }
+
+Model Loot::getModel()
+{
+	return mLoot;
+}
+
+Vector3 Loot::getPosition()
+{
+	return mLoot.GetPosition();
+}
+
+void Loot::setRotation(const float& angleX, const float& angleY, const float& angleZ)
+{
+	mLoot.GetRotation() = Vector3(angleX, angleY, angleZ);
+}
