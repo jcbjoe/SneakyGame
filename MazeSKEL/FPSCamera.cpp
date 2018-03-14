@@ -18,9 +18,9 @@ void FPSCamera::Update()
 	//CreateViewMatrix(*mpViewSpaceTfm, mCamPos, mCamPos, mCamPos.Up);
 }
 
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool crouch, bool isCrouched)
+void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right)
 {
-	if (!forward && !back && !left && !right && !crouch)
+	if (!forward && !back && !left && !right)
 		return;
 
 	Matrix ori = Matrix::CreateFromYawPitchRoll(yaw, pitch, roll);
@@ -67,24 +67,17 @@ void FPSCamera::Crouch(bool isCrouched)
 	if (isCrouched)
 	{
 		if (mCamPos.y > 0.25f)
-		{
 			mCamPos.y -= 0.01f;
-		}
 		else
-		{
 			mCamPos.y = 0.25f;
-		}
 	}
 	else
 	{
 		if (mCamPos.y < 0.5f)
-		{
 			mCamPos.y += 0.01f;
-		}
 		else
 			mCamPos.y = 0.5f;
 	}
-		
 }
 
 

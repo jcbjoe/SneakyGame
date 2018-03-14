@@ -190,6 +190,9 @@ bool InitMainWindow(int width, int height, HINSTANCE hInstance, const std::strin
 		MessageBox(0, "CreateWindow Failed.", 0, 0);
 		return false;
 	}
+	//Hide cursor
+	//ShowCursor(false);
+	//SetCursor()
 
 	ShowWindow(ghMainWnd, SW_SHOW);
 	UpdateWindow(ghMainWnd);

@@ -1,6 +1,7 @@
 #include "UserInterfaceManager.h"
 #include <sstream>
 #include <time.h>
+#include "D3D.h"
 
 using namespace std;
 using namespace DirectX;
@@ -40,9 +41,21 @@ void UserInterfaceManager::updateUI() {
 	//--- Begin Crouching Display
 	wstringstream crouching;
 	if (isCrouching)
+	{
+		wstringstream crosshair;
+		crosshair << "-----";
+		//mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(1024 / 2, 768 / 2), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(495, 384), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		crouching << "Crouched";
+	}
 	else
+	{
+		wstringstream crosshair;
+		crosshair << "-<O>-";
+		//mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(1024 / 2, 768 / 2), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(495, 384), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		crouching << "Not Crouched";
+	}
 	mpAlgerian->DrawString(mpSpriteBatch, crouching.str().c_str(), Vector2(100, 200), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Crouching Display
 
@@ -64,6 +77,7 @@ void UserInterfaceManager::updateUI() {
 	//--- End Debug Text
 
 	mpSpriteBatch->End();
+
 
 	int seconds_since_start = difftime(time(0), start);
 	for (int elementInVector = 0; elementInVector < debugTextVector.size(); elementInVector++) {

@@ -24,6 +24,7 @@ void Game::OnResize(int screenWidth, int screenHeight)
 
 void Game::Initialise()
 {
+
 	//Test
 	const int levelx = 10;
 	const int levely = 10;
@@ -177,26 +178,25 @@ void Game::Release()
 
 void Game::Update(float dTime)
 {
-	float moveSpeed = dTime / 5.0f;
+	float moveSpeed;
 	float turnSpeed = 20.0f;
 
+	//If you are holding down the crouch key
 	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT)) {
-			isCrouched = true;
-			//Crouch function
-			mCamera.Crouch(isCrouched);
-			GetUserInterfaceManager()->setCrouch(isCrouched);
+			isCrouched = true;									//You are crouching
+			mCamera.Crouch(isCrouched);							//Move to crouching position
+			GetUserInterfaceManager()->setCrouch(isCrouched);	//Show you are crouching to screen
+			moveSpeed = dTime / 20.0f;
 			
-		
 	} else {
-			isCrouched = false;
-			mCamera.Crouch(isCrouched);
-			GetUserInterfaceManager()->setCrouch(isCrouched);
-		
+			isCrouched = false;									//You are not crouching
+			mCamera.Crouch(isCrouched);							//Move to standing position
+			GetUserInterfaceManager()->setCrouch(isCrouched);	//Show you are not crouching to screen
+			moveSpeed = dTime / 5.0f;
 	}
 
-
 	//If a movement key is pressed
-	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
+	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D));
 	
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 
@@ -205,13 +205,6 @@ void Game::Update(float dTime)
 		
 		mCamera.Rotate(dTime, m.x, m.y, 0);
 	}
-
-	//if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
-	//{
-	//	isCrouched = !isCrouched;
-	//	//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
-	//	
-	//}
 
 	//Update camera position on update (fixes bugs)
 	mCamera.Rotate(dTime, 0, 0, 0);

@@ -57,12 +57,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	if (!InitDirect3D(OnResize))
 		assert(false);
 
+	
 	//startup
 	new FX::MyFX(gd3dDevice);
 	new MeshManager;
 	new UserInterfaceManager;
 	new MouseAndKeys;
-	GetMouseAndKeys()->Initialise(GetMainWnd());
+	GetMouseAndKeys()->Initialise(GetMainWnd(), 0, 1); //hiding cursor
 	gGame.Initialise();
 
 	Run(Update, Render);
