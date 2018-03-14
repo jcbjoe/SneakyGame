@@ -87,14 +87,10 @@ void Game::Initialise()
 	//2 = Spawn/Entrance/Exit
 	//3 = Coins
 
-	maxX = levelx - 1.5f;
-	maxY = levely - 1.5f;
-
-
 	//For every space in the leve
-	for (int i(0); i < levelx; i++)
+	for (int i(0); i < MAXX; i++)
 	{
-		for (int j(0); j < levely; j++)
+		for (int j(0); j < MAXY; j++)
 		{
 			switch (level1[i][j])
 			{
@@ -181,7 +177,7 @@ void Game::Update(float dTime)
 			moveSpeed = dTime / 5.0f;
 	}
 
-	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), maxX, maxY, level1);
+	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), level1);
 	
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 

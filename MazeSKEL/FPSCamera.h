@@ -3,6 +3,9 @@
 
 #include "d3d11.h"
 #include "SimpleMath.h"
+#include "UserInterfaceManager.h"
+
+#include "Constants.h"
 /*
 First person camera, forwards backwards left right and rotate
 */
@@ -11,12 +14,12 @@ class FPSCamera
 public:
 
 	enum { UNLOCK = 999999 };
-
+	const int i = 10;
 	//set initial camera position and the matrix to modify
 	void Initialise(const DirectX::SimpleMath::Vector3& pos, const DirectX::SimpleMath::Vector3& tgt, DirectX::SimpleMath::Matrix& viewSpaceTfm);
 
 	//movement can be driven by WASD
-	void Move(float dTime, bool forward, bool back, bool left, bool right, float maxX, float maxY, int level[][10]);
+	void Move(float dTime, bool forward, bool back, bool left, bool right, int level[][MAXY]);
 
 	void Update();
 

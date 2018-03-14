@@ -2,6 +2,7 @@
 #include "D3D.h"
 #include "D3DUtil.h"
 
+
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
@@ -18,7 +19,7 @@ void FPSCamera::Update()
 	//CreateViewMatrix(*mpViewSpaceTfm, mCamPos, mCamPos, mCamPos.Up);
 }
 
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, float maxX, float maxY, int level[][10])
+void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, int level[][MAXY])
 {
 	if (!forward && !back && !left && !right)
 		return;
@@ -53,20 +54,63 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	pos.y = mCamPos.y;
 
 
-	if (pos.x > maxX - 0.30f) //|| pos.y < 0.5f || pos.x > maxX - 1.5f || pos.y > maxY - 1.5f);
-		pos.x = maxX -0.30f;
-	else if (pos.x < 0.8f)
-		pos.x = 0.8f;
+	//For every object in the level
+	for (int i(0); i < 10; i++)
+	{
+		for (int k(0); k < 10; k++)
+		{
+			//If object in world is a wall
+			if (level[i][k] == 1)
+			{
+				//Setup variables
+				float leftX		= i - 0.65f;
+				float rightX	= i + 0.65f;
+				float topZ		= k + 0.65f;
+				float bottomZ	= k - 0.65f;
 
-	if (pos.z > maxY - 0.30f)
-		pos.z = maxY - 0.30f;
-	else if (pos.z < 0.8f)
-		pos.z = 0.8f;
+				float finalZ = mCamPos.z;
+				float finalX = mCamPos.x;
 
-	//if ((pos.z > maxY - 0.30f) || (pos.z < 0.8f))
-	//{
-	//	pos = mCamPos;
-	//}
+				bool alreadyCollidedLR(false);
+				bool alreadyCollidedTB(false);
+				//If you have collided with the top side of a block
+
+				if ((pos.z < topZ && pos.z > k + 0.5f) && (pos.x <= rightX && pos.x >= leftX))
+				{
+					alreadyCollidedTB = true;
+					finalZ = topZ;
+				}
+				else if ((pos.z > bottomZ && pos.z < k - 0.5f) && (pos.x <= rightX && pos.x >= leftX))
+				{
+					alreadyCollidedTB = true;
+					finalZ = bottomZ;
+				}
+
+
+				////If you have collided with the left side of a block
+				if ((pos.x > leftX && pos.x < i + 0.5f) && (pos.z <= topZ && pos.z >= bottomZ) && alreadyCollidedTB == false)
+				{
+					finalX = leftX;
+					alreadyCollidedLR = true;
+				}
+				//If you have collided with the right side of a block
+				else if ((pos.x < rightX && pos.x > i - 0.5f) && (pos.z <= topZ && pos.z >= bottomZ) && alreadyCollidedTB == false)
+				{
+					finalX = rightX;
+					alreadyCollidedLR = true;
+				}
+
+				if (alreadyCollidedTB)
+				{
+					pos.z = finalZ;
+				}
+				else if (alreadyCollidedLR)
+				{
+					pos.x = finalX;
+				}			
+			}
+		}
+	}
 
 	//Update screen
 	CreateViewMatrix(*mpViewSpaceTfm, mCamPos, pos + dir, up);

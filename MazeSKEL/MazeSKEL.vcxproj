@@ -122,6 +122,7 @@
   <ItemGroup>
     <ClInclude Include="AudioMgr.h" />
     <ClInclude Include="AudioMgrFMOD.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="CRC.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DUtil.h" />

@@ -151,6 +151,9 @@
     <ClInclude Include="UserInterfaceManager.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\FX\LightHelper.hlsl">

@@ -10,6 +10,7 @@
 #include "SpriteFont.h"
 #include "FPSCamera.h"
 #include "UserInterfaceManager.h"
+#include "Constants.h"
 
 
 class Game
@@ -30,10 +31,10 @@ public:
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	Model mBox, mWall, mQuad, mSkybox, mLoot;
-	const int levelx = 10;
-	const int levely = 10;
+	//const int levelx = 10;
+	//const int levely = 10;
 
-	int level1[10][10] =
+	int level1[MAXX][MAXY] = 
 	{
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 3, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -46,8 +47,6 @@ public:
 		{ 1, 0, 0, 0, 1, 1, 0, 0, 0, 1 },
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
-
-	float maxX, maxY;
 
 	bool isCrouched = false;
 
