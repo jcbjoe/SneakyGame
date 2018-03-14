@@ -15,7 +15,6 @@ using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-Vector3 gWorldScale(10, 10, 10);
 
 void Game::OnResize(int screenWidth, int screenHeight)
 {
@@ -24,66 +23,24 @@ void Game::OnResize(int screenWidth, int screenHeight)
 
 void Game::Initialise()
 {
+	objectManager.initialiseObjects();
+
+	waypointsVector.push_back(Vector3(8, 0.4, 6));
+	waypointsVector.push_back(Vector3(7, 0.4, 6));
+	waypointsVector.push_back(Vector3(7, 0.4, 1));
+	waypointsVector.push_back(Vector3(4, 0.4, 1));
+	waypointsVector.push_back(Vector3(4, 0.4, 7));
+	waypointsVector.push_back(Vector3(5, 0.4, 7));
+	waypointsVector.push_back(Vector3(5, 0.4, 8));
+	waypointsVector.push_back(Vector3(8, 0.4, 8));
+
+	for (Vector3 loc : waypointsVector) {
+		objectManager.createWaypoint(loc);
+	}
+
 	//Test
 	const int levelx = 10;
 	const int levely = 10;
-
-
-	mQuad.Initialise(BuildQuad(*GetMeshManager()));
-	//mWall.Initialise(BuildCube(*GetMeshManager()));
-
-	//textured lit box
-	mBox.Initialise(BuildCube(*GetMeshManager()));
-	mBox.GetPosition() = Vector3(0, 0, 0);
-	mBox.GetScale() = Vector3(0.5f, 0.5f, 0.5f);
-	MaterialExt mat = mQuad.GetMesh().GetSubMesh(0).material;
-	mat.gfxData.Set(Vector4(0.5, 0.5, 0.5, 1), Vector4(1, 1, 1, 0), Vector4(1, 1, 1, 1));
-	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("WallGarage.dds", true, gd3dDevice);
-	mat.texture = "WallGarage.dds";
-	mBox.SetOverrideMat(&mat);
-
-	// floor
-	//Set up geometry
-	mQuad.GetScale() = Vector3(0.5, 0.5, 0.5);
-	mQuad.GetPosition() = Vector3(0, 0, 0);
-	//Set up material
-	mat = mQuad.GetMesh().GetSubMesh(0).material;
-	mat.gfxData.Set(Vector4(0.9f, 0.8f, 0.8f, 0), Vector4(0.9f, 0.8f, 0.8f, 0), Vector4(0.9f, 0.8f, 0.8f, 1));
-	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("test.dds", true, gd3dDevice);
-	mat.texture = "test.dds";
-	mat.texTrsfm.scale = Vector2(1, 1);
-	mQuad.SetOverrideMat(&mat);
-
-	
-
-	//Skybox
-	Mesh& sb = GetMeshManager()->CreateMesh("skybox");
-	sb.CreateFrom("data/skybox.fbx", gd3dDevice, FX::GetMyFX()->mCache);
-	mSkybox.Initialise(sb);
-	mSkybox.GetScale() = Vector3(1,1,1);
-	mSkybox.GetPosition() = Vector3(0,0,0);
-	mSkybox.GetRotation() = Vector3(PI/2,0,0);
-	MaterialExt& defMat = mSkybox.GetMesh().GetSubMesh(0).material;
-	defMat.flags &= ~MaterialExt::LIT;
-	defMat.flags &= ~MaterialExt::ZTEST;
-
-
-	//Loot Test
-	Model mLoot = mBox;
-	mLoot.GetScale() = Vector3(0.1f, 0.1f, 0.1f);
-	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("Metal.dds", true, gd3dDevice);
-	mat.texture = "Metal.dds";
-	mLoot.SetOverrideMat(&mat);
-
-	//mLoot.Initialise(BuildCube(*GetMeshManager()));
-	//mBox.GetPosition() = Vector3(0, 0, 0);
-	//mBox.GetScale() = Vector3(0.5f, 0.5f, 0.5f);
-	//MaterialExt mat = mQuad.GetMesh().GetSubMesh(0).material;
-	//mat.gfxData.Set(Vector4(0.5, 0.5, 0.5, 1), Vector4(1, 1, 1, 0), Vector4(1, 1, 1, 1));
-	//mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("WallGarage.dds", true, gd3dDevice);
-	//mat.texture = "WallGarage.dds";
-	//mBox.SetOverrideMat(&mat);
-
 
 	//Level testing
 	//0 = Floor
@@ -91,13 +48,12 @@ void Game::Initialise()
 	//2 = Spawn/Entrance/Exit
 	//3 = Coins
 	//4 = Enemy
-	//5 = Enemy Waypoint
 	int level1[][levelx] = 
 	{
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 3, 0, 0, 0, 0, 0, 0, 0, 1 },
 		{ 1, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
-		{ 1, 0, 0, 1, 1, 1, 0, 0, 3, 1 },
+		{ 1, 0, 0, 1, 1, 1, 0, 0, 0, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
 		{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 },
 		{ 1, 0, 1, 0, 0, 3, 0, 0, 0, 1 },
@@ -114,14 +70,12 @@ void Game::Initialise()
 			switch (level1[i][j])
 			{
 				case 0: {//Floor to be placed
-					mQuad.GetPosition() = Vector3(i, 0, j);
-					mOpaques.push_back(mQuad);
+					objectManager.createFloor(Vector3(i, 0.f, j));
 					break;
 				}
 
 				case 1: { //Wall to be placed
-					mBox.GetPosition() = Vector3(i, 0.5f, j);
-					mOpaques.push_back(mBox);
+					objectManager.createWall(Vector3(i, 0.5f, j));
 					break;
 				}
 
@@ -130,53 +84,33 @@ void Game::Initialise()
 					mCamera.Initialise(Vector3(i, 0.5f, j), Vector3(0, 0, 1), FX::GetViewMatrix());
 					mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 					//Place floor
-					mQuad.GetPosition() = Vector3(i, 0, j);
-					mOpaques.push_back(mQuad);
+					objectManager.createFloor(Vector3(i, 0.f, j));;
 					break;
 				}
 
 				case 3: {
-					mLoot.GetPosition() = Vector3(i, 0.3f, j);
-					mOpaques.push_back(mLoot);
+					objectManager.createLoot(Vector3(i, 0.3f, j));
 
 					//Place floor
-					mQuad.GetPosition() = Vector3(i, 0, j);
-					mOpaques.push_back(mQuad);
+					objectManager.createFloor(Vector3(i, 0.f, j));
 					break;
 
 				}
 
 				case 4: {
-					Vector3 pos = Vector3(i, 0.5, j);
-					Enemy mEnemy = Enemy(pos);
-					enemysVector.push_back(mEnemy);
+					Model& enemyModel = objectManager.createEnemy(Vector3(i, 0.5f, j));
+					Enemy enemy = Enemy(Vector3(i, 0.5f, j), enemyModel);
+					enemy.setWaypoints(waypointsVector);
+					enemysVector.push_back(enemy);
 
 					//Place floor
-					mQuad.GetPosition() = Vector3(i, 0, j);
-					mOpaques.push_back(mQuad);
+					objectManager.createFloor(Vector3(i, 0.f, j));
 					break;
 				}
 
-				case 5: {
-
-					//Place floor
-					mQuad.GetPosition() = Vector3(i, 0, j);
-					mOpaques.push_back(mQuad);
-					break;
-				}
 			}		
 
 		}
-	}
-
-	for (Model obj : mOpaques)
-	{
-		obj.GetScale() *= gWorldScale;
-		obj.GetPosition() *= gWorldScale;
-	}
-
-	for (Enemy enemy : enemysVector) {
-		enemy.setWaypoints(waypointsVector);
 	}
 
 	//--- Init the UI - 1st Arg = ShowFPS
@@ -187,24 +121,9 @@ void Game::Initialise()
 	
 }
 
-void Game::LoadDisplay(float dTime)
-{
-	////BeginRender(Colours::Black);
-
-	//mpSpriteBatch->Begin();
-
-	//wstringstream ss;
-	//ss << L"Crouching: ";
-	//ss << isCrouched;
-	//mpFont2->DrawString(mpSpriteBatch, ss.str().c_str(), Vector2(100, 200), Colours::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-
-	//mpSpriteBatch->End();
-
-	////EndRender();
-}
-
 void Game::Release()
 {
+
 }
 
 void Game::Update(float dTime)
@@ -216,10 +135,8 @@ void Game::Update(float dTime)
 	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT)) {
 		if (!isCrouched) {
 			isCrouched = true;
-			//Crouch function
 			mCamera.Crouch(isCrouched);
 			GetUserInterfaceManager()->setCrouch(isCrouched);
-			//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
 		}
 	} else {
 		if (isCrouched) {
@@ -238,19 +155,14 @@ void Game::Update(float dTime)
 		mCamera.Rotate(dTime, m.x, m.y, 0);
 	}
 
-	//if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
-	//{
-	//	isCrouched = !isCrouched;
-	//	//mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
-	//	
-	//}
 
 	GetUserInterfaceManager()->setFPS(1 / dTime);
 
-	gAngle += dTime * 0.5f;
-	mBox.GetRotation().y = gAngle;
-
 	GetUserInterfaceManager()->updateUI();
+
+	for (Enemy enemy : enemysVector) {
+		enemy.enemyTick(dTime);
+	}
 }
 
 void Game::Render(float dTime)
@@ -270,15 +182,11 @@ void Game::Render(float dTime)
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	mSkybox.GetPosition() = mCamera.GetPos();
-	FX::GetMyFX()->Render(mSkybox, gd3dImmediateContext);
-	//render all the solid models first in no particular order
-	for (Model p: mOpaques)
-	{
-		FX::GetMyFX()->Render(p, gd3dImmediateContext);
-	}
+	objectManager.setSkyboxPos(mCamera.GetPos());
 
-	LoadDisplay(dTime);
+	objectManager.render();
+
+
 	GetUserInterfaceManager()->updateUI();
 	//*GetUserInterfaceManager();
 	EndRender();
@@ -305,7 +213,7 @@ LRESULT Game::WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			PostQuitMessage(0);
 			return 0;
 		case 'j':
-			GetUserInterfaceManager()->printDebugText(to_string(mCamera.GetPos().x));
+			GetUserInterfaceManager()->printDebugText(to_string(mCamera.GetPos().x) + " : " + to_string(mCamera.GetPos().z));
 			break;
 		}
 	}

@@ -11,6 +11,7 @@
 #include "FPSCamera.h"
 #include "UserInterfaceManager.h"
 #include "Enemy.h"
+#include "ObjectManager.h"
 
 
 class Game
@@ -30,22 +31,17 @@ public:
 	//Message handling
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	Model mBox, mWall, mQuad, mSkybox, mLoot;
-
 	bool isCrouched = false;
 
 private:
 	Game& operator=(const Game&) = delete;
 	Game(const Game& m) = delete;
 
-	
+	ObjectManager objectManager;
 
 	float gAngle = 0;
 	FPSCamera mCamera;
-	std::vector<Model> mOpaques;
 
-	//Message Handling
-	void LoadDisplay(float dTime);
 
 	//Enemy mEnemy;
 	vector<Enemy> enemysVector;
