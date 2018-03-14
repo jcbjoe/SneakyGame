@@ -21,14 +21,16 @@ public:
 	void createFloor(Vector3 location);
 	void createWall(Vector3 location);
 	void createLoot(Vector3 location);
-	Model& createEnemy(Vector3 location);
+	Model* createEnemy(Vector3 location);
 	void createWaypoint(Vector3 location);
 
 	void ObjectManager::setSkyboxPos(Vector3);
 
 private:
 
-	Model mBox, mWall, mQuad, mSkybox, mLoot, mEnemy, mWaypoint;
+	Model mBox, mWall, mQuad, mSkybox, mLoot, mWaypoint;
+
+	Model* mEnemy;
 
 	vector<Model> mOpaques;
 

@@ -47,11 +47,11 @@ void ObjectManager::initialiseObjects() {
 	mat.texture = "Metal.dds";
 	mLoot.SetOverrideMat(&mat);
 
-	mEnemy = mBox;
-	mEnemy.GetScale() = Vector3(0.1f, 0.1f, 0.1f);
+	mEnemy = &mBox;
+	mEnemy->GetScale() = Vector3(0.1f, 0.1f, 0.1f);
 	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("Enemy.dds", true, gd3dDevice);
 	mat.texture = "Enemy.dds";
-	mEnemy.SetOverrideMat(&mat);
+	mEnemy->SetOverrideMat(&mat);
 
 	mWaypoint = mBox;
 	mWaypoint.GetScale() = Vector3(0.1f, 0.1f, 0.1f);
@@ -76,8 +76,11 @@ void ObjectManager::render() {
 		FX::GetMyFX()->Render(p, gd3dImmediateContext);
 	}
 
-	GetUserInterfaceManager()->printDebugText(to_string(mOpaques.at(100).GetPosition().x) + " : " + to_string(mOpaques.at(100).GetPosition().z));
-	mOpaques.at(100).GetPosition() = Vector3(7, 0.5, 7);
+
+	FX::GetMyFX()->Render(*mEnemy, gd3dImmediateContext);
+
+	//GetUserInterfaceManager()->printDebugText(to_string(mOpaques.at(100).GetPosition().x) + " : " + to_string(mOpaques.at(100).GetPosition().z));
+	//mOpaques.at(100).GetPosition() = Vector3(7, 0.5, 7);
 }
 
 void ObjectManager::createFloor(Vector3 location) {
@@ -95,9 +98,9 @@ void ObjectManager::createLoot(Vector3 location) {
 	mOpaques.push_back(mLoot);
 }
 
-Model& ObjectManager::createEnemy(Vector3 location) {
-	mEnemy.GetPosition() = location;
-	mOpaques.push_back(mEnemy);
+Model* ObjectManager::createEnemy(Vector3 location) {
+	mEnemy->GetPosition() = location;
+	//mOpaques.push_back(*mEnemy);
 	return mEnemy;
 }
 

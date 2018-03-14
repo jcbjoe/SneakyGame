@@ -189,6 +189,70 @@ Mesh& BuildCube(MeshManager& mgr)
 	return mesh;
 }
 
+Mesh& BuildEnemy(MeshManager& mgr)
+{
+	// Create vertex buffer
+	VertexPosNormTex vertices[] =
+	{	//front
+		{ Vector3(-1, -1, -1), Vector3(0, 0, -1), Vector2(0, 1) },
+	{ Vector3(-1, 1, -1), Vector3(0, 0, -1), Vector2(0, 0) },
+	{ Vector3(1, 1, -1), Vector3(0, 0, -1), Vector2(1, 0) },
+	{ Vector3(1, -1, -1), Vector3(0, 0, -1), Vector2(1, 1) },
+	//right
+	{ Vector3(1, -1, -1), Vector3(1, 0, 0), Vector2(0, 1) },
+	{ Vector3(1, 1, -1), Vector3(1, 0, 0), Vector2(0, 0) },
+	{ Vector3(1, 1, 1), Vector3(1, 0, 0), Vector2(1, 0) },
+	{ Vector3(1, -1, 1), Vector3(1, 0, 0), Vector2(1, 1) },
+	//left
+	{ Vector3(-1, -1, 1), Vector3(-1, 0, 0), Vector2(0, 1) },
+	{ Vector3(-1, 1, 1), Vector3(-1, 0, 0), Vector2(0, 0) },
+	{ Vector3(-1, 1, -1), Vector3(-1, 0, 0), Vector2(1, 0) },
+	{ Vector3(-1, -1, -1), Vector3(-1, 0, 0), Vector2(1, 1) },
+	//top
+	{ Vector3(-1, 1, -1), Vector3(0, 1, 0), Vector2(0, 1) },
+	{ Vector3(-1, 1, 1), Vector3(0, 1, 0), Vector2(0, 0) },
+	{ Vector3(1, 1, 1), Vector3(0, 1, 0), Vector2(1, 0) },
+	{ Vector3(1, 1, -1), Vector3(0, 1, 0), Vector2(1, 1) },
+	//bottom
+	{ Vector3(1, -1, -1), Vector3(0, -1, 0), Vector2(0, 1) },
+	{ Vector3(1, -1, 1), Vector3(0, -1, 0), Vector2(0, 0) },
+	{ Vector3(-1, -1, 1), Vector3(0, -1, 0), Vector2(1, 0) },
+	{ Vector3(-1, -1, -1), Vector3(0, -1, 0), Vector2(1, 1) },
+	//back
+	{ Vector3(1, -1, 1), Vector3(0, 0, 1), Vector2(0, 1) },
+	{ Vector3(1, 1, 1), Vector3(0, 0, 1), Vector2(0, 0) },
+	{ Vector3(-1, 1, 1), Vector3(0, 0, 1), Vector2(1, 0) },
+	{ Vector3(-1, -1, 1), Vector3(0, 0, 1), Vector2(1, 1) }
+	};
+
+	// Create the index buffer
+	UINT indices[] = {
+		// front face
+		0, 1, 2,
+		0, 2, 3,
+		//right
+		4, 5, 6,
+		4, 6, 7,
+		//left
+		8, 9, 10,
+		8, 10, 11,
+		//top
+		12, 13, 14,
+		12, 14, 15,
+		//bottom
+		16, 17, 18,
+		16, 18, 19,
+		//back
+		20, 21, 22,
+		20, 22, 23
+	};
+
+	Mesh &mesh = mgr.CreateMesh("Enemy");
+	MaterialExt mat = MaterialExt::default;
+	mesh.CreateFrom(vertices, 24, indices, 36, mat, 36);
+	return mesh;
+}
+
 Mesh& BuildWall(MeshManager& mgr)
 {
 	// Create vertex buffer

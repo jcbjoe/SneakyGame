@@ -14,7 +14,7 @@ class Enemy
 {
 public:
 
-	Enemy(Vector3, Model&);
+	Enemy(Vector3, Model*);
 	void setWaypoints(vector<Vector3> wayPointList);
 	void enemyTick(float);
 
@@ -22,9 +22,9 @@ private:
 	Vector3 Pos;
 	vector<Vector3> wayPointsList;
 
-	Model& model_;
+	Model* model_;
 
-	int waypointNumber = 0;
+	int waypointNumber;
 };
 
 #endif

@@ -98,7 +98,7 @@ void Game::Initialise()
 				}
 
 				case 4: {
-					Model& enemyModel = objectManager.createEnemy(Vector3(i, 0.5f, j));
+					Model* enemyModel = objectManager.createEnemy(Vector3(i, 0.5f, j));
 					Enemy enemy = Enemy(Vector3(i, 0.5f, j), enemyModel);
 					enemy.setWaypoints(waypointsVector);
 					enemysVector.push_back(enemy);
