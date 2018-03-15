@@ -22,7 +22,7 @@ public:
 	}
 	void Update(float dTime);
 	void Render(float dTime);
-	void Initialise();
+	void Initialise(const float&, const float&);
 	void Release();
 
 	void toggleCrouch();

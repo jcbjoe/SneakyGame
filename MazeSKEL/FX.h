@@ -4,13 +4,21 @@
 #include <string>
 #include <vector>
 #include <d3d11.h>
+#include <assert.h>
 
 #include "ShaderTypes.h"
+#include "D3D.h"
 #include "D3DUtil.h"
 #include "Singleton.h"
 #include "SpriteBatch.h"
 #include "SpriteFont.h"
 #include "LightManager.h"
+#include "Model.h"
+#include "Mesh.h"
+#include "File.h"
+#include "windowutils.h"
+#include "DDSTextureLoader.h"
+
 
 class Model;
 

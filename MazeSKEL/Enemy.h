@@ -2,7 +2,10 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include <vector> 
+#include "D3D.h"
+#include "Model.h"
+#include "UserInterfaceManager.h"
+#include <vector>
 
 #include "Mesh.h" 
 #include "Model.h" 

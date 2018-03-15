@@ -12,14 +12,17 @@
 #include "Skybox.h"
 #include "UserInterfaceManager.h"
 #include "Enemy.h"
-#include "ObjectManager.h"
 #include "WindowUtils.h"
+#include "GameObjectManager.h"
+#include "GameObject.h"
+
 #include "GameObjectManager.h"
 
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
 #include <thread>
+
 
 
 class Game
@@ -44,8 +47,6 @@ public:
 private:
 	Game& operator=(const Game&) = delete;
 	Game(const Game& m) = delete;
-
-	ObjectManager objectManager;
 
 	float gAngle = 0;
 	FPSCamera mCamera;

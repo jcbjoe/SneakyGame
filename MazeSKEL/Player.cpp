@@ -1,8 +1,8 @@
 #include "Player.h" 
 
-void Player::Initialise() 
+void Player::Initialise(const float& i, const float& j) 
 {
-	mCamera.Initialise(Vector3(-15, -9.5, -25), Vector3(0, 0, 1), FX::GetViewMatrix());
+	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(0, 0, 1), FX::GetViewMatrix());
 	mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 }
 void Player::Release() 

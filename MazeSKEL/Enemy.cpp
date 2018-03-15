@@ -1,6 +1,4 @@
 #include "Enemy.h"
-#include "UserInterfaceManager.h"
-
 
 Enemy::Enemy(string name, Vector3 position, Quaternion rotation, Vector3 scale)
 	:

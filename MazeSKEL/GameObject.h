@@ -23,9 +23,7 @@ public:
 	void SetModel(Model& model) {
 		model_ = model;
 	}
-	Model &GetModel() {
-		return model_;
-	}
+	Model &GetModel() { return model_;}
 	Vector3 &GetPosition() {
 		return position_;
 	}
@@ -35,9 +33,19 @@ public:
 	Quaternion &GetRotation() {
 		return rotation_;
 	}
+	float &GetRotationAngle()
+	{
+		return dAngle_;
+	}
+	void setYRotation(const float& rotation)
+	{
+		rotation_ =+ Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), rotation);
+	}
 
 
 private:
+
+	float dAngle_ = 0.0f;
 
 	string name_;
 	Vector3 position_;
@@ -47,7 +55,5 @@ private:
 	Model model_;
 
 };
-
-
 
 #endif

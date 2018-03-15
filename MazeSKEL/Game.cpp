@@ -1,12 +1,5 @@
 #include "Game.h"
 
-#include <sstream>
-#include <iomanip>
-#include <thread>
-#include "GameObject.h"
-
-#include "GameObjectManager.h"
-
 using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -18,24 +11,6 @@ void Game::OnResize(int screenWidth, int screenHeight)
 
 void Game::Initialise()
 {
-
-	gPlayer.Initialise();
-	//objectManager.initialiseObjects();
-
-	//waypointsVector.push_back(Vector3(8, 0.4, 6));
-	//waypointsVector.push_back(Vector3(7, 0.4, 6));
-	//waypointsVector.push_back(Vector3(7, 0.4, 1));
-	//waypointsVector.push_back(Vector3(4, 0.4, 1));
-	//waypointsVector.push_back(Vector3(4, 0.4, 7));
-	//waypointsVector.push_back(Vector3(5, 0.4, 7));
-	//waypointsVector.push_back(Vector3(5, 0.4, 8));
-	//waypointsVector.push_back(Vector3(8, 0.4, 8));
-
-	//for (Vector3 loc : waypointsVector) {
-	//	objectManager.createWaypoint(loc);
-	//}
-
-	//Test
 	const int levelx = 10;
 	const int levely = 10;
 
@@ -55,7 +30,7 @@ void Game::Initialise()
 		{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 },
 		{ 1, 0, 1, 0, 0, 3, 0, 0, 0, 1 },
 		{ 1, 3, 0, 3, 0, 0, 0, 2, 0, 1 },
-		{ 1, 0, 0, 0, 1, 1, 0, 0, 4, 1 },
+		{ 1, 0, 0, 0, 1, 1, 0, 0, 0, 1 },
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
 
@@ -87,8 +62,7 @@ void Game::Initialise()
 
 				case 2: {
 					//Place camera
-					mCamera.Initialise(Vector3(i, 0.5f, j), Vector3(0, 0, 1), FX::GetViewMatrix());
-					mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
+					gPlayer.Initialise(i, j);
 
 					//Place floor
 					Floor floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
@@ -97,7 +71,7 @@ void Game::Initialise()
 				}
 
 				case 3: {
-					Loot loot("Loot", Vector3(i, 0.3f, j), Quaternion::Identity, Vector3(0.1, 0.1, 0.1));
+					Loot loot("Loot", Vector3(i, 0.3f, j), Quaternion::Identity, Vector3(0.02, 0.1, 0.1));
 					GetGameObjectManager()->addGameObject(loot);
 
 					//Place floor
@@ -138,18 +112,7 @@ void Game::Update(float dTime)
 	float moveSpeed = dTime / 5.0f;
 	float turnSpeed = 20.0f;
 
-	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT)) {
-		if (!isCrouched) {
-			isCrouched = true;
-			mCamera.Crouch(isCrouched);
-		}
-	} else {
-		if (isCrouched) {
-			isCrouched = false;
-			mCamera.Crouch(isCrouched);
-		}
-	}
-	mCamera.Move(moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), GetMouseAndKeys()->IsPressed(VK_LSHIFT), isCrouched);
+	gPlayer.Update(dTime);
 	
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 
@@ -175,7 +138,6 @@ void Game::Render(float dTime)
 
 	FX::SetPerFrameConsts(gd3dImmediateContext, gPlayer.getCameraPosition());
 
-	//CreateViewMatrix(FX::GetViewMatrix(), mCamPos, Vector3(0, 0, 0), Vector3(0, 1, 0));
 	CreateProjectionMatrix(FX::GetProjectionMatrix(), 0.25f*PI, GetAspectRatio(), 1, 1000.f);
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
@@ -183,6 +145,9 @@ void Game::Render(float dTime)
 	//objectManager.setSkyboxPos(mCamera.GetPos());
 
 	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched);
+
+
+	GetUserInterfaceManager()->updateUI(gPlayer.getCrouchStatus());
 
 	EndRender();
 

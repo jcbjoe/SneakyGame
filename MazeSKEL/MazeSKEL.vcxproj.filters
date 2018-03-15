@@ -193,13 +193,13 @@
     <ClInclude Include="Skybox.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
