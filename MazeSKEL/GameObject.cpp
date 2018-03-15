@@ -8,11 +8,10 @@ GameObject::GameObject(string name, Vector3 position, Quaternion rotation, Vecto
 	rotation_(rotation),
 	scale_(scale)
 {
-	start();
 	
 }
 
-void GameObject::update(float dTime)
+void GameObject::Update(float dTime)
 {
 }
 
@@ -20,8 +19,4 @@ void GameObject::Render()
 {
 	FX::MyFX& fx = *FX::GetMyFX();
 	fx.Render(model_, gd3dImmediateContext);
-}
-
-void GameObject::start()
-{
 }

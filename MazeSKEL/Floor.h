@@ -17,8 +17,8 @@ class Floor : public GameObject
 {
 public:
 	Floor(string name, Vector3 position, Quaternion rotation, Vector3 scale);
-	void start();
-	void Update(float dTime);
+
+	void Update(float dTime) override;
 
 private:
 

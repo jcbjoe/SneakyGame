@@ -4,12 +4,8 @@ Wall::Wall(string name, Vector3 position, Quaternion rotation, Vector3 scale)
 	:
 	GameObject(name, position, rotation, scale)
 {
+	GetModel().Initialise(*GetMeshManager()->GetMesh("wall"));
 
-}
-
-void Wall::start()
-{
-	GetModel().Initialise(BuildWall(*GetMeshManager()));
 	GetModel().GetScale() = GetScale();
 	GetModel().GetPosition() = GetPosition();
 
@@ -21,6 +17,6 @@ void Wall::start()
 	GetModel().SetOverrideMat(&mat);
 }
 
-void Wall::update(float dTime) {
+void Wall::Update(float dTime) {
 
 }

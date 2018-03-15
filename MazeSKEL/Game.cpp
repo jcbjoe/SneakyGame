@@ -11,7 +11,6 @@ using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-
 void Game::OnResize(int screenWidth, int screenHeight)
 {
 	OnResize_Default(screenWidth, screenHeight);
@@ -20,7 +19,7 @@ void Game::OnResize(int screenWidth, int screenHeight)
 void Game::Initialise()
 {
 
-	//gPlayer.Initialise();
+	gPlayer.Initialise();
 	//objectManager.initialiseObjects();
 
 	//waypointsVector.push_back(Vector3(8, 0.4, 6));
@@ -60,7 +59,10 @@ void Game::Initialise()
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
 
+	//Create Initial Objects to copy
 	BuildFloor(*GetMeshManager());
+	BuildWall(*GetMeshManager());
+	BuildLoot(*GetMeshManager(), 10, 10);
 
 	//For every space in the leve
 	for (int i(0); i < levelx; i++)
@@ -70,15 +72,15 @@ void Game::Initialise()
 			switch (level1[i][j])
 			{
 				case 0: {//Floor to be placed
-					Floor floor("Floor", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(i, 0.f, j));
+					Floor floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(floor);
 					break;
 				}
 
 				case 1: { //Wall to be placed
 
-					//Wall wall("Wall", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(i, 0.5f, j));
-					//GetGameObjectManager()->addGameObject(wall);
+					Wall wall("Wall", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(wall);
 
 					break;
 				}
@@ -89,19 +91,21 @@ void Game::Initialise()
 					mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 
 					//Place floor
-					/*Floor floor("Floor", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(i, 0.f, j));
+					Floor floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(floor);
-					break;*/
+					break;
 				}
 
-				//case 3: {
-				//	objectManager.createLoot(Vector3(i, 0.3f, j));
+				case 3: {
+					Loot loot("Loot", Vector3(i, 0.3f, j), Quaternion::Identity, Vector3(0.1, 0.1, 0.1));
+					GetGameObjectManager()->addGameObject(loot);
 
-				//	//Place floor
-				//	objectManager.createFloor(Vector3(i, 0.f, j));
-				//	break;
+					//Place floor
+					Floor floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(floor);
+					break;
 
-				//}
+				}
 
 				//case 4: {
 				//	Model* enemyModel = objectManager.createEnemy(Vector3(i, 0.5f, j));

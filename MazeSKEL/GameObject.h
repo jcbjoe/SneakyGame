@@ -18,9 +18,8 @@ class GameObject
 public:
 	GameObject(string name, Vector3 position, Quaternion rotation, Vector3 scale);
 
-	virtual void update(float dTime);
+	virtual void Update(float dTime);
 	virtual void Render();
-
 	void SetModel(Model& model) {
 		model_ = model;
 	}
@@ -39,8 +38,6 @@ public:
 
 
 private:
-
-	virtual void start();
 
 	string name_;
 	Vector3 position_;

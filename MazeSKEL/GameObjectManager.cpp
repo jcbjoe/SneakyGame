@@ -10,6 +10,6 @@ void GameObjectManager::addGameObject(GameObject gObj) {
 	gameObjects.push_back(gObj);
 }
 
-vector<GameObject> GameObjectManager::getGameObjects() {
+vector<GameObject>& GameObjectManager::getGameObjects() {
 	return gameObjects;
 }

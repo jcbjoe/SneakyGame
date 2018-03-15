@@ -101,9 +101,6 @@
     <ClCompile Include="Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -195,9 +192,6 @@
     </ClInclude>
     <ClInclude Include="Skybox.h">
       <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Source Files</Filter>

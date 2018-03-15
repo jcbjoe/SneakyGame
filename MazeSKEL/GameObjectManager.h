@@ -21,7 +21,7 @@ public:
 
 	void addGameObject(GameObject gObj);
 
-	vector<GameObject> getGameObjects();
+	vector<GameObject>& getGameObjects();
 
 private:
 	void Release();

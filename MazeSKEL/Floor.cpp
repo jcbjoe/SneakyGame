@@ -4,13 +4,8 @@ Floor::Floor(string name, Vector3 position, Quaternion rotation, Vector3 scale)
 	:
 	GameObject(name, position, rotation, scale) {
 
-}
+	GetModel().Initialise(*GetMeshManager()->GetMesh("floor"));
 
-void Floor::start()
-{
-	Model test;
-	test.Initialise(*GetMeshManager()->GetMesh("floor"));
-	SetModel(test);
 	GetModel().GetScale() = GetScale();
 	GetModel().GetPosition() = GetPosition();
 
@@ -22,6 +17,7 @@ void Floor::start()
 
 	GetModel().SetOverrideMat(&mat);
 }
+
 
 void Floor::Update(float dTime)
 {
