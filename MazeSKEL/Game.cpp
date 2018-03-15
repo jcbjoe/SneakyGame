@@ -147,8 +147,6 @@ void Game::Render(float dTime)
 	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched);
 
 
-	GetUserInterfaceManager()->updateUI(gPlayer.getCrouchStatus());
-
 	EndRender();
 
 	GetMouseAndKeys()->PostProcess();
