@@ -23,6 +23,8 @@ public:
 
 	vector<GameObject>& getGameObjects();
 
+	GameObject& getFirstObjectByName(const string name);
+
 private:
 	void Release();
 

@@ -33,6 +33,9 @@ public:
 	Quaternion &GetRotation() {
 		return rotation_;
 	}
+	string &GetName() {
+		return name_;
+	}
 	float &GetRotationAngle()
 	{
 		return dAngle_;

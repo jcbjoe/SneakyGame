@@ -1,31 +1,25 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
-#include "Mesh.h"
-#include "FX.h"
-#include "Model.h"
-
-#include <vector>
+#include <vector> 
+#include "GameObject.h"
+#include "Mesh.h" 
+#include "Model.h" 
+#include "GeometryBuilder.h" 
+#include "FX.h" 
 
 using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class Skybox
+class Skybox : public GameObject
 {
 public:
-	~Skybox()
-	{
-		Release();
-	}
-	void Initialise();
-	void Release();
+	Skybox(string name, Vector3 position, Quaternion rotation, Vector3 scale);
 
-	void setPosition(const Vector3&);
-	Model getModel();
+	void Update(float dTime) override;
 
 private:
-	Model mSkybox;
 };
 
 #endif

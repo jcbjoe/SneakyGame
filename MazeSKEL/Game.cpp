@@ -38,6 +38,8 @@ void Game::Initialise()
 	BuildFloor(*GetMeshManager());
 	BuildWall(*GetMeshManager());
 	BuildLoot(*GetMeshManager(), 10, 10);
+	Skybox skybox("Skybox", Vector3(0, 0, 0), Quaternion::Identity, Vector3(1, 1, 1));
+	GetGameObjectManager()->addGameObject(skybox);
 
 	//For every space in the leve
 	for (int i(0); i < levelx; i++)
@@ -123,7 +125,7 @@ void Game::Update(float dTime)
 	}
 
 	//gPlayer.Update(dTime);
-
+	GetGameObjectManager()->getFirstObjectByName("Skybox").GetPosition() = mCamera.GetPos();
 }
 
 void Game::Render(float dTime)
@@ -141,8 +143,6 @@ void Game::Render(float dTime)
 	CreateProjectionMatrix(FX::GetProjectionMatrix(), 0.25f*PI, GetAspectRatio(), 1, 1000.f);
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
-
-	//objectManager.setSkyboxPos(mCamera.GetPos());
 
 	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched);
 
