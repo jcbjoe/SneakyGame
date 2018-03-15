@@ -6,17 +6,17 @@ void GameObjectManager::Release()
 
 }
 
-void GameObjectManager::addGameObject(GameObject gObj) {
+void GameObjectManager::addGameObject(GameObject* gObj) {
 	gameObjects.push_back(gObj);
 }
 
-vector<GameObject>& GameObjectManager::getGameObjects() {
+vector<GameObject*>& GameObjectManager::getGameObjects() {
 	return gameObjects;
 }
 
-GameObject& GameObjectManager::getFirstObjectByName(const string name) {
-	for (GameObject obj : gameObjects) {
-		if (obj.GetName() == "Skybox") {
+GameObject* GameObjectManager::getFirstObjectByName(const string name) {
+	for (GameObject* obj : gameObjects) {
+		if (obj->GetName() == "Skybox") {
 			return obj;
 		}
 	}

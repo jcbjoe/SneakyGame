@@ -38,7 +38,7 @@ void Game::Initialise()
 	BuildFloor(*GetMeshManager());
 	BuildWall(*GetMeshManager());
 	BuildLoot(*GetMeshManager(), 10, 10);
-	Skybox skybox("Skybox", Vector3(0, 0, 0), Quaternion::Identity, Vector3(1, 1, 1));
+	Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Quaternion::Identity, Vector3(1, 1, 1));
 	GetGameObjectManager()->addGameObject(skybox);
 
 	//For every space in the leve
@@ -49,14 +49,14 @@ void Game::Initialise()
 			switch (level1[i][j])
 			{
 				case 0: {//Floor to be placed
-					Floor floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
+					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(floor);
 					break;
 				}
 
 				case 1: { //Wall to be placed
 
-					Wall wall("Wall", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
+					Wall* wall = new Wall("Wall", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(wall);
 
 					break;
@@ -67,29 +67,29 @@ void Game::Initialise()
 					gPlayer.Initialise(i, j);
 
 					//Place floor
-					Floor floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
+					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(floor);
 					break;
 				}
 
 				case 3: {
-					Loot loot("Loot", Vector3(i, 0.3f, j), Quaternion::Identity, Vector3(0.02, 0.1, 0.1));
+					Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Quaternion::Identity, Vector3(0.02, 0.1, 0.1));
 					GetGameObjectManager()->addGameObject(loot);
 
 					//Place floor
-					Floor floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
+					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(floor);
 					break;
 
 				}
 
 			    case 4: {
-					Enemy enemy = Enemy("Enemy", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(0.1f, 0.1f, 0.1f));
-					enemy.setWaypoints(waypointsVector);
+					Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(0.1f, 0.1f, 0.1f));
+					enemy->setWaypoints(waypointsVector);
 					GetGameObjectManager()->addGameObject(enemy);
 
 					//Place floor
-					Floor floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
+					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(floor);
 					break;
 				}
@@ -105,9 +105,9 @@ void Game::Initialise()
 
 void Game::Update(float dTime)
 {
-
-	for (GameObject obj : GetGameObjectManager()->getGameObjects()) {
-		obj.Update(dTime);
+	vector<GameObject*>& objects = GetGameObjectManager()->getGameObjects();
+	for (GameObject* obj : objects) {
+		obj->Update(dTime);
 	}
 
 
@@ -125,15 +125,15 @@ void Game::Update(float dTime)
 	}
 
 	//gPlayer.Update(dTime);
-	GetGameObjectManager()->getFirstObjectByName("Skybox").GetPosition() = mCamera.GetPos();
+	GetGameObjectManager()->getFirstObjectByName("Skybox")->GetPosition() = mCamera.GetPos();
 }
 
 void Game::Render(float dTime)
 {
 	BeginRender(Colours::Black);
 
-	for (GameObject obj : GetGameObjectManager()->getGameObjects()) {
-		obj.Render();
+	for (GameObject* obj : GetGameObjectManager()->getGameObjects()) {
+		obj->Render();
 	}
 
 	float alpha = 0.5f + sinf(gAngle * 2)*0.5f;

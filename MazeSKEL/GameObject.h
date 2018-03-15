@@ -30,25 +30,20 @@ public:
 	Vector3 &GetScale() {
 		return scale_;
 	}
-	Quaternion &GetRotation() {
-		return rotation_;
+	Vector3 &GetRotation() {
+		return model_.GetRotation();
 	}
 	string &GetName() {
 		return name_;
 	}
-	float &GetRotationAngle()
-	{
-		return dAngle_;
-	}
+
 	void setYRotation(const float& rotation)
 	{
-		rotation_ =+ Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), rotation);
+		GetRotation().Y =+ Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), rotation);
 	}
 
 
 private:
-
-	float dAngle_ = 0.0f;
 
 	string name_;
 	Vector3 position_;
