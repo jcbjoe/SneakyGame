@@ -107,16 +107,16 @@ void Game::Initialise()
 
 				}
 
-				//case 4: {
-				//	Model* enemyModel = objectManager.createEnemy(Vector3(i, 0.5f, j));
-				//	Enemy enemy = Enemy(Vector3(i, 0.5f, j), enemyModel);
-				//	enemy.setWaypoints(waypointsVector);
-				//	enemysVector.push_back(enemy);
+			    case 4: {
+					Enemy enemy = Enemy("Enemy", Vector3(i, 0.5f, j), Quaternion::Identity, Vector3(0.1f, 0.1f, 0.1f));
+					enemy.setWaypoints(waypointsVector);
+					GetGameObjectManager()->addGameObject(enemy);
 
-				//	//Place floor
-				//	objectManager.createFloor(Vector3(i, 0.f, j));
-				//	break;
-				//}
+					//Place floor
+					Floor floor("Floor", Vector3(i, 0.0f, j), Quaternion::Identity, Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(floor);
+					break;
+				}
 			}
 		}
 	}
@@ -129,6 +129,10 @@ void Game::Initialise()
 
 void Game::Update(float dTime)
 {
+
+	for (GameObject obj : GetGameObjectManager()->getGameObjects()) {
+		obj.Update(dTime);
+	}
 
 	float moveSpeed = dTime / 5.0f;
 	float turnSpeed = 20.0f;
@@ -154,14 +158,6 @@ void Game::Update(float dTime)
 		mCamera.Rotate(dTime, m.x, m.y, 0);
 	}
 
-
-	GetUserInterfaceManager()->setFPS(1 / dTime);
-
-	GetUserInterfaceManager()->updateUI(gPlayer.getCrouchStatus());
-
-	for (Enemy enemy : enemysVector) {
-		enemy.enemyTick(dTime);
-	}
 	//gPlayer.Update(dTime);
 	gAngle += dTime * 0.5f;
 }
@@ -169,6 +165,10 @@ void Game::Update(float dTime)
 void Game::Render(float dTime)
 {
 	BeginRender(Colours::Black);
+
+	for (GameObject obj : GetGameObjectManager()->getGameObjects()) {
+		obj.Render();
+	}
 
 	float alpha = 0.5f + sinf(gAngle * 2)*0.5f;
 
@@ -179,15 +179,10 @@ void Game::Render(float dTime)
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	objectManager.setSkyboxPos(mCamera.GetPos());
+	//objectManager.setSkyboxPos(mCamera.GetPos());
 
-	for (GameObject obj : GetGameObjectManager()->getGameObjects()) {
-			obj.Render();
-	}
+	GetUserInterfaceManager()->updateUI(1 / dTime, gPlayer.getCrouchStatus());
 
-
-	GetUserInterfaceManager()->updateUI(gPlayer.getCrouchStatus());
-	//*GetUserInterfaceManager();
 	EndRender();
 
 	GetMouseAndKeys()->PostProcess();

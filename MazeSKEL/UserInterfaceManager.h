@@ -17,12 +17,10 @@ public:
 		Release();
 	}
 
-	void updateUI(const bool&);
+	void updateUI(const float fpsNumber, const bool&);
 	void initialiseUI(bool showFPS);
 
 	void printDebugText(std::string text);
-
-	void setFPS(float fpsNumber);
 
 private:
 	void Release();
@@ -37,8 +35,6 @@ private:
 
 	DirectX::SpriteBatch *mpSpriteBatch = nullptr;
 	DirectX::SpriteFont *mpComicSans = nullptr, *mpAlgerian = nullptr;
-
-	float FPS;
 
 	time_t start;
 };

@@ -25,11 +25,7 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::setFPS(float fpsNumber) {
-	FPS = fpsNumber;
-}
-
-void UserInterfaceManager::updateUI(const bool& isCrouching) {
+void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouching) {
 
 	mpSpriteBatch->Begin();
 
@@ -45,7 +41,7 @@ void UserInterfaceManager::updateUI(const bool& isCrouching) {
 	//--- Begin FPS Counter
 	if (showFPS) {
 		wstringstream FPSCounter;
-		FPSCounter << "FPS: " << FPS;
+		FPSCounter << "FPS: " << fpsNumber;
 		mpAlgerian->DrawString(mpSpriteBatch, FPSCounter.str().c_str(), Vector2(0, 0), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	}
 	//--- End FPS Counter

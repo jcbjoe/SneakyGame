@@ -2,28 +2,29 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "D3D.h"
-#include "Model.h"
-#include <vector>
+#include <vector> 
+
+#include "Mesh.h" 
+#include "Model.h" 
+#include "GeometryBuilder.h" 
+#include "FX.h" 
+#include "GameObject.h"
 
 using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class Enemy
+class Enemy : public GameObject
 {
 public:
 
-	Enemy(Vector3, Model*);
+	Enemy(string name, Vector3 position, Quaternion rotation, Vector3 scale);
+
 	void setWaypoints(vector<Vector3> wayPointList);
-	void enemyTick(float);
+	void Update(float dTime) override;
 
 private:
-	Vector3 Pos;
 	vector<Vector3> wayPointsList;
-
-	Model* model_;
-
 	int waypointNumber;
 };
 
