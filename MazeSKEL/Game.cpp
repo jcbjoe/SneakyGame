@@ -134,6 +134,7 @@ void Game::Update(float dTime)
 		obj.Update(dTime);
 	}
 
+
 	float moveSpeed = dTime / 5.0f;
 	float turnSpeed = 20.0f;
 
@@ -159,7 +160,7 @@ void Game::Update(float dTime)
 	}
 
 	//gPlayer.Update(dTime);
-	gAngle += dTime * 0.5f;
+
 }
 
 void Game::Render(float dTime)
@@ -181,11 +182,12 @@ void Game::Render(float dTime)
 
 	//objectManager.setSkyboxPos(mCamera.GetPos());
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, gPlayer.getCrouchStatus());
+	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched);
 
 	EndRender();
 
 	GetMouseAndKeys()->PostProcess();
+
 }
 
 void Game::Release() {
