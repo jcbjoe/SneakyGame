@@ -50,12 +50,6 @@ Vector3 Player::getCameraPosition()
 	return mCamera.GetPos();
 }
 
-void Player::initCamera(const float& i, const float& j)
-{
-	mCamera.Initialise(Vector3(i, 0.5f, j), Vector3(0, 0, 1), FX::GetViewMatrix());
-	mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
-}
-
 bool Player::getCrouchStatus()
 {
 	return isCrouched;

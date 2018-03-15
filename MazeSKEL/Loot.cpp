@@ -16,6 +16,6 @@ Loot::Loot(string name, Vector3 position, Quaternion rotation, Vector3 scale)
 
 void Loot::Update(float dTime)
 {
-	GetRotation() = GetRotation() + Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), GetRotationAngle() += dTime * 0.5);
-	setYRotation(GetRotationAngle() += dTime * 0.5);
+	//GetRotation() = GetRotation() + Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), GetRotationAngle() += dTime * 0.5);
+	incrementYRotation(dTime * 0.5);
 }

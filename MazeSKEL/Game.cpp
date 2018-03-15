@@ -11,6 +11,7 @@ void Game::OnResize(int screenWidth, int screenHeight)
 
 void Game::Initialise()
 {
+
 	const int levelx = 10;
 	const int levely = 10;
 

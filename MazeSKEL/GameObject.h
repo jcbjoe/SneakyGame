@@ -24,22 +24,21 @@ public:
 		model_ = model;
 	}
 	Model &GetModel() { return model_;}
-	Vector3 &GetPosition() {
+	Vector3 GetPosition() {
 		return position_;
 	}
-	Vector3 &GetScale() {
+	Vector3 GetScale() {
 		return scale_;
 	}
-	Vector3 &GetRotation() {
+	Vector3 GetRotation() {
 		return model_.GetRotation();
 	}
-	string &GetName() {
+	string GetName() {
 		return name_;
 	}
 
-	void setYRotation(const float& rotation)
-	{
-		GetRotation().Y =+ Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), rotation);
+	void incrementYRotation(const float rotation) {
+		model_.GetRotation() += Vector3(0, rotation, 0);
 	}
 
 
@@ -47,7 +46,7 @@ private:
 
 	string name_;
 	Vector3 position_;
-	Quaternion rotation_;
+	Vector3 rotation_;
 	Vector3 scale_;
 
 	Model model_;

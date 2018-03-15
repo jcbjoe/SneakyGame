@@ -72,6 +72,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	delete GetMouseAndKeys();
 	delete GetMeshManager();
 	delete GetUserInterfaceManager();
+	delete GetGameObjectManager();
 	delete FX::GetMyFX();
 
 	ReleaseD3D();

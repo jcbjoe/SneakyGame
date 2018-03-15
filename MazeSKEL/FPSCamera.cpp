@@ -79,5 +79,6 @@ void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 	Vector3 dir(0, 0, 1), up(0, 1, 0);
 	dir = Vector3::TransformNormal(dir, ori);
 	up = Vector3::TransformNormal(up, ori);
+	assert(mpViewSpaceTfm);
 	CreateViewMatrix(*mpViewSpaceTfm, mCamPos, mCamPos + dir, up);
 }
