@@ -16,7 +16,7 @@ using namespace DirectX::SimpleMath;
 class Loot : public GameObject
 {
 public:
-	Loot(string name, Vector3 position, Quaternion rotation, Vector3 scale);
+	Loot(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 
 	void Update(float dTime) override;
 

@@ -16,7 +16,7 @@ vector<GameObject*>& GameObjectManager::getGameObjects() {
 
 GameObject* GameObjectManager::getFirstObjectByName(const string name) {
 	for (GameObject* obj : gameObjects) {
-		if (obj->GetName() == "Skybox") {
+		if (obj->GetName() == name) {
 			return obj;
 		}
 	}

@@ -1,6 +1,6 @@
 #include "Floor.h" 
 
-Floor::Floor(string name, Vector3 position, Quaternion rotation, Vector3 scale)
+Floor::Floor(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	:
 	GameObject(name, position, rotation, scale) {
 

@@ -15,7 +15,7 @@ using namespace DirectX::SimpleMath;
 class Wall : public GameObject
 {
 public:
-	Wall(string name, Vector3 position, Quaternion rotation, Vector3 scale);
+	Wall(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 
 	void Update(float dTime) override;
 

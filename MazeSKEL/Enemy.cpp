@@ -1,12 +1,12 @@
 #include "Enemy.h"
 
-Enemy::Enemy(string name, Vector3 position, Quaternion rotation, Vector3 scale)
+Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	:
 	GameObject(name, position, rotation, scale) {
 
 	waypointNumber = 1;
 
-	GetModel().Initialise(*GetMeshManager()->GetMesh("wall"));
+	GetModel().Initialise(*GetMeshManager()->GetMesh("cube"));
 
 	GetModel().GetScale() = GetScale();
 	GetModel().GetPosition() = GetPosition();
@@ -19,20 +19,23 @@ Enemy::Enemy(string name, Vector3 position, Quaternion rotation, Vector3 scale)
 	GetModel().SetOverrideMat(&mat);
 }
 
-void Enemy::setWaypoints(vector<Vector3> wayPoints) {
-	wayPointsList = wayPoints;
-}
-
 void Enemy::Update(float dTime) {
-	//model_->GetPosition(Vector3(model_))
-	Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), wayPointsList.at(waypointNumber), 1*dTime);
-	//GetUserInterfaceManager()->printDebugText(to_string(pos.x) + " : " + to_string(pos.z));
-	GetModel().GetPosition() = pos;
 
-	float test = Vector3().Distance(GetModel().GetPosition(),wayPointsList.at(waypointNumber));
-	if (test < 0.1) {
-		waypointNumber++;
+	GameObject* waypoint = GetGameObjectManager()->getFirstObjectByName("Waypoint" + to_string(waypointNumber));
+
+	float distance = Vector3().Distance(GetModel().GetPosition(), waypoint->GetPosition());
+
+	Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), waypoint->GetPosition(), (1*dTime) / distance);
+
+	SetPosition(pos);
+
+	
+	if (distance < 0.1) {
+		if(waypointNumber == 8) 
+			waypointNumber = 1;
+		else
+			waypointNumber++;
 	
 	}
-	GetUserInterfaceManager()->printDebugText(to_string(test));
+	//GetUserInterfaceManager()->printDebugText(to_string(test));
 }

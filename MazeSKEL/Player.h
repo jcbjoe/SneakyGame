@@ -8,6 +8,7 @@
 #include "FPSCamera.h" 
 #include "Input.h" 
 #include "FX.h" 
+#include "GameObjectManager.h"
 
 using namespace std;
 using namespace DirectX;
@@ -27,7 +28,6 @@ public:
 
 	void toggleCrouch();
 	Vector3 getCameraPosition();
-	void initCamera(const float&, const float&);
 	bool getCrouchStatus();
 private:
 

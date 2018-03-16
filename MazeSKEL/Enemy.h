@@ -12,6 +12,7 @@
 #include "GeometryBuilder.h" 
 #include "FX.h" 
 #include "GameObject.h"
+#include "GameObjectManager.h"
 
 using namespace std;
 using namespace DirectX;
@@ -21,13 +22,11 @@ class Enemy : public GameObject
 {
 public:
 
-	Enemy(string name, Vector3 position, Quaternion rotation, Vector3 scale);
+	Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 
-	void setWaypoints(vector<Vector3> wayPointList);
 	void Update(float dTime) override;
 
 private:
-	vector<Vector3> wayPointsList;
 	int waypointNumber;
 };
 

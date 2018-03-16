@@ -1,6 +1,6 @@
 #include "Wall.h" 
 
-Wall::Wall(string name, Vector3 position, Quaternion rotation, Vector3 scale)
+Wall::Wall(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	:
 	GameObject(name, position, rotation, scale)
 {

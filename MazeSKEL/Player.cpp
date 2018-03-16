@@ -34,6 +34,7 @@ void Player::Update(float dTime)
 	{
 		mCamera.Rotate(dTime, m.x, m.y, 0);
 	}
+	GetGameObjectManager()->getFirstObjectByName("Skybox")->SetPosition(mCamera.GetPos());
 }
 void Player::Render(float dTime) 
 {

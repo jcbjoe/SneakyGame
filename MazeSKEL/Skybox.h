@@ -15,7 +15,7 @@ using namespace DirectX::SimpleMath;
 class Skybox : public GameObject
 {
 public:
-	Skybox(string name, Vector3 position, Quaternion rotation, Vector3 scale);
+	Skybox(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 
 	void Update(float dTime) override;
 
