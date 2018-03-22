@@ -126,16 +126,38 @@ void Game::Initialise()
 void Game::Update(float dTime)
 {
 	vector<GameObject*>& objects = GetGameObjectManager()->getGameObjects();
-	for (GameObject* obj : objects) {
+	int index(0);
+
+	for (GameObject* obj : objects) 
+	{
 		obj->Update(dTime);
 	}
-
 
 	float moveSpeed = dTime / 5.0f;
 	float turnSpeed = 20.0f;
 
 	gPlayer.Update(dTime);
-	
+
+	for (GameObject* obj : objects) {
+		if (obj->GetName() == "Loot")
+		{
+			//check loot collision
+			Vector3 vectorToLoot = gPlayer.getCameraPosition() - obj->GetPosition();
+			float x = vectorToLoot.x *  vectorToLoot.x;
+			float y = vectorToLoot.y *  vectorToLoot.y;
+			float z = vectorToLoot.z * vectorToLoot.z;
+			float distanceFromLoot = sqrt(x + y + z);
+
+			//float distFromLoot = 
+			if (distanceFromLoot < 0.4f)
+			{
+				GetGameObjectManager()->deleteGameObjectByIndex(index);
+				gPlayer.increaseScore();
+				return;
+			}
+		}
+		index++;
+	}
 }
 
 void Game::Render(float dTime)
@@ -154,7 +176,7 @@ void Game::Render(float dTime)
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched);
+	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched, gPlayer.getScore());
 
 
 	EndRender();
