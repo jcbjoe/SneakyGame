@@ -25,6 +25,24 @@ public:
 
 	GameObject* getFirstObjectByName(const string name);
 
+
+	vector<GameObject*> GameObjectManager::getAllObjectsByName(const string name)
+	{
+		vector<GameObject*> tempVec;
+
+		for (GameObject* obj : gameObjects) {
+			if (obj->GetName() == name) {
+				tempVec.push_back(obj);
+			}
+		}
+
+		return tempVec;
+	}
+
+	void GameObjectManager::deleteGameObjectByIndex(const int index){
+		gameObjects.erase(gameObjects.begin() + index);
+	}
+
 private:
 	void Release();
 
