@@ -47,8 +47,8 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouchi
 	//--- End FPS Counter
 
 	wstringstream coinsPickedUp;
-	coinsPickedUp << "CoinsCollected: " << playerScore;
-	mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	coinsPickedUp << "Coins Collected: " << playerScore;
+	mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::Yellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
 
 	//--- Begin Debug Text
