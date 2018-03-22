@@ -30,7 +30,7 @@ void Game::Initialise()
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
 		{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 },
 		{ 1, 0, 1, 0, 0, 3, 0, 0, 0, 1 },
-		{ 1, 3, 0, 3, 0, 0, 5, 2, 0, 1 },
+		{ 1, 3, 0, 3, 0, 6, 5, 2, 0, 1 },
 		{ 1, 0, 0, 0, 1, 1, 0, 0, 0, 1 },
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
@@ -105,6 +105,16 @@ void Game::Initialise()
 					GetGameObjectManager()->addGameObject(floor);
 					break;
 				}
+
+				case 6: { //Door to be placed
+					Door* door = new Door("Door", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(door);
+
+					//Place floor
+					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(floor);
+					break;
+				}
 			}
 		}
 	}
@@ -136,7 +146,7 @@ void Game::Initialise()
 void Game::Update(float dTime)
 {
 	vector<GameObject*>& objects = GetGameObjectManager()->getGameObjects();
-	int index(0);
+
 
 	for (GameObject* obj : objects) 
 	{
@@ -148,8 +158,9 @@ void Game::Update(float dTime)
 
 	gPlayer.Update(dTime);
 
+	int index(0);
 	for (GameObject* obj : objects) {
-		if (obj->GetName() == "Loot" || obj->GetName() == "Key")
+		if (obj->GetName() == "Loot" || obj->GetName() == "Key" || obj->GetName() == "Door")
 		{
 			//check loot collision
 			Vector3 vectorToLoot = gPlayer.getCameraPosition() - obj->GetPosition();
@@ -159,14 +170,29 @@ void Game::Update(float dTime)
 			float distanceFromLoot = sqrt(x + y + z);
 
 			//float distFromLoot = 
+			if (distanceFromLoot < 0.8)
+			{
+				if (obj->GetName() == "Door" && gPlayer.getHasKey()) 
+				{
+					gPlayer.setHasKey(false);
+					GetGameObjectManager()->deleteGameObjectByIndex(index);
+					return;
+				}
+			}
 			if (distanceFromLoot < 0.4f)
 			{
-				GetGameObjectManager()->deleteGameObjectByIndex(index);
-				if (obj->GetName() == "Loot")
+				if (obj->GetName() == "Loot") 
+				{
 					gPlayer.increaseScore();
-				if (obj->GetName() == "Key")
+					GetGameObjectManager()->deleteGameObjectByIndex(index);
+					return;
+				}
+				if (obj->GetName() == "Key") 
+				{
 					gPlayer.setHasKey(true);
-				return;
+					GetGameObjectManager()->deleteGameObjectByIndex(index);
+					return;
+				}
 			}
 		}
 		index++;
