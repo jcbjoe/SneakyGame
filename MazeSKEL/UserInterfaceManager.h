@@ -17,7 +17,7 @@ public:
 		Release();
 	}
 
-	void updateUI(const float fpsNumber, const bool&, const int);
+	void updateUI(const float fpsNumber, const bool&, const int, const bool&);
 	void initialiseUI(bool showFPS);
 
 	void printDebugText(std::string text);

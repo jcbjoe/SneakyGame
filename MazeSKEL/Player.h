@@ -26,15 +26,10 @@ public:
 	void Initialise(const float&, const float&);
 	void Release();
 
-	void increaseScore()
-	{
-		coins++;
-	}
-
-	int getScore()
-	{
-		return coins;
-	}
+	void increaseScore();
+	int getScore();
+	void setHasKey(bool x);
+	bool getHasKey();
 
 	void toggleCrouch();
 	Vector3 getCameraPosition();
@@ -45,6 +40,7 @@ private:
 	float moveSpeed = 5.0f;
 	float turnSpeed = 20.0f;
 	bool isCrouched = false;
+	bool hasKey = false;
 
 	FPSCamera mCamera;
 };

@@ -149,7 +149,7 @@ void Game::Update(float dTime)
 	gPlayer.Update(dTime);
 
 	for (GameObject* obj : objects) {
-		if (obj->GetName() == "Loot")
+		if (obj->GetName() == "Loot" || obj->GetName() == "Key")
 		{
 			//check loot collision
 			Vector3 vectorToLoot = gPlayer.getCameraPosition() - obj->GetPosition();
@@ -162,7 +162,10 @@ void Game::Update(float dTime)
 			if (distanceFromLoot < 0.4f)
 			{
 				GetGameObjectManager()->deleteGameObjectByIndex(index);
-				gPlayer.increaseScore();
+				if (obj->GetName() == "Loot")
+					gPlayer.increaseScore();
+				if (obj->GetName() == "Key")
+					gPlayer.setHasKey(true);
 				return;
 			}
 		}
@@ -186,7 +189,7 @@ void Game::Render(float dTime)
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched, gPlayer.getScore());
+	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched, gPlayer.getScore(), gPlayer.getHasKey());
 
 
 	EndRender();

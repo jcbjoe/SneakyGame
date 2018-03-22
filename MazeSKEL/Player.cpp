@@ -55,3 +55,23 @@ bool Player::getCrouchStatus()
 {
 	return isCrouched;
 }
+
+void Player::increaseScore()
+{
+	coins++;
+}
+
+int Player::getScore()
+{
+	return coins;
+}
+
+void Player::setHasKey(bool x)
+{
+	hasKey = x;
+}
+
+bool Player::getHasKey()
+{
+	return hasKey;
+}
