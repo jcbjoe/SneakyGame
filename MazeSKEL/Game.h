@@ -1,14 +1,28 @@
-#pragma once
 #ifndef GAME_H
 #define GAME_H
 
 #include <vector>
 #include <future>
 
-#include "Mesh.h"
-#include "Model.h"
 #include "SpriteFont.h"
-#include "FPSCamera.h"
+#include "Player.h"
+#include "Wall.h"
+#include "Loot.h"
+#include "Floor.h"
+#include "Skybox.h"
+#include "UserInterfaceManager.h"
+#include "Enemy.h"
+#include "WindowUtils.h"
+#include "GameObjectManager.h"
+#include "GameObject.h"
+
+#include "GameObjectManager.h"
+
+#include <algorithm>
+#include <sstream>
+#include <iomanip>
+#include <thread>
+
 
 
 class Game
@@ -23,29 +37,27 @@ public:
 	void Render(float dTime);
 	void OnResize(int screenWidth, int screenHeight);
 	void Initialise();
-	void Release();
 
 	//Message handling
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	Model mBox, mWall, mQuad, mSkybox, mLoot;
-
 	bool isCrouched = false;
+	void Release();
 
 private:
 	Game& operator=(const Game&) = delete;
 	Game(const Game& m) = delete;
 
-	
-
 	float gAngle = 0;
 	FPSCamera mCamera;
-	std::vector<Model> mOpaques;
 
-	//Message Handling
-	void LoadDisplay(float dTime);
-	DirectX::SpriteBatch *mpSpriteBatch = nullptr;
-	DirectX::SpriteFont *mpFont = nullptr, *mpFont2 = nullptr;
+	Player gPlayer;
+
+	//Enemy mEnemy;
+	vector<Enemy> enemysVector;
+	vector<Vector3> waypointsVector;
+
+
 };
 
 #endif

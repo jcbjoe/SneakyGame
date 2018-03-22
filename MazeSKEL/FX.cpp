@@ -1,14 +1,4 @@
-#include <assert.h>
-
-#include "DDSTextureLoader.h"
-
-#include "D3D.h"
-#include "D3DUtil.h"
 #include "FX.h"
-#include "Model.h"
-#include "Mesh.h"
-#include "File.h"
-#include "windowutils.h"
 
 using namespace std;
 using namespace DirectX;

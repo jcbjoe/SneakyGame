@@ -11,9 +11,12 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{cb697cad-2e61-4d0a-b9cc-7ca68d36cb8f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game">
+    <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{195d06a4-cb4d-4474-b4b9-9168248924b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,13 +51,13 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="FX.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShaderTypes.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpriteAnim.cpp">
       <Filter>Utils</Filter>
@@ -78,7 +81,34 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterfaceManager.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Loot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,12 +145,6 @@
     <ClInclude Include="GeometryBuilder.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="FX.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderTypes.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteAnim.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -142,8 +166,41 @@
     <ClInclude Include="FPSCamera.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="UserInterfaceManager.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="FX.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderTypes.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Game</Filter>
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Loot.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
