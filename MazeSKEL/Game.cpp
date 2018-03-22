@@ -25,12 +25,12 @@ void Game::Initialise()
 	{
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 3, 0, 0, 0, 0, 0, 0, 4, 1 },
-		{ 1, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
-		{ 1, 0, 0, 1, 1, 1, 0, 0, 0, 1 },
+		{ 1, 6, 5, 1, 0, 1, 0, 6, 0, 1 },
+		{ 1, 0, 0, 1, 1, 1, 0, 5, 0, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
 		{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 },
 		{ 1, 0, 1, 0, 0, 3, 0, 0, 0, 1 },
-		{ 1, 3, 0, 3, 0, 0, 0, 2, 0, 1 },
+		{ 1, 3, 0, 3, 0, 6, 5, 2, 0, 1 },
 		{ 1, 0, 0, 0, 1, 1, 0, 0, 0, 1 },
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
@@ -65,7 +65,7 @@ void Game::Initialise()
 					break;
 				}
 
-				case 2: {
+				case 2: { //Player to be place
 					//Place camera
 					gPlayer.Initialise(i, j);
 
@@ -75,7 +75,7 @@ void Game::Initialise()
 					break;
 				}
 
-				case 3: {
+				case 3: { //Loot to be placed
 					Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(0,0,0), Vector3(0.02, 0.1, 0.1));
 					GetGameObjectManager()->addGameObject(loot);
 
@@ -86,12 +86,32 @@ void Game::Initialise()
 
 				}
 
-			    case 4: {
+			    case 4: { //Enemy to be placed
 					Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Vector3(0,0,0), Vector3(0.1f, 0.1f, 0.1f));
 					GetGameObjectManager()->addGameObject(enemy);
 
 					//Place floor
 					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0,0,0), Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(floor);
+					break;
+				}
+
+				case 5: { //Key to be placed
+					Key* key = new Key("Key", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+					GetGameObjectManager()->addGameObject(key);
+
+					//Place floor
+					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(floor);
+					break;
+				}
+
+				case 6: { //Door to be placed
+					Door* door = new Door("Door", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(door);
+
+					//Place floor
+					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(floor);
 					break;
 				}
@@ -126,16 +146,57 @@ void Game::Initialise()
 void Game::Update(float dTime)
 {
 	vector<GameObject*>& objects = GetGameObjectManager()->getGameObjects();
-	for (GameObject* obj : objects) {
+
+
+	for (GameObject* obj : objects) 
+	{
 		obj->Update(dTime);
 	}
-
 
 	float moveSpeed = dTime / 5.0f;
 	float turnSpeed = 20.0f;
 
 	gPlayer.Update(dTime);
-	
+
+	int index(0);
+	for (GameObject* obj : objects) {
+		if (obj->GetName() == "Loot" || obj->GetName() == "Key" || obj->GetName() == "Door")
+		{
+			//check loot collision
+			Vector3 vectorToLoot = gPlayer.getCameraPosition() - obj->GetPosition();
+			float x = vectorToLoot.x *  vectorToLoot.x;
+			float y = vectorToLoot.y *  vectorToLoot.y;
+			float z = vectorToLoot.z * vectorToLoot.z;
+			float distanceFromLoot = sqrt(x + y + z);
+
+			//float distFromLoot = 
+			if (distanceFromLoot < 0.8)
+			{
+				if (obj->GetName() == "Door" && gPlayer.getHasKey()) 
+				{
+					gPlayer.changeKeyNo(-1);
+					GetGameObjectManager()->deleteGameObjectByIndex(index);
+					return;
+				}
+			}
+			if (distanceFromLoot < 0.4f)
+			{
+				if (obj->GetName() == "Loot") 
+				{
+					gPlayer.increaseScore();
+					GetGameObjectManager()->deleteGameObjectByIndex(index);
+					return;
+				}
+				if (obj->GetName() == "Key") 
+				{
+					gPlayer.changeKeyNo(+1);
+					GetGameObjectManager()->deleteGameObjectByIndex(index);
+					return;
+				}
+			}
+		}
+		index++;
+	}
 }
 
 void Game::Render(float dTime)
@@ -154,7 +215,7 @@ void Game::Render(float dTime)
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched);
+	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched, gPlayer.getScore(), gPlayer.getKeyNo());
 
 
 	EndRender();

@@ -101,6 +101,7 @@
     <ClCompile Include="CRC.cpp" />
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="D3DUtil.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="File.cpp" />
@@ -112,6 +113,7 @@
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GeometryBuilder.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Key.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Loot.cpp" />
     <ClCompile Include="main.cpp" />
@@ -133,6 +135,7 @@
     <ClInclude Include="CRC.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DUtil.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Error.h" />
     <ClInclude Include="File.h" />
@@ -144,6 +147,7 @@
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GeometryBuilder.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Key.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="Loot.h" />
     <ClInclude Include="Mesh.h" />

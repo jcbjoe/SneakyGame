@@ -110,6 +110,12 @@
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -200,6 +206,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

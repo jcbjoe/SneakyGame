@@ -25,7 +25,7 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouching) {
+void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouching, const int playerScore, const int& keyNo) {
 
 	mpSpriteBatch->Begin();
 
@@ -45,6 +45,14 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouchi
 		mpAlgerian->DrawString(mpSpriteBatch, FPSCounter.str().c_str(), Vector2(0, 0), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	}
 	//--- End FPS Counter
+
+	wstringstream coinsPickedUp;
+	coinsPickedUp << "Coins Collected: " << playerScore;
+	mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+
+	wstringstream numberOfKeys;
+	numberOfKeys << "Keys Collected: " << keyNo;
+	mpAlgerian->DrawString(mpSpriteBatch, numberOfKeys.str().c_str(), Vector2(0, 100), Colors::IndianRed, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
 	//--- Begin Debug Text
 	int count = 0;

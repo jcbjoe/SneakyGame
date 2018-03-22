@@ -2,7 +2,6 @@
 #define LOOT_H 
 
 #include <vector> 
-
 #include "Mesh.h" 
 #include "Model.h" 
 #include "GeometryBuilder.h" 
