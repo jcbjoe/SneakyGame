@@ -15,6 +15,7 @@
 #include "WindowUtils.h"
 #include "GameObjectManager.h"
 #include "GameObject.h"
+#include "Key.h"
 
 #include "GameObjectManager.h"
 
