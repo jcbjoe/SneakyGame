@@ -26,11 +26,22 @@ public:
 	void Initialise(const float&, const float&);
 	void Release();
 
+	void increaseScore()
+	{
+		coins++;
+	}
+
+	int getScore()
+	{
+		return coins;
+	}
+
 	void toggleCrouch();
 	Vector3 getCameraPosition();
 	bool getCrouchStatus();
 private:
 
+	int coins = 0;
 	float moveSpeed = 5.0f;
 	float turnSpeed = 20.0f;
 	bool isCrouched = false;
