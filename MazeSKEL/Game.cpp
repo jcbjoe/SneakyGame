@@ -25,8 +25,8 @@ void Game::Initialise()
 	{
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 3, 0, 0, 0, 0, 0, 0, 4, 1 },
-		{ 1, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
-		{ 1, 0, 0, 1, 1, 1, 0, 0, 0, 1 },
+		{ 1, 6, 5, 1, 0, 1, 0, 6, 0, 1 },
+		{ 1, 0, 0, 1, 1, 1, 0, 5, 0, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
 		{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 },
 		{ 1, 0, 1, 0, 0, 3, 0, 0, 0, 1 },
@@ -174,7 +174,7 @@ void Game::Update(float dTime)
 			{
 				if (obj->GetName() == "Door" && gPlayer.getHasKey()) 
 				{
-					gPlayer.setHasKey(false);
+					gPlayer.changeKeyNo(-1);
 					GetGameObjectManager()->deleteGameObjectByIndex(index);
 					return;
 				}
@@ -189,7 +189,7 @@ void Game::Update(float dTime)
 				}
 				if (obj->GetName() == "Key") 
 				{
-					gPlayer.setHasKey(true);
+					gPlayer.changeKeyNo(+1);
 					GetGameObjectManager()->deleteGameObjectByIndex(index);
 					return;
 				}
@@ -215,7 +215,7 @@ void Game::Render(float dTime)
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched, gPlayer.getScore(), gPlayer.getHasKey());
+	GetUserInterfaceManager()->updateUI(1 / dTime, isCrouched, gPlayer.getScore(), gPlayer.getKeyNo());
 
 
 	EndRender();

@@ -41,11 +41,7 @@ void Player::Render(float dTime)
 	GetMouseAndKeys()->PostProcess();
 }
 
-void Player::toggleCrouch()
-{
-	isCrouched = !isCrouched;
-}
-
+//Gets
 Vector3 Player::getCameraPosition()
 {
 	return mCamera.GetPos();
@@ -56,14 +52,29 @@ bool Player::getCrouchStatus()
 	return isCrouched;
 }
 
-void Player::increaseScore()
-{
-	coins++;
-}
-
 int Player::getScore()
 {
 	return coins;
+}
+
+bool Player::getHasKey()
+{
+	return hasKey;
+}
+
+int Player::getKeyNo() {
+	return keyNo;
+}
+
+//Sets
+void Player::toggleCrouch()
+{
+	isCrouched = !isCrouched;
+}
+
+void Player::increaseScore()
+{
+	coins++;
 }
 
 void Player::setHasKey(bool x)
@@ -71,7 +82,11 @@ void Player::setHasKey(bool x)
 	hasKey = x;
 }
 
-bool Player::getHasKey()
+void Player::changeKeyNo(int x)
 {
-	return hasKey;
+	keyNo += x;
+	if (keyNo > 0)
+		setHasKey(true);
+	else
+		setHasKey(false);
 }
