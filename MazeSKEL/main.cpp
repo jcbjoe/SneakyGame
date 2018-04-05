@@ -62,7 +62,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	new UserInterfaceManager;
 	new GameObjectManager;
 	new MouseAndKeys;
-	GetMouseAndKeys()->Initialise(GetMainWnd());
+	//Initialise window and hide cursor
+	GetMouseAndKeys()->Initialise(GetMainWnd(), 0, 1);
 	gGame.Initialise();
 
 	Run(Update, Render);
