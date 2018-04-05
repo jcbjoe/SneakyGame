@@ -1,6 +1,7 @@
 #include "FPSCamera.h"
 #include "D3D.h"
 #include "D3DUtil.h"
+#include "Game.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -42,6 +43,10 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	//	pos.y = mLockAxis.y;
 	if (mLockAxis.z != UNLOCK)
 		pos.z = mLockAxis.z;
+
+
+	//Collisions go here
+
 
 	CreateViewMatrix(*mpViewSpaceTfm, pos, pos + dir, up);
 

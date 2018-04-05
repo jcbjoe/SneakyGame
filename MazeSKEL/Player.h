@@ -9,6 +9,7 @@
 #include "Input.h" 
 #include "FX.h" 
 #include "GameObjectManager.h"
+#include "Levels.h"
 
 using namespace std;
 using namespace DirectX;
@@ -17,6 +18,7 @@ using namespace DirectX::SimpleMath;
 class Player
 {
 public:
+
 	~Player()
 	{
 		Release();
@@ -46,7 +48,6 @@ private:
 	float turnSpeed = 20.0f;
 	bool isCrouched = false;
 	bool hasKey = false;
-
 	FPSCamera mCamera;
 };
 

@@ -34,7 +34,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouchi
 	wstringstream crosshair;
 	if (isCrouching)
 	{
-		crosshair << "-----";
+		crosshair << "--=--";
 		crouching << "Crouched";
 	}
 	else

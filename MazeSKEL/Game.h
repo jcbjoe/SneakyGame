@@ -19,6 +19,7 @@
 #include "Door.h"
 
 #include "GameObjectManager.h"
+#include "Levels.h"
 
 #include <algorithm>
 #include <sstream>
@@ -37,6 +38,7 @@ public:
 	}
 	void Update(float dTime);
 	void Render(float dTime);
+	void reloadScene();
 	void OnResize(int screenWidth, int screenHeight);
 	void Initialise();
 
@@ -44,6 +46,7 @@ public:
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	bool isCrouched = false;
+	Levels gLevel;
 	void Release();
 
 private:
@@ -51,9 +54,11 @@ private:
 	Game(const Game& m) = delete;
 
 	float gAngle = 0;
-	FPSCamera mCamera;
-
 	Player gPlayer;
+	
+	
+
+	
 
 	int width;
 	int height;

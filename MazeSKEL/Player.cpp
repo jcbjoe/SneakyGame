@@ -10,7 +10,7 @@ void Player::Release()
 }
 void Player::Update(float dTime) 
 {
-
+	
 	//If player should be crouching
 	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
 	{
