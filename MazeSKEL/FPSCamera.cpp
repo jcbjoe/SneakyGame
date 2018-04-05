@@ -58,10 +58,30 @@ void FPSCamera::Update(float dTime)
 
 void FPSCamera::Crouch(bool isCrouched)
 {
+	float crouchHeight = 0.25f;
+	float standingHeight = 0.5f;
+
+	//If player should be crouching
 	if (isCrouched)
-		mCamPos.y = 0.25f;
+	{
+		//if player hasnt reached crouching position
+		if (mCamPos.y > crouchHeight)
+		{
+			//Lower them down
+			mCamPos.y -= 0.01f;
+		}
+	}
+	//If player should be standing
 	else
-		mCamPos.y = 0.5f;
+	{
+		//If player isnt standing yet
+		if (mCamPos.y < standingHeight)
+		{
+			//Make them stand up slowly
+			mCamPos.y += 0.01f;
+		}
+	}
+
 }
 
 
