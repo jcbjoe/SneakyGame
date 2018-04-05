@@ -10,32 +10,19 @@ void Player::Release()
 }
 void Player::Update(float dTime) 
 {
-	//if (GetMouseAndKeys()->IsPressed(VK_LSHIFT)) {
-	//	if (!isCrouched)
-	//	{
-	//		toggleCrouch();
-	//		mCamera.Crouch(isCrouched);
-	//	}
-	//}
-	//else
-	//{
-	//	if (isCrouched)
-	//	{
-	//		toggleCrouch();
-	//		mCamera.Crouch(isCrouched);
-	//	}
-	//}
 
 	//If player should be crouching
 	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
 	{
 		isCrouched = true;
+		moveSpeed = 20.0f;
 		mCamera.Crouch(isCrouched);
 
 	}
 	else
 	{
 		isCrouched = false;
+		moveSpeed = 5.0f;
 		mCamera.Crouch(isCrouched);
 	}
 

@@ -42,7 +42,7 @@ private:
 
 	int coins = 0;
 	int keyNo = 0;
-	float moveSpeed = 5.0f;
+	float moveSpeed;
 	float turnSpeed = 20.0f;
 	bool isCrouched = false;
 	bool hasKey = false;
