@@ -37,7 +37,7 @@ void Game::Initialise()
 		for (int j(0); j < levely; j++)
 		{
 			
-			switch (GetLevelManager()->getObjectAtCoordinate(i, j))
+			switch (GetLevelManager()->getCurrentLevel().getObjectAtCoordinate(i,j))
 			{
 				case 0: {//Floor to be placed
 					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
@@ -138,7 +138,7 @@ void Game::reloadScene()
 	{
 		for (int j(0); j < 10; j++)
 		{
-			switch (GetLevelManager()->getObjectAtCoordinate(i, j))
+			switch (GetLevelManager()->getCurrentLevel().getObjectAtCoordinate(i, j))
 			{
 			case 0: {//Floor to be placed
 				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));

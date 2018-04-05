@@ -1,14 +1,17 @@
-#ifndef LEVELS_H
-#define LEVELS_H
+#ifndef LEVELMANAGER_H
+#define LEVELMANAGER_H
 
 #include "Singleton.h"
+#include <vector>
+#include "Level.h"
+
+using namespace std;
 
 class LevelManager : public Singleton<LevelManager>
 {
 public:
 
 	LevelManager();
-	LevelManager(int level);
 
 	int level1[10][10] =
 	{
@@ -38,13 +41,14 @@ public:
 		{ 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 }
 	};
 
-	void loadLevel(int level);
-	int getCurrentLevel() { return currentLevelNumber; }
-	int getObjectAtCoordinate(int x, int y) { return currentLevelLayout[x][y]; }
+	Level getCurrentLevel() { return levels.at(currentLevelNumber); }
+	
+	void loadLevel(int levelNum) { currentLevelNumber = levelNum; }
 
 private:
-	int currentLevelLayout[10][10];
 	int currentLevelNumber;
+
+	vector<Level> levels;
 };
 
 SINGLETON_GET(LevelManager);

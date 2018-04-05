@@ -119,6 +119,12 @@
     <ClCompile Include="LevelManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -218,6 +224,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="LevelManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Level1.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
