@@ -1,12 +1,14 @@
 #ifndef LEVELS_H
 #define LEVELS_H
 
-class Levels
+#include "Singleton.h"
+
+class LevelManager : public Singleton<LevelManager>
 {
 public:
 
-	Levels();
-	Levels(int level);
+	LevelManager();
+	LevelManager(int level);
 
 	int level1[10][10] =
 	{
@@ -45,5 +47,7 @@ private:
 	int currentLevelNumber;
 };
 
-#endif // !LEVELS
+SINGLETON_GET(LevelManager);
+
+#endif
 

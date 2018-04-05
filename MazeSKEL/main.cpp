@@ -6,6 +6,7 @@
 #include "UserFolder.h"
 #include "AudioMgrFMOD.h"
 #include "Game.h"
+#include "LevelManager.h"
 
 
 using namespace std;
@@ -62,6 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	new UserInterfaceManager;
 	new GameObjectManager;
 	new MouseAndKeys;
+	new LevelManager;
 	//Initialise window and hide cursor
 	GetMouseAndKeys()->Initialise(GetMainWnd(), 0, 1);
 	gGame.Initialise();
@@ -75,6 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	delete GetUserInterfaceManager();
 	delete GetGameObjectManager();
 	delete FX::GetMyFX();
+	delete GetLevelManager();
 
 	ReleaseD3D();
 

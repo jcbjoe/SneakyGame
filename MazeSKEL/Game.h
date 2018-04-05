@@ -19,7 +19,7 @@
 #include "Door.h"
 
 #include "GameObjectManager.h"
-#include "Levels.h"
+#include "LevelManager.h"
 
 #include <algorithm>
 #include <sstream>
@@ -46,7 +46,6 @@ public:
 	LRESULT WindowsMssgHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	bool isCrouched = false;
-	Levels gLevel;
 	void Release();
 
 private:

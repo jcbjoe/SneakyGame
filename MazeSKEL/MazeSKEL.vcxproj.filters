@@ -116,7 +116,7 @@
     <ClCompile Include="Door.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Levels.cpp">
+    <ClCompile Include="LevelManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -217,7 +217,7 @@
     <ClInclude Include="Door.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Levels.h">
+    <ClInclude Include="LevelManager.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
