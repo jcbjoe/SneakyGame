@@ -50,6 +50,12 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		
 }
 
+void FPSCamera::Update(float dTime)
+{
+	//Function to reupdate the camera (rotating by nothing)
+	Rotate(dTime, 0, 0, 0);
+}
+
 void FPSCamera::Crouch(bool isCrouched)
 {
 	if (isCrouched)
