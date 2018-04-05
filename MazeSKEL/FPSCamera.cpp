@@ -13,9 +13,9 @@ void FPSCamera::Initialise(const Vector3& pos, const DirectX::SimpleMath::Vector
 	mCamPos = pos;
 }
 
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool crouch, bool isCrouched)
+void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right)
 {
-	if (!forward && !back && !left && !right && !crouch)
+	if (!forward && !back && !left && !right)
 		return;
 
 	Matrix ori = Matrix::CreateFromYawPitchRoll(yaw, pitch, roll);
@@ -58,7 +58,7 @@ void FPSCamera::Update(float dTime)
 
 void FPSCamera::Crouch(bool isCrouched)
 {
-	float crouchHeight = 0.25f;
+	float crouchHeight = 0.3f;
 	float standingHeight = 0.5f;
 
 	//If player should be crouching

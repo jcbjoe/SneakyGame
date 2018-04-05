@@ -55,6 +55,9 @@ private:
 
 	Player gPlayer;
 
+	int width;
+	int height;
+
 	//Enemy mEnemy;
 	vector<Enemy> enemysVector;
 	vector<Vector3> waypointsVector;

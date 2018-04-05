@@ -29,14 +29,25 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouchi
 
 	mpSpriteBatch->Begin();
 
-	//--- Begin Crouching Display
+	//--- Begin Crouching Display 
 	wstringstream crouching;
+	wstringstream crosshair;
 	if (isCrouching)
+	{
+		crosshair << "-----";
 		crouching << "Crouched";
+	}
 	else
+	{
+		crosshair << "-<O>-";
 		crouching << "Not Crouched";
+	}
+	//Draw Crosshair
+	mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(495, 384), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//Show crouching ui
 	mpAlgerian->DrawString(mpSpriteBatch, crouching.str().c_str(), Vector2(100, 200), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-	//--- End Crouching Display
+
+	//--- End Crouching Display 
 
 	//--- Begin FPS Counter
 	if (showFPS) {
