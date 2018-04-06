@@ -55,10 +55,6 @@ private:
 	float gAngle = 0;
 	Player gPlayer;
 	
-	
-
-	
-
 	int width;
 	int height;
 

@@ -257,11 +257,16 @@ void Game::Update(float dTime)
 			//float distFromLoot = 
 			if (distanceFromLoot < 0.8)
 			{
-				if (obj->GetName() == "Door" && gPlayer.getHasKey()) 
+				if (obj->GetName() == "Door") 
 				{
-					gPlayer.changeKeyNo(-1);
-					GetGameObjectManager()->deleteGameObjectByIndex(index);
-					return;
+					if (gPlayer.getHasKey()) {
+						gPlayer.changeKeyNo(-1);
+						GetGameObjectManager()->deleteGameObjectByIndex(index);
+						return;
+					}
+					//else(!gPlayer.getHasKey()) {
+
+					//}
 				}
 			}
 			if (distanceFromLoot < 0.4f)
