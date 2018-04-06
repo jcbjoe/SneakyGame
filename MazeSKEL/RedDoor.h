@@ -1,5 +1,5 @@
-#ifndef DOOR_H 
-#define DOOR_H 
+#ifndef REDDOOR_H 
+#define REDDOOR_H 
 
 #include <vector> 
 #include "GameObject.h"
@@ -12,14 +12,12 @@ using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class Door : public GameObject
+class RedDoor : public GameObject
 {
 public:
-	Door(string name, Vector3 position, Vector3 rotation, Vector3 scale);
-
+	RedDoor(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 	void Update(float dTime) override;
 
 private:
-
 };
 #endif

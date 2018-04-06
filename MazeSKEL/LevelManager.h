@@ -14,8 +14,8 @@ public:
 	{
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 3, 0, 0, 0, 0, 0, 0, 4, 1 },
-		{ 1, 6, 5, 1, 0, 1, 0, 6, 0, 1 },
-		{ 1, 0, 0, 1, 1, 1, 0, 5, 0, 1 },
+		{ 1, 6, 0, 1, 0, 1, 0, 8, 0, 1 },
+		{ 1, 0, 0, 1, 1, 1, 0, 7, 0, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
 		{ 1, 0, 1, 1, 1, 1, 0, 0, 0, 1 },
 		{ 1, 0, 1, 0, 0, 3, 0, 0, 0, 1 },
@@ -28,8 +28,8 @@ public:
 	{
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 3, 0, 0, 0, 0, 0, 0, 4, 0 },
-		{ 0, 6, 5, 1, 0, 1, 0, 6, 0, 0 },
-		{ 0, 2, 0, 1, 1, 1, 0, 5, 0, 0 },
+		{ 0, 6, 0, 1, 0, 1, 0, 6, 0, 0 },
+		{ 0, 2, 0, 1, 1, 1, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
 		{ 0, 0, 1, 1, 1, 1, 0, 0, 0, 0 },
 		{ 0, 0, 1, 0, 0, 3, 0, 0, 0, 0 },
@@ -39,8 +39,9 @@ public:
 	};
 
 	void loadLevel(int level);
-	int getCurrentLevel() { return currentLevelNumber; }
-	int getObjectAtCoordinate(int x, int y) { return currentLevelLayout[x][y]; }
+	int getCurrentLevel();
+	int getObjectAtCoordinate(int x, int y);
+	void setObjectAtCoordinate(int x, int y, int newObject);
 
 private:
 	int currentLevelLayout[10][10];

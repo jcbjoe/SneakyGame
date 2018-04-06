@@ -98,10 +98,12 @@
   <ItemGroup>
     <ClCompile Include="AudioMgr.cpp" />
     <ClCompile Include="AudioMgrFMOD.cpp" />
+    <ClCompile Include="BlueDoor.cpp" />
+    <ClCompile Include="BlueKey.cpp" />
     <ClCompile Include="CRC.cpp" />
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="D3DUtil.cpp" />
-    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="RedDoor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="File.cpp" />
@@ -113,7 +115,7 @@
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GeometryBuilder.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Key.cpp" />
+    <ClCompile Include="RedKey.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Loot.cpp" />
@@ -133,10 +135,12 @@
   <ItemGroup>
     <ClInclude Include="AudioMgr.h" />
     <ClInclude Include="AudioMgrFMOD.h" />
+    <ClInclude Include="BlueDoor.h" />
+    <ClInclude Include="BlueKey.h" />
     <ClInclude Include="CRC.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DUtil.h" />
-    <ClInclude Include="Door.h" />
+    <ClInclude Include="RedDoor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Error.h" />
     <ClInclude Include="File.h" />
@@ -148,7 +152,7 @@
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GeometryBuilder.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Key.h" />
+    <ClInclude Include="RedKey.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="Loot.h" />

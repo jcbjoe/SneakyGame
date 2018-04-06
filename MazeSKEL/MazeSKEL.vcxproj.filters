@@ -110,13 +110,19 @@
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Key.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RedKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RedDoor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueDoor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -211,13 +217,19 @@
     <ClInclude Include="Enemy.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Key.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="LevelManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="RedKey.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="RedDoor.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueDoor.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueKey.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

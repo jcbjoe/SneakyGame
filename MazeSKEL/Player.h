@@ -29,12 +29,18 @@ public:
 
 	//Gets
 	int getScore();
-	bool getHasKey();
-	int getKeyNo();
+	bool getHasRedKey();
+	bool getHasBlueKey();
+	bool getOpenedRed();
+	bool getOpenedBlue();
+	//int getKeyNo();
 	//Sets
 	void increaseScore();
-	void setHasKey(bool x);
-	void changeKeyNo(int x);
+	void setHasRedKey();
+	void setHasBlueKey();
+	void setOpenedRed();
+	void setOpenedBlue();
+	//void changeKeyNo(int x);
 
 	void toggleCrouch();
 	Vector3 getCameraPosition();
@@ -46,7 +52,12 @@ private:
 	float moveSpeed;
 	float turnSpeed = 20.0f;
 	bool isCrouched = false;
-	bool hasKey = false;
+
+	bool hasRedKey = false;
+	bool openedRed = false;
+	bool hasBlueKey = false;
+	bool openedBlue = false;
+
 	FPSCamera mCamera;
 };
 

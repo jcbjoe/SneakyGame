@@ -26,7 +26,7 @@ void Player::Update(float dTime)
 		mCamera.Crouch(isCrouched);
 	}
 
-	mCamera.Move(dTime / moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D));
+	mCamera.Move(dTime / moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), hasRedKey, hasBlueKey);
 
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 
@@ -59,14 +59,19 @@ int Player::getScore()
 	return coins;
 }
 
-bool Player::getHasKey()
+bool Player::getHasRedKey()
 {
-	return hasKey;
+	return hasRedKey;
 }
 
-int Player::getKeyNo() {
-	return keyNo;
+bool Player::getHasBlueKey()
+{
+	return hasBlueKey;
 }
+
+//int Player::getKeyNo() {
+//	return keyNo;
+//}
 
 //Sets
 void Player::toggleCrouch()
@@ -79,16 +84,37 @@ void Player::increaseScore()
 	coins++;
 }
 
-void Player::setHasKey(bool x)
+void Player::setHasRedKey()
 {
-	hasKey = x;
+	hasRedKey = true;
 }
 
-void Player::changeKeyNo(int x)
+void Player::setHasBlueKey()
 {
-	keyNo += x;
-	if (keyNo > 0)
-		setHasKey(true);
-	else
-		setHasKey(false);
+	hasBlueKey = true;
+}
+
+//void Player::changeKeyNo(int x)
+//{
+//	keyNo += x;
+//	if (keyNo > 0)
+//		setHasKey(true);
+//	else
+//		setHasKey(false);
+//}
+
+void Player::setOpenedRed() {
+	openedRed = true;
+}
+
+bool Player::getOpenedRed() {
+	return openedRed;
+}
+
+void Player::setOpenedBlue() {
+	openedRed = true;
+}
+
+bool Player::getOpenedBlue() {
+	return openedRed;
 }

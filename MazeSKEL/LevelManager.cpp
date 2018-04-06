@@ -32,3 +32,18 @@ void LevelManager::loadLevel(int level)
 		}
 	}
 }
+
+int LevelManager::getCurrentLevel() 
+{ 
+	return currentLevelNumber; 
+}
+
+int LevelManager::getObjectAtCoordinate(int x, int y) 
+{ 
+	return currentLevelLayout[x][y]; 
+}
+
+void LevelManager::setObjectAtCoordinate(int x, int y, int newObject)
+{
+	currentLevelLayout[x][y] = newObject;
+}

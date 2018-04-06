@@ -14,7 +14,7 @@ void FPSCamera::Initialise(const Vector3& pos, const DirectX::SimpleMath::Vector
 	mCamPos = pos;
 }
 
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right)
+void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool hasRedKey, bool hasBlueKey)
 {
 	if (!forward && !back && !left && !right)
 		return;
@@ -57,7 +57,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		{
 			
 			//If object in world is a wall
-			if (GetLevelManager()->getObjectAtCoordinate(i, k) == 1)
+			if (GetLevelManager()->getObjectAtCoordinate(i, k) == 1 || (GetLevelManager()->getObjectAtCoordinate(i, k) == 6 && !hasRedKey) || (GetLevelManager()->getObjectAtCoordinate(i, k) == 8 && !hasBlueKey))
 			{
 				//Setup variables
 				float leftX = i - 0.65f;
