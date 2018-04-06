@@ -103,6 +103,17 @@ void Game::Initialise()
 					GetGameObjectManager()->addGameObject(floor);
 					break;
 				}
+				case 7:
+				{
+					//Spawn a return box
+					ReturnBox* retBox = new ReturnBox("ReturnBox", Vector3(i, 0.2f, j), Vector3(0, 0, 0), Vector3(0.2, 0.2, 0.4));
+					GetGameObjectManager()->addGameObject(retBox);
+
+					//Place floor
+					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(floor);
+					break;
+				}
 			}
 		}
 	}
@@ -245,7 +256,8 @@ void Game::Update(float dTime)
 
 	int index(0);
 	for (GameObject* obj : objects) {
-		if (obj->GetName() == "Loot" || obj->GetName() == "Key" || obj->GetName() == "Door")
+		string objName = obj->GetName();
+		if (objName == "Loot" || objName == "Key" || objName == "Door" || objName == "ReturnBox")
 		{
 			//check loot collision
 			Vector3 vectorToLoot = gPlayer.getCameraPosition() - obj->GetPosition();
@@ -257,7 +269,7 @@ void Game::Update(float dTime)
 			//float distFromLoot = 
 			if (distanceFromLoot < 0.8)
 			{
-				if (obj->GetName() == "Door" && gPlayer.getHasKey()) 
+				if (objName == "Door" && gPlayer.getHasKey())
 				{
 					gPlayer.changeKeyNo(-1);
 					GetGameObjectManager()->deleteGameObjectByIndex(index);
@@ -266,16 +278,26 @@ void Game::Update(float dTime)
 			}
 			if (distanceFromLoot < 0.4f)
 			{
-				if (obj->GetName() == "Loot") 
+				if (objName == "Loot")
 				{
 					gPlayer.increaseScore();
 					GetGameObjectManager()->deleteGameObjectByIndex(index);
 					return;
 				}
-				if (obj->GetName() == "Key") 
+				else if (objName == "Key")
 				{
 					gPlayer.changeKeyNo(+1);
 					GetGameObjectManager()->deleteGameObjectByIndex(index);
+					return;
+				}
+				else if (objName == "ReturnBox")
+				{
+					//If player has coins to deposit
+					if (gPlayer.getScore() != 0)
+					{
+						//Deposit them
+						gPlayer.dropOffCoins();
+					}
 					return;
 				}
 			}
@@ -300,7 +322,7 @@ void Game::Render(float dTime)
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, gPlayer.getCrouchStatus(), gPlayer.getScore(), gPlayer.getKeyNo());
+	GetUserInterfaceManager()->updateUI(1 / dTime, gPlayer.getCrouchStatus(), gPlayer.getScore(), gPlayer.getKeyNo(), gPlayer.getDeposited());
 
 
 	EndRender();

@@ -33,15 +33,18 @@ public:
 	int getKeyNo();
 	//Sets
 	void increaseScore();
+	void dropOffCoins();
 	void setHasKey(bool x);
 	void changeKeyNo(int x);
 
 	void toggleCrouch();
 	Vector3 getCameraPosition();
+	int getDeposited();
 	bool getCrouchStatus();
 private:
 
 	int coins = 0;
+	int depositedCoins = 0;
 	int keyNo = 0;
 	float moveSpeed;
 	float turnSpeed = 20.0f;

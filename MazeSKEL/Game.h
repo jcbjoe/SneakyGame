@@ -17,6 +17,7 @@
 #include "GameObject.h"
 #include "Key.h"
 #include "Door.h"
+#include "ReturnBox.h"
 
 #include "GameObjectManager.h"
 #include "LevelManager.h"
@@ -54,10 +55,6 @@ private:
 
 	float gAngle = 0;
 	Player gPlayer;
-	
-	
-
-	
 
 	int width;
 	int height;

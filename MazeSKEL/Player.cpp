@@ -49,6 +49,11 @@ Vector3 Player::getCameraPosition()
 	return mCamera.GetPos();
 }
 
+int Player::getDeposited()
+{
+	return depositedCoins;
+}
+
 bool Player::getCrouchStatus()
 {
 	return isCrouched;
@@ -77,6 +82,12 @@ void Player::toggleCrouch()
 void Player::increaseScore()
 {
 	coins++;
+}
+
+void Player::dropOffCoins()
+{
+	depositedCoins += coins;
+	coins = 0;
 }
 
 void Player::setHasKey(bool x)
