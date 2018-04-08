@@ -20,6 +20,7 @@
 
 #include "GameObjectManager.h"
 #include "LevelManager.h"
+#include "StateManager.h"
 
 #include <algorithm>
 #include <sstream>
@@ -38,7 +39,6 @@ public:
 	}
 	void Update(float dTime);
 	void Render(float dTime);
-	void reloadScene();
 	void OnResize(int screenWidth, int screenHeight);
 	void Initialise();
 

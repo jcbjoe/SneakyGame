@@ -108,9 +108,9 @@
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="FX.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GeometryBuilder.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Key.cpp" />
@@ -127,6 +127,8 @@
     <ClCompile Include="ShaderTypes.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpriteAnim.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="UserFolder.cpp" />
     <ClCompile Include="UserInterfaceManager.cpp" />
     <ClCompile Include="UtilsDefines.cpp" />
@@ -146,9 +148,9 @@
     <ClInclude Include="Floor.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="FX.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="GeometryBuilder.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Key.h" />
@@ -165,6 +167,8 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpriteAnim.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="StateManager.h" />
     <ClInclude Include="UserFolder.h" />
     <ClInclude Include="UserInterfaceManager.h" />
     <ClInclude Include="UtilsDefines.h" />
