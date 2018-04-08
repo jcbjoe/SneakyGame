@@ -84,17 +84,18 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	
 	
 				////If you have collided with the left side of a block
-				if ((pos.x > leftX && pos.x < i + 0.5f) && (pos.z <= topZ && pos.z >= bottomZ) && alreadyCollidedTB == false)
+				else if ((pos.x > leftX && pos.x < i + 0.5f) && (pos.z <= topZ && pos.z >= bottomZ))
 				{
 					finalX = leftX;
 					alreadyCollidedLR = true;
 				}
 				//If you have collided with the right side of a block
-				else if ((pos.x < rightX && pos.x > i - 0.5f) && (pos.z <= topZ && pos.z >= bottomZ) && alreadyCollidedTB == false)
+				else if ((pos.x < rightX && pos.x > i - 0.5f) && (pos.z <= topZ && pos.z >= bottomZ))
 				{
 					finalX = rightX;
 					alreadyCollidedLR = true;
 				}
+
 				if (alreadyCollidedTB)
 				{
 					pos.z = finalZ;
