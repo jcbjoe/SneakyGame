@@ -149,6 +149,9 @@
     <ClCompile Include="UserInterfaceManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="Level2.cpp">
+      <Filter>Source Files\Levels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -255,6 +258,9 @@
     </ClInclude>
     <ClInclude Include="UserInterfaceManager.h">
       <Filter>Headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Level2.h">
+      <Filter>Headers\Levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

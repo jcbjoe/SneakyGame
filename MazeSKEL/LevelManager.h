@@ -13,23 +13,11 @@ public:
 
 	LevelManager();
 
-	int level2[10][10] =
-	{
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 3, 0, 0, 0, 0, 0, 0, 4, 0 },
-		{ 0, 6, 5, 1, 0, 1, 0, 6, 0, 0 },
-		{ 0, 2, 0, 1, 1, 1, 0, 5, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
-		{ 0, 0, 1, 1, 1, 1, 0, 0, 0, 0 },
-		{ 0, 0, 1, 0, 0, 3, 0, 0, 0, 0 },
-		{ 0, 3, 0, 3, 0, 6, 5, 0, 0, 0 },
-		{ 0, 0, 0, 0, 1, 1, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 }
-	};
-
 	Level getCurrentLevel() { return levels.at(currentLevelNumber); }
 	
 	void loadLevel(int levelNum) { currentLevelNumber = levelNum; }
+
+	void loadLevel(string levelname);
 
 private:
 	int currentLevelNumber;

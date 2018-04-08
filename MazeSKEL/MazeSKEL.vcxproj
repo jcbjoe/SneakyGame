@@ -116,6 +116,7 @@
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level1.cpp" />
+    <ClCompile Include="Level2.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Loot.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Key.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Level1.h" />
+    <ClInclude Include="Level2.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="Loot.h" />

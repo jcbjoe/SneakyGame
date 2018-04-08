@@ -14,7 +14,7 @@ public:
 
 	int getObjectAtCoordinate(int x, int y) { return levelMap[x][y]; }
 
-
+	string getLevelName();
 
 private:
 

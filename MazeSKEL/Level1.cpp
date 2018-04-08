@@ -2,7 +2,7 @@
 
 Level1::Level1(string name): Level(name) {
 
-	int level1[10][10] =
+	int level[10][10] =
 	{
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 3, 0, 0, 0, 0, 0, 0, 4, 1 },
@@ -16,5 +16,5 @@ Level1::Level1(string name): Level(name) {
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
 
-	setLevelMap(level1);
+	setLevelMap(level);
 }

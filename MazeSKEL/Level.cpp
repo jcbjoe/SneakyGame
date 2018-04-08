@@ -17,3 +17,7 @@ void Level::setLevelMap(int level[10][10]) {
 		}
 	}
 }
+
+string Level::getLevelName() {
+	return levelName;
+}

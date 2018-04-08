@@ -214,7 +214,7 @@ void Game::Update(float dTime)
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{
 		//Change array to use in level
-		GetLevelManager()->loadLevel(1);
+		GetLevelManager()->loadLevel(0);
 		//delete current gameobjects
 		GetGameObjectManager()->deleteAllObjects();
 		//Reset stats somewhere here
@@ -225,7 +225,7 @@ void Game::Update(float dTime)
 	//Load level 2 for now
 	else if (GetMouseAndKeys()->IsPressed(VK_2))
 	{
-		GetLevelManager()->loadLevel(2);
+		GetLevelManager()->loadLevel(1);
 		GetGameObjectManager()->deleteAllObjects();
 		reloadScene();
 	}
