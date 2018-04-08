@@ -29,7 +29,7 @@ void LevelManager::loadLevel(string levelname) {
 	if (found) {
 		loadLevel(count);
 	} else {
-		if (!levels.empty)
+		if (!levels.empty())
 			loadLevel(0);
 	}
 }
