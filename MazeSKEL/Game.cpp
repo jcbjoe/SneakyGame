@@ -37,7 +37,7 @@ void Game::Initialise()
 		for (int j(0); j < levely; j++)
 		{
 			
-			switch (GetLevelManager()->getObjectAtCoordinate(i, j))
+			switch (GetLevelManager()->getCurrentLevel().getObjectAtCoordinate(i,j))
 			{
 				case 0: {//Floor to be placed
 					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
@@ -138,7 +138,7 @@ void Game::reloadScene()
 	{
 		for (int j(0); j < 10; j++)
 		{
-			switch (GetLevelManager()->getObjectAtCoordinate(i, j))
+			switch (GetLevelManager()->getCurrentLevel().getObjectAtCoordinate(i, j))
 			{
 			case 0: {//Floor to be placed
 				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
@@ -214,7 +214,7 @@ void Game::Update(float dTime)
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{
 		//Change array to use in level
-		GetLevelManager()->loadLevel(1);
+		GetLevelManager()->loadLevel(0);
 		//delete current gameobjects
 		GetGameObjectManager()->deleteAllObjects();
 		//Reset stats somewhere here
@@ -225,7 +225,7 @@ void Game::Update(float dTime)
 	//Load level 2 for now
 	else if (GetMouseAndKeys()->IsPressed(VK_2))
 	{
-		GetLevelManager()->loadLevel(2);
+		GetLevelManager()->loadLevel(1);
 		GetGameObjectManager()->deleteAllObjects();
 		reloadScene();
 	}

@@ -18,6 +18,30 @@
     <Filter Include="Headers">
       <UniqueIdentifier>{195d06a4-cb4d-4474-b4b9-9168248924b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\Levels">
+      <UniqueIdentifier>{16c299a5-9493-4d71-a007-00260600ac30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Levels">
+      <UniqueIdentifier>{450b867a-00fe-4e86-b960-9236c90c2cbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Baseclasses">
+      <UniqueIdentifier>{9998b904-63e7-405d-9404-400ea5a17a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Managers">
+      <UniqueIdentifier>{050be7c9-fe8d-42bf-84e4-ce9dd9b7c13d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Baseclasses">
+      <UniqueIdentifier>{6d79e2b8-cdc0-451d-b79f-1db3704907f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Managers">
+      <UniqueIdentifier>{fc130588-af31-4c6d-9abf-cf83cab1a715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Gameobjects">
+      <UniqueIdentifier>{3efd94c6-53f7-44f1-9908-2c39420bd9ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gameobjects">
+      <UniqueIdentifier>{b3fd7fcd-c531-4056-b217-e87ed1fe816c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CRC.cpp">
@@ -83,41 +107,50 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserInterfaceManager.cpp">
-      <Filter>Utils</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Baseclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Baseclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Level1.cpp">
+      <Filter>Source Files\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
     <ClCompile Include="Floor.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
     <ClCompile Include="Loot.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="UserInterfaceManager.cpp">
+      <Filter>Source Files\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Skybox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjectManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Key.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Level2.cpp">
+      <Filter>Source Files\Levels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +208,6 @@
     <ClInclude Include="FPSCamera.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="UserInterfaceManager.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="FX.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -190,35 +220,47 @@
     <ClInclude Include="Floor.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Loot.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Skybox.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="Level1.h">
+      <Filter>Headers\Levels</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Headers</Filter>
+      <Filter>Headers\Baseclasses</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Key.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="Level.h">
+      <Filter>Headers\Baseclasses</Filter>
     </ClInclude>
     <ClInclude Include="LevelManager.h">
-      <Filter>Headers</Filter>
+      <Filter>Headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>Headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Loot.h">
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterfaceManager.h">
+      <Filter>Headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Level2.h">
+      <Filter>Headers\Levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

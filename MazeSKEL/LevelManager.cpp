@@ -1,34 +1,35 @@
 #include "LevelManager.h"
 
+
+
+#include "level1.h"
+#include "level2.h"
+
 LevelManager::LevelManager()
 {
-	loadLevel(1);
+	Level1 level1("Level1");
+	Level2 level2("Level2");
+
+	levels.push_back(level1);
+	levels.push_back(level2);
+
+	loadLevel(0);
 }
 
-LevelManager::LevelManager(int level)
-{
-	loadLevel(level);
-}
-
-void LevelManager::loadLevel(int level)
-{
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			switch (level)
-			{
-			case 1:
-				currentLevelNumber = level;
-				currentLevelLayout[i][j] = level1[i][j];
-				break;
-			case 2:
-				currentLevelNumber = level;
-				currentLevelLayout[i][j] = level2[i][j];
-				break;
-			default:
-				break;
-			}
+void LevelManager::loadLevel(string levelname) {
+	int count = 0;
+	bool found = false;
+	for (Level level : levels) {
+		if (level.getLevelName() == levelname) { 
+			found = true; break; 
+		} else {
+			count++;
 		}
+	}
+	if (found) {
+		loadLevel(count);
+	} else {
+		if (!levels.empty)
+			loadLevel(0);
 	}
 }

@@ -57,7 +57,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		{
 			
 			//If object in world is a wall
-			if (GetLevelManager()->getObjectAtCoordinate(i, k) == 1)
+			if (GetLevelManager()->getCurrentLevel().getObjectAtCoordinate(i, k) == 1)
 			{
 				//Setup variables
 				float leftX = i - 0.65f;
