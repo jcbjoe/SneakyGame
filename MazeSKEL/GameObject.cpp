@@ -47,3 +47,11 @@ void GameObject::moveObject() {
 bool GameObject::getMove() {
 	return move_;
 }
+
+int GameObject::getIndex() {
+	return index_;
+}
+
+void GameObject::setIndex(int index) {
+	index_ = index;
+}

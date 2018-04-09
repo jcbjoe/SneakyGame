@@ -98,6 +98,10 @@ void Game::Initialise()
 					RedDoor* redDoor = new RedDoor("RedDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(redDoor);
 
+					//Place Wall
+					Wall* wall = new Wall("Wall", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(wall);
+
 					//Place floor
 					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(floor);
@@ -117,6 +121,10 @@ void Game::Initialise()
 				case 8: { //Door to be placed
 					BlueDoor* blueDoor = new BlueDoor("BlueDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 					GetGameObjectManager()->addGameObject(blueDoor);
+
+					//Place Wall
+					Wall* wall = new Wall("Wall", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+					GetGameObjectManager()->addGameObject(wall);
 
 					//Place floor
 					Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
@@ -217,7 +225,11 @@ void Game::reloadScene()
 			case 6: { //Door to be placed
 				RedDoor* redDoor = new RedDoor("RedDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(redDoor);
-			
+
+				//Place Wall
+				Wall* wall = new Wall("Wall", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(wall);
+
 				//Place floor
 				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(floor);
@@ -237,6 +249,10 @@ void Game::reloadScene()
 			case 8: { //Door to be placed
 				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(blueKey);
+
+				//Place Wall
+				Wall* wall = new Wall("Wall", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(wall);
 
 				//Place floor
 				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
@@ -301,6 +317,7 @@ void Game::Update(float dTime)
 				{
 					if (gPlayer.getHasRedKey()) {
 						gPlayer.setOpenedRed();
+						obj->setIndex(index);
 						obj->moveObject();
 						return;
 					}
@@ -309,7 +326,8 @@ void Game::Update(float dTime)
 				{
 					if (gPlayer.getHasBlueKey()) {
 						gPlayer.setOpenedBlue();
-						GetGameObjectManager()->deleteGameObjectByIndex(index);
+						obj->setIndex(index);
+						obj->moveObject();
 						return;
 					}
 				}

@@ -6,7 +6,8 @@
 #include "Mesh.h" 
 #include "Model.h" 
 #include "GeometryBuilder.h" 
-#include "FX.h" 
+#include "FX.h"
+#include "GameObjectManager.h"
 
 using namespace std;
 using namespace DirectX;
@@ -17,7 +18,8 @@ class BlueDoor : public GameObject
 public:
 	BlueDoor(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 	void Update(float dTime) override;
-
 private:
+	bool open = false;
+	float x = 0;
 };
 #endif

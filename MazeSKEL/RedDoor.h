@@ -6,7 +6,8 @@
 #include "Mesh.h" 
 #include "Model.h" 
 #include "GeometryBuilder.h" 
-#include "FX.h" 
+#include "FX.h"
+#include "GameObjectManager.h"
 
 using namespace std;
 using namespace DirectX;

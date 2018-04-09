@@ -21,8 +21,8 @@ void RedDoor::Update(float dTime) {
 	if (getMove()) {
 		GetModel().GetPosition() = GetPosition() + Vector3(0, x, 0);
 		x += 0.5 * dTime;
-		if (GetModel().GetPosition() == 2) {
-			
+		if (GetModel().GetPosition().y > 2) {
+			GetGameObjectManager()->deleteGameObjectByIndex(getIndex());
 		}
 	}
 }
