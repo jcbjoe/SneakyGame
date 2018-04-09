@@ -53,12 +53,16 @@ public:
 	void incrementYRotation(const float rotation) {
 		model_.GetRotation() += Vector3(0, rotation, 0);
 	}
+
+	void moveObject();
+	bool getMove();
 private:
 
 	string name_;
 	Vector3 position_;
 	Vector3 rotation_;
 	Vector3 scale_;
+	bool move_ = false;
 
 	Model model_;
 };

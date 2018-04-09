@@ -295,13 +295,13 @@ void Game::Update(float dTime)
 			float distanceFromLoot = sqrt(x + y + z);
 
 			//float distFromLoot = 
-			if (distanceFromLoot < 0.8)
+			if (distanceFromLoot < 1.2)
 			{
 				if (obj->GetName() == "RedDoor") 
 				{
 					if (gPlayer.getHasRedKey()) {
 						gPlayer.setOpenedRed();
-						GetGameObjectManager()->deleteGameObjectByIndex(index);
+						obj->moveObject();
 						return;
 					}
 				}else

@@ -39,3 +39,11 @@ void GameObject::Render()
 	FX::MyFX& fx = *FX::GetMyFX();
 	fx.Render(model_, gd3dImmediateContext);
 }
+
+void GameObject::moveObject() {
+	move_ = true;
+}
+
+bool GameObject::getMove() {
+	return move_;
+}
