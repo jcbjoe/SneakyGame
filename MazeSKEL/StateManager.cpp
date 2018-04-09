@@ -43,7 +43,3 @@ void StateManager::changeState(int stateNumb) {
 		getCurrentState()->Init();
 	}
 }
-
-void StateManager::Release() {
-
-}

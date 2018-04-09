@@ -19,6 +19,10 @@ public:
 
 	void loadLevel(string levelname);
 
+	void initialise();
+
+	void Release();
+
 private:
 	int currentLevelNumber;
 

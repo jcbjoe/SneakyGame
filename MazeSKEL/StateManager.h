@@ -15,8 +15,6 @@ public:
 
 	State* getCurrentState();
 
-	void Release();
-
 	void changeState(string stateName);
 	void changeState(int stateNumb);
 

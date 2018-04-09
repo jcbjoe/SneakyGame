@@ -10,6 +10,8 @@ GameState::GameState()
 
 void GameState::Init() {
 
+	GetLevelManager()->initialise();
+
 	//Initialise window and hide cursor Fix later
 	//GetMouseAndKeys()->Initialise(GetMainWnd(), 0, 1);
 
@@ -238,5 +240,5 @@ void GameState::Render(float dTime) {
 }
 
 void GameState::Release() {
-
+	GetLevelManager()->Release();
 }

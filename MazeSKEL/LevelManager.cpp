@@ -1,12 +1,14 @@
 #include "LevelManager.h"
 
-
-
 #include "level1.h"
 #include "level2.h"
 
 LevelManager::LevelManager()
 {
+
+}
+
+void LevelManager::initialise() {
 	Level1* level1 = new Level1("Level1");
 	Level2* level2 = new Level2("Level2");
 
@@ -14,6 +16,13 @@ LevelManager::LevelManager()
 	levels.push_back(level2);
 
 	loadLevel(0);
+}
+
+void LevelManager::Release() {
+	for (Level* lev : levels) {
+		delete lev;
+	}
+	levels.clear();
 }
 
 void LevelManager::loadLevel(string levelname) {
