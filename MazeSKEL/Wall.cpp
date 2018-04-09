@@ -15,6 +15,9 @@ Wall::Wall(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	mat.texture = "WallGarage.dds";
 
 	GetModel().SetOverrideMat(&mat);
+
+
+	//SetRotation({ 45, 0, 0 }); For Jake
 }
 
 void Wall::Update(float dTime) {
