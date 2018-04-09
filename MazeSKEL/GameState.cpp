@@ -134,7 +134,8 @@ void GameState::Init() {
 
 void GameState::Update(float dTime) {
 
-	if (GetMouseAndKeys()->IsPressed(RI_MOUSE_LEFT_BUTTON_DOWN))
+
+	if (GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON))
 	{
 		GetUserInterfaceManager()->printDebugText("Test");
 	}

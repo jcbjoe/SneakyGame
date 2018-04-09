@@ -15,6 +15,27 @@ MainMenuState::MainMenuState()
 }
 
 void MainMenuState::Update(float dTime){
+
+	//Start Button
+	if (
+		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
+		&& ((GetMouseAndKeys()->GetMousePos(true).x >= 341) && (GetMouseAndKeys()->GetMousePos(true).x <= 672))
+		&& ((GetMouseAndKeys()->GetMousePos(true).y >= 278) && (GetMouseAndKeys()->GetMousePos(true).y <= 367))
+		)
+	{
+		GetStateManager()->changeState(1);
+	}
+
+	//Exit Button
+	if (
+		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
+		&& ((GetMouseAndKeys()->GetMousePos(true).x >= 341) && (GetMouseAndKeys()->GetMousePos(true).x <= 672))
+		&& ((GetMouseAndKeys()->GetMousePos(true).y >= 400) && (GetMouseAndKeys()->GetMousePos(true).y <= 488))
+		)
+	{
+		PostQuitMessage(0);
+	}
+
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{
 		GetStateManager()->changeState(1);
