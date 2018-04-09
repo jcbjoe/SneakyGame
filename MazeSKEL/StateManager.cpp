@@ -30,6 +30,7 @@ void StateManager::changeState(string stateName) {
 	}
 
 	if (found) {
+		getCurrentState()->Release();
 		currentState = counter;
 		getCurrentState()->Init();
 	}
@@ -37,6 +38,7 @@ void StateManager::changeState(string stateName) {
 
 void StateManager::changeState(int stateNumb) {
 	if (stateNumb <=  states.size()) {
+		getCurrentState()->Release();
 		currentState = stateNumb;
 		getCurrentState()->Init();
 	}

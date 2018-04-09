@@ -30,6 +30,8 @@ public:
 
 	string getStateName() { return stateName; }
 
+	virtual void Release();
+
 private:
 
 	const string stateName;

@@ -21,3 +21,20 @@ GameObject* GameObjectManager::getFirstObjectByName(const string name) {
 		}
 	}
 }
+
+void GameObjectManager::deleteAllObjects()
+{
+	GameObject* sky;
+	//Delete everything other than the skybox (fixes mesh errors)
+	for (GameObject* object : gameObjects)
+	{
+		if (object->GetName() != "Skybox") {
+			delete object;
+		}
+		else {
+			sky = object;
+		}
+	}
+	gameObjects.clear();
+	gameObjects.push_back(sky);
+}

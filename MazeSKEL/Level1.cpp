@@ -18,3 +18,7 @@ Level1::Level1(string name): Level(name) {
 
 	setLevelMap(level);
 }
+
+void Level1::Release() {
+
+}

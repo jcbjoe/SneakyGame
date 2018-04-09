@@ -20,6 +20,8 @@ public:
 
 	void reloadLevel(Player gPlayer);
 
+	virtual void Release();
+
 private:
 
 	string levelName;

@@ -105,3 +105,7 @@ void Level::reloadLevel(Player gPlayer) {
 		}
 	}
 }
+
+void Level::Release() {
+
+}

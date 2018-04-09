@@ -24,6 +24,7 @@ public:
 	void Update(float dTime) override;
 	void Init() override;
 	void Render(float dTime) override;
+	void Release() override;
 private:
 	float gAngle = 0;
 	Player gPlayer;

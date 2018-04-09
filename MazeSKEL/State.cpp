@@ -21,3 +21,7 @@ void State::Render(float dTime)
 {
 
 }
+
+void State::Release() {
+
+}

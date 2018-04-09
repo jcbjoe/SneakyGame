@@ -13,7 +13,7 @@ public:
 
 	LevelManager();
 
-	Level getCurrentLevel() { return levels.at(currentLevelNumber); }
+	Level* getCurrentLevel() { return levels.at(currentLevelNumber); }
 	
 	void loadLevel(int levelNum) { currentLevelNumber = levelNum; }
 
@@ -22,7 +22,7 @@ public:
 private:
 	int currentLevelNumber;
 
-	vector<Level> levels;
+	vector<Level*> levels;
 };
 
 SINGLETON_GET(LevelManager);

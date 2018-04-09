@@ -43,13 +43,7 @@ public:
 		gameObjects.erase(gameObjects.begin() + index);
 	}
 
-	void GameObjectManager::deleteAllObjects() {
-		//Delete everything other than the skybox (fixes mesh errors)
-		for (int i = gameObjects.size() - 1; i > 0; i--)
-		{
-			deleteGameObjectByIndex(i);
-		}
-	}
+	void deleteAllObjects();
 
 private:
 	void Release();
