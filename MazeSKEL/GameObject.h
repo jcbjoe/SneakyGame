@@ -39,7 +39,7 @@ public:
 		return scale_;
 	}
 	Vector3 GetRotation() {
-		return model_.GetRotation();
+		return rotation_;
 	}
 	string GetName() {
 		return name_;
@@ -48,6 +48,16 @@ public:
 	void SetPosition(Vector3 pos) {
 		position_ = pos;
 		GetModel().GetPosition() = pos;
+	}
+
+	void SetRotation(Vector3 rot) {
+		rotation_ = rot;
+		GetModel().GetRotation() = rot;
+	}
+
+	void SetScale(Vector3 scale) {
+		scale_ = scale;
+		GetModel().GetScale() = scale;
 	}
 
 	void incrementYRotation(const float rotation) {
