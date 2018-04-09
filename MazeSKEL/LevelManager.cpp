@@ -1,5 +1,6 @@
 #include "LevelManager.h"
 
+
 LevelManager::LevelManager()
 {
 	loadLevel(1);
@@ -8,6 +9,14 @@ LevelManager::LevelManager()
 LevelManager::LevelManager(int level)
 {
 	loadLevel(level);
+}
+
+int LevelManager::getObjectAtWorldPos(float x, float y)
+{
+	x = round(x);
+	y = round(y);
+
+	return getObjectAtCoordinate(x, y);;
 }
 
 void LevelManager::loadLevel(int level)

@@ -1,6 +1,9 @@
 #ifndef LEVELS_H
 #define LEVELS_H
 
+#include "D3D.h"
+#include "D3DUtil.h"
+#include "SimpleMath.h"
 #include "Singleton.h"
 
 class LevelManager : public Singleton<LevelManager>
@@ -41,6 +44,7 @@ public:
 	void loadLevel(int level);
 	int getCurrentLevel() { return currentLevelNumber; }
 	int getObjectAtCoordinate(int x, int y) { return currentLevelLayout[x][y]; }
+	int getObjectAtWorldPos(float x, float y);
 
 private:
 	int currentLevelLayout[10][10];

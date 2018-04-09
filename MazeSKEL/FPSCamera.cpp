@@ -25,29 +25,33 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	up = Vector3::TransformNormal(up, ori);
 	Vector3 strafe = dir.Cross(up);
 
-	Vector3 keyDir;
+	float checkX(0);
+	float checkZ(0);
+	Vector3 keyDir(0.0f ,0.0f ,0.0f);
 	Vector3 pos(mCamPos);
+
 	if (forward)
 	{
 		keyDir = dir * dTime* speed;
-		pos += keyDir;
+		pos += dir * dTime* speed;
 	}
 	else if (back)
 	{
 		keyDir = -dir * dTime* speed;
-		pos += keyDir;
+		pos += -dir * dTime* speed;
 	}
 	if (left)
 	{
-		keyDir = strafe * dTime * speed;
-		pos += keyDir;
+		keyDir += strafe * dTime * speed;
+		pos += strafe * dTime * speed;
 	}
 	else if (right)
 	{
-		keyDir = strafe * dTime * speed;
-		pos -= keyDir;
-		keyDir *= -1;
+		keyDir -= strafe * dTime * speed;
+		pos -= strafe * dTime * speed;
+
 	}
+
 	if (mLockAxis.x != UNLOCK)
 		pos.x = mLockAxis.x;
 	//if (mLockAxis.y != UNLOCK)
@@ -61,10 +65,9 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	pos.y = mCamPos.y;
 
 	////Neg or Pos based on 
-	float checkX;
-	float checkZ;
+	
 	//What direction is the player trying to move in
-	if (keyDir.x >= 0)
+	if (keyDir.x > 0)
 	{
 		checkX = 1;
 	}
@@ -73,7 +76,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		checkX = -1;
 	}
 	
-	if (keyDir.z >= 0)
+	if (keyDir.z > 0)
 	{
 		checkZ = 1;
 	}
@@ -82,22 +85,32 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		checkZ = -1;
 	}
 	
-	////Get players index in the array at his current position
-	int playerXIndex = round(pos.x + 0.3f * checkX);
-	int playerYIndex = round(pos.z + 0.3f * checkZ);
-	
-	//If there is a wall there
-	if (GetLevelManager()->getObjectAtCoordinate(playerXIndex, playerYIndex) == 1)
+	//Get world position of where we want to move, to check for an object
+	float posToCheckX = pos.x + checkX * 0.2f;
+	float posToCheckY = pos.z + checkZ * 0.2f;
+	float distanceFromObject;
+
+	//Return whatever numbered cell is in the array at that position
+	switch (GetLevelManager()->getObjectAtWorldPos(posToCheckX, posToCheckY))
 	{
-		//Original players int
-		int playerOrigIndexX = round(mCamPos.x);
-		int playerOrigIndexZ = round(mCamPos.z);
-	
-	
-		//Dont allow the player to move
-		pos.x = mCamPos.x;
-		pos.z = mCamPos.z;
+	//If Player is near a wall
+	case 1:
+		posToCheckX = pos.x + checkX;
+		posToCheckY = pos.z + checkZ;
+		//If player is closest to the wall
+		if (GetLevelManager()->getObjectAtWorldPos(posToCheckX, posToCheckY) == 1)
+		{
+			//Dont allow the player to move
+			pos.x = mCamPos.x;
+			pos.z = mCamPos.z;
+		}
+		break;
+
+		//ADD OTHER CASES FOR OTHER OBJECTS
 	}
+
+
+		
 		
 
 	////For every object in the level
