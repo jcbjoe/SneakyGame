@@ -3,6 +3,8 @@
 
 #include <string>
 
+class Player;
+
 using namespace std;
 
 class Level
@@ -15,6 +17,8 @@ public:
 	int getObjectAtCoordinate(int x, int y) { return levelMap[x][y]; }
 
 	string getLevelName();
+
+	void reloadLevel(Player gPlayer);
 
 private:
 

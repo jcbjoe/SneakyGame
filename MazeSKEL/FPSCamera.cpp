@@ -172,3 +172,4 @@ void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 	assert(mpViewSpaceTfm);
 	CreateViewMatrix(*mpViewSpaceTfm, mCamPos, mCamPos + dir, up);
 }
+

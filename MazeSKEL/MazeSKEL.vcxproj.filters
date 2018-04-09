@@ -42,6 +42,12 @@
     <Filter Include="Source Files\Gameobjects">
       <UniqueIdentifier>{b3fd7fcd-c531-4056-b217-e87ed1fe816c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{72008e03-242c-4b77-9fdd-54a842457e1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\States">
+      <UniqueIdentifier>{a75e697e-4fdd-47fb-be01-072d139137ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CRC.cpp">
@@ -104,9 +110,6 @@
     <ClCompile Include="FPSCamera.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Baseclasses</Filter>
     </ClCompile>
@@ -151,6 +154,18 @@
     </ClCompile>
     <ClCompile Include="Level2.cpp">
       <Filter>Source Files\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files\Baseclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
+      <Filter>Source Files\States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,12 +229,6 @@
     <ClInclude Include="ShaderTypes.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Floor.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -261,6 +270,21 @@
     </ClInclude>
     <ClInclude Include="Level2.h">
       <Filter>Headers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Headers\Baseclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
+      <Filter>Headers\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

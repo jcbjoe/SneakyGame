@@ -5,43 +5,59 @@
 #include "File.h"
 #include "UserFolder.h"
 #include "AudioMgrFMOD.h"
-#include "Game.h"
 #include "LevelManager.h"
+#include "StateManager.h"
+#include "UserInterfaceManager.h"
 
 
 using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-Game gGame;
-
-
 void Update(float dTime)
 {
-	gGame.Update(dTime);
+	GetStateManager()->getCurrentState()->Update(dTime);
 }
 
 void Render(float dTime)
 {
-	gGame.Render(dTime);
+	GetStateManager()->getCurrentState()->Render(dTime);
 }
 
 void OnResize(int screenWidth, int screenHeight)
 {
-	gGame.OnResize(screenWidth, screenHeight);
+
+	OnResize_Default(screenWidth, screenHeight);
 }
 
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
+	const float camInc = 200.f * GetElapsedSec();
+
+	switch (msg)
 	{
 	case WM_INPUT:
 		GetMouseAndKeys()->MessageEvent((HRAWINPUT)lParam);
 		break;
+		// Respond to a keyboard event.
+	case WM_CHAR:
+		switch (wParam)
+		{
+		case 27:
+		case 'q':
+		case 'Q':
+			PostQuitMessage(0);
+			return 0;
+		case 'j':
+			
+			//GetUserInterfaceManager()->printDebugText(to_string(mCamera.GetPos().x) + " : " + to_string(mCamera.GetPos().z));
+			break;
+		}
 	}
 
-	return gGame.WindowsMssgHandler(hwnd, msg, wParam, lParam);
+	//default message handling (resize window, full screen, etc)
+	return DefaultMssgHandler(hwnd, msg, wParam, lParam);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
@@ -64,19 +80,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	new GameObjectManager;
 	new MouseAndKeys;
 	new LevelManager;
-	//Initialise window and hide cursor
-	GetMouseAndKeys()->Initialise(GetMainWnd(), 0, 1);
-	gGame.Initialise();
+	new StateManager;
+	GetStateManager()->getCurrentState()->Init();
 
 	Run(Update, Render);
 
 	//shut down
-	gGame.Release();
+	GetStateManager()->Release();
 	delete GetMouseAndKeys();
 	delete GetMeshManager();
 	delete GetUserInterfaceManager();
 	delete GetGameObjectManager();
 	delete GetLevelManager();
+	delete GetStateManager();
 	delete FX::GetMyFX();
 	
 
