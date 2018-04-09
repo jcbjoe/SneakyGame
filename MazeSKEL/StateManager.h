@@ -17,6 +17,9 @@ public:
 
 	void Release();
 
+	void changeState(string stateName);
+	void changeState(int stateNumb);
+
 private:
 	int currentState;
 

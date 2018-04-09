@@ -9,6 +9,10 @@ GameState::GameState()
 }
 
 void GameState::Init() {
+
+	//Initialise window and hide cursor Fix later
+	//GetMouseAndKeys()->Initialise(GetMainWnd(), 0, 1);
+
 	const int levelx = 10;
 	const int levely = 10;
 
@@ -129,6 +133,12 @@ void GameState::Init() {
 }
 
 void GameState::Update(float dTime) {
+
+	if (GetMouseAndKeys()->IsPressed(RI_MOUSE_LEFT_BUTTON_DOWN))
+	{
+		GetUserInterfaceManager()->printDebugText("Test");
+	}
+
 	//Load level 1 for now
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{

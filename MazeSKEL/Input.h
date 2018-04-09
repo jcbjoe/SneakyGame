@@ -111,7 +111,6 @@ public:
 
 	DirectX::SimpleMath::Vector2 CentreMouse(bool readOnly = false);
 
-
 private:
 	//main window handle
 	HWND mHwnd;

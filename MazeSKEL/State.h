@@ -5,8 +5,6 @@
 #include <vector>
 #include <future>
 
-
-
 #include "GameObjectManager.h"
 #include "LevelManager.h"
 
@@ -29,6 +27,8 @@ public:
 	virtual void Update(float dTime);
 
 	virtual void Render(float dTime);
+
+	string getStateName() { return stateName; }
 
 private:
 

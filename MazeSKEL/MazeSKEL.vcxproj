@@ -121,6 +121,7 @@
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Loot.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="Loot.h" />
+    <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Player.h" />

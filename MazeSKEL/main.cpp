@@ -50,6 +50,7 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			PostQuitMessage(0);
 			return 0;
 		case 'j':
+			
 			//GetUserInterfaceManager()->printDebugText(to_string(mCamera.GetPos().x) + " : " + to_string(mCamera.GetPos().z));
 			break;
 		}
@@ -80,8 +81,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	new MouseAndKeys;
 	new LevelManager;
 	new StateManager;
-	//Initialise window and hide cursor
-	GetMouseAndKeys()->Initialise(GetMainWnd(), 0, 1);
 	GetStateManager()->getCurrentState()->Init();
 
 	Run(Update, Render);

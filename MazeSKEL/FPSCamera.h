@@ -32,6 +32,7 @@ public:
 		return mCamPos;
 	}
 
+
 private:
 	DirectX::SimpleMath::Vector3 mLockAxis{ UNLOCK,UNLOCK,UNLOCK };
 	//the camera matrix to modify
