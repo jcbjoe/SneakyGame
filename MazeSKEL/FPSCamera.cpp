@@ -86,26 +86,52 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	}
 	
 	//Get world position of where we want to move, to check for an object
-	float posToCheckX = pos.x + checkX * 0.2f;
-	float posToCheckY = pos.z + checkZ * 0.2f;
-	float distanceFromObject;
-
+	//How far 
+	float posToCheckX = pos.x + checkX * 0.1f;
+	float posToCheckY = pos.z + checkZ * 0.1f;
+	float distanceFromObjectX;
+	float distanceFromObjectY;
+	Vector2 vecFrom;
 	//Return whatever numbered cell is in the array at that position
 	switch (GetLevelManager()->getObjectAtWorldPos(posToCheckX, posToCheckY))
 	{
 	//If Player is near a wall
 	case 1:
-		posToCheckX = pos.x + checkX;
-		posToCheckY = pos.z + checkZ;
-		//If player is closest to the wall
-		if (GetLevelManager()->getObjectAtWorldPos(posToCheckX, posToCheckY) == 1)
+
+		vecFrom.x = mCamPos.x - round(posToCheckX);
+		vecFrom.y = mCamPos.z - round(posToCheckY);
+		
+		distanceFromObjectX = 0.7f;
+		distanceFromObjectY = 0.7f;
+		//If you are close to the wall
+		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY)
+		{
+			//Dont allow the player to move
+			pos.x = mCamPos.x;
+			pos.z = mCamPos.z;
+		}
+		//posToCheckX = pos.x + checkX * 0.2f;
+		//posToCheckY = pos.z + checkZ * 0.2f;
+		//if (GetLevelManager()->getObjectAtWorldPos(posToCheckX, posToCheckY) == 1)
+		//{
+		//	pos.x = mCamPos.x;
+		//	pos.z = mCamPos.z;
+		//}
+		break;
+	case 7:
+		vecFrom.x = mCamPos.x - round(posToCheckX);
+		vecFrom.y = mCamPos.z - round(posToCheckY);
+
+		distanceFromObjectX = 0.4f;
+		distanceFromObjectY = 0.45f;
+		//If you are close to the wall
+		if (abs(vecFrom.x) <= distanceFromObjectX && abs(vecFrom.y) <= distanceFromObjectY)
 		{
 			//Dont allow the player to move
 			pos.x = mCamPos.x;
 			pos.z = mCamPos.z;
 		}
 		break;
-
 		//ADD OTHER CASES FOR OTHER OBJECTS
 	}
 

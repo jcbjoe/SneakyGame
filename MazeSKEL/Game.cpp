@@ -290,16 +290,16 @@ void Game::Update(float dTime)
 					GetGameObjectManager()->deleteGameObjectByIndex(index);
 					return;
 				}
-				else if (objName == "ReturnBox")
+			}
+			if(distanceFromLoot < 0.55f && objName == "ReturnBox")
+			{
+				//If player has coins to deposit
+				if (gPlayer.getScore() != 0)
 				{
-					//If player has coins to deposit
-					if (gPlayer.getScore() != 0)
-					{
-						//Deposit them
-						gPlayer.dropOffCoins();
-					}
-					return;
+					//Deposit them
+					gPlayer.dropOffCoins();
 				}
+				return;
 			}
 		}
 		index++;
