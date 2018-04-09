@@ -4,7 +4,7 @@ BlueDoor::BlueDoor(string name, Vector3 position, Vector3 rotation, Vector3 scal
 	:
 	GameObject(name, position, rotation, scale)
 {
-	GetModel().Initialise(*GetMeshManager()->GetMesh("wall"));
+	GetModel().Initialise(*GetMeshManager()->GetMesh("door"));
 
 	GetModel().GetScale() = GetScale();
 	GetModel().GetPosition() = GetPosition();

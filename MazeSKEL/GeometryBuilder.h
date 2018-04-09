@@ -17,6 +17,8 @@ Mesh& BuildSphere(MeshManager& mgr, int LatLines, int LongLines); // Default bui
 
 Mesh& BuildWall(MeshManager& mgr); // for Wall
 
+Mesh& BuildDoor(MeshManager& mgr); // for door & Half Wall
+
 Mesh& BuildFloor(MeshManager& mgr); // for Floor
 
 Mesh& BuildLoot(MeshManager& mgr, int LatLines, int LongLines); // for Loot

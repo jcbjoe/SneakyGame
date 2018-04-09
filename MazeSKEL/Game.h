@@ -15,6 +15,7 @@
 #include "WindowUtils.h"
 #include "GameObjectManager.h"
 #include "GameObject.h"
+#include "HalfWall.h"
 #include "RedKey.h"
 #include "RedDoor.h"
 #include "BlueKey.h"

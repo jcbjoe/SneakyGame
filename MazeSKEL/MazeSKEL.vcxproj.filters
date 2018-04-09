@@ -232,6 +232,12 @@
     <ClInclude Include="BlueKey.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="HalfWall.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HalfWall.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\FX\LightHelper.hlsl">

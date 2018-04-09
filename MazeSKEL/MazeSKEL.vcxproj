@@ -140,6 +140,8 @@
     <ClInclude Include="CRC.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DUtil.h" />
+    <ClInclude Include="HalfWall.cpp" />
+    <ClInclude Include="HalfWall.h" />
     <ClInclude Include="RedDoor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Error.h" />
