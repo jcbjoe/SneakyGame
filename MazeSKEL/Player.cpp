@@ -67,7 +67,7 @@ void Player::Update(float dTime)
 
 	if (isMoving)
 	{
-		mCamera.Bob(dTime);
+		mCamera.Bob(dTime, isCrouched);
 	}
 	else
 	{

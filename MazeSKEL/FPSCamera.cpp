@@ -277,10 +277,15 @@ void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 	CreateViewMatrix(*mpViewSpaceTfm, mCamPos, mCamPos + dir, up);
 }
 
-void FPSCamera::Bob(float dTime)
+void FPSCamera::Bob(float dTime, bool isCrouched)
 {
-	bobY = sinf(((counter) * PI) / 180.0f) / 20.0f;
-	counter += 4;
+	bobY = sinf(((counter) * PI) / 180.0f) / 40.0f;
+
+	if (isCrouched)
+		counter += 4;
+	else 
+		counter += 8;
+
 	mCamPos.y -= prevChangeY;
 	mCamPos.y += bobY;
 	prevChangeY = bobY;
@@ -292,13 +297,13 @@ void FPSCamera::ReturnToY(float dtime, float yVal)
 	if (mCamPos.y != yVal)
 	{
 		float difference = yVal - mCamPos.y;
-		if (difference > 0.2f)
+		if (difference > 0.05f)
 		{
-			mCamPos.y -= 0.5f * dtime;
+			mCamPos.y += 0.01f * dtime;
 		}
-		else if (difference < -0.2f)
+		else if (difference < -0.05f)
 		{
-			mCamPos.y += 0.5f * dtime;
+			mCamPos.y -= 0.01f * dtime;
 		}
 		else
 		{

@@ -32,7 +32,7 @@ public:
 		return mCamPos;
 	}
 
-	void Bob(float dtime);
+	void Bob(float dtime, bool isCrouched);
 	void ReturnToY(float dtime, float yVal);
 
 private:
