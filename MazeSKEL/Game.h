@@ -15,8 +15,11 @@
 #include "WindowUtils.h"
 #include "GameObjectManager.h"
 #include "GameObject.h"
-#include "Key.h"
-#include "Door.h"
+#include "RedKey.h"
+#include "RedDoor.h"
+#include "BlueKey.h"
+#include "BlueDoor.h"
+#include "WallHalf.h"
 
 #include "GameObjectManager.h"
 #include "LevelManager.h"
@@ -55,10 +58,6 @@ private:
 	float gAngle = 0;
 	Player gPlayer;
 	
-	
-
-	
-
 	int width;
 	int height;
 

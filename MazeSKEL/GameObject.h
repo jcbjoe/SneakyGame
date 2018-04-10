@@ -64,16 +64,20 @@ public:
 		model_.GetRotation() += Vector3(0, rotation, 0);
 	}
 
-
+	void moveObject();
+	bool getMove();
+	void setIndex(int index);
+	int getIndex();
 private:
 
 	string name_;
 	Vector3 position_;
 	Vector3 rotation_;
 	Vector3 scale_;
+	bool move_ = false;
+	int index_;
 
 	Model model_;
-
 };
 
 #endif

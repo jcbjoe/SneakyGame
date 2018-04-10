@@ -167,6 +167,15 @@
     <ClCompile Include="MainMenuState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="BlueDoor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WallHalf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -285,6 +294,15 @@
     </ClInclude>
     <ClInclude Include="MainMenuState.h">
       <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueDoor.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueKey.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WallHalf.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

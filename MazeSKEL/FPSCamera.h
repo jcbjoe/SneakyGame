@@ -16,7 +16,7 @@ public:
 	void Initialise(const DirectX::SimpleMath::Vector3& pos, const DirectX::SimpleMath::Vector3& tgt, DirectX::SimpleMath::Matrix& viewSpaceTfm);
 
 	//movement can be driven by WASD
-	void Move(float dTime, bool forward, bool back, bool left, bool right);
+	void Move(float dTime, bool forward, bool back, bool left, bool right, bool hasRedKey, bool hasBlueKey);
 
 	void Update(float dTime);
 

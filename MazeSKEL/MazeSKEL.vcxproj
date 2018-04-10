@@ -98,10 +98,12 @@
   <ItemGroup>
     <ClCompile Include="AudioMgr.cpp" />
     <ClCompile Include="AudioMgrFMOD.cpp" />
+    <ClCompile Include="BlueDoor.cpp" />
+    <ClCompile Include="BlueKey.cpp" />
     <ClCompile Include="CRC.cpp" />
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="D3DUtil.cpp" />
-    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="RedDoor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="File.cpp" />
@@ -134,15 +136,18 @@
     <ClCompile Include="UserInterfaceManager.cpp" />
     <ClCompile Include="UtilsDefines.cpp" />
     <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WallHalf.cpp" />
     <ClCompile Include="WindowUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioMgr.h" />
     <ClInclude Include="AudioMgrFMOD.h" />
+    <ClInclude Include="BlueDoor.h" />
+    <ClInclude Include="BlueKey.h" />
     <ClInclude Include="CRC.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DUtil.h" />
-    <ClInclude Include="Door.h" />
+    <ClInclude Include="RedDoor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Error.h" />
     <ClInclude Include="File.h" />
@@ -175,6 +180,7 @@
     <ClInclude Include="UserInterfaceManager.h" />
     <ClInclude Include="UtilsDefines.h" />
     <ClInclude Include="Wall.h" />
+    <ClInclude Include="WallHalf.h" />
     <ClInclude Include="WindowUtils.h" />
   </ItemGroup>
   <ItemGroup>

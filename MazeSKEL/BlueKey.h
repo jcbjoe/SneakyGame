@@ -1,5 +1,5 @@
-#ifndef KEY_H
-#define KEY_H
+#ifndef BLUEKEY_H
+#define BLUEKEY_H
 
 #include <vector> 
 #include "Mesh.h" 
@@ -12,10 +12,10 @@ using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class Key : public GameObject
+class BlueKey : public GameObject
 {
 public:
-	Key(string name, Vector3 position, Vector3 rotation, Vector3 scale);
+	BlueKey(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 
 	void Update(float dTime) override;
 private:

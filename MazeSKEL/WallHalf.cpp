@@ -1,10 +1,10 @@
-#include "Door.h" 
+#include "WallHalf.h"
 
-Door::Door(string name, Vector3 position, Vector3 rotation, Vector3 scale)
+WallHalf::WallHalf(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	:
 	GameObject(name, position, rotation, scale)
 {
-	GetModel().Initialise(*GetMeshManager()->GetMesh("wall"));
+	GetModel().Initialise(*GetMeshManager()->GetMesh("door"));
 
 	GetModel().GetScale() = GetScale();
 	GetModel().GetPosition() = GetPosition();
@@ -17,6 +17,7 @@ Door::Door(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	GetModel().SetOverrideMat(&mat);
 }
 
-void Door::Update(float dTime) {
+void WallHalf::Update(float dTime)
+{
 
 }
