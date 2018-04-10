@@ -10,7 +10,6 @@ GameState::GameState()
 
 void GameState::Init() {
 
-	GetLevelManager()->initialise();
 
 	//Initialise window and hide cursor Fix later
 	//GetMouseAndKeys()->Initialise(GetMainWnd(), 0, 1);
@@ -32,11 +31,15 @@ void GameState::Init() {
 	BuildCube(*GetMeshManager());
 	BuildDoor(*GetMeshManager());
 
+	
+
 	Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
 	GetGameObjectManager()->addGameObject(skybox);
 
 	Floor* floor = new Floor("Floor", Vector3(4.5f, 0.0f, 4.5f), Vector3(0, 0, 0), Vector3(5, 1, 5));
 	GetGameObjectManager()->addGameObject(floor);
+
+	GetLevelManager()->initialise();
 
 	//For every space in the level
 	for (int i(0); i < levelx; i++)
@@ -120,24 +123,6 @@ void GameState::Init() {
 			}
 		}
 	}
-
-
-	GameObject* waypoint1 = new GameObject("Waypoint1", Vector3(8, 0.4, 6), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-	GetGameObjectManager()->addGameObject(waypoint1);
-	GameObject* waypoint2 = new GameObject("Waypoint2", Vector3(7, 0.4, 6), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-	GetGameObjectManager()->addGameObject(waypoint2);
-	GameObject* waypoint3 = new GameObject("Waypoint3", Vector3(7, 0.4, 1), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-	GetGameObjectManager()->addGameObject(waypoint3);
-	GameObject* waypoint4 = new GameObject("Waypoint4", Vector3(4, 0.4, 1), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-	GetGameObjectManager()->addGameObject(waypoint4);
-	GameObject* waypoint5 = new GameObject("Waypoint5", Vector3(4, 0.4, 7), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-	GetGameObjectManager()->addGameObject(waypoint5);
-	GameObject* waypoint6 = new GameObject("Waypoint6", Vector3(5, 0.4, 7), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-	GetGameObjectManager()->addGameObject(waypoint6);
-	GameObject* waypoint7 = new GameObject("Waypoint7", Vector3(5, 0.4, 8), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-	GetGameObjectManager()->addGameObject(waypoint7);
-	GameObject* waypoint8 = new GameObject("Waypoint8", Vector3(8, 0.4, 8), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-	GetGameObjectManager()->addGameObject(waypoint8);
 
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);
