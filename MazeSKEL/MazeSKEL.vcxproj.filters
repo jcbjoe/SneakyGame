@@ -176,6 +176,9 @@
     <ClCompile Include="WallHalf.cpp">
       <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
+    <ClCompile Include="ReturnBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -303,6 +306,9 @@
     </ClInclude>
     <ClInclude Include="WallHalf.h">
       <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnBox.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

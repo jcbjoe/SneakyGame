@@ -18,6 +18,13 @@ void LevelManager::initialise() {
 	loadLevel(0);
 }
 
+int LevelManager::getObjectAtWorldPos(float x, float y)
+{
+	x = round(x);
+	y = round(y);
+
+	return getObjectAtCoordinate(x, y);;
+}
 void LevelManager::Release() {
 	for (Level* lev : levels) {
 		delete lev;

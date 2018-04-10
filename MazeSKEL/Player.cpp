@@ -26,13 +26,55 @@ void Player::Update(float dTime)
 		mCamera.Crouch(isCrouched);
 	}
 
-	mCamera.Move(dTime / moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), hasRedKey, hasBlueKey);
+	
 
+	//Collisions
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	for (int j = 0; j < 10; j++)
+	//	{
+	//		if (GetLevelManager()->getObjectAtCoordinate(i, j) == 1)
+	//		{
+	//			if (((mCamera.GetPos().x + 0.5f) >= (i - 0.5f)) &&	
+	//				((mCamera.GetPos().x - 0.5f) <= (i + 0.5f)) &&	
+	//				((mCamera.GetPos().z + 0.5f) >= (j - 0.5f)) &&	
+	//				((mCamera.GetPos().z - 0.5f) <= (j + 0.5f)))
+	//			{
+	//				if (GetMouseAndKeys()->IsPressed(VK_W))
+	//					mCamera.Move(dTime / moveSpeed, true, false, false, false);
+	//
+	//				if (GetMouseAndKeys()->IsPressed(VK_S))
+	//					mCamera.Move(dTime / moveSpeed, false, true, false, false);
+	//
+	//				if (GetMouseAndKeys()->IsPressed(VK_A))
+	//					mCamera.Move(dTime / moveSpeed, false, false, true, false);
+	//
+	//				if (GetMouseAndKeys()->IsPressed(VK_D))
+	//					mCamera.Move(dTime / moveSpeed, false, false, true, true);
+	//
+	//			}
+	//		}
+	//	}
+	//}
+	mCamera.Move(dTime / moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), isMoving);
+
+	//Rotate camera
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
-
 	if (m.x != 0 || m.y != 0)
 	{
 		mCamera.Rotate(dTime, m.x, m.y, 0);
+	}
+
+	if (isMoving)
+	{
+		mCamera.Bob(dTime, isCrouched);
+	}
+	else
+	{
+		if (isCrouched)
+			mCamera.ReturnToY(dTime, 0.3f);
+		else
+			mCamera.ReturnToY(dTime, 0.5f);
 	}
 
 	mCamera.Update(dTime);
@@ -47,6 +89,11 @@ void Player::Render(float dTime)
 Vector3 Player::getCameraPosition()
 {
 	return mCamera.GetPos();
+}
+
+int Player::getDeposited()
+{
+	return depositedCoins;
 }
 
 bool Player::getCrouchStatus()
@@ -82,6 +129,12 @@ void Player::toggleCrouch()
 void Player::increaseScore()
 {
 	coins++;
+}
+
+void Player::dropOffCoins()
+{
+	depositedCoins += coins;
+	coins = 0;
 }
 
 void Player::setHasRedKey()

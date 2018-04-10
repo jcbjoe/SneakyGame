@@ -41,16 +41,20 @@ public:
 	void setOpenedRed();
 	void setOpenedBlue();
 	//void changeKeyNo(int x);
+	void dropOffCoins();
 
 	void toggleCrouch();
 	Vector3 getCameraPosition();
+	int getDeposited();
 	bool getCrouchStatus();
 private:
 
 	int coins = 0;
+	int depositedCoins = 0;
 	int keyNo = 0;
 	float moveSpeed;
 	float turnSpeed = 20.0f;
+	bool isMoving = false;
 	bool isCrouched = false;
 
 	bool hasRedKey = false;

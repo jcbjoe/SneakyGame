@@ -17,6 +17,7 @@ public:
 
 	//movement can be driven by WASD
 	void Move(float dTime, bool forward, bool back, bool left, bool right, bool hasRedKey, bool hasBlueKey);
+	void Move(float dTime, bool forward, bool back, bool left, bool right, bool&);
 
 	void Update(float dTime);
 
@@ -32,6 +33,8 @@ public:
 		return mCamPos;
 	}
 
+	void Bob(float dtime, bool isCrouched);
+	void ReturnToY(float dtime, float yVal);
 
 private:
 	DirectX::SimpleMath::Vector3 mLockAxis{ UNLOCK,UNLOCK,UNLOCK };
@@ -43,6 +46,10 @@ private:
 	DirectX::SimpleMath::Vector3 mCamPos;
 	//camera rotation
 	float yaw = 0, pitch = 0, roll = 0;
+
+	float counter = 0;
+	float bobY = 0;
+	float prevChangeY = 0;
 };
 
 
