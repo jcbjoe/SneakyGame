@@ -22,6 +22,8 @@ public:
 
 	virtual void Release();
 
+	int getObjectAtWorldPos(float x, float y);
+
 private:
 
 	string levelName;

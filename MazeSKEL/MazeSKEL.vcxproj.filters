@@ -177,7 +177,7 @@
       <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
     <ClCompile Include="ReturnBox.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,7 +308,7 @@
       <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
     <ClInclude Include="ReturnBox.h">
-      <Filter>Headers</Filter>
+      <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -140,3 +140,11 @@ void Level::reloadLevel(Player gPlayer) {
 void Level::Release() {
 
 }
+
+int Level::getObjectAtWorldPos(float x, float y)
+{
+	x = round(x);
+	y = round(y);
+
+	return getObjectAtCoordinate(x, y);;
+}

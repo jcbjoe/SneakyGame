@@ -14,8 +14,7 @@ void FPSCamera::Initialise(const Vector3& pos, const DirectX::SimpleMath::Vector
 	mCamPos = pos;
 }
 
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool hasRedKey, bool hasBlueKey)
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool& isMoving)
+void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool& isMoving, bool hasRedKey, bool hasBlueKey)
 {
 	if (!forward && !back && !left && !right)
 	{
@@ -99,7 +98,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	float distanceFromObjectY;
 	Vector2 vecFrom;
 	//Return whatever numbered cell is in the array at that position
-	switch (GetLevelManager()->getObjectAtWorldPos(posToCheckX, posToCheckY))
+	switch (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(posToCheckX, posToCheckY))
 	{
 	//If Player is near a wall
 	case 1:
@@ -116,15 +115,10 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 			pos.x = mCamPos.x;
 			pos.z = mCamPos.z;
 		}
-		//posToCheckX = pos.x + checkX * 0.2f;
-		//posToCheckY = pos.z + checkZ * 0.2f;
-		//if (GetLevelManager()->getObjectAtWorldPos(posToCheckX, posToCheckY) == 1)
-		//{
-		//	pos.x = mCamPos.x;
-		//	pos.z = mCamPos.z;
-		//}
+
 		break;
-	case 7:
+	//If player is near the deposit box
+	case 9:
 		vecFrom.x = mCamPos.x - round(posToCheckX);
 		vecFrom.y = mCamPos.z - round(posToCheckY);
 
@@ -140,10 +134,6 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		break;
 		//ADD OTHER CASES FOR OTHER OBJECTS
 	}
-
-
-		
-		
 
 	////For every object in the level
 	//for (int i(0); i < 10; i++)

@@ -18,6 +18,7 @@
 #include "BlueKey.h"
 #include "BlueDoor.h"
 #include "WallHalf.h"
+#include "ReturnBox.h"
 
 class GameState : public State
 {

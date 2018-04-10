@@ -33,8 +33,7 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouching, const int playerScore, const int& hasRedKey, const int& hasBlueKey) {
-void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouching, const int playerScore, const int& keyNo, const int& playerDeposited) {
+void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey) {
 
 	mpSpriteBatch->Begin();
 
@@ -74,10 +73,6 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouchi
 	coinsDeposited << "Coins Collected: " << playerDeposited;
 	mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
-
-	wstringstream numberOfKeys;
-	numberOfKeys << "Keys Collected: " << keyNo;
-	mpAlgerian->DrawString(mpSpriteBatch, numberOfKeys.str().c_str(), Vector2(0, 150), Colors::IndianRed, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	wstringstream redKeyFound;
 	if(hasRedKey)
 		redKeyFound << "Red Key Collected";

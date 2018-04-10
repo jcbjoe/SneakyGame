@@ -109,6 +109,12 @@ void GameState::Init() {
 				GetGameObjectManager()->addGameObject(wallHalf);
 				break;
 			}
+			case 9: { //Door to be placed
+				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.2f, j), Vector3(0, 0, 0), Vector3(0.2, 0.2, 0.4));
+				GetGameObjectManager()->addGameObject(returnBox);
+				break;
+			}
+
 			default:
 				break;
 			}
@@ -180,7 +186,8 @@ void GameState::Update(float dTime) {
 
 	int index(0);
 	for (GameObject* obj : objects) {
-		if (obj->GetName() == "Loot" || obj->GetName() == "RedKey" || obj->GetName() == "RedDoor" || obj->GetName() == "BlueKey" || obj->GetName() == "BlueDoor")
+		string objName = obj->GetName();
+		if (objName == "Loot" || objName == "RedKey" || objName == "RedDoor" || objName == "BlueKey" || objName == "BlueDoor" || objName == "ReturnBox")
 		{
 			//check loot collision
 			Vector3 vectorToLoot = gPlayer.getCameraPosition() - obj->GetPosition();
@@ -235,6 +242,16 @@ void GameState::Update(float dTime) {
 							return;
 						}
 			}
+			if (distanceFromLoot < 0.55f && objName == "ReturnBox")
+			{
+				//If player has coins to deposit
+				if (gPlayer.getScore() != 0)
+				{
+					//Deposit them
+					gPlayer.dropOffCoins();
+				}
+				return;
+			}
 		}
 		index++;
 	}
@@ -255,7 +272,7 @@ void GameState::Render(float dTime) {
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, gPlayer.getCrouchStatus(), gPlayer.getScore(), gPlayer.getHasRedKey(), gPlayer.getHasBlueKey());
+	GetUserInterfaceManager()->updateUI(1 / dTime, gPlayer.getCrouchStatus(), gPlayer.getScore(), gPlayer.getDeposited(), gPlayer.getHasRedKey(), gPlayer.getHasBlueKey());
 
 
 	EndRender();
