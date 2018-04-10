@@ -58,9 +58,6 @@ void Level::reloadLevel(Player gPlayer) {
 			case 2: {
 				//Place camera
 				gPlayer.Initialise(i, j);
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
@@ -68,9 +65,6 @@ void Level::reloadLevel(Player gPlayer) {
 				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
 				GetGameObjectManager()->addGameObject(loot);
 
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 
 			}
@@ -79,19 +73,12 @@ void Level::reloadLevel(Player gPlayer) {
 				Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.1f, 0.1f, 0.1f));
 				GetGameObjectManager()->addGameObject(enemy);
 
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
 			case 5: { //Key to be placed
 				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
 				GetGameObjectManager()->addGameObject(redKey);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
@@ -103,19 +90,12 @@ void Level::reloadLevel(Player gPlayer) {
 				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(wallHalf);
 
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
 			case 7: { //Key to be placed
 				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
 				GetGameObjectManager()->addGameObject(blueKey);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
@@ -126,10 +106,6 @@ void Level::reloadLevel(Player gPlayer) {
 				//Place wall above door
 				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(wallHalf);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 			}

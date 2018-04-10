@@ -28,6 +28,7 @@ public:
 
 private:
 	int waypointNumber;
+	vector<Vector2> canSee(int x0, int y0, int x1, int y1);
 };
 
 #endif

@@ -31,6 +31,8 @@ public:
 	void Release() override;
 
 	bool paused = false;
+
+	Player getPlayer() { return gPlayer; }
 private:
 	float gAngle = 0;
 	Player gPlayer;
