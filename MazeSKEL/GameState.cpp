@@ -30,6 +30,7 @@ void GameState::Init() {
 	BuildWall(*GetMeshManager());
 	BuildLoot(*GetMeshManager(), 10, 10);
 	BuildCube(*GetMeshManager());
+	BuildDoor(*GetMeshManager());
 
 	Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
 	GetGameObjectManager()->addGameObject(skybox);
@@ -79,14 +80,33 @@ void GameState::Init() {
 			}
 
 			case 5: { //Key to be placed
-				Key* key = new Key("Key", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
-				GetGameObjectManager()->addGameObject(key);
+				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+				GetGameObjectManager()->addGameObject(redKey);
 				break;
 			}
 
 			case 6: { //Door to be placed
-				Door* door = new Door("Door", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(door);
+				RedDoor* redDoor = new RedDoor("RedDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.1));
+				GetGameObjectManager()->addGameObject(redDoor);
+
+				//Place wall above door
+				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(wallHalf);
+				break;
+			}
+			case 7: { //Key to be placed
+				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+				GetGameObjectManager()->addGameObject(blueKey);
+				break;
+			}
+
+			case 8: { //Door to be placed
+				BlueDoor* blueDoor = new BlueDoor("BlueDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.1, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(blueDoor);
+
+				//Place wall above door
+				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(wallHalf);
 				break;
 			}
 			default:
@@ -160,7 +180,7 @@ void GameState::Update(float dTime) {
 
 	int index(0);
 	for (GameObject* obj : objects) {
-		if (obj->GetName() == "Loot" || obj->GetName() == "Key" || obj->GetName() == "Door")
+		if (obj->GetName() == "Loot" || obj->GetName() == "RedKey" || obj->GetName() == "RedDoor" || obj->GetName() == "BlueKey" || obj->GetName() == "BlueDoor")
 		{
 			//check loot collision
 			Vector3 vectorToLoot = gPlayer.getCameraPosition() - obj->GetPosition();
@@ -170,14 +190,27 @@ void GameState::Update(float dTime) {
 			float distanceFromLoot = sqrt(x + y + z);
 
 			//float distFromLoot = 
-			if (distanceFromLoot < 0.8)
+			if (distanceFromLoot < 1.2)
 			{
-				if (obj->GetName() == "Door" && gPlayer.getHasKey())
+				if (obj->GetName() == "RedDoor")
 				{
-					gPlayer.changeKeyNo(-1);
-					GetGameObjectManager()->deleteGameObjectByIndex(index);
-					return;
+					if (gPlayer.getHasRedKey()) {
+						gPlayer.setOpenedRed();
+						obj->setIndex(index);
+						obj->moveObject();
+						return;
+					}
 				}
+				else
+					if (obj->GetName() == "BlueDoor")
+					{
+						if (gPlayer.getHasBlueKey()) {
+							gPlayer.setOpenedBlue();
+							obj->setIndex(index);
+							obj->moveObject();
+							return;
+						}
+					}
 			}
 			if (distanceFromLoot < 0.4f)
 			{
@@ -187,12 +220,20 @@ void GameState::Update(float dTime) {
 					GetGameObjectManager()->deleteGameObjectByIndex(index);
 					return;
 				}
-				if (obj->GetName() == "Key")
-				{
-					gPlayer.changeKeyNo(+1);
-					GetGameObjectManager()->deleteGameObjectByIndex(index);
-					return;
-				}
+				else
+					if (obj->GetName() == "RedKey")
+					{
+						gPlayer.setHasRedKey();
+						GetGameObjectManager()->deleteGameObjectByIndex(index);
+						return;
+					}
+					else
+						if (obj->GetName() == "BlueKey")
+						{
+							gPlayer.setHasBlueKey();
+							GetGameObjectManager()->deleteGameObjectByIndex(index);
+							return;
+						}
 			}
 		}
 		index++;
@@ -214,7 +255,7 @@ void GameState::Render(float dTime) {
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, gPlayer.getCrouchStatus(), gPlayer.getScore(), gPlayer.getKeyNo());
+	GetUserInterfaceManager()->updateUI(1 / dTime, gPlayer.getCrouchStatus(), gPlayer.getScore(), gPlayer.getHasRedKey(), gPlayer.getHasBlueKey());
 
 
 	EndRender();

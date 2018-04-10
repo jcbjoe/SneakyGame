@@ -6,8 +6,11 @@
 #include "Floor.h"
 #include "Skybox.h"
 #include "Enemy.h"
-#include "Key.h"
-#include "Door.h"
+#include "RedKey.h"
+#include "RedDoor.h"
+#include "BlueKey.h"
+#include "BlueDoor.h"
+#include "WallHalf.h"
 
 Level::Level(string name)
 {
@@ -83,8 +86,8 @@ void Level::reloadLevel(Player gPlayer) {
 			}
 
 			case 5: { //Key to be placed
-				Key* key = new Key("Key", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
-				GetGameObjectManager()->addGameObject(key);
+				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+				GetGameObjectManager()->addGameObject(redKey);
 
 				//Place floor
 				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
@@ -93,8 +96,36 @@ void Level::reloadLevel(Player gPlayer) {
 			}
 
 			case 6: { //Door to be placed
-				Door* door = new Door("Door", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(door);
+				RedDoor* redDoor = new RedDoor("RedDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(redDoor);
+
+				//Place wall above door
+				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(wallHalf);
+
+				//Place floor
+				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(floor);
+				break;
+			}
+
+			case 7: { //Key to be placed
+				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+				GetGameObjectManager()->addGameObject(blueKey);
+
+				//Place floor
+				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(floor);
+				break;
+			}
+
+			case 8: { //Door to be placed
+				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(blueKey);
+
+				//Place wall above door
+				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(wallHalf);
 
 				//Place floor
 				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));

@@ -125,12 +125,6 @@
     <ClCompile Include="Level1.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
-    <ClCompile Include="Key.cpp">
-      <Filter>Source Files\Gameobjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Source Files\Gameobjects</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
@@ -167,14 +161,20 @@
     <ClCompile Include="MainMenuState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
-    <ClCompile Include="BlueDoor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BlueKey.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueDoor.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RedKey.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RedDoor.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
     <ClCompile Include="WallHalf.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,13 +256,7 @@
     <ClInclude Include="GameObjectManager.h">
       <Filter>Headers\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Headers\Gameobjects</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Headers\Gameobjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Key.h">
       <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
     <ClInclude Include="Loot.h">
@@ -295,14 +289,20 @@
     <ClInclude Include="MainMenuState.h">
       <Filter>Headers\States</Filter>
     </ClInclude>
-    <ClInclude Include="BlueDoor.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="RedKey.h">
+      <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
     <ClInclude Include="BlueKey.h">
-      <Filter>Headers</Filter>
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueDoor.h">
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="RedDoor.h">
+      <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
     <ClInclude Include="WallHalf.h">
-      <Filter>Headers</Filter>
+      <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

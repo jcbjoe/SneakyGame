@@ -13,8 +13,11 @@
 #include "WindowUtils.h"
 #include "GameObjectManager.h"
 #include "GameObject.h"
-#include "Key.h"
-#include "Door.h"
+#include "RedKey.h"
+#include "RedDoor.h"
+#include "BlueKey.h"
+#include "BlueDoor.h"
+#include "WallHalf.h"
 
 class GameState : public State
 {
