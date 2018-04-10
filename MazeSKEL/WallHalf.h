@@ -1,5 +1,5 @@
-#ifndef HALFWALL_H 
-#define HALFWALL_H 
+#ifndef WALLHALF_H 
+#define WALLHALF_H 
 
 #include <vector> 
 #include "GameObject.h"
@@ -12,10 +12,10 @@ using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class HalfWall : public GameObject
+class WallHalf : public GameObject
 {
 public:
-	HalfWall(string name, Vector3 position, Vector3 rotation, Vector3 scale);
+	WallHalf(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 
 	void Update(float dTime) override;
 

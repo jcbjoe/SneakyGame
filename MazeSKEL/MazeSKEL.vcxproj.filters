@@ -125,6 +125,9 @@
     <ClCompile Include="BlueKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WallHalf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -232,10 +235,7 @@
     <ClInclude Include="BlueKey.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="HalfWall.cpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HalfWall.h">
+    <ClInclude Include="WallHalf.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,11 +15,11 @@
 #include "WindowUtils.h"
 #include "GameObjectManager.h"
 #include "GameObject.h"
-#include "HalfWall.h"
 #include "RedKey.h"
 #include "RedDoor.h"
 #include "BlueKey.h"
 #include "BlueDoor.h"
+#include "WallHalf.h"
 
 #include "GameObjectManager.h"
 #include "LevelManager.h"
