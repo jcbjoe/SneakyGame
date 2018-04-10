@@ -1,6 +1,9 @@
 #include "UserInterfaceManager.h"
 #include <sstream>
 #include <time.h>
+#include "FX.h"
+#include "StateManager.h"
+#include "GameState.h"
 
 using namespace std;
 using namespace DirectX;
@@ -16,6 +19,11 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	assert(mpComicSans);
 	mpAlgerian = new SpriteFont(gd3dDevice, L"../bin/data/algerian.spritefont");
 	assert(mpAlgerian);
+
+	FX::MyFX& fx = *FX::GetMyFX();
+
+	mpPausedTex = fx.mCache.LoadTexture("paused.dds", true, gd3dDevice);
+	mPausedDimentions = fx.mCache.Get(mpPausedTex).dim;
 
 	start = time(0);
 }
@@ -78,6 +86,19 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouchi
 			break;
 	}
 	//--- End Debug Text
+
+	if (GetStateManager()->getCurrentState()->getStateName() == "MainGameState") {
+		if (((GameState*)GetStateManager()->getCurrentState())->paused) {
+
+			//background
+			int w, h;
+			GetClientExtents(w, h);
+			float sz(h / mPausedDimentions.y);
+			if (sz > 1.25f)
+				sz = 1.25f;
+			mpSpriteBatch->Draw(mpPausedTex, Vector2(w / 2.f, h / 2.f), nullptr, Colours::White, 0, mPausedDimentions*0.5f, Vector2(sz, sz));
+		}
+	}
 
 	mpSpriteBatch->End();
 

@@ -4,6 +4,7 @@
 #include "StateManager.h"
 #include "UserInterfaceManager.h"
 
+
 MainMenuState::MainMenuState() 
 	:
 	State("MainMenu")
@@ -71,6 +72,7 @@ void MainMenuState::Render(float dTime) {
 
 	EndRender();
 }
+
 
 void MainMenuState::LoadTextures() {
 	FX::MyFX& fx = *FX::GetMyFX();

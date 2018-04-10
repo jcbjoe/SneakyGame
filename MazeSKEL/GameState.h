@@ -25,6 +25,8 @@ public:
 	void Init() override;
 	void Render(float dTime) override;
 	void Release() override;
+
+	bool paused = false;
 private:
 	float gAngle = 0;
 	Player gPlayer;

@@ -37,6 +37,9 @@ private:
 	DirectX::SpriteFont *mpComicSans = nullptr, *mpAlgerian = nullptr;
 
 	time_t start;
+
+	ID3D11ShaderResourceView *mpPausedTex = nullptr;
+	DirectX::SimpleMath::Vector2 mPausedDimentions;
 };
 SINGLETON_GET(UserInterfaceManager);
 

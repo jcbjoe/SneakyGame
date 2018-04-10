@@ -136,12 +136,6 @@ void GameState::Init() {
 
 void GameState::Update(float dTime) {
 
-
-	if (GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON))
-	{
-		GetUserInterfaceManager()->printDebugText("Test");
-	}
-
 	//Load level 1 for now
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{
@@ -160,6 +154,10 @@ void GameState::Update(float dTime) {
 		GetLevelManager()->loadLevel(1);
 		GetGameObjectManager()->deleteAllObjects();
 		GetLevelManager()->getCurrentLevel()->reloadLevel(gPlayer);
+	}
+
+	if (GetMouseAndKeys()->IsPressed(VK_P)) {
+		paused = !paused;
 	}
 
 	vector<GameObject*>& objects = GetGameObjectManager()->getGameObjects();
@@ -235,7 +233,6 @@ void GameState::Render(float dTime) {
 
 
 	EndRender();
-
 	GetMouseAndKeys()->PostProcess();
 }
 

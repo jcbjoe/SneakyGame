@@ -18,6 +18,8 @@ public:
 	void changeState(string stateName);
 	void changeState(int stateNumb);
 
+	void Release();
+
 private:
 	int currentState;
 

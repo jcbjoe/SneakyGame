@@ -43,3 +43,10 @@ void StateManager::changeState(int stateNumb) {
 		getCurrentState()->Init();
 	}
 }
+
+void StateManager::Release() {
+	for (State* stat : states) {
+		delete stat;
+	}
+	states.clear();
+}
