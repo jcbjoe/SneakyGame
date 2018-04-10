@@ -34,6 +34,9 @@ void GameState::Init() {
 	Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
 	GetGameObjectManager()->addGameObject(skybox);
 
+	Floor* floor = new Floor("Floor", Vector3(4.5f, 0.0f, 4.5f), Vector3(0, 0, 0), Vector3(5, 1, 5));
+	GetGameObjectManager()->addGameObject(floor);
+
 	//For every space in the level
 	for (int i(0); i < levelx; i++)
 	{
@@ -43,8 +46,8 @@ void GameState::Init() {
 			switch (GetLevelManager()->getCurrentLevel()->getObjectAtCoordinate(i, j))
 			{
 			case 0: {//Floor to be placed
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
+				//Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(5, 1, 5));
+				//GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
@@ -59,20 +62,12 @@ void GameState::Init() {
 			case 2: { //Player to be place
 					  //Place camera
 				gPlayer.Initialise(i, j);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
 			case 3: { //Loot to be placed
 				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
 				GetGameObjectManager()->addGameObject(loot);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 
 			}
@@ -80,32 +75,22 @@ void GameState::Init() {
 			case 4: { //Enemy to be placed
 				Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.1f, 0.1f, 0.1f));
 				GetGameObjectManager()->addGameObject(enemy);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
 			case 5: { //Key to be placed
 				Key* key = new Key("Key", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
 				GetGameObjectManager()->addGameObject(key);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
 			case 6: { //Door to be placed
 				Door* door = new Door("Door", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(door);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
+			default:
+				break;
 			}
 		}
 	}
