@@ -14,10 +14,15 @@ void FPSCamera::Initialise(const Vector3& pos, const DirectX::SimpleMath::Vector
 	mCamPos = pos;
 }
 
-void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right)
+void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool& isMoving)
 {
 	if (!forward && !back && !left && !right)
+	{
+		isMoving = false;
 		return;
+	}
+
+	isMoving = true;		
 
 	Matrix ori = Matrix::CreateFromYawPitchRoll(yaw, pitch, roll);
 	Vector3 dir(0, 0, 1), up(0, 1, 0);
@@ -270,4 +275,34 @@ void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 	up = Vector3::TransformNormal(up, ori);
 	assert(mpViewSpaceTfm);
 	CreateViewMatrix(*mpViewSpaceTfm, mCamPos, mCamPos + dir, up);
+}
+
+void FPSCamera::Bob(float dTime)
+{
+	bobY = sinf(((counter) * PI) / 180.0f) / 20.0f;
+	counter += 4;
+	mCamPos.y -= prevChangeY;
+	mCamPos.y += bobY;
+	prevChangeY = bobY;
+}
+
+void FPSCamera::ReturnToY(float dtime, float yVal)
+{
+	//If camera position needs to return to normal
+	if (mCamPos.y != yVal)
+	{
+		float difference = yVal - mCamPos.y;
+		if (difference > 0.2f)
+		{
+			mCamPos.y -= 0.5f * dtime;
+		}
+		else if (difference < -0.2f)
+		{
+			mCamPos.y += 0.5f * dtime;
+		}
+		else
+		{
+			mCamPos.y = yVal;
+		}
+	}
 }

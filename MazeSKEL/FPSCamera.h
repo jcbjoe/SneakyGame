@@ -16,7 +16,7 @@ public:
 	void Initialise(const DirectX::SimpleMath::Vector3& pos, const DirectX::SimpleMath::Vector3& tgt, DirectX::SimpleMath::Matrix& viewSpaceTfm);
 
 	//movement can be driven by WASD
-	void Move(float dTime, bool forward, bool back, bool left, bool right);
+	void Move(float dTime, bool forward, bool back, bool left, bool right, bool&);
 
 	void Update(float dTime);
 
@@ -32,6 +32,9 @@ public:
 		return mCamPos;
 	}
 
+	void Bob(float dtime);
+	void ReturnToY(float dtime, float yVal);
+
 private:
 	DirectX::SimpleMath::Vector3 mLockAxis{ UNLOCK,UNLOCK,UNLOCK };
 	//the camera matrix to modify
@@ -42,6 +45,10 @@ private:
 	DirectX::SimpleMath::Vector3 mCamPos;
 	//camera rotation
 	float yaw = 0, pitch = 0, roll = 0;
+
+	float counter = 0;
+	float bobY = 0;
+	float prevChangeY = 0;
 };
 
 

@@ -26,6 +26,8 @@ void Player::Update(float dTime)
 		mCamera.Crouch(isCrouched);
 	}
 
+	
+
 	//Collisions
 	//for (int i = 0; i < 10; i++)
 	//{
@@ -54,13 +56,25 @@ void Player::Update(float dTime)
 	//		}
 	//	}
 	//}
-	mCamera.Move(dTime / moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D));
+	mCamera.Move(dTime / moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), isMoving);
 
 	//Rotate camera
 	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 	if (m.x != 0 || m.y != 0)
 	{
 		mCamera.Rotate(dTime, m.x, m.y, 0);
+	}
+
+	if (isMoving)
+	{
+		mCamera.Bob(dTime);
+	}
+	else
+	{
+		if (isCrouched)
+			mCamera.ReturnToY(dTime, 0.3f);
+		else
+			mCamera.ReturnToY(dTime, 0.5f);
 	}
 
 	mCamera.Update(dTime);

@@ -48,6 +48,7 @@ private:
 	int keyNo = 0;
 	float moveSpeed;
 	float turnSpeed = 20.0f;
+	bool isMoving = false;
 	bool isCrouched = false;
 	bool hasKey = false;
 	FPSCamera mCamera;
