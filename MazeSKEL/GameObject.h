@@ -68,6 +68,8 @@ public:
 	bool getMove();
 	void setIndex(int index);
 	int getIndex();
+
+	void setInitialPos();
 private:
 
 	string name_;

@@ -2,6 +2,7 @@
 
 #include "level1.h"
 #include "level2.h"
+#include "GameObjectManager.h"
 
 LevelManager::LevelManager()
 {
@@ -15,7 +16,7 @@ void LevelManager::initialise() {
 	levels.push_back(level1);
 	levels.push_back(level2);
 
-	loadLevel(0);
+	currentLevelNumber = 0;
 }
 
 void LevelManager::Release() {
@@ -26,7 +27,6 @@ void LevelManager::Release() {
 }
 
 void LevelManager::loadLevel(string levelname) {
-	levels.at(currentLevelNumber)->Release();
 	int count = 0;
 	bool found = false;
 	for (Level* level : levels) {
@@ -42,4 +42,11 @@ void LevelManager::loadLevel(string levelname) {
 		if (!levels.empty())
 			loadLevel(0);
 	}
+}
+
+void LevelManager::loadLevel(int levelNum) {
+	levels.at(currentLevelNumber)->Release();
+	GetGameObjectManager()->deleteAllObjects();
+	currentLevelNumber = levelNum;
+	levels.at(currentLevelNumber)->reloadLevel();
 }

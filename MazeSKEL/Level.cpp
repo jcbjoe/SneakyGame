@@ -11,6 +11,8 @@
 #include "BlueKey.h"
 #include "BlueDoor.h"
 #include "WallHalf.h"
+#include "GameState.h"
+#include "StateManager.h"
 
 Level::Level(string name)
 {
@@ -33,7 +35,7 @@ string Level::getLevelName() {
 	return levelName;
 }
 
-void Level::reloadLevel(Player gPlayer) {
+void Level::reloadLevel() {
 	//For every space in the level
 	for (int i(0); i < 10; i++)
 	{
@@ -42,7 +44,7 @@ void Level::reloadLevel(Player gPlayer) {
 			switch (levelMap[i][j])
 			{
 			case 0: {//Floor to be placed
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(5, 1, 5));
 				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
@@ -55,22 +57,15 @@ void Level::reloadLevel(Player gPlayer) {
 				break;
 			}
 
-			case 2: {
-				//Place camera
-				gPlayer.Initialise(i, j);
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
+			case 2: { //Player to be place
+					 	//Place camera
+				((GameState*)GetStateManager()->getCurrentState())->getPlayer()->Initialise(i, j);
 				break;
 			}
 
 			case 3: { //Loot to be placed
-				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(-45, 0, 0), Vector3(0.02, 0.02, 0.02));
 				GetGameObjectManager()->addGameObject(loot);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 
 			}
@@ -78,62 +73,58 @@ void Level::reloadLevel(Player gPlayer) {
 			case 4: { //Enemy to be placed
 				Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.1f, 0.1f, 0.1f));
 				GetGameObjectManager()->addGameObject(enemy);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
 			case 5: { //Key to be placed
 				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
 				GetGameObjectManager()->addGameObject(redKey);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
 			case 6: { //Door to be placed
-				RedDoor* redDoor = new RedDoor("RedDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				RedDoor* redDoor = new RedDoor("RedDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.1));
 				GetGameObjectManager()->addGameObject(redDoor);
 
 				//Place wall above door
 				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(wallHalf);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
-
 			case 7: { //Key to be placed
 				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
 				GetGameObjectManager()->addGameObject(blueKey);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 
 			case 8: { //Door to be placed
-				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(blueKey);
+				BlueDoor* blueDoor = new BlueDoor("BlueDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.1, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(blueDoor);
 
 				//Place wall above door
 				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(wallHalf);
-
-				//Place floor
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
+			case 9: { //Door to be placed
+				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.2f, j), Vector3(0, 0, 0), Vector3(0.2, 0.2, 0.4));
+				GetGameObjectManager()->addGameObject(returnBox);
+				break;
+			}
+
+			default:
+				break;
 			}
 		}
+	}
+
+	int count(1);
+	for (Vector3 loc : waypointLocations) {
+		std::ostringstream oss;
+		oss << "Waypoint" << count;
+		GameObject* waypoint = new GameObject(oss.str(), loc, Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
+		GetGameObjectManager()->addGameObject(waypoint);
+		count++;
 	}
 }
 
@@ -147,4 +138,8 @@ int Level::getObjectAtWorldPos(float x, float y)
 	y = round(y);
 
 	return getObjectAtCoordinate(x, y);;
+}
+
+void Level::addWaypointLocation(Vector3 loc) {
+	waypointLocations.push_back(loc);
 }
