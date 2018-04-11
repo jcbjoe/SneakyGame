@@ -32,6 +32,10 @@ string Level::getLevelName() {
 }
 
 void Level::reloadLevel() {
+
+	Floor* floor = new Floor("Floor", Vector3(4.5f, 0.0f, 4.5f), Vector3(0, 0, 0), Vector3(5, 1, 5));
+	GetGameObjectManager()->addGameObject(floor);
+
 	//For every space in the level
 	for (int i(0); i < 10; i++)
 	{
@@ -40,8 +44,6 @@ void Level::reloadLevel() {
 			switch (levelMap[i][j])
 			{
 			case 0: {//Floor to be placed
-				Floor* floor = new Floor("Floor", Vector3(i, 0.0f, j), Vector3(0, 0, 0), Vector3(5, 1, 5));
-				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
 			case 1: { //Wall to be placed
