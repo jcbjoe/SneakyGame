@@ -480,14 +480,18 @@ void MyFX::RenderLine(const Vector2& start, const Vector4& startCol, const Vecto
 	mLineIdx++;
 }
 
-void MyFX::Render(Model& model, ID3D11DeviceContext *pD3DContext, MaterialExt* pOverrideMat)
+void MyFX::Render(Model& model, ID3D11DeviceContext *pD3DContext, MaterialExt* pOverrideMat, DirectX::SimpleMath::Matrix* pOverrideMatrix)
 {
 	//setup shaders
 	pD3DContext->VSSetShader(mpVS, nullptr, 0);
 
-	Matrix w;
-	model.GetWorldMatrix(w);
-	SetPerObjConsts(pD3DContext, w);
+	if(pOverrideMatrix) 
+		SetPerObjConsts(pD3DContext, *pOverrideMatrix);
+	else {
+		Matrix w;
+		model.GetWorldMatrix(w);
+		SetPerObjConsts(pD3DContext, w);
+	}
 
 	Mesh& mesh = model.GetMesh();
 	//int i = (mesh.GetNumSubMeshes()>1) ? 1 : 0;

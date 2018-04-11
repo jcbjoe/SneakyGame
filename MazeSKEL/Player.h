@@ -64,6 +64,7 @@ private:
 	bool openedBlue = false;
 
 	FPSCamera mCamera;
+	Model hands_;
 };
 
 #endif
