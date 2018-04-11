@@ -8,6 +8,7 @@
 
 #include "SpriteFont.h"
 #include "D3D.h"
+#include "FX.h"
 
 
 class UserInterfaceManager : public Singleton<UserInterfaceManager>
@@ -40,6 +41,15 @@ private:
 
 	ID3D11ShaderResourceView *mpPausedTex = nullptr;
 	DirectX::SimpleMath::Vector2 mPausedDimentions;
+
+	ID3D11ShaderResourceView *mpRedKeyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mRedKeyDimentions;
+
+	ID3D11ShaderResourceView *mpBlueKeyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mBlueKeyDimentions;
+
+	ID3D11ShaderResourceView *mpEmptyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mEmptyDimentions;
 };
 SINGLETON_GET(UserInterfaceManager);
 

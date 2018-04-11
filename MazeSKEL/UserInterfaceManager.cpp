@@ -1,7 +1,6 @@
 #include "UserInterfaceManager.h"
 #include <sstream>
 #include <time.h>
-#include "FX.h"
 #include "StateManager.h"
 #include "GameState.h"
 
@@ -24,6 +23,15 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 
 	mpPausedTex = fx.mCache.LoadTexture("paused.dds", true, gd3dDevice);
 	mPausedDimentions = fx.mCache.Get(mpPausedTex).dim;
+
+	mpRedKeyTex = fx.mCache.LoadTexture("RedKey5.dds", true, gd3dDevice);
+	mRedKeyDimentions = fx.mCache.Get(mpRedKeyTex).dim;
+
+	mpBlueKeyTex = fx.mCache.LoadTexture("BlueKey5.dds", true, gd3dDevice);
+	mBlueKeyDimentions = fx.mCache.Get(mpBlueKeyTex).dim;
+
+	mpEmptyTex = fx.mCache.LoadTexture("Empty.dds", true, gd3dDevice);
+	mEmptyDimentions = fx.mCache.Get(mpEmptyTex).dim;
 
 	start = time(0);
 }
@@ -54,7 +62,6 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(495, 384), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//Show crouching ui
 	mpAlgerian->DrawString(mpSpriteBatch, crouching.str().c_str(), Vector2(100, 200), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-
 	//--- End Crouching Display 
 
 	//--- Begin FPS Counter
@@ -83,14 +90,20 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 
 	//--- Begin Key Display
 	wstringstream redKeyFound;
-	if(hasRedKey)
-		redKeyFound << "Red Key Collected";
-	mpAlgerian->DrawString(mpSpriteBatch, redKeyFound.str().c_str(), Vector2(0, 100), Colors::IndianRed, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	if (hasRedKey)
+		//redKeyFound << "Red Key Collected";
+		//mpAlgerian->DrawString(mpSpriteBatch, redKeyFound.str().c_str(), Vector2(0, 100), Colors::IndianRed, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		mpSpriteBatch->Draw(mpRedKeyTex, Vector2(25, 740), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(0.1, 0.1));
+	else
+		mpSpriteBatch->Draw(mpEmptyTex, Vector2(25, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
 
 	wstringstream blueKeyFound;
 	if (hasBlueKey)
-		blueKeyFound << "Blue Key Collected";
-	mpAlgerian->DrawString(mpSpriteBatch, blueKeyFound.str().c_str(), Vector2(0, 150), Colors::DeepSkyBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		//blueKeyFound << "Blue Key Collected";
+		//mpAlgerian->DrawString(mpSpriteBatch, blueKeyFound.str().c_str(), Vector2(0, 150), Colors::DeepSkyBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(75, 740), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(0.1, 0.1));
+	else
+		mpSpriteBatch->Draw(mpEmptyTex, Vector2(75, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
 	//--- End Key Display
 
 	//--- Begin Debug Text
