@@ -16,8 +16,12 @@ void GameState::Init() {
 	BuildLoot(*GetMeshManager(), 10, 10);
 	BuildCube(*GetMeshManager());
 	BuildDoor(*GetMeshManager());
-	Mesh* ms = &GetMeshManager()->CreateMesh("Coin");
-	ms->CreateFrom("../bin/data/CoinNew.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
+	Mesh* msKey = &GetMeshManager()->CreateMesh("Key");
+	msKey->CreateFrom("../bin/data/key.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
+	Mesh* msCoin = &GetMeshManager()->CreateMesh("Coin");
+	msCoin->CreateFrom("../bin/data/CoinNew.fbx", gd3dDevice, FX::GetMyFX()->mCache);
 
 	GetLevelManager()->initialise();
 

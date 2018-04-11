@@ -66,7 +66,7 @@ void Level::reloadLevel() {
 				break;
 			}
 			case 3: { //Loot to be placed
-				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(-45, 0, 0), Vector3(0.02, 0.02, 0.02));
+				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(-PI/2, 0, 0), Vector3(0.02, 0.02, 0.02));
 				GetGameObjectManager()->addGameObject(loot);
 
 				maxCoins++;
@@ -79,7 +79,7 @@ void Level::reloadLevel() {
 				break;
 			}
 			case 5: { //Key to be placed
-				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI/2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(redKey);
 				break;
 			}
@@ -93,7 +93,7 @@ void Level::reloadLevel() {
 				break;
 			}
 			case 7: { //Key to be placed
-				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI/2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(blueKey);
 				break;
 			}

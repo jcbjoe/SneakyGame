@@ -4,7 +4,7 @@ BlueKey::BlueKey(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	:
 	GameObject(name, position, rotation, scale) {
 
-	GetModel().Initialise(*GetMeshManager()->GetMesh("loot"));
+	GetModel().Initialise(*GetMeshManager()->GetMesh("Key"));
 
 	GameObject::setInitialPos();
 
@@ -18,5 +18,5 @@ BlueKey::BlueKey(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 void BlueKey::Update(float dTime)
 {
 	//GetRotation() = GetRotation() + Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), GetRotationAngle() += dTime * 0.5);
-	incrementYRotation(dTime * 0.5f);
+	incrementXRotation(dTime * 0.5f);
 }
