@@ -1,5 +1,4 @@
 #include "Level.h"
-
 #include "Player.h"
 #include "Wall.h"
 #include "Loot.h"
@@ -16,10 +15,7 @@
 
 Level::Level(string name)
 {
-
 	levelName = name;
-
-
 }
 
 void Level::setLevelMap(int level[10][10]) {
@@ -48,40 +44,34 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(floor);
 				break;
 			}
-
 			case 1: { //Wall to be placed
 
-				Wall* wall = new Wall("Wall", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				Wall* wall = new Wall("Wall", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 1.0, 0.5));
 				GetGameObjectManager()->addGameObject(wall);
 
 				break;
 			}
-
 			case 2: { //Player to be place
 					 	//Place camera
 				((GameState*)GetStateManager()->getCurrentState())->getPlayer()->Initialise(i, j);
 				break;
 			}
-
 			case 3: { //Loot to be placed
 				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(-45, 0, 0), Vector3(0.02, 0.02, 0.02));
 				GetGameObjectManager()->addGameObject(loot);
 				break;
 
 			}
-
 			case 4: { //Enemy to be placed
 				Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.1f, 0.1f, 0.1f));
 				GetGameObjectManager()->addGameObject(enemy);
 				break;
 			}
-
 			case 5: { //Key to be placed
 				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
 				GetGameObjectManager()->addGameObject(redKey);
 				break;
 			}
-
 			case 6: { //Door to be placed
 				RedDoor* redDoor = new RedDoor("RedDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.1));
 				GetGameObjectManager()->addGameObject(redDoor);
@@ -96,7 +86,6 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(blueKey);
 				break;
 			}
-
 			case 8: { //Door to be placed
 				BlueDoor* blueDoor = new BlueDoor("BlueDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.1, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(blueDoor);
@@ -111,13 +100,11 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(returnBox);
 				break;
 			}
-
 			default:
 				break;
 			}
 		}
 	}
-
 	int count(1);
 	for (Vector3 loc : waypointLocations) {
 		std::ostringstream oss;

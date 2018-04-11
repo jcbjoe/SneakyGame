@@ -33,7 +33,7 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey) {
+void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey) {
 
 	mpSpriteBatch->Begin();
 
@@ -65,14 +65,23 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouchi
 	}
 	//--- End FPS Counter
 
+	//--- Begin Timer Display
+	wstringstream clock;
+	clock  << "Time: " << fixed << setprecision(1) << Timer;
+	mpAlgerian->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(830, 0), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//--- End Timer Display
+
+	//--- Begin Coin Display
 	wstringstream coinsPickedUp;
 	coinsPickedUp << "Coins Collected: " << playerScore;
 	mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
 	wstringstream coinsDeposited;
-	coinsDeposited << "Coins Collected: " << playerDeposited;
+	coinsDeposited << "Coins Deposited: " << playerDeposited;
 	mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//--- End Coin Display
 
+	//--- Begin Key Display
 	wstringstream redKeyFound;
 	if(hasRedKey)
 		redKeyFound << "Red Key Collected";
@@ -82,6 +91,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const bool& isCrouchi
 	if (hasBlueKey)
 		blueKeyFound << "Blue Key Collected";
 	mpAlgerian->DrawString(mpSpriteBatch, blueKeyFound.str().c_str(), Vector2(0, 150), Colors::DeepSkyBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//--- End Key Display
 
 	//--- Begin Debug Text
 	int count = 0;

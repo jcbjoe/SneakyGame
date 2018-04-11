@@ -22,7 +22,7 @@ Level1::Level1(string name): Level(name) {
 
 	std::vector<Vector3> waypointLocations = 
 	{
-		Vector3( 8, 0.4, 6),
+		Vector3(8, 0.4, 6),
 		Vector3(7, 0.4, 6),
 		Vector3(7, 0.4, 1),
 		Vector3(4, 0.4, 1),
@@ -38,8 +38,6 @@ Level1::Level1(string name): Level(name) {
 	for (Vector3 vec : waypointLocations) {
 		addWaypointLocation(vec);
 	}
-
-
 }
 
 void Level1::Release() {

@@ -19,7 +19,6 @@ public:
 	BlueDoor(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 	void Update(float dTime) override;
 private:
-	bool open = false;
 	float x = 0;
 };
 #endif

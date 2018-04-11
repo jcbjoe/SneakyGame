@@ -34,6 +34,9 @@ void GameState::Init() {
 
 void GameState::Update(float dTime) {
 
+	//Timer Incrementer
+	Timer += dTime;
+
 	//Load level 1 for now
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{
@@ -150,7 +153,7 @@ void GameState::Render(float dTime) {
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey());
+	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey());
 
 
 	EndRender();

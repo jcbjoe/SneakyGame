@@ -36,6 +36,7 @@ public:
 private:
 	float gAngle = 0;
 	Player* gPlayer;
+	float Timer = 0;
 };
 
 
