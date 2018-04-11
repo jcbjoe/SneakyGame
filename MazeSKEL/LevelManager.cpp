@@ -3,6 +3,9 @@
 #include "level1.h"
 #include "level2.h"
 #include "GameObjectManager.h"
+#include "Skybox.h"
+#include "Floor.h"
+
 
 LevelManager::LevelManager()
 {
@@ -17,6 +20,12 @@ void LevelManager::initialise() {
 	levels.push_back(level2);
 
 	currentLevelNumber = 0;
+
+	Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
+	GetGameObjectManager()->addGameObject(skybox);
+
+	Floor* floor = new Floor("Floor", Vector3(4.5f, 0.0f, 4.5f), Vector3(0, 0, 0), Vector3(5, 1, 5));
+	GetGameObjectManager()->addGameObject(floor);
 }
 
 void LevelManager::Release() {
