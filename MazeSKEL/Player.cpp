@@ -2,7 +2,7 @@
 
 void Player::Initialise(const float& i, const float& j) 
 {
-	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(0, 0, 1), FX::GetViewMatrix());
+	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(i + 1, 0.5, j + 1), FX::GetViewMatrix());
 	mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 }
 void Player::Release() 
@@ -118,14 +118,14 @@ void Player::dropOffCoins()
 	coins = 0;
 }
 
-void Player::setHasRedKey()
+void Player::setHasRedKey(const bool& key)
 {
-	hasRedKey = true;
+	hasRedKey = key;
 }
 
-void Player::setHasBlueKey()
+void Player::setHasBlueKey(const bool& key)
 {
-	hasBlueKey = true;
+	hasBlueKey = key;
 }
 
 //void Player::changeKeyNo(int x)

@@ -29,6 +29,8 @@ public:
 
 	int getObjectAtWorldPos(float x, float y);
 
+	int getMaxCoins() const { return maxCoins; }
+
 	void addWaypointLocation(Vector3 loc);
 
 private:
@@ -36,6 +38,7 @@ private:
 	string levelName;
 
 	int levelMap[20][20];
+	int maxCoins;
 
 	vector<Vector3> waypointLocations;
 };

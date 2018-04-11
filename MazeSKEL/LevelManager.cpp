@@ -2,6 +2,9 @@
 
 #include "level1.h"
 #include "level2.h"
+#include "level3.h"
+#include "level4.h"
+#include "level5.h"
 #include "GameObjectManager.h"
 #include "Skybox.h"
 
@@ -14,9 +17,15 @@ LevelManager::LevelManager()
 void LevelManager::initialise() {
 	Level1* level1 = new Level1("Level1");
 	Level2* level2 = new Level2("Level2");
+	Level3* level3 = new Level3("Level3");
+	Level4* level4 = new Level4("Level4");
+	Level5* level5 = new Level5("Level5");
 
 	levels.push_back(level1);
 	levels.push_back(level2);
+	levels.push_back(level3);
+	levels.push_back(level4);
+	levels.push_back(level5);
 
 	currentLevelNumber = 0;
 

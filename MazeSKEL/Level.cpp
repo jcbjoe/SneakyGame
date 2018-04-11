@@ -17,6 +17,7 @@
 Level::Level(string name)
 {
 	levelName = name;
+	maxCoins = 0;
 }
 
 void Level::setLevelMap(int level[20][20]) {
@@ -33,6 +34,8 @@ string Level::getLevelName() {
 }
 
 void Level::reloadLevel() {
+
+	maxCoins = 0;
 
 	Floor* floor = new Floor("Floor", Vector3(9.5f, 0.0f, 9.5f), Vector3(0, 0, 0), Vector3(10, 1, 10));
 	GetGameObjectManager()->addGameObject(floor);
@@ -65,6 +68,8 @@ void Level::reloadLevel() {
 			case 3: { //Loot to be placed
 				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(-45, 0, 0), Vector3(0.02, 0.02, 0.02));
 				GetGameObjectManager()->addGameObject(loot);
+
+				maxCoins++;
 				break;
 
 			}

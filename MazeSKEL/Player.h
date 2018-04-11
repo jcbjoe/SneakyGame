@@ -36,8 +36,8 @@ public:
 	//int getKeyNo();
 	//Sets
 	void increaseScore();
-	void setHasRedKey();
-	void setHasBlueKey();
+	void setHasRedKey(const bool&);
+	void setHasBlueKey(const bool&);
 	void setOpenedRed();
 	void setOpenedBlue();
 	//void changeKeyNo(int x);
@@ -46,6 +46,7 @@ public:
 	void toggleCrouch();
 	Vector3 getCameraPosition();
 	int getDeposited();
+	void setDeposited(const int& val) { depositedCoins = val; }
 	bool getCrouchStatus();
 private:
 

@@ -104,6 +104,9 @@
     <ClCompile Include="CRC.cpp" />
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="D3DUtil.cpp" />
+    <ClCompile Include="Level3.cpp" />
+    <ClCompile Include="Level4.cpp" />
+    <ClCompile Include="Level5.cpp" />
     <ClCompile Include="RedDoor.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Error.cpp" />
@@ -150,6 +153,9 @@
     <ClInclude Include="CRC.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DUtil.h" />
+    <ClInclude Include="Level3.h" />
+    <ClInclude Include="Level4.h" />
+    <ClInclude Include="Level5.h" />
     <ClInclude Include="RedDoor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Error.h" />

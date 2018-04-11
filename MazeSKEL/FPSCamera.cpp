@@ -116,7 +116,40 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 			pos.z = mCamPos.z;
 		}
 
+	case 6:
+
+		vecFrom.x = mCamPos.x - round(posToCheckX);
+		vecFrom.y = mCamPos.z - round(posToCheckY);
+
+		distanceFromObjectX = 0.4f;
+		distanceFromObjectY = 0.7f;
+		//If you are close to the wall
+		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY  && !hasRedKey)
+		{
+			//Dont allow the player to move
+			pos.x = mCamPos.x;
+			pos.z = mCamPos.z;
+		}
+
 		break;
+
+	case 8:
+
+		vecFrom.x = mCamPos.x - round(posToCheckX);
+		vecFrom.y = mCamPos.z - round(posToCheckY);
+
+		distanceFromObjectX = 0.7f;
+		distanceFromObjectY = 0.4f;
+		//If you are close to the wall
+		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY && !hasRedKey)
+		{
+			//Dont allow the player to move
+			pos.x = mCamPos.x;
+			pos.z = mCamPos.z;
+		}
+
+		break;
+
 	//If player is near the deposit box
 	case 9:
 		vecFrom.x = mCamPos.x - round(posToCheckX);

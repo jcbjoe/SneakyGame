@@ -114,14 +114,14 @@ void GameState::Update(float dTime) {
 				else
 					if (obj->GetName() == "RedKey")
 					{
-						gPlayer->setHasRedKey();
+						gPlayer->setHasRedKey(true);
 						GetGameObjectManager()->deleteGameObjectByIndex(index);
 						return;
 					}
 					else
 						if (obj->GetName() == "BlueKey")
 						{
-							gPlayer->setHasBlueKey();
+							gPlayer->setHasBlueKey(true);
 							GetGameObjectManager()->deleteGameObjectByIndex(index);
 							return;
 						}
@@ -133,7 +133,15 @@ void GameState::Update(float dTime) {
 				{
 					//Deposit them
 					gPlayer->dropOffCoins();
+					if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
+					{
+						gPlayer->setDeposited(0);
+						gPlayer->setHasRedKey(false);
+						gPlayer->setHasBlueKey(false);
+						GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
+					}
 				}
+
 				return;
 			}
 		}

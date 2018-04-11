@@ -26,6 +26,8 @@ public:
 
 	void Release();
 
+	int getCurrentLevelNumber() const { return currentLevelNumber; }
+
 private:
 	int currentLevelNumber;
 

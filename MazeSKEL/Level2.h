@@ -9,6 +9,8 @@ public:
 
 	Level2(string name);
 
+	void Release() override;
+
 private:
 
 };
