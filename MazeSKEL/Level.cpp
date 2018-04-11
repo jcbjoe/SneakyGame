@@ -48,7 +48,7 @@ void Level::reloadLevel() {
 			}
 			case 1: { //Wall to be placed
 
-				Wall* wall = new Wall("Wall", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 1.0, 0.5));
+				Wall* wall = new Wall("Wall", Vector3(i, 1.0f, j), Vector3(0, 0, 0), Vector3(0.5, 1.0, 0.5));
 				GetGameObjectManager()->addGameObject(wall);
 
 				break;
