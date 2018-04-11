@@ -171,7 +171,7 @@ namespace FX
 		//pD3DContext - handle to D3D
 		//flags - control lighting, etc
 		//pOverrideMat - if not null it points at a material to use instead of the one in the mesh
-		void Render(Model& model, ID3D11DeviceContext *pD3DContext, MaterialExt* pOverrideMat = nullptr);
+		void Render(Model& model, ID3D11DeviceContext *pD3DContext, MaterialExt* pOverrideMat = nullptr, DirectX::SimpleMath::Matrix* pOverrideMatrix = nullptr);
 		ID3D11SamplerState* GetSampler() {
 			assert(mpSamAnisotropic);
 			return mpSamAnisotropic;

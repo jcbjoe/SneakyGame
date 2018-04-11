@@ -108,7 +108,7 @@ void Level::reloadLevel() {
 				break;
 			}
 			case 9: { //Door to be placed
-				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.2f, j), Vector3(0, 0, 0), Vector3(0.2, 0.2, 0.4));
+				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.13f, j), Vector3(0, -(PI / 2), 0), Vector3(0.05, 0.05, 0.05));
 				GetGameObjectManager()->addGameObject(returnBox);
 				break;
 			}

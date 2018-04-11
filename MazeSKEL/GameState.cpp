@@ -23,6 +23,12 @@ void GameState::Init() {
 	Mesh* msCoin = &GetMeshManager()->CreateMesh("Coin");
 	msCoin->CreateFrom("../bin/data/CoinNew.fbx", gd3dDevice, FX::GetMyFX()->mCache);
 
+	Mesh* msChest = &GetMeshManager()->CreateMesh("Chest");
+	msChest->CreateFrom("../bin/data/chest.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
+	//Mesh* msHand = &GetMeshManager()->CreateMesh("Hands");
+	//msHand->CreateFrom("../bin/data/Hands.obj", gd3dDevice, FX::GetMyFX()->mCache);
+
 	GetLevelManager()->initialise();
 
 	Timer = 100;
@@ -164,10 +170,12 @@ void GameState::Update(float dTime) {
 
 void GameState::Render(float dTime) {
 	BeginRender(Colours::Black);
-
+	
 	for (GameObject* obj : GetGameObjectManager()->getGameObjects()) {
 		obj->Render();
 	}
+
+	gPlayer->Render(dTime);
 
 	float alpha = 0.5f + sinf(gAngle * 2)*0.5f;
 
@@ -178,7 +186,6 @@ void GameState::Render(float dTime) {
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
 	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey());
-
 
 	EndRender();
 	GetMouseAndKeys()->PostProcess();

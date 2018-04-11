@@ -1,9 +1,24 @@
 #include "Player.h" 
+#include "UserInterfaceManager.h"
 
 void Player::Initialise(const float& i, const float& j) 
 {
 	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(i + 1, 0.5, j + 1), FX::GetViewMatrix());
 	mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
+
+	//hands_.Initialise(*GetMeshManager()->GetMesh("Hands"));
+
+
+
+	//MaterialExt mat = hands_.GetMesh().GetSubMesh(0).material;
+	//mat.gfxData.Set(Vector4(0.8f, 0.8f, 0.8f, 0), Vector4(0.8f, 0.8f, 0.8f, 0), Vector4(0.0f, 0.0f, 0.0f, 1));
+	//mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("FloorWood.dds", true, gd3dDevice);
+	//mat.texture = "FloorWood.dds";
+	//mat.texTrsfm.scale = Vector2(20, 20);
+
+	//hands_.SetOverrideMat(&mat);
+
+
 }
 void Player::Release() 
 {
@@ -64,6 +79,23 @@ void Player::Update(float dTime)
 void Player::Render(float dTime) 
 {
 	GetMouseAndKeys()->PostProcess();
+
+	//FX::MyFX& fx = *FX::GetMyFX();
+
+	//Matrix camLocalToWorld = mCamera.getMatrix().Invert();
+
+	//hands_.GetPosition() = Vector3(0.05f, -0.06f, -0.02f);
+	//hands_.GetScale() = Vector3(0.005, 0.005, 0.005);
+	//hands_.GetRotation() = Vector3(0, 0, 0);
+
+	//Matrix mat;
+	//hands_.GetWorldMatrix(mat);
+	//Matrix camLock = mat * camLocalToWorld;
+
+	////GetUserInterfaceManager()->printDebugText("x: " + to_string(getCameraPosition().x) + " Z: " + to_string(getCameraPosition().z));
+
+
+	//fx.Render(hands_, gd3dImmediateContext, nullptr, &camLock);
 }
 
 //Gets
