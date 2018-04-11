@@ -21,6 +21,8 @@ void GameState::Init() {
 
 	GetLevelManager()->initialise();
 
+	Timer = 100;
+
 	gPlayer = new Player();
 
 	//Change array to use in level
@@ -33,20 +35,21 @@ void GameState::Init() {
 }
 
 void GameState::Update(float dTime) {
-
-	//Timer Incrementer
-	Timer += dTime;
-
 	//Load level 1 for now
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{
 		GetLevelManager()->loadLevel(0);
+		Timer = 100;
 	}
 	//Load level 2 for now
 	else if (GetMouseAndKeys()->IsPressed(VK_2))
 	{
 		GetLevelManager()->loadLevel(1);
+		Timer = 50;
 	}
+
+	//Timer Incrementer
+	Timer -= dTime;
 
 	if (GetMouseAndKeys()->IsPressed(VK_P)) {
 		paused = !paused;
