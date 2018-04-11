@@ -306,9 +306,9 @@ void FPSCamera::Bob(float dTime, bool isCrouched)
 	bobY = sinf(((counter) * PI) / 180.0f) / 40.0f;
 
 	if (isCrouched)
-		counter += 4;
+		counter += 500 * dTime;
 	else 
-		counter += 8;
+		counter += 1000 * dTime;
 
 	mCamPos.y -= prevChangeY;
 	mCamPos.y += bobY;

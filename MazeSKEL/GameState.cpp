@@ -1,5 +1,5 @@
 #include "GameState.h"
-
+#include "StateManager.h"
 
 GameState::GameState()
 	:
@@ -31,7 +31,7 @@ void GameState::Init() {
 
 	GetLevelManager()->initialise();
 
-	Timer = 100;
+	Timer = 60;
 
 	gPlayer = new Player();
 
@@ -60,6 +60,9 @@ void GameState::Update(float dTime) {
 
 	//Timer Incrementer
 	Timer -= dTime;
+	if (Timer < 0) {
+		GetStateManager()->changeState("MainMenu");
+	}
 
 	if (GetMouseAndKeys()->IsPressed(VK_P)) {
 		paused = !paused;
@@ -157,6 +160,7 @@ void GameState::Update(float dTime) {
 						gPlayer->setHasRedKey(false);
 						gPlayer->setHasBlueKey(false);
 						GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
+						Timer = 60;
 					}
 				}
 
