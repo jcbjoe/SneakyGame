@@ -36,7 +36,7 @@ void GameState::Init() {
 	gPlayer = new Player();
 
 	//Change array to use in level
-	GetLevelManager()->loadLevel(4);
+	GetLevelManager()->loadLevel(0);
 
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);
@@ -116,14 +116,13 @@ void GameState::Update(float dTime) {
 				if (obj->GetName() == "Loot")
 				{
 					gPlayer->increaseScore();
-					obj->setIndex(index);
-					obj->moveObject();
+					GetGameObjectManager()->deleteGameObjectByIndex(index);
 					return;
 				}
 				else
 					if (obj->GetName() == "RedKey")
 					{
-						gPlayer->setHasRedKey();
+						gPlayer->setHasRedKey(true);
 						obj->setIndex(index);
 						obj->moveObject();
 						return;
@@ -131,7 +130,7 @@ void GameState::Update(float dTime) {
 					else
 						if (obj->GetName() == "BlueKey")
 						{
-							gPlayer->setHasBlueKey();
+							gPlayer->setHasBlueKey(true);
 							obj->setIndex(index);
 							obj->moveObject();
 							return;
@@ -139,7 +138,7 @@ void GameState::Update(float dTime) {
 						else
 							if (obj->GetName() == "YellowKey")
 							{
-								gPlayer->setHasYellowKey();
+								gPlayer->setHasYellowKey(true);
 								obj->setIndex(index);
 								obj->moveObject();
 								return;

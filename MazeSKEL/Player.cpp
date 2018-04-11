@@ -165,9 +165,9 @@ void Player::setHasBlueKey(const bool& key)
 	hasBlueKey = key;
 }
 
-void Player::setHasYellowKey()
+void Player::setHasYellowKey(const bool& key)
 {
-	hasYellowKey = true;
+	hasYellowKey = key;
 }
 
 //void Player::changeKeyNo(int x)

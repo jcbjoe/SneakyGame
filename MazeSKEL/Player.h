@@ -38,9 +38,9 @@ public:
 	//int getKeyNo();
 	//Sets
 	void increaseScore();
-	void setHasRedKey();
-	void setHasBlueKey();
-	void setHasYellowKey();
+	void setHasRedKey(const bool& key);
+	void setHasBlueKey(const bool& key);
+	void setHasYellowKey(const bool& key);
 	void setOpenedRed();
 	void setOpenedBlue();
 	void setOpenedYellow();
