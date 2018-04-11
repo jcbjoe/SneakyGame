@@ -23,6 +23,9 @@ void GameState::Init() {
 	Mesh* msCoin = &GetMeshManager()->CreateMesh("Coin");
 	msCoin->CreateFrom("../bin/data/CoinNew.fbx", gd3dDevice, FX::GetMyFX()->mCache);
 
+	Mesh* msChest = &GetMeshManager()->CreateMesh("Chest");
+	msChest->CreateFrom("../bin/data/chest.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
 	GetLevelManager()->initialise();
 
 	Timer = 100;

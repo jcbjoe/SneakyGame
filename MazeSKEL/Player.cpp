@@ -4,6 +4,9 @@ void Player::Initialise(const float& i, const float& j)
 {
 	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(i + 1, 0.5, j + 1), FX::GetViewMatrix());
 	mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
+
+	//Mesh* msHands = &GetMeshManager()->CreateMesh("Hands");
+	//msHands->CreateFrom("../bin/data/hands.fbx", gd3dDevice, FX::GetMyFX()->mCache);
 }
 void Player::Release() 
 {
