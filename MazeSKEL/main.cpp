@@ -79,6 +79,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	new UserInterfaceManager;
 	new GameObjectManager;
 	new MouseAndKeys;
+	new Gamepad;
 	new LevelManager;
 	new StateManager;
 	GetStateManager()->getCurrentState()->Init();
@@ -88,6 +89,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	//shut down
 	GetStateManager()->Release();
 	delete GetMouseAndKeys();
+	delete GetGamepad();
 	delete GetMeshManager();
 	delete GetUserInterfaceManager();
 	delete GetGameObjectManager();

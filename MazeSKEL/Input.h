@@ -141,7 +141,7 @@ SINGLETON_GET(MouseAndKeys);
 Simple input handler
 Only supports the first controller detected, but easy to add support for more.
 */
-class Gamepad
+class Gamepad : public Singleton<Gamepad>
 {
 public:
 
@@ -199,6 +199,7 @@ private:
 	State mPads[XUSER_MAX_COUNT];
 
 };
+SINGLETON_GET(Gamepad);
 
 
 #endif

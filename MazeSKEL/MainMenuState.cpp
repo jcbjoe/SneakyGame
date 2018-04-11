@@ -11,6 +11,7 @@ MainMenuState::MainMenuState()
 {
 	//Initialise window and hide cursor
 	GetMouseAndKeys()->Initialise(GetMainWnd(), 1, 1);
+	GetGamepad()->Initialise();
 
 	LoadTextures();
 }

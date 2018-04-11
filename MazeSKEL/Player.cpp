@@ -10,9 +10,9 @@ void Player::Release()
 }
 void Player::Update(float dTime) 
 {
-	
+	GetGamepad()->Update();
 	//If player should be crouching
-	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT))
+	if (GetMouseAndKeys()->IsPressed(VK_LSHIFT) || (GetGamepad()->IsConnected(0) && GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)))
 	{
 		isCrouched = true;
 		moveSpeed = 20.0f;
@@ -25,41 +25,22 @@ void Player::Update(float dTime)
 		moveSpeed = 5.0f;
 		mCamera.Crouch(isCrouched);
 	}
-
 	
+	bool fwd = GetMouseAndKeys()->IsPressed(VK_W) || GetGamepad()->GetState(0).leftStickY > 0;
+	bool bck = GetMouseAndKeys()->IsPressed(VK_S) || GetGamepad()->GetState(0).leftStickY < 0;
+	bool lft = GetMouseAndKeys()->IsPressed(VK_A) || GetGamepad()->GetState(0).leftStickX < 0;
+	bool rgt = GetMouseAndKeys()->IsPressed(VK_D) || GetGamepad()->GetState(0).leftStickX > 0;
 
-	//Collisions
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	for (int j = 0; j < 10; j++)
-	//	{
-	//		if (GetLevelManager()->getObjectAtCoordinate(i, j) == 1)
-	//		{
-	//			if (((mCamera.GetPos().x + 0.5f) >= (i - 0.5f)) &&	
-	//				((mCamera.GetPos().x - 0.5f) <= (i + 0.5f)) &&	
-	//				((mCamera.GetPos().z + 0.5f) >= (j - 0.5f)) &&	
-	//				((mCamera.GetPos().z - 0.5f) <= (j + 0.5f)))
-	//			{
-	//				if (GetMouseAndKeys()->IsPressed(VK_W))
-	//					mCamera.Move(dTime / moveSpeed, true, false, false, false);
-	//
-	//				if (GetMouseAndKeys()->IsPressed(VK_S))
-	//					mCamera.Move(dTime / moveSpeed, false, true, false, false);
-	//
-	//				if (GetMouseAndKeys()->IsPressed(VK_A))
-	//					mCamera.Move(dTime / moveSpeed, false, false, true, false);
-	//
-	//				if (GetMouseAndKeys()->IsPressed(VK_D))
-	//					mCamera.Move(dTime / moveSpeed, false, false, true, true);
-	//
-	//			}
-	//		}
-	//	}
-	//}
-	mCamera.Move(dTime / moveSpeed, GetMouseAndKeys()->IsPressed(VK_W), GetMouseAndKeys()->IsPressed(VK_S), GetMouseAndKeys()->IsPressed(VK_A), GetMouseAndKeys()->IsPressed(VK_D), isMoving, hasRedKey, hasBlueKey);
+	mCamera.Move(dTime / moveSpeed, fwd, bck, lft, rgt, isMoving, hasRedKey, hasBlueKey);
 
 	//Rotate camera
-	Vector2 m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
+	Vector2 m;
+
+	if (GetGamepad()->IsConnected(0))
+		m = (Vector2(GetGamepad()->GetState(0).rightStickX, -GetGamepad()->GetState(0).rightStickY) / turnSpeed * 1.5f);
+	else
+		m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
+
 	if (m.x != 0 || m.y != 0)
 	{
 		mCamera.Rotate(dTime, m.x, m.y, 0);
