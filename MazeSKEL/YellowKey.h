@@ -1,5 +1,5 @@
-#ifndef REDKEY_H
-#define REDKEY_H
+#ifndef YELLOWKEY_H
+#define YELLOWKEY_H
 
 #include <vector> 
 #include "Mesh.h" 
@@ -13,10 +13,10 @@ using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-class RedKey : public GameObject
+class YellowKey : public GameObject
 {
 public:
-	RedKey(string name, Vector3 position, Vector3 rotation, Vector3 scale);
+	YellowKey(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 
 	void Update(float dTime) override;
 private:

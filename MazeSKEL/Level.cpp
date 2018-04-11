@@ -10,6 +10,7 @@
 #include "RedDoor.h"
 #include "BlueKey.h"
 #include "BlueDoor.h"
+#include "YellowKey.h"
 #include "WallHalf.h"
 #include "GameState.h"
 #include "StateManager.h"
@@ -104,6 +105,11 @@ void Level::reloadLevel() {
 			case 9: { //Door to be placed
 				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.2f, j), Vector3(0, 0, 0), Vector3(0.2, 0.2, 0.4));
 				GetGameObjectManager()->addGameObject(returnBox);
+				break;
+			}
+			case 10: { //Key to be placed
+				YellowKey* yellowKey = new YellowKey("YellowKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+				GetGameObjectManager()->addGameObject(yellowKey);
 				break;
 			}
 			default:

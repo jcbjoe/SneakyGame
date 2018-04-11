@@ -31,15 +31,19 @@ public:
 	int getScore();
 	bool getHasRedKey();
 	bool getHasBlueKey();
+	bool getHasYellowKey();
 	bool getOpenedRed();
 	bool getOpenedBlue();
+	bool getOpenedYellow();
 	//int getKeyNo();
 	//Sets
 	void increaseScore();
 	void setHasRedKey();
 	void setHasBlueKey();
+	void setHasYellowKey();
 	void setOpenedRed();
 	void setOpenedBlue();
+	void setOpenedYellow();
 	//void changeKeyNo(int x);
 	void dropOffCoins();
 
@@ -61,6 +65,8 @@ private:
 	bool openedRed = false;
 	bool hasBlueKey = false;
 	bool openedBlue = false;
+	bool hasYellowKey = false;
+	bool openedYellow = false;
 
 	FPSCamera mCamera;
 };

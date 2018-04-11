@@ -18,7 +18,7 @@ public:
 		Release();
 	}
 
-	void updateUI(const float fpsNumber, const float Timer, const bool&, const int, const int&, const int&, const int&);
+	void updateUI(const float fpsNumber, const float Timer, const bool&, const int, const int&, const int&, const int&, const int&);
 	void initialiseUI(bool showFPS);
 
 	void printDebugText(std::string text);
@@ -47,6 +47,9 @@ private:
 
 	ID3D11ShaderResourceView *mpBlueKeyTex = nullptr;
 	DirectX::SimpleMath::Vector2 mBlueKeyDimentions;
+
+	ID3D11ShaderResourceView *mpYellowKeyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mYellowKeyDimentions;
 
 	ID3D11ShaderResourceView *mpEmptyTex = nullptr;
 	DirectX::SimpleMath::Vector2 mEmptyDimentions;

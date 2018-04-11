@@ -18,7 +18,8 @@ void GameState::Init() {
 	BuildDoor(*GetMeshManager());
 	Mesh* ms = &GetMeshManager()->CreateMesh("Coin");
 	ms->CreateFrom("../bin/data/CoinNew.fbx", gd3dDevice, FX::GetMyFX()->mCache);
-
+	Mesh* ms2 = &GetMeshManager()->CreateMesh("Key");
+	ms2->CreateFrom("../bin/data/Key2.fbx", gd3dDevice, FX::GetMyFX()->mCache);
 	GetLevelManager()->initialise();
 
 	Timer = 100;
@@ -71,7 +72,7 @@ void GameState::Update(float dTime) {
 	int index(0);
 	for (GameObject* obj : objects) {
 		string objName = obj->GetName();
-		if (objName == "Loot" || objName == "RedKey" || objName == "RedDoor" || objName == "BlueKey" || objName == "BlueDoor" || objName == "ReturnBox")
+		if (objName == "Loot" || objName == "RedKey" || objName == "RedDoor" || objName == "BlueKey" || objName == "BlueDoor" || objName == "YellowKey" || objName == "ReturnBox")
 		{
 			//check loot collision
 			Vector3 vectorToLoot = gPlayer->getCameraPosition() - obj->GetPosition();
@@ -87,7 +88,6 @@ void GameState::Update(float dTime) {
 				{
 					if (gPlayer->getHasRedKey()) {
 						gPlayer->setOpenedRed();
-						obj->setIndex(index);
 						obj->moveObject();
 						return;
 					}
@@ -97,34 +97,44 @@ void GameState::Update(float dTime) {
 					{
 						if (gPlayer->getHasBlueKey()) {
 							gPlayer->setOpenedBlue();
-							obj->setIndex(index);
 							obj->moveObject();
 							return;
 						}
 					}
 			}
-			if (distanceFromLoot < 0.4f)
+			if (distanceFromLoot < 0.5f)
 			{
 				if (obj->GetName() == "Loot")
 				{
 					gPlayer->increaseScore();
-					GetGameObjectManager()->deleteGameObjectByIndex(index);
+					obj->setIndex(index);
+					obj->moveObject();
 					return;
 				}
 				else
 					if (obj->GetName() == "RedKey")
 					{
 						gPlayer->setHasRedKey();
-						GetGameObjectManager()->deleteGameObjectByIndex(index);
+						obj->setIndex(index);
+						obj->moveObject();
 						return;
 					}
 					else
 						if (obj->GetName() == "BlueKey")
 						{
 							gPlayer->setHasBlueKey();
-							GetGameObjectManager()->deleteGameObjectByIndex(index);
+							obj->setIndex(index);
+							obj->moveObject();
 							return;
 						}
+						else
+							if (obj->GetName() == "YellowKey")
+							{
+								gPlayer->setHasYellowKey();
+								obj->setIndex(index);
+								obj->moveObject();
+								return;
+							}
 			}
 			if (distanceFromLoot < 0.55f && objName == "ReturnBox")
 			{
@@ -156,7 +166,7 @@ void GameState::Render(float dTime) {
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey());
+	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey());
 
 
 	EndRender();

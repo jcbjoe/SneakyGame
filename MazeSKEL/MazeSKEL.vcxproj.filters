@@ -182,6 +182,9 @@
     <ClCompile Include="Ceiling.cpp">
       <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
+    <ClCompile Include="YellowKey.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -314,6 +317,9 @@
       <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
     <ClInclude Include="Ceiling.h">
+      <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="YellowKey.h">
       <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
   </ItemGroup>
