@@ -100,6 +100,7 @@
     <ClCompile Include="AudioMgrFMOD.cpp" />
     <ClCompile Include="BlueDoor.cpp" />
     <ClCompile Include="BlueKey.cpp" />
+    <ClCompile Include="Ceiling.cpp" />
     <ClCompile Include="CRC.cpp" />
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="D3DUtil.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="AudioMgrFMOD.h" />
     <ClInclude Include="BlueDoor.h" />
     <ClInclude Include="BlueKey.h" />
+    <ClInclude Include="Ceiling.h" />
     <ClInclude Include="CRC.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DUtil.h" />

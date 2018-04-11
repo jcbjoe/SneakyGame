@@ -15,6 +15,8 @@ Floor::Floor(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	mat.texTrsfm.scale = Vector2(10, 10);
 
 	GetModel().SetOverrideMat(&mat);
+
+	//SetRotation({ 0, 0, PI });
 }
 
 

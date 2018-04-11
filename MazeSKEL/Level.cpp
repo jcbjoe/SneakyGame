@@ -3,6 +3,7 @@
 #include "Wall.h"
 #include "Loot.h"
 #include "Floor.h"
+#include "Ceiling.h"
 #include "Skybox.h"
 #include "Enemy.h"
 #include "RedKey.h"
@@ -36,6 +37,9 @@ void Level::reloadLevel() {
 	Floor* floor = new Floor("Floor", Vector3(4.5f, 0.0f, 4.5f), Vector3(0, 0, 0), Vector3(5, 1, 5));
 	GetGameObjectManager()->addGameObject(floor);
 
+	Ceiling* ceiling = new Ceiling("Ceiling", Vector3(4.5f, 2.0f, 4.5f), Vector3(PI, 0, 0), Vector3(5, 1, 5));
+	GetGameObjectManager()->addGameObject(ceiling);
+
 	//For every space in the level
 	for (int i(0); i < 10; i++)
 	{
@@ -43,18 +47,18 @@ void Level::reloadLevel() {
 		{
 			switch (levelMap[i][j])
 			{
-			case 0: {//Floor to be placed
+			case 0: {
 				break;
 			}
 			case 1: { //Wall to be placed
 
-				Wall* wall = new Wall("Wall", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 1.0, 0.5));
+				Wall* wall = new Wall("Wall", Vector3(i, 1.0f, j), Vector3(0, 0, 0), Vector3(0.5, 1.0, 0.5));
 				GetGameObjectManager()->addGameObject(wall);
 
 				break;
 			}
-			case 2: { //Player to be place
-					 	//Place camera
+			case 2: { 
+					 	//Place player
 				((GameState*)GetStateManager()->getCurrentState())->getPlayer()->Initialise(i, j);
 				break;
 			}
