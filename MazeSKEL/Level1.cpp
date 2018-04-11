@@ -32,13 +32,11 @@ Level1::Level1(string name): Level(name) {
 		Vector3(8, 0.4, 8 )
 	};
 
+	addWaypointLocation(Vector3(8, 0.4, 6));
+
 	int count(1);
 	for (Vector3 vec : waypointLocations) {
-		std::ostringstream oss;
-		oss << "Waypoint" << count;
-		GameObject* waypoint = new GameObject(oss.str(), vec, Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-		GetGameObjectManager()->addGameObject(waypoint);
-		count++;
+		addWaypointLocation(vec);
 	}
 
 

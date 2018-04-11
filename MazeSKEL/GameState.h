@@ -32,10 +32,10 @@ public:
 
 	bool paused = false;
 
-	Player getPlayer() { return gPlayer; }
+	Player* getPlayer() { return gPlayer; }
 private:
 	float gAngle = 0;
-	Player gPlayer;
+	Player* gPlayer;
 };
 
 

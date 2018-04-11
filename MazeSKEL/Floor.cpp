@@ -6,8 +6,7 @@ Floor::Floor(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 	GetModel().Initialise(*GetMeshManager()->GetMesh("floor"));
 
-	GetModel().GetScale() = GetScale();
-	GetModel().GetPosition() = GetPosition();
+	GameObject::setInitialPos();
 
 	MaterialExt mat = GetModel().GetMesh().GetSubMesh(0).material;
 	mat.gfxData.Set(Vector4(0.9f, 0.8f, 0.8f, 0), Vector4(0.9f, 0.8f, 0.8f, 0), Vector4(0.9f, 0.8f, 0.8f, 1));

@@ -18,12 +18,11 @@ public:
 
 	Level* getCurrentLevel() { return levels.at(currentLevelNumber); }
 	
-	void loadLevel(int levelNum) { currentLevelNumber = levelNum; }
+	void loadLevel(int levelNum);
 
 	void loadLevel(string levelname);
 
 	void initialise();
-	int getObjectAtWorldPos(float x, float y);
 
 	void Release();
 

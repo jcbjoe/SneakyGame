@@ -10,8 +10,7 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 	GetModel().Initialise(*GetMeshManager()->GetMesh("cube"));
 
-	GetModel().GetScale() = GetScale();
-	GetModel().GetPosition() = GetPosition();
+	GameObject::setInitialPos();
 
 	MaterialExt mat = GetModel().GetMesh().GetSubMesh(0).material;
 	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("Enemy.dds", true, gd3dDevice);
@@ -23,7 +22,7 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 void Enemy::Update(float dTime) {
 
-	Vector3 playerPos = ((GameState*)GetStateManager()->getCurrentState())->getPlayer().getCameraPosition();
+	Vector3 playerPos = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
 
 	bool canSeeBool = true;
 
@@ -40,7 +39,7 @@ void Enemy::Update(float dTime) {
 	float distance = Vector3().Distance(GetModel().GetPosition(), playerPos);
 
 	if (canSeeBool) {
-		if (((GameState*)GetStateManager()->getCurrentState())->getPlayer().getCrouchStatus()) {
+		if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
 			if (distance > 1.5) {
 				canSeeBool = false;
 			}

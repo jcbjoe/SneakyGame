@@ -8,7 +8,7 @@ GameObject::GameObject(string name, Vector3 position, Vector3 rotation, Vector3 
 	rotation_(rotation),
 	scale_(scale)
 {
-	
+
 }
 
 GameObject::GameObject(string name, Vector3 position, Vector3 rotation, Vector3 scale, string mesh, string texture) :
@@ -54,4 +54,10 @@ int GameObject::getIndex() {
 
 void GameObject::setIndex(int index) {
 	index_ = index;
+}
+
+void GameObject::setInitialPos() {
+	SetPosition(position_);
+	SetRotation(rotation_);
+	SetScale(scale_);
 }
