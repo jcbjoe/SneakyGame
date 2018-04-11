@@ -55,8 +55,13 @@ void Enemy::Update(float dTime) {
 
 		Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), playerPos, (1 * dTime) / distance);
 
-		SetPosition(pos);
+		Vector3 rotato = playerPos;
+		rotato.x = 0;
+		rotato.z = 0;
 
+		Vector3 rot = Vector3::Lerp(GetModel().GetRotation(), rotato, (1 * dTime) / 99.0f);
+		SetPosition(pos);
+		SetRotation(rotato);
 
 	} else {
 
