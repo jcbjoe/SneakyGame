@@ -19,10 +19,10 @@ Level::Level(string name)
 	levelName = name;
 }
 
-void Level::setLevelMap(int level[10][10]) {
+void Level::setLevelMap(int level[20][20]) {
 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 20; j++) {
 			levelMap[i][j] = level[i][j];
 		}
 	}
@@ -34,16 +34,16 @@ string Level::getLevelName() {
 
 void Level::reloadLevel() {
 
-	Floor* floor = new Floor("Floor", Vector3(4.5f, 0.0f, 4.5f), Vector3(0, 0, 0), Vector3(5, 1, 5));
+	Floor* floor = new Floor("Floor", Vector3(9.5f, 0.0f, 9.5f), Vector3(0, 0, 0), Vector3(10, 1, 10));
 	GetGameObjectManager()->addGameObject(floor);
 
-	Ceiling* ceiling = new Ceiling("Ceiling", Vector3(4.5f, 2.0f, 4.5f), Vector3(PI, 0, 0), Vector3(5, 1, 5));
+	Ceiling* ceiling = new Ceiling("Ceiling", Vector3(9.5f, 2.0f, 9.5f), Vector3(PI, 0, 0), Vector3(10, 1, 10));
 	GetGameObjectManager()->addGameObject(ceiling);
 
 	//For every space in the level
-	for (int i(0); i < 10; i++)
+	for (int i(0); i < 20; i++)
 	{
-		for (int j(0); j < 10; j++)
+		for (int j(0); j < 20; j++)
 		{
 			switch (levelMap[i][j])
 			{

@@ -17,7 +17,7 @@ class Level
 public:
 	Level(string levelName);
 
-	void setLevelMap(int[10][10]);
+	void setLevelMap(int[20][20]);
 
 	int getObjectAtCoordinate(int x, int y) { return levelMap[x][y]; }
 
@@ -35,7 +35,7 @@ private:
 
 	string levelName;
 
-	int levelMap[10][10];
+	int levelMap[20][20];
 
 	vector<Vector3> waypointLocations;
 };

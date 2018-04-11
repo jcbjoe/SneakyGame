@@ -12,7 +12,7 @@ Floor::Floor(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	mat.gfxData.Set(Vector4(0.9f, 0.8f, 0.8f, 0), Vector4(0.9f, 0.8f, 0.8f, 0), Vector4(0.9f, 0.8f, 0.8f, 1));
 	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("test.dds", true, gd3dDevice);
 	mat.texture = "test.dds";
-	mat.texTrsfm.scale = Vector2(10, 10);
+	mat.texTrsfm.scale = Vector2(20, 20);
 
 	GetModel().SetOverrideMat(&mat);
 

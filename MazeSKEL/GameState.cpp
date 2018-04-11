@@ -152,7 +152,7 @@ void GameState::Render(float dTime) {
 
 	FX::SetPerFrameConsts(gd3dImmediateContext, gPlayer->getCameraPosition());
 
-	CreateProjectionMatrix(FX::GetProjectionMatrix(), 0.25f*PI, GetAspectRatio(), 0.25f, 10.f);
+	CreateProjectionMatrix(FX::GetProjectionMatrix(), 0.25f*PI, GetAspectRatio(), 0.25f, 20.0f);
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
