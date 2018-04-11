@@ -143,6 +143,7 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallHalf.cpp" />
     <ClCompile Include="WindowUtils.cpp" />
+    <ClCompile Include="YellowKey.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioMgr.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallHalf.h" />
     <ClInclude Include="WindowUtils.h" />
+    <ClInclude Include="YellowKey.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\FX\LightHelper.hlsl">

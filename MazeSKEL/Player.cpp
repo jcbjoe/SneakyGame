@@ -97,6 +97,11 @@ bool Player::getHasBlueKey()
 	return hasBlueKey;
 }
 
+bool Player::getHasYellowKey()
+{
+	return hasYellowKey;
+}
+
 //int Player::getKeyNo() {
 //	return keyNo;
 //}
@@ -126,6 +131,11 @@ void Player::setHasRedKey(const bool& key)
 void Player::setHasBlueKey(const bool& key)
 {
 	hasBlueKey = key;
+}
+
+void Player::setHasYellowKey()
+{
+	hasYellowKey = true;
 }
 
 //void Player::changeKeyNo(int x)

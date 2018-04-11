@@ -7,6 +7,7 @@
 #include "GeometryBuilder.h" 
 #include "FX.h" 
 #include "GameObject.h"
+#include "GameObjectManager.h"
 
 using namespace std;
 using namespace DirectX;
@@ -19,6 +20,7 @@ public:
 
 	void Update(float dTime) override;
 private:
-
+	float x = 0;
+	float y = 0;
 };
 #endif

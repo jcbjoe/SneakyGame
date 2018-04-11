@@ -191,6 +191,9 @@
     <ClCompile Include="Level5.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
+    <ClCompile Include="YellowKey.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -333,6 +336,9 @@
     </ClInclude>
     <ClInclude Include="Level5.h">
       <Filter>Headers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="YellowKey.h">
+      <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
