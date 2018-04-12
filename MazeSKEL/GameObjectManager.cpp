@@ -9,8 +9,8 @@ void GameObjectManager::loadObjects()
 {
 	if (!loadedObjects) {
 		
-		Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
-		GetGameObjectManager()->addGameObject(skybox);
+		/*Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
+		GetGameObjectManager()->addGameObject(skybox);*/
 
 		//Create Initial Objects to copy
 		BuildFloor(*GetMeshManager());
@@ -58,7 +58,7 @@ GameObject* GameObjectManager::getFirstObjectByName(const string name) {
 
 void GameObjectManager::deleteAllObjects()
 {
-	GameObject* sky;
+	GameObject* sky = nullptr;
 	//Delete everything other than the skybox (fixes mesh errors)
 	for (GameObject* object : gameObjects)
 	{
@@ -70,5 +70,6 @@ void GameObjectManager::deleteAllObjects()
 		}
 	}
 	gameObjects.clear();
-	gameObjects.push_back(sky);
+	if(sky)
+		gameObjects.push_back(sky);
 }

@@ -194,6 +194,9 @@
     <ClCompile Include="YellowKey.cpp">
       <Filter>Source Files\Gameobjects</Filter>
     </ClCompile>
+    <ClCompile Include="LoadingState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -339,6 +342,9 @@
     </ClInclude>
     <ClInclude Include="YellowKey.h">
       <Filter>Headers\Gameobjects</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingState.h">
+      <Filter>Headers\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

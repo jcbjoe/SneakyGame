@@ -12,13 +12,10 @@ void Player::Initialise(const float& i, const float& j)
 
 
 
-	MaterialExt mat = hands_.GetMesh().GetSubMesh(0).material;
+	MaterialExt& mat = hands_.GetMesh().GetSubMesh(0).material;
+	mat.flags &= ~MaterialExt::LIT;
 	mat.gfxData.Set(Vector4(0.8f, 0.8f, 0.8f, 0), Vector4(0.8f, 0.8f, 0.8f, 0), Vector4(0.0f, 0.0f, 0.0f, 1));
 	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("FloorWood.dds", true, gd3dDevice);
-	mat.texture = "FloorWood.dds";
-	mat.texTrsfm.scale = Vector2(20, 20);
-
-	hands_.SetOverrideMat(&mat);
 
 
 }
@@ -77,7 +74,7 @@ void Player::Update(float dTime)
 		}
 
 		mCamera.Update(dTime);
-		GetGameObjectManager()->getFirstObjectByName("Skybox")->SetPosition(mCamera.GetPos());
+		//GetGameObjectManager()->getFirstObjectByName("Skybox")->SetPosition(mCamera.GetPos());
 	}
 	else {
 
@@ -118,14 +115,15 @@ void Player::Render(float dTime)
 
 	FX::MyFX& fx = *FX::GetMyFX();
 
-	Matrix camLocalToWorld = *mCamera.getMatrix();
+	Matrix camLocalToWorld = *mCamera.GetMatrix();
 	camLocalToWorld = camLocalToWorld.Invert();
-
-	hands_.GetPosition() = Vector3(0.05f, -0.06f, -0.02f);
-	hands_.GetScale() = Vector3(0.0, 0.0, 0.0);
-	hands_.GetRotation() = Vector3(0, 0, 0);
-
+	
 	Matrix mat;
+
+	hands_.GetRotation() = Vector3(0, PI, 0);
+	hands_.GetScale() = Vector3(0.002, 0.002, 0.002);
+	hands_.GetPosition() = Vector3(0.f, -0.02f, 0.05f);
+
 	hands_.GetWorldMatrix(mat);
 	Matrix camLock = mat * camLocalToWorld;
 

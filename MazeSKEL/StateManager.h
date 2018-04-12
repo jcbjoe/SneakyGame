@@ -20,6 +20,8 @@ public:
 
 	void Release();
 
+	string getCurrentStateName();
+
 private:
 	int currentState;
 

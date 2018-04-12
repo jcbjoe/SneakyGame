@@ -50,3 +50,7 @@ void StateManager::Release() {
 	}
 	states.clear();
 }
+
+string StateManager::getCurrentStateName() {
+	return getCurrentState()->getStateName();
+}

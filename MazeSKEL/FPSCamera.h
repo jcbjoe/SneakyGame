@@ -35,7 +35,8 @@ public:
 	void Bob(float dtime, bool isCrouched);
 	void ReturnToY(float dtime, float yVal);
 
-	Matrix* getMatrix() { 
+	const DirectX::SimpleMath::Matrix* GetMatrix() { 
+		assert(mpViewSpaceTfm);
 		return mpViewSpaceTfm;
 	};
 

@@ -49,10 +49,10 @@ public:
 
 	void deleteAllObjects();
 
+	void Release();
+
 private:
 	bool loadedObjects;
-
-	void Release();
 
 	vector<GameObject*> gameObjects;
 

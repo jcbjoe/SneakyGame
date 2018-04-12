@@ -22,65 +22,70 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 void Enemy::Update(float dTime) {
 
-	Vector3 playerPos = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
+	if (GetStateManager()->getCurrentStateName() == "MainGameState") {
 
-	bool canSeeBool = true;
+		Vector3 playerPos = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
 
-	vector<Vector2> inbetween = canSee(round(playerPos.x), round(playerPos.z), round(GetModel().GetPosition().x), round(GetModel().GetPosition().z));
+		bool canSeeBool = true;
 
-	for (Vector2 coords : inbetween) {
-		int objType = GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(coords.x, coords.y);
-		if (objType == 1) {
-			canSeeBool = false;
-			break;
-		}
-	}
+		vector<Vector2> inbetween = canSee(round(playerPos.x), round(playerPos.z), round(GetModel().GetPosition().x), round(GetModel().GetPosition().z));
 
-	float distance = Vector3().Distance(GetModel().GetPosition(), playerPos);
-
-	if (canSeeBool) {
-		if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
-			if (distance > 1.5) {
+		for (Vector2 coords : inbetween) {
+			int objType = GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(coords.x, coords.y);
+			if (objType == 1) {
 				canSeeBool = false;
-			}
-		} else {
-			if (distance > 3) {
-				canSeeBool = false;
+				break;
 			}
 		}
-	}
+
+		float distance = Vector3().Distance(GetModel().GetPosition(), playerPos);
+
+		if (canSeeBool) {
+			if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
+				if (distance > 1.5) {
+					canSeeBool = false;
+				}
+			}
+			else {
+				if (distance > 3) {
+					canSeeBool = false;
+				}
+			}
+		}
 
 
-	if (canSeeBool) {
+		if (canSeeBool) {
 
-		Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), playerPos, (1 * dTime) / distance);
+			Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), playerPos, (1 * dTime) / distance);
 
-		Vector3 rotato = playerPos;
-		rotato.x = 0;
-		rotato.z = 0;
+			Vector3 rotato = playerPos;
+			rotato.x = 0;
+			rotato.z = 0;
 
-		Vector3 rot = Vector3::Lerp(GetModel().GetRotation(), rotato, (1 * dTime) / 99.0f);
-		SetPosition(pos);
-		SetRotation(rotato);
+			Vector3 rot = Vector3::Lerp(GetModel().GetRotation(), rotato, (1 * dTime) / 99.0f);
+			SetPosition(pos);
+			SetRotation(rotato);
 
-	} else {
-
-
-		GameObject* waypoint = GetGameObjectManager()->getFirstObjectByName("Waypoint" + to_string(waypointNumber));
-
-		float distance = Vector3().Distance(GetModel().GetPosition(), waypoint->GetPosition());
-
-		Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), waypoint->GetPosition(), (1 * dTime) / distance);
-
-		SetPosition(pos);
+		}
+		else {
 
 
-		if (distance < 0.1) {
-			if (waypointNumber == 8)
-				waypointNumber = 1;
-			else
-				waypointNumber++;
+			GameObject* waypoint = GetGameObjectManager()->getFirstObjectByName("Waypoint" + to_string(waypointNumber));
 
+			float distance = Vector3().Distance(GetModel().GetPosition(), waypoint->GetPosition());
+
+			Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), waypoint->GetPosition(), (1 * dTime) / distance);
+
+			SetPosition(pos);
+
+
+			if (distance < 0.1) {
+				if (waypointNumber == 8)
+					waypointNumber = 1;
+				else
+					waypointNumber++;
+
+			}
 		}
 	}
 }
