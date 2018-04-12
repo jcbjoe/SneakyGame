@@ -29,9 +29,6 @@ void LevelManager::initialise() {
 
 	currentLevelNumber = 0;
 
-	Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
-	GetGameObjectManager()->addGameObject(skybox);
-
 }
 
 void LevelManager::Release() {

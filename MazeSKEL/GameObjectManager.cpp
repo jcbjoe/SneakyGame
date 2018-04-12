@@ -1,5 +1,39 @@
 #include "GameObjectManager.h"
+#include "Skybox.h"
 
+GameObjectManager::GameObjectManager() : loadedObjects(false){
+
+}
+
+void GameObjectManager::loadObjects()
+{
+	if (!loadedObjects) {
+		
+		Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
+		GetGameObjectManager()->addGameObject(skybox);
+
+		//Create Initial Objects to copy
+		BuildFloor(*GetMeshManager());
+		BuildWall(*GetMeshManager());
+		BuildLoot(*GetMeshManager(), 10, 10);
+		BuildCube(*GetMeshManager());
+		BuildDoor(*GetMeshManager());
+
+		Mesh* msKey = &GetMeshManager()->CreateMesh("Key");
+		msKey->CreateFrom("../bin/data/key.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
+		Mesh* msCoin = &GetMeshManager()->CreateMesh("Coin");
+		msCoin->CreateFrom("../bin/data/CoinNew.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
+		Mesh* msChest = &GetMeshManager()->CreateMesh("Chest");
+		msChest->CreateFrom("../bin/data/chest.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
+		Mesh* msHand = &GetMeshManager()->CreateMesh("Hands");
+		msHand->CreateFrom("../bin/data/Hands.obj", gd3dDevice, FX::GetMyFX()->mCache);
+
+		loadedObjects = true;
+	}
+}
 
 void GameObjectManager::Release()
 {

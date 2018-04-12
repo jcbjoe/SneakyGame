@@ -10,25 +10,6 @@ GameState::GameState()
 
 void GameState::Init() {
 
-	//Create Initial Objects to copy
-	BuildFloor(*GetMeshManager());
-	BuildWall(*GetMeshManager());
-	BuildLoot(*GetMeshManager(), 10, 10);
-	BuildCube(*GetMeshManager());
-	BuildDoor(*GetMeshManager());
-
-	Mesh* msKey = &GetMeshManager()->CreateMesh("Key");
-	msKey->CreateFrom("../bin/data/key.fbx", gd3dDevice, FX::GetMyFX()->mCache);
-
-	Mesh* msCoin = &GetMeshManager()->CreateMesh("Coin");
-	msCoin->CreateFrom("../bin/data/CoinNew.fbx", gd3dDevice, FX::GetMyFX()->mCache);
-
-	Mesh* msChest = &GetMeshManager()->CreateMesh("Chest");
-	msChest->CreateFrom("../bin/data/chest.fbx", gd3dDevice, FX::GetMyFX()->mCache);
-
-	//Mesh* msHand = &GetMeshManager()->CreateMesh("Hands");
-	//msHand->CreateFrom("../bin/data/Hands.obj", gd3dDevice, FX::GetMyFX()->mCache);
-
 	GetLevelManager()->initialise();
 
 	Timer = 60;
@@ -59,13 +40,20 @@ void GameState::Update(float dTime) {
 	}
 
 	//Timer Incrementer
-	Timer -= dTime;
-	if (Timer < 0) {
-		GetStateManager()->changeState("MainMenu");
+	if (!paused) {
+		Timer -= dTime;
+		if (Timer < 0) {
+			GetStateManager()->changeState("MainMenu");
+		}
 	}
 
 	if (GetMouseAndKeys()->IsPressed(VK_P)) {
-		paused = !paused;
+		pDown = true;
+	} else {
+		if (pDown){
+			paused = !paused;
+			pDown = false;
+		}
 	}
 
 	vector<GameObject*>& objects = GetGameObjectManager()->getGameObjects();
