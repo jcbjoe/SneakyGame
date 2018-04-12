@@ -2,6 +2,7 @@
 #include "D3D.h"
 #include "D3DUtil.h"
 #include "Game.h"
+#include "GameState.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -244,8 +245,10 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 
 void FPSCamera::Update(float dTime)
 {
-	//Function to reupdate the camera (rotating by nothing)
-	Rotate(dTime, 0, 0, 0);
+	if (!((GameState*)GetStateManager()->getCurrentState())->paused) {
+		//Function to reupdate the camera (rotating by nothing)
+		Rotate(dTime, 0, 0, 0);
+	}
 }
 
 void FPSCamera::Crouch(bool isCrouched)

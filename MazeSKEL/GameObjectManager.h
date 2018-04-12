@@ -15,6 +15,10 @@ using namespace std;
 class GameObjectManager : public Singleton<GameObjectManager>
 {
 public:
+	GameObjectManager();
+
+	void loadObjects();
+
 	~GameObjectManager() {
 		Release();
 	}
@@ -46,6 +50,8 @@ public:
 	void deleteAllObjects();
 
 private:
+	bool loadedObjects;
+
 	void Release();
 
 	vector<GameObject*> gameObjects;

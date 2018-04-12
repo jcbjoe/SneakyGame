@@ -31,12 +31,14 @@ public:
 	void Release() override;
 
 	bool paused = false;
+	
 
 	Player* getPlayer() { return gPlayer; }
 private:
 	float gAngle = 0;
 	Player* gPlayer;
 	float Timer = 0;
+	bool pDown = false;
 };
 
 
