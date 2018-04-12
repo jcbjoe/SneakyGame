@@ -35,8 +35,15 @@ public:
 	void Bob(float dtime, bool isCrouched);
 	void ReturnToY(float dtime, float yVal);
 
-	Matrix* getMatrix() { 
-		return mpViewSpaceTfm;
+	Matrix getMatrix() { 
+		Matrix w = 
+			Matrix::CreateTranslation({ 0,0,0 }) *
+			Matrix::CreateScale({ 1, 1, 1 }) *
+			Matrix::CreateFromYawPitchRoll(yaw, pitch, roll) *
+			Matrix::CreateTranslation(mCamPos);
+
+		return w;
+	
 	};
 
 private:

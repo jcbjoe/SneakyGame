@@ -26,8 +26,8 @@ void GameState::Init() {
 	Mesh* msChest = &GetMeshManager()->CreateMesh("Chest");
 	msChest->CreateFrom("../bin/data/chest.fbx", gd3dDevice, FX::GetMyFX()->mCache);
 
-	Mesh* msHand = &GetMeshManager()->CreateMesh("Hands");
-	msHand->CreateFrom("../bin/data/Hands.obj", gd3dDevice, FX::GetMyFX()->mCache);
+	//Mesh* msHand = &GetMeshManager()->CreateMesh("Hands");
+	//msHand->CreateFrom("../bin/data/Hands.obj", gd3dDevice, FX::GetMyFX()->mCache);
 
 	GetLevelManager()->initialise();
 
