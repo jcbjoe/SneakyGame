@@ -44,7 +44,7 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey) {
+void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey) {
 
 	mpSpriteBatch->Begin();
 
@@ -97,7 +97,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		//redKeyFound << "Red Key Collected";
 		//mpAlgerian->DrawString(mpSpriteBatch, redKeyFound.str().c_str(), Vector2(0, 100), Colors::IndianRed, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		mpSpriteBatch->Draw(mpRedKeyTex, Vector2(25, 740), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(0.1, 0.1));
-	else
+	else if(RedKey)
 		mpSpriteBatch->Draw(mpEmptyTex, Vector2(25, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
 
 	wstringstream blueKeyFound;
@@ -105,7 +105,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		//blueKeyFound << "Blue Key Collected";
 		//mpAlgerian->DrawString(mpSpriteBatch, blueKeyFound.str().c_str(), Vector2(0, 150), Colors::DeepSkyBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(75, 740), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(0.1, 0.1));
-	else
+	else if(BlueKey)
 		mpSpriteBatch->Draw(mpEmptyTex, Vector2(75, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
 
 	wstringstream YellowKeyFound;
@@ -113,7 +113,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		//blueKeyFound << "Blue Key Collected";
 		//mpAlgerian->DrawString(mpSpriteBatch, blueKeyFound.str().c_str(), Vector2(0, 150), Colors::DeepSkyBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(125, 740), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(0.1, 0.1));
-	else
+	else if (YellowKey)
 		mpSpriteBatch->Draw(mpEmptyTex, Vector2(125, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
 	//--- End Key Display
 

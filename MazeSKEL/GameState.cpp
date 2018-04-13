@@ -176,7 +176,7 @@ void GameState::Render(float dTime) {
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey());
+	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey(), RedKey, BlueKey, YellowKey);
 
 	EndRender();
 	GetMouseAndKeys()->PostProcess();
@@ -185,4 +185,23 @@ void GameState::Render(float dTime) {
 void GameState::Release() {
 	GetLevelManager()->Release();
 	GetGameObjectManager()->Release();
+}
+
+void GameState::setRedKey(const bool set) {
+	RedKey = set;
+}
+void GameState::setBlueKey(const bool set) {
+	BlueKey = set;
+}
+void GameState::setYellowKey(const bool set) {
+	YellowKey = set;
+}
+bool GameState::getRedKey() {
+	return RedKey;
+}
+bool GameState::getBlueKey() {
+	return BlueKey;
+}
+bool GameState::getYellowKey() {
+	return YellowKey;
 }

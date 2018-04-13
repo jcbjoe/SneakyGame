@@ -32,12 +32,21 @@ public:
 
 	bool paused = false;
 	
+	void setRedKey(const bool);
+	void setBlueKey(const bool);
+	void setYellowKey(const bool);
+	bool getRedKey();
+	bool getBlueKey();
+	bool getYellowKey();
 
 	Player* getPlayer() { return gPlayer; }
 private:
 	float gAngle = 0;
 	Player* gPlayer;
 	float Timer = 0;
+	bool RedKey = false;
+	bool BlueKey = false;
+	bool YellowKey = false;
 	bool pDown = false;
 };
 

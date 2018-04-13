@@ -37,6 +37,9 @@ string Level::getLevelName() {
 void Level::reloadLevel() {
 
 	maxCoins = 0;
+	((GameState*)GetStateManager()->getCurrentState())->setRedKey(false);
+	((GameState*)GetStateManager()->getCurrentState())->setBlueKey(false);
+	((GameState*)GetStateManager()->getCurrentState())->setYellowKey(false);
 
 	Floor* floor = new Floor("Floor", Vector3(9.5f, 0.0f, 9.5f), Vector3(0, 0, 0), Vector3(10, 1, 10));
 	GetGameObjectManager()->addGameObject(floor);
@@ -79,9 +82,10 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(enemy);
 				break;
 			}
-			case 5: { //Key to be placed
+			case 5: { //RedKey to be placed
 				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI/2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(redKey);
+				((GameState*)GetStateManager()->getCurrentState())->setRedKey(true);
 				break;
 			}
 			case 6: { //Door to be placed
@@ -93,9 +97,10 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(wallHalf);
 				break;
 			}
-			case 7: { //Key to be placed
+			case 7: { //BlueKey to be placed
 				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI/2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(blueKey);
+				((GameState*)GetStateManager()->getCurrentState())->setBlueKey(true);
 				break;
 			}
 			case 8: { //Door to be placed
@@ -112,9 +117,10 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(returnBox);
 				break;
 			}
-			case 10: { //Key to be placed
+			case 10: { //YellowKey to be placed
 				YellowKey* yellowKey = new YellowKey("YellowKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
 				GetGameObjectManager()->addGameObject(yellowKey);
+				((GameState*)GetStateManager()->getCurrentState())->setYellowKey(true);
 				break;
 			}
 			default:
