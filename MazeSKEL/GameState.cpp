@@ -17,7 +17,7 @@ void GameState::Init() {
 	gPlayer = new Player();
 
 	//Change array to use in level
-	GetLevelManager()->loadLevel(4);
+	GetLevelManager()->loadLevel(0);
 
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);

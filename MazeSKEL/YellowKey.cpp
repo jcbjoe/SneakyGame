@@ -4,7 +4,7 @@ YellowKey::YellowKey(string name, Vector3 position, Vector3 rotation, Vector3 sc
 	:
 	GameObject(name, position, rotation, scale) {
 
-	GetModel().Initialise(*GetMeshManager()->GetMesh("loot"));
+	GetModel().Initialise(*GetMeshManager()->GetMesh("Key"));
 
 	GameObject::setInitialPos();
 
