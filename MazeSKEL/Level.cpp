@@ -130,6 +130,7 @@ void Level::reloadLevel() {
 		GetGameObjectManager()->addGameObject(waypoint);
 		count++;
 	}
+
 }
 
 void Level::Release() {
@@ -160,4 +161,8 @@ int Level::getObjectAtCoordinate(int x, int y) {
 
 void Level::addWaypointLocation(Vector3 loc) {
 	waypointLocations.push_back(loc);
+}
+
+int Level::getHowManyWaypoints() {
+	return waypointLocations.size() - 1;
 }

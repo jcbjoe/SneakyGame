@@ -35,6 +35,8 @@ public:
 
 	void addWaypointLocation(Vector3 loc);
 
+	int getHowManyWaypoints();
+
 private:
 
 	string levelName;
@@ -43,6 +45,7 @@ private:
 	int maxCoins;
 
 	vector<Vector3> waypointLocations;
+
 };
 
 

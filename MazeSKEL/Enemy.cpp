@@ -18,6 +18,8 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	mat.texTrsfm.scale = Vector2(1, 1);
 
 	GetModel().SetOverrideMat(&mat);
+
+	pathFindToNextWaypoint();
 }
 
 bool tDown = false;
@@ -68,26 +70,40 @@ void Enemy::Update(float dTime) {
 			SetPosition(pos);
 			SetRotation(rotato);
 
-		}
-		else {
+		} else {
 
+			if (followingPath) {
 
-			GameObject* waypoint = GetGameObjectManager()->getFirstObjectByName("Waypoint" + to_string(waypointNumber));
+				float distanceFromPath = Vector3().Distance(GetModel().GetPosition(), currentPath.at(currentPathPos));
 
-			float distance = Vector3().Distance(GetModel().GetPosition(), waypoint->GetPosition());
+				Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), currentPath.at(currentPathPos), (10 * dTime) / distance);
 
-			Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), waypoint->GetPosition(), (1 * dTime) / distance);
+				SetPosition(pos);
 
-			SetPosition(pos);
+				if (distanceFromPath < 0.1) {
+					if (currentPathPos == (currentPath.size() - 1)) {
 
+						pathFindToNextWaypoint();
+						currentPathPos = 0;
 
-			if (distance < 0.1) {
-				if (waypointNumber == 8)
-					waypointNumber = 1;
-				else
-					waypointNumber++;
+						if (waypointNumber > GetLevelManager()->getCurrentLevel()->getHowManyWaypoints())
+							waypointNumber = 1;
+						else
+							waypointNumber++;
 
+						pathFindToNextWaypoint();
+
+					}
+					else {
+
+						currentPathPos++;
+
+					}
+				}
+			} else {
+				pathFindToNextWaypoint();
 			}
+
 		}
 
 		if (GetMouseAndKeys()->IsPressed(VK_T)) {
@@ -96,7 +112,6 @@ void Enemy::Update(float dTime) {
 		else {
 			if (tDown) {
 				GameObject* waypoint2 = GetGameObjectManager()->getFirstObjectByName("Waypoint" + to_string(waypointNumber));
-				findPath({ round(waypoint2->GetPosition().x), (waypoint2->GetPosition().z) });
 				tDown = false;
 			}
 		}
@@ -138,18 +153,30 @@ vector<Vector2> Enemy::canSee(int x0, int y0, int x1, int y1)
 	return blocks;
 }
 
+void Enemy::pathFindToNextWaypoint() {
 
-void Enemy::findPath(Vector2 dest) {
+	GameObject* waypoint2 = GetGameObjectManager()->getFirstObjectByName("Waypoint" + to_string(waypointNumber));
 
-	vector<customNode*> openList;
-	vector<customNode*> closedList;
+	vector<Vector3> path = findPath(Vector2(round(waypoint2->GetPosition().x), round(waypoint2->GetPosition().z)));
+	if (path.empty())
+		followingPath = false;
+	else
+		followingPath = true;
+	currentPathPos = 0;
+	currentPath = path;
+}
 
-	vector<customNode*> complete;
+vector<Vector3> Enemy::findPath(Vector2 dest) {
+
+	vector<customNode*> openList; // all considered squares/nodes to find the shortest path
+	vector<customNode*> closedList; // Squares/nodes not to consider again
+
+	vector<customNode*> complete; // List of the completed path
 
 	customNode* start = new customNode();
 	start->x = round(GetModel().GetPosition().x); // Initial Enemy Pos
 	start->y = round(GetModel().GetPosition().z); // Initial Enemy Pos
-	start->gScore = 0; // Distance from the start point - worked out by using parents value and adding 1
+	start->gScore = 0; // Distance from the start point - worked out by using parents value and adding 1 - Diagonals increment by 2 so there favoured
 	start->hScore = manhattanFinder(Vector2(start->x, start->y), Vector2(dest.x, dest.y )); // Get very aprox distance from the destination using the manhattan method
 	start->parent = nullptr; // Parent used for tracking route
 
@@ -169,14 +196,14 @@ void Enemy::findPath(Vector2 dest) {
 		closedList.push_back(currentSquare); // Add the lowest fscored square to closed list
 		removeFromVector(currentSquare, openList); // Remove the current Square from the openList
 
-		if (vectorContains(destNode, closedList)) {
+		if (vectorContains(destNode, closedList)) { // We are at the destination
 
-			customNode* tmp = currentSquare;
+			customNode* tmp = currentSquare; // begin the tmp list from the current square
 
 			do {
-				complete.push_back(tmp);
-				tmp = tmp->parent; // Go backward
-			} while (tmp != nullptr); // Until there is not more parent
+				complete.push_back(tmp); // Add node to completed list
+				tmp = tmp->parent; // Go backward finding path
+			} while (tmp != nullptr); // Loop untill the parent is nullptr
 
 			break;
 		}
@@ -184,25 +211,26 @@ void Enemy::findPath(Vector2 dest) {
 		vector<customNode*> adjacentSquares = getAdjacentSquares(currentSquare, destNode); // Get all the adjacent grid boxes - excluding walls
 
 		
-		for (int index = 0; index < adjacentSquares.size(); index++) { // Loop through adjacent
+		for (int index = 0; index < adjacentSquares.size(); index++) { // Loop through adjacent nodes/squares
 
-			if (vectorContains(adjacentSquares.at(index), closedList)) {
+			if (vectorContains(adjacentSquares.at(index), closedList)) { // If the selected node/square is in the closedlist just ignore
 				continue;
 			}
 
-			if (!(vectorContains(adjacentSquares.at(index), openList))) {
+			if (!(vectorContains(adjacentSquares.at(index), openList))) { // if the square/node isnt in the open list then add it
 
 				openList.push_back(adjacentSquares.at(index));
-			} else {
 
-				if ((currentSquare->gScore + 1) < adjacentSquares.at(index)->gScore) {
+			} else { // This is kinda optional but used to 'better' routes
 
-					customNode* newOne = adjacentSquares.at(index);
-					newOne->gScore = currentSquare->gScore + 1;
+				if ((currentSquare->gScore + 1) < adjacentSquares.at(index)->gScore) { //Check if the adjacent square/node has a better gscore than the currentSquares
 
-					removeFromVector(adjacentSquares.at(index), openList);
+					customNode* newOne = adjacentSquares.at(index); // Using that node we assign it to a new pointer
+					newOne->gScore = currentSquare->gScore + 1; // Add 1 to the score
 
-					openList.push_back(newOne);
+					removeFromVector(adjacentSquares.at(index), openList); // remove the old version with the old score from the open list 
+
+					openList.push_back(newOne); // re-add to list with new score
 
 				}
 
@@ -211,29 +239,32 @@ void Enemy::findPath(Vector2 dest) {
 		}
 
 
-	} while (!openList.empty());
+	} while (!openList.empty()); // loop while the openList is not empty
+
+	vector<Vector3> pathToReturn;
 
 
-	int testTxt = 0;
-	for (customNode* test : complete) {
-		GetUserInterfaceManager()->printDebugText("X: " + to_string(test->x) + " Y: " + to_string(test->y));
-
-		stringstream ss;
-		ss << "test1";
-		ss << testTxt;
-
-		GameObject* waypoint = new GameObject(ss.str() , Vector3(test->x, 0.4, test->y), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
-		GetGameObjectManager()->addGameObject(waypoint);
-		testTxt++;
+	for (int i = complete.size(); i != 0; i--) {
+		pathToReturn.push_back(Vector3(complete.at(i - 1)->x, 0.4, complete.at(i - 1)->y));
 	}
 
-
+	//Releasing
+	for (customNode* node : openList) {
+		delete node;
+	}
+	openList.empty();
+	for (customNode* node : closedList) {
+		delete node;
+	}
+	closedList.empty();
+	complete.empty();
+	
+	return pathToReturn;
 
 }
 
 int Enemy::manhattanFinder(Vector2 a, Vector2 b)
 {
-	/* Considering the points have integer coordinates and is a 2D game */
 	return abs(a.x - b.x) + abs(a.y - b.y);
 }
 
@@ -281,6 +312,11 @@ bool Enemy::vectorContains(customNode* containNode, vector<customNode*>& nodeVec
 vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNode* destination) {
 	vector<customNode*> adjSquares;
 
+	bool aboveBool = false;
+	bool belowBool = false;
+	bool leftBool = false;
+	bool rightBool = false;
+
 	//above
 	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x, node->y + 1) != 1) {
 		customNode* above = new customNode();
@@ -289,7 +325,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		above->gScore = node->gScore + 1;
 		above->hScore = manhattanFinder(Vector2(above->x, above->y ), Vector2(destination->x, destination->y ));
 		above->parent = node;
-
+		aboveBool = true;
 		adjSquares.push_back(above);
 	}
 	//below
@@ -300,7 +336,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		below->gScore = node->gScore + 1;
 		below->hScore = manhattanFinder(Vector2(below->x, below->y ), Vector2(destination->x, destination->y ));
 		below->parent = node;
-
+		belowBool = true;
 		adjSquares.push_back(below);
 	}
 
@@ -312,7 +348,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		left->gScore = node->gScore + 1;
 		left->hScore = manhattanFinder(Vector2(left->x, left->y ), Vector2( destination->x, destination->y ));
 		left->parent = node;
-
+		leftBool = true;
 		adjSquares.push_back(left);
 	}
 
@@ -324,9 +360,60 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		right->gScore = node->gScore + 1;
 		right->hScore = manhattanFinder(Vector2(right->x, right->y ), Vector2(destination->x, destination->y));
 		right->parent = node;
-
+		rightBool = true;
 		adjSquares.push_back(right);
 	}
+
+	//Diagonals
+
+	//Up - Left
+	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x - 1, node->y + 1) != 1 && aboveBool && leftBool) {
+		customNode* UpLeft = new customNode();
+		UpLeft->x = node->x - 1;
+		UpLeft->y = node->y + 1;
+		UpLeft->gScore = node->gScore + 2;
+		UpLeft->hScore = manhattanFinder(Vector2(UpLeft->x, UpLeft->y), Vector2(destination->x, destination->y));
+		UpLeft->parent = node;
+
+		adjSquares.push_back(UpLeft);
+	}
+
+	//Up - Right
+	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x + 1, node->y + 1) != 1 && aboveBool && rightBool) {
+		customNode* UpRight = new customNode();
+		UpRight->x = node->x + 1;
+		UpRight->y = node->y + 1;
+		UpRight->gScore = node->gScore + 2;
+		UpRight->hScore = manhattanFinder(Vector2(UpRight->x, UpRight->y), Vector2(destination->x, destination->y));
+		UpRight->parent = node;
+
+		adjSquares.push_back(UpRight);
+	}
+
+	//Bottom - Left
+	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x - 1, node->y - 1) != 1 && belowBool && leftBool) {
+		customNode* BottomLeft = new customNode();
+		BottomLeft->x = node->x - 1;
+		BottomLeft->y = node->y - 1;
+		BottomLeft->gScore = node->gScore + 2;
+		BottomLeft->hScore = manhattanFinder(Vector2(BottomLeft->x, BottomLeft->y), Vector2(destination->x, destination->y));
+		BottomLeft->parent = node;
+
+		adjSquares.push_back(BottomLeft);
+	}
+
+	//Bottom - Right
+	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x + 1, node->y - 1) != 1 && belowBool && rightBool) {
+		customNode* BottomRight = new customNode();
+		BottomRight->x = node->x + 1;
+		BottomRight->y = node->y - 1;
+		BottomRight->gScore = node->gScore + 2;
+		BottomRight->hScore = manhattanFinder(Vector2(BottomRight->x, BottomRight->y), Vector2(destination->x, destination->y));
+		BottomRight->parent = node;
+
+		adjSquares.push_back(BottomRight);
+	}
+
 
 	return adjSquares;
 }

@@ -25,10 +25,15 @@ public:
 
 	void Update(float dTime) override;
 
+	void pathFindToNextWaypoint();
+
 private:
 
 	int waypointNumber;
 	vector<Vector2> canSee(int x0, int y0, int x1, int y1);
+	bool followingPath;
+	int currentPathPos;
+	vector<Vector3> currentPath;
 	
 	struct customNode {
 		int x;
@@ -37,7 +42,7 @@ private:
 		int hScore;
 		customNode* parent;
 	};
-	void findPath(Vector2 dest);
+	vector<Vector3> findPath(Vector2 dest);
 	int manhattanFinder(Vector2 a, Vector2 b);
 	customNode* getSquareLowestFScore(vector<customNode*> openlist);
 	void removeFromVector(customNode* nodeToRemove, vector<customNode*>& openList);
