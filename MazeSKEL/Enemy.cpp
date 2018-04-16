@@ -80,7 +80,7 @@ void Enemy::Update(float dTime) {
 
 				SetPosition(pos);
 
-				if (distanceFromPath < 0.1) {
+				if (distanceFromPath < 0.25) {
 					if (currentPathPos == (currentPath.size() - 1)) {
 
 						pathFindToNextWaypoint();
