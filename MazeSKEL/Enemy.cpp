@@ -181,10 +181,10 @@ void Enemy::findPath(Vector2 dest) {
 			break;
 		}
 		
-		vector<customNode*> adjacentSquares = getAdjacentSquares(currentSquare, destNode);
+		vector<customNode*> adjacentSquares = getAdjacentSquares(currentSquare, destNode); // Get all the adjacent grid boxes - excluding walls
 
 		
-		for (int index = 0; index < adjacentSquares.size(); index++) {
+		for (int index = 0; index < adjacentSquares.size(); index++) { // Loop through adjacent
 
 			if (vectorContains(adjacentSquares.at(index), closedList)) {
 				continue;
