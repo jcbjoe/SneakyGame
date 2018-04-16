@@ -70,6 +70,8 @@ void Enemy::Update(float dTime) {
 			SetPosition(pos);
 			SetRotation(rotato);
 
+			followingPath = false;
+
 		} else {
 
 			if (followingPath) {
