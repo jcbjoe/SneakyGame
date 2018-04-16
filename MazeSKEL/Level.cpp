@@ -144,6 +144,20 @@ int Level::getObjectAtWorldPos(float x, float y)
 	return getObjectAtCoordinate(x, y);;
 }
 
+int Level::getObjectAtCoordinate(int x, int y) {
+
+	if (x < 0 || x > (levelSize - 1) || y < 0 || y > (levelSize - 1)) {
+
+		return 1;
+
+	} else {
+
+		return levelMap[x][y];
+
+	}
+}
+
+
 void Level::addWaypointLocation(Vector3 loc) {
 	waypointLocations.push_back(loc);
 }

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef ENEMY_H
 #define ENEMY_H
 
@@ -27,8 +26,22 @@ public:
 	void Update(float dTime) override;
 
 private:
+
 	int waypointNumber;
 	vector<Vector2> canSee(int x0, int y0, int x1, int y1);
+	
+	struct customNode {
+		int x;
+		int y;
+		int gScore;
+		int hScore;
+	};
+	void findPath(Vector2 dest);
+	int manhattanFinder(Vector2 a, Vector2 b);
+	customNode getSquareLowestFScore(vector<customNode> openlist);
+	void removeFromVector(customNode nodeToRemove, vector<customNode>& openList);
+	bool vectorContains(customNode containNode, vector<customNode>& nodeVector);
+	vector<customNode> getAdjacentSquares(customNode node, customNode destination);
 };
 
 #endif
