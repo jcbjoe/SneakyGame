@@ -56,12 +56,16 @@ void GameState::Update(float dTime) {
 		}
 	}
 
+	if (GetMouseAndKeys()->IsPressed(VK_F1)) {
+		GetUserInterfaceManager()->printDebugText("X: " + to_string(gPlayer->getCameraPosition().x) + " Y: " + to_string(gPlayer->getCameraPosition().z));
+	}
+
 	vector<GameObject*>& objects = GetGameObjectManager()->getGameObjects();
 
 
-	for (GameObject* obj : objects)
+	for (int objIndex = 0; objIndex < objects.size(); objIndex++)
 	{
-		obj->Update(dTime);
+		objects.at(objIndex)->Update(dTime);
 	}
 
 	float moveSpeed = dTime / 5.0f;

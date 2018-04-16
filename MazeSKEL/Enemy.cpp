@@ -20,6 +20,8 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	GetModel().SetOverrideMat(&mat);
 }
 
+bool tDown = false;
+
 void Enemy::Update(float dTime) {
 
 	if (GetStateManager()->getCurrentStateName() == "MainGameState") {
@@ -87,6 +89,17 @@ void Enemy::Update(float dTime) {
 
 			}
 		}
+
+		if (GetMouseAndKeys()->IsPressed(VK_T)) {
+			tDown = true;
+		}
+		else {
+			if (tDown) {
+				GameObject* waypoint2 = GetGameObjectManager()->getFirstObjectByName("Waypoint" + to_string(waypointNumber));
+				findPath({ round(waypoint2->GetPosition().x), (waypoint2->GetPosition().z) });
+				tDown = false;
+			}
+		}
 	}
 }
 
@@ -128,49 +141,91 @@ vector<Vector2> Enemy::canSee(int x0, int y0, int x1, int y1)
 
 void Enemy::findPath(Vector2 dest) {
 
-	vector<customNode> openList;
-	vector<customNode> closedList;
+	vector<customNode*> openList;
+	vector<customNode*> closedList;
 
-	customNode start;
-	start.x = round(GetModel().GetPosition().x);
-	start.y = round(GetModel().GetPosition().y);
-	start.gScore = 0; // Distance from the start point - worked out by using parents value and adding 1
-	start.hScore = manhattanFinder({ start.x, start.y }, { dest.x, dest.y }); // Get very aprox distance from the destination using the manhattan method
+	vector<customNode*> complete;
 
-	customNode destNode;
-	start.x = round(dest.x);
-	start.y = round(dest.y);
+	customNode* start = new customNode();
+	start->x = round(GetModel().GetPosition().x); // Initial Enemy Pos
+	start->y = round(GetModel().GetPosition().z); // Initial Enemy Pos
+	start->gScore = 0; // Distance from the start point - worked out by using parents value and adding 1
+	start->hScore = manhattanFinder(Vector2(start->x, start->y), Vector2(dest.x, dest.y )); // Get very aprox distance from the destination using the manhattan method
+	start->parent = nullptr; // Parent used for tracking route
+
+	customNode* destNode = new customNode();
+	destNode->x = round(dest.x);
+	destNode->y = round(dest.y);
+	destNode->gScore = 0;
+	destNode->hScore = 0;
 
 	
 	openList.push_back(start); // Add the start point to the open list
 
 	do {
 
-		customNode currentSquare = getSquareLowestFScore(openList); //Get the square with the lowest FScore
+		customNode* currentSquare = getSquareLowestFScore(openList); //Get the square with the lowest FScore
 
 		closedList.push_back(currentSquare); // Add the lowest fscored square to closed list
 		removeFromVector(currentSquare, openList); // Remove the current Square from the openList
 
 		if (vectorContains(destNode, closedList)) {
+
+			customNode* tmp = currentSquare;
+
+			do {
+				complete.push_back(tmp);
+				tmp = tmp->parent; // Go backward
+			} while (tmp != nullptr); // Until there is not more parent
+
 			break;
 		}
 		
-		vector<customNode> adjacentSquares = getAdjacentSquares(currentSquare, destNode);
+		vector<customNode*> adjacentSquares = getAdjacentSquares(currentSquare, destNode);
 
-		for (customNode adjSquare : adjacentSquares) {
+		
+		for (int index = 0; index < adjacentSquares.size(); index++) {
 
-			if (vectorContains(adjSquare, closedList)) {
+			if (vectorContains(adjacentSquares.at(index), closedList)) {
 				continue;
 			}
 
-			if (!(vectorContains(adjSquare, openList))) {
-				openList.push_back(adjSquare);
+			if (!(vectorContains(adjacentSquares.at(index), openList))) {
+
+				openList.push_back(adjacentSquares.at(index));
+			} else {
+
+				if ((currentSquare->gScore + 1) < adjacentSquares.at(index)->gScore) {
+
+					customNode* newOne = adjacentSquares.at(index);
+					newOne->gScore = currentSquare->gScore + 1;
+
+					removeFromVector(adjacentSquares.at(index), openList);
+
+					openList.push_back(newOne);
+
+				}
+
 			}
 
 		}
 
 
-	} while (!closedList.empty());
+	} while (!openList.empty());
+
+
+	int testTxt = 0;
+	for (customNode* test : complete) {
+		GetUserInterfaceManager()->printDebugText("X: " + to_string(test->x) + " Y: " + to_string(test->y));
+
+		stringstream ss;
+		ss << "test1";
+		ss << testTxt;
+
+		GameObject* waypoint = new GameObject(ss.str() , Vector3(test->x, 0.4, test->y), Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
+		GetGameObjectManager()->addGameObject(waypoint);
+		testTxt++;
+	}
 
 
 
@@ -182,18 +237,18 @@ int Enemy::manhattanFinder(Vector2 a, Vector2 b)
 	return abs(a.x - b.x) + abs(a.y - b.y);
 }
 
-Enemy::customNode Enemy::getSquareLowestFScore(vector<customNode> openlist) {
+Enemy::customNode* Enemy::getSquareLowestFScore(vector<customNode*> openlist) {
 
-	customNode toReturn;
+	customNode* toReturn;
 	bool firstRun = true;
 	int fScoreRecord;
-	for (customNode node : openlist) {
+	for (customNode* node : openlist) {
 		if (firstRun) {
-			fScoreRecord = node.gScore + node.hScore;
+			fScoreRecord = node->gScore + node->hScore;
 			toReturn = node;
 			firstRun = false;
 		} else {
-			int overall = node.gScore + node.hScore;
+			int overall = node->gScore + node->hScore;
 			if (overall < fScoreRecord) {
 				toReturn = node;
 				fScoreRecord = overall;
@@ -204,20 +259,18 @@ Enemy::customNode Enemy::getSquareLowestFScore(vector<customNode> openlist) {
 	return toReturn;
 }
 
-void Enemy::removeFromVector(customNode nodeToRemove, vector<customNode>& openList) {
-	int count = 0; // Remove the current square from the openList
-	for (customNode node : openList) {
-		if (node.x == nodeToRemove.x && node.y == nodeToRemove.y) {
-			openList.erase(openList.begin() + (count - 1));
+void Enemy::removeFromVector(customNode* nodeToRemove, vector<customNode*>& openList) {
+	for (int i = 0; i < openList.size(); i++) {
+		if (openList.at(i)->x == nodeToRemove->x && openList.at(i)->y == nodeToRemove->y) {
+			openList.erase(openList.begin() + i);
 		}
-		count++;
 	}
 }
 
-bool Enemy::vectorContains(customNode containNode, vector<customNode>& nodeVector) {
+bool Enemy::vectorContains(customNode* containNode, vector<customNode*>& nodeVector) {
 	bool contains = false;
-	for (customNode node : nodeVector) {
-		if (node.x == containNode.x && node.y == containNode.y) {
+	for (customNode* node : nodeVector) {
+		if (node->x == containNode->x && node->y == containNode->y) {
 			contains = true;
 		}
 	}
@@ -225,48 +278,52 @@ bool Enemy::vectorContains(customNode containNode, vector<customNode>& nodeVecto
 	return contains;
 }
 
-vector<Enemy::customNode> Enemy::getAdjacentSquares(customNode node, customNode destination) {
-	vector<customNode> adjSquares;
+vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNode* destination) {
+	vector<customNode*> adjSquares;
 
 	//above
-	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node.x, node.y + 1) != 1) {
-		customNode above;
-		above.x = node.x;
-		above.y = node.y + 1;
-		above.gScore = node.gScore + 1;
-		above.hScore = manhattanFinder({ above.x, above.y }, { destination.x, destination.y });
+	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x, node->y + 1) != 1) {
+		customNode* above = new customNode();
+		above->x = node->x;
+		above->y = node->y + 1;
+		above->gScore = node->gScore + 1;
+		above->hScore = manhattanFinder(Vector2(above->x, above->y ), Vector2(destination->x, destination->y ));
+		above->parent = node;
 
 		adjSquares.push_back(above);
 	}
 	//below
-	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node.x, node.y - 1) != 1) {
-		customNode below;
-		below.x = node.x;
-		below.y = node.y - 1;
-		below.gScore = node.gScore + 1;
-		below.hScore = manhattanFinder({ below.x, below.y }, { destination.x, destination.y });
+	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x, node->y - 1) != 1) {
+		customNode* below = new customNode();
+		below->x = node->x;
+		below->y = node->y - 1;
+		below->gScore = node->gScore + 1;
+		below->hScore = manhattanFinder(Vector2(below->x, below->y ), Vector2(destination->x, destination->y ));
+		below->parent = node;
 
 		adjSquares.push_back(below);
 	}
 
 	//left
-	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node.x - 1, node.y) != 1) {
-		customNode left;
-		left.x = node.x - 1;
-		left.y = node.y;
-		left.gScore = node.gScore + 1;
-		left.hScore = manhattanFinder({ left.x, left.y }, { destination.x, destination.y });
+	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x - 1, node->y) != 1) {
+		customNode* left = new customNode();
+		left->x = node->x - 1;
+		left->y = node->y;
+		left->gScore = node->gScore + 1;
+		left->hScore = manhattanFinder(Vector2(left->x, left->y ), Vector2( destination->x, destination->y ));
+		left->parent = node;
 
 		adjSquares.push_back(left);
 	}
 
 	//right
-	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node.x + 1, node.y) != 1) {
-		customNode right;
-		right.x = node.x + 1;
-		right.y = node.y;
-		right.gScore = node.gScore + 1;
-		right.hScore = manhattanFinder({ right.x, right.y }, { destination.x, destination.y });
+	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x + 1, node->y) != 1) {
+		customNode* right = new customNode();
+		right->x = node->x + 1;
+		right->y = node->y;
+		right->gScore = node->gScore + 1;
+		right->hScore = manhattanFinder(Vector2(right->x, right->y ), Vector2(destination->x, destination->y));
+		right->parent = node;
 
 		adjSquares.push_back(right);
 	}

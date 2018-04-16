@@ -35,13 +35,14 @@ private:
 		int y;
 		int gScore;
 		int hScore;
+		customNode* parent;
 	};
 	void findPath(Vector2 dest);
 	int manhattanFinder(Vector2 a, Vector2 b);
-	customNode getSquareLowestFScore(vector<customNode> openlist);
-	void removeFromVector(customNode nodeToRemove, vector<customNode>& openList);
-	bool vectorContains(customNode containNode, vector<customNode>& nodeVector);
-	vector<customNode> getAdjacentSquares(customNode node, customNode destination);
+	customNode* getSquareLowestFScore(vector<customNode*> openlist);
+	void removeFromVector(customNode* nodeToRemove, vector<customNode*>& openList);
+	bool vectorContains(customNode* containNode, vector<customNode*>& nodeVector);
+	vector<customNode*> getAdjacentSquares(customNode* node, customNode* destination);
 };
 
 #endif
