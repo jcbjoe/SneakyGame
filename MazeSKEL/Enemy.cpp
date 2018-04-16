@@ -8,13 +8,13 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 	waypointNumber = 1;
 
-	GetModel().Initialise(*GetMeshManager()->GetMesh("cube"));
+	GetModel().Initialise(*GetMeshManager()->GetMesh("Ghost"));
 
 	GameObject::setInitialPos();
 
 	MaterialExt mat = GetModel().GetMesh().GetSubMesh(0).material;
-	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("Enemy.dds", true, gd3dDevice);
-	mat.texture = "Enemy.dds";
+	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("booMap.dds", true, gd3dDevice);
+	mat.texture = "booMap.dds";
 	mat.texTrsfm.scale = Vector2(1, 1);
 
 	GetModel().SetOverrideMat(&mat);
@@ -66,9 +66,14 @@ void Enemy::Update(float dTime) {
 			rotato.x = 0;
 			rotato.z = 0;
 
-			Vector3 rot = Vector3::Lerp(GetModel().GetRotation(), rotato, (1 * dTime) / 99.0f);
+			Vector2 dirToEnemy;
+			dirToEnemy.x = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().x - GetModel().GetPosition().x;
+			dirToEnemy.y = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().z - GetModel().GetPosition().z;
+
+			// get the player angle on the y axis
+			SetRotation(Vector3(GetModel().GetRotation().x,atan2(-dirToEnemy.y, dirToEnemy.x) - (PI/2), GetModel().GetRotation().z));
+
 			SetPosition(pos);
-			SetRotation(rotato);
 
 			followingPath = false;
 
@@ -81,6 +86,13 @@ void Enemy::Update(float dTime) {
 				Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), currentPath.at(currentPathPos), (10 * dTime) / distance);
 
 				SetPosition(pos);
+
+				Vector2 dirToEnemy;
+				dirToEnemy.x = currentPath.at(currentPathPos).x - GetModel().GetPosition().x;
+				dirToEnemy.y = currentPath.at(currentPathPos).z - GetModel().GetPosition().z;
+
+				// get the player angle on the y axis
+				SetRotation(Vector3(GetModel().GetRotation().x, atan2(-dirToEnemy.y, dirToEnemy.x) - (PI / 2), GetModel().GetRotation().z));
 
 				if (distanceFromPath < 0.25) {
 					if (currentPathPos == (currentPath.size() - 1)) {

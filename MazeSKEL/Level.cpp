@@ -75,7 +75,7 @@ void Level::reloadLevel() {
 
 			}
 			case 4: { //Enemy to be placed
-				Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.1f, 0.1f, 0.1f));
+				Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.007f, 0.007f, 0.007f));
 				GetGameObjectManager()->addGameObject(enemy);
 				break;
 			}
