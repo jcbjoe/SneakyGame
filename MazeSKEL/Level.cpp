@@ -118,7 +118,7 @@ void Level::reloadLevel() {
 				break;
 			}
 			case 10: { //YellowKey to be placed
-				YellowKey* yellowKey = new YellowKey("YellowKey", Vector3(i, 0.3f, j), Vector3(0, 0, 0), Vector3(0.02, 0.1, 0.1));
+				YellowKey* yellowKey = new YellowKey("YellowKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI / 2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(yellowKey);
 				((GameState*)GetStateManager()->getCurrentState())->setYellowKey(true);
 				break;
