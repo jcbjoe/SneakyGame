@@ -33,8 +33,14 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	mpYellowKeyTex = fx.mCache.LoadTexture("YellowKey5.dds", true, gd3dDevice);
 	mYellowKeyDimentions = fx.mCache.Get(mpYellowKeyTex).dim;
 
-	mpEmptyTex = fx.mCache.LoadTexture("Empty.dds", true, gd3dDevice);
-	mEmptyDimentions = fx.mCache.Get(mpEmptyTex).dim;
+	mpRedEmptyTex = fx.mCache.LoadTexture("RedKeyEmpty.dds", true, gd3dDevice);
+	mRedEmptyDimentions = fx.mCache.Get(mpRedEmptyTex).dim;
+
+	mpBlueEmptyTex = fx.mCache.LoadTexture("BlueKeyEmpty.dds", true, gd3dDevice);
+	mBlueEmptyDimentions = fx.mCache.Get(mpBlueEmptyTex).dim;
+
+	mpYellowEmptyTex = fx.mCache.LoadTexture("YellowKeyEmpty.dds", true, gd3dDevice);
+	mYellowEmptyDimentions = fx.mCache.Get(mpYellowEmptyTex).dim;
 
 	start = time(0);
 }
@@ -98,7 +104,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		//mpAlgerian->DrawString(mpSpriteBatch, redKeyFound.str().c_str(), Vector2(0, 100), Colors::IndianRed, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		mpSpriteBatch->Draw(mpRedKeyTex, Vector2(25, 740), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(0.1, 0.1));
 	else if(RedKey)
-		mpSpriteBatch->Draw(mpEmptyTex, Vector2(25, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
+		mpSpriteBatch->Draw(mpRedEmptyTex, Vector2(25, 740), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(0.1, 0.1));
 
 	wstringstream blueKeyFound;
 	if (hasBlueKey)
@@ -106,7 +112,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		//mpAlgerian->DrawString(mpSpriteBatch, blueKeyFound.str().c_str(), Vector2(0, 150), Colors::DeepSkyBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(75, 740), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(0.1, 0.1));
 	else if(BlueKey)
-		mpSpriteBatch->Draw(mpEmptyTex, Vector2(75, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
+		mpSpriteBatch->Draw(mpBlueEmptyTex, Vector2(75, 740), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(0.1, 0.1));
 
 	wstringstream YellowKeyFound;
 	if (hasYellowKey)
@@ -114,7 +120,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		//mpAlgerian->DrawString(mpSpriteBatch, blueKeyFound.str().c_str(), Vector2(0, 150), Colors::DeepSkyBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 		mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(125, 740), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(0.1, 0.1));
 	else if (YellowKey)
-		mpSpriteBatch->Draw(mpEmptyTex, Vector2(125, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
+		mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(125, 740), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(0.1, 0.1));
 	//--- End Key Display
 
 	//--- Begin Debug Text

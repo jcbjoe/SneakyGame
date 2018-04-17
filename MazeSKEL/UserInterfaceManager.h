@@ -51,8 +51,14 @@ private:
 	ID3D11ShaderResourceView *mpYellowKeyTex = nullptr;
 	DirectX::SimpleMath::Vector2 mYellowKeyDimentions;
 
-	ID3D11ShaderResourceView *mpEmptyTex = nullptr;
-	DirectX::SimpleMath::Vector2 mEmptyDimentions;
+	ID3D11ShaderResourceView *mpRedEmptyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mRedEmptyDimentions;
+
+	ID3D11ShaderResourceView *mpBlueEmptyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mBlueEmptyDimentions;
+
+	ID3D11ShaderResourceView *mpYellowEmptyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mYellowEmptyDimentions;
 };
 SINGLETON_GET(UserInterfaceManager);
 
