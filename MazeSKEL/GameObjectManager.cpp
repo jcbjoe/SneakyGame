@@ -31,6 +31,9 @@ void GameObjectManager::loadObjects()
 		Mesh* msHand = &GetMeshManager()->CreateMesh("Hands");
 		msHand->CreateFrom("../bin/data/Hands.obj", gd3dDevice, FX::GetMyFX()->mCache);
 
+		Mesh* msGhost = &GetMeshManager()->CreateMesh("Ghost");
+		msGhost->CreateFrom("../bin/data/Boo.obj", gd3dDevice, FX::GetMyFX()->mCache);
+
 		loadedObjects = true;
 	}
 }

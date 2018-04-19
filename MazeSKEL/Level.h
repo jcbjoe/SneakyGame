@@ -17,9 +17,11 @@ class Level
 public:
 	Level(string levelName);
 
-	void setLevelMap(int[20][20]);
+	const static int levelSize = 20;
 
-	int getObjectAtCoordinate(int x, int y) { return levelMap[x][y]; }
+	void setLevelMap(int[levelSize][levelSize]);
+
+	int getObjectAtCoordinate(int x, int y);
 
 	string getLevelName();
 
@@ -33,6 +35,8 @@ public:
 
 	void addWaypointLocation(Vector3 loc);
 
+	int getHowManyWaypoints();
+
 private:
 
 	string levelName;
@@ -41,6 +45,7 @@ private:
 	int maxCoins;
 
 	vector<Vector3> waypointLocations;
+
 };
 
 
