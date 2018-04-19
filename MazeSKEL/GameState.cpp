@@ -17,7 +17,7 @@ void GameState::Init() {
 	gPlayer = new Player();
 
 	//Change array to use in level
-	GetLevelManager()->loadLevel(3);
+	GetLevelManager()->loadLevel(0);
 
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);
@@ -144,9 +144,7 @@ void GameState::Update(float dTime) {
 					gPlayer->dropOffCoins();
 					if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
 					{
-						gPlayer->setDeposited(0);
-						gPlayer->setHasRedKey(false);
-						gPlayer->setHasBlueKey(false);
+						gPlayer->resetStats();
 						GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
 						Timer = 60;
 					}

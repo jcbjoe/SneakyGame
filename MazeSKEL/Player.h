@@ -47,6 +47,8 @@ public:
 	//void changeKeyNo(int x);
 	void dropOffCoins();
 
+	void resetStats();
+
 	void toggleCrouch();
 	Vector3 getCameraPosition();
 	int getDeposited();

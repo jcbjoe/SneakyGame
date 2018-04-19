@@ -190,6 +190,14 @@ void Player::dropOffCoins()
 	coins = 0;
 }
 
+void Player::resetStats()
+{
+	setDeposited(0);
+	setHasRedKey(false);
+	setHasBlueKey(false);
+	setHasYellowKey(false);
+}
+
 void Player::setHasRedKey(const bool& key)
 {
 	hasRedKey = key;
