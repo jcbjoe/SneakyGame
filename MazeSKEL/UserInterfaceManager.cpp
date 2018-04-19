@@ -54,6 +54,10 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 
 	mpSpriteBatch->Begin();
 
+	//background
+	int w, h;
+	GetClientExtents(w, h);
+
 	//--- Begin Crouching Display 
 	wstringstream crouching;
 	wstringstream crosshair;
@@ -68,7 +72,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		crouching << "Not Crouched";
 	}
 	//Draw Crosshair
-	mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(495, 384), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(w / 2.0f - 25, h / 2.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//Show crouching ui
 	mpAlgerian->DrawString(mpSpriteBatch, crouching.str().c_str(), Vector2(100, 200), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Crouching Display 
@@ -96,11 +100,6 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	coinsDeposited << "Coins Deposited: " << playerDeposited;
 	mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Coin Display
-
-
-	//background
-	int w, h;
-	GetClientExtents(w, h);
 
 	//--- Begin Key Display
 	wstringstream redKeyFound;
