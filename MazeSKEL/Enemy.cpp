@@ -83,7 +83,7 @@ void Enemy::Update(float dTime) {
 
 				float distanceFromPath = Vector3().Distance(GetModel().GetPosition(), currentPath.at(currentPathPos));
 
-				Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), currentPath.at(currentPathPos), (10 * dTime) / distance);
+				Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), currentPath.at(currentPathPos), (2 * dTime) / distanceFromPath);
 
 				SetPosition(pos);
 
