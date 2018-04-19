@@ -45,7 +45,7 @@ void GameState::Update(float dTime) {
 	if (!paused) {
 		Timer -= dTime;
 		if (Timer < 0) {
-			GetStateManager()->changeState("MainMenu");
+			GetStateManager()->changeState("GameOverState");
 		}
 	}
 

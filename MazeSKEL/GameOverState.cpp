@@ -11,22 +11,21 @@ GameOverState::GameOverState()
 	:
 	State("GameOverState")
 {
-	//Initialise window and hide cursor
-	GetMouseAndKeys()->Initialise(GetMainWnd(), 1, 1);
-	GetGamepad()->Initialise();
-
-	mLoadThread = std::async(launch::async, &GameOverState::handleGameOver, this);
+	
 }
 
 void GameOverState::Init() {
 	handled = false;
+
+	LoadTextures();
+
+	mLoadThread = std::async(launch::async, &GameOverState::handleGameOver, this);
 }
 
 void GameOverState::handleGameOver() {
-	&GetMeshManager()->Release();
+	GetMeshManager()->Release();
+	handled = true;
 }
-
-
 
 void GameOverState::Update(float dTime) {
 	if (handled) {

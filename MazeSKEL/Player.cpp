@@ -95,7 +95,7 @@ void Player::Update(float dTime)
 			&& ((GetMouseAndKeys()->GetMousePos(true).y >= 440) && (GetMouseAndKeys()->GetMousePos(true).y <= 550))
 			)
 		{
-			GetStateManager()->changeState("MainMenu");
+			GetStateManager()->changeState("GameOverState");
 		}
 
 		//Exit

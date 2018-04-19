@@ -10,13 +10,11 @@ LoadingState::LoadingState()
 	:
 	State("LoadingState")
 {
-	//Initialise window and hide cursor
-	GetMouseAndKeys()->Initialise(GetMainWnd(), 1, 1);
-	GetGamepad()->Initialise();
 
 }
 
 void LoadingState::Init() {
+	Loaded = false;
 
 	LoadTextures();
 
