@@ -27,8 +27,7 @@ void MainMenuState::Update(float dTime){
 		&& ((GetMouseAndKeys()->GetMousePos(true).y >= 278) && (GetMouseAndKeys()->GetMousePos(true).y <= 367))
 		)
 	{
-		GetGameObjectManager()->loadObjects(); // For loading screen
-		GetStateManager()->changeState(1);
+		GetStateManager()->changeState("LoadingState");
 	}
 
 	//Exit Button
@@ -43,7 +42,7 @@ void MainMenuState::Update(float dTime){
 
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{
-		GetStateManager()->changeState(1);
+		GetStateManager()->changeState("LoadingState");
 	}
 }
 

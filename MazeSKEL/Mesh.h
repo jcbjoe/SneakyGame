@@ -80,8 +80,9 @@ public:
 
 	std::vector<Mesh*> mMeshes;
 
-private:
 	void Release();
+private:
+	
 
 };
 SINGLETON_GET(MeshManager);

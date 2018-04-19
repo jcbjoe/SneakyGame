@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "StateManager.h"
 #include "UserInterfaceManager.h"
+#include "GameObjectManager.h"
 
 
 LoadingState::LoadingState()
@@ -13,13 +14,46 @@ LoadingState::LoadingState()
 	GetMouseAndKeys()->Initialise(GetMainWnd(), 1, 1);
 	GetGamepad()->Initialise();
 
+}
+
+void LoadingState::Init() {
+
 	LoadTextures();
 
+	mLoadThread = std::async(launch::async, &LoadingState::Load, this);
 
 }
 
-void LoadingState::Update(float dTime) {
+void LoadingState::Load() {
+	
+	BuildFloor(*GetMeshManager());
+	BuildWall(*GetMeshManager());
+	BuildLoot(*GetMeshManager(), 10, 10);
+	BuildCube(*GetMeshManager());
+	BuildDoor(*GetMeshManager());
 
+	Mesh* msKey = &GetMeshManager()->CreateMesh("Key");
+	msKey->CreateFrom("../bin/data/key.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
+	Mesh* msCoin = &GetMeshManager()->CreateMesh("Coin");
+	msCoin->CreateFrom("../bin/data/CoinNew.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
+	Mesh* msChest = &GetMeshManager()->CreateMesh("Chest");
+	msChest->CreateFrom("../bin/data/chest.fbx", gd3dDevice, FX::GetMyFX()->mCache);
+
+	Mesh* msHand = &GetMeshManager()->CreateMesh("Hands");
+	msHand->CreateFrom("../bin/data/Hands.obj", gd3dDevice, FX::GetMyFX()->mCache);
+
+	Mesh* msGhost = &GetMeshManager()->CreateMesh("Ghost");
+	msGhost->CreateFrom("../bin/data/Boo.obj", gd3dDevice, FX::GetMyFX()->mCache);
+
+	Loaded = true;
+}
+
+void LoadingState::Update(float dTime) {
+	if (Loaded) {
+		GetStateManager()->changeState("MainGameState");
+	}
 }
 
 void LoadingState::Render(float dTime) {
@@ -58,10 +92,4 @@ void LoadingState::LoadTextures() {
 
 	mpBackgroundTex = fx.mCache.LoadTexture("LoadingScreen.dds", true, gd3dDevice);
 	mBackgroundDimentions = fx.mCache.Get(mpBackgroundTex).dim;
-}
-
-void LoadingState::LoadObjects() {
-
-
-	Loaded = true;
 }

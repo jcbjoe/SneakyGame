@@ -12,7 +12,7 @@ public:
 	void LoadTextures();
 	void Update(float dTime) override;
 
-	void LoadObjects();
+	void Init() override;
 
 private:
 	FPSCamera mCamera;
@@ -20,7 +20,11 @@ private:
 	ID3D11ShaderResourceView *mpBackgroundTex = nullptr;
 	DirectX::SimpleMath::Vector2 mBackgroundDimentions;
 
+	std::future<void> mLoadThread;
+
 	bool Loaded = false;
+
+	void Load();
 };
 
 #endif
