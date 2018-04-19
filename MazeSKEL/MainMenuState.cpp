@@ -14,6 +14,8 @@ MainMenuState::MainMenuState()
 	GetGamepad()->Initialise();
 
 	LoadTextures();
+
+	ShowCursor(true);
 }
 
 void MainMenuState::Update(float dTime){

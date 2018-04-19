@@ -14,6 +14,8 @@ LoadingState::LoadingState()
 	GetGamepad()->Initialise();
 
 	LoadTextures();
+
+
 }
 
 void LoadingState::Update(float dTime) {
@@ -54,6 +56,12 @@ void LoadingState::Render(float dTime) {
 void LoadingState::LoadTextures() {
 	FX::MyFX& fx = *FX::GetMyFX();
 
-	mpBackgroundTex = fx.mCache.LoadTexture("bg.dds", true, gd3dDevice);
+	mpBackgroundTex = fx.mCache.LoadTexture("LoadingScreen.dds", true, gd3dDevice);
 	mBackgroundDimentions = fx.mCache.Get(mpBackgroundTex).dim;
+}
+
+void LoadingState::LoadObjects() {
+
+
+	Loaded = true;
 }

@@ -23,6 +23,8 @@ void GameState::Init() {
 	GetUserInterfaceManager()->initialiseUI(true);
 
 	FX::SetupDirectionalLight(0, true, Vector3(-0.7f, -0.7f, 0.7f), Vector3(0.67f, 0.67f, 0.67f), Vector3(0.35f, 0.45f, 0.35f), Vector3(0.15f, 0.15f, 0.15f));
+
+	while (ShowCursor(false) >= 0) {};
 }
 
 void GameState::Update(float dTime) {
@@ -53,6 +55,11 @@ void GameState::Update(float dTime) {
 		if (pDown){
 			paused = !paused;
 			pDown = false;
+			if (paused) {
+				ShowCursor(true);
+			} else {
+				while (ShowCursor(false) >= 0) {};
+			}
 		}
 	}
 
