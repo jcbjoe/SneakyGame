@@ -104,7 +104,7 @@ void Level::reloadLevel() {
 				break;
 			}
 			case 8: { //Door to be placed
-				BlueDoor* blueDoor = new BlueDoor("BlueDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.1, 0.5, 0.5));
+				BlueDoor* blueDoor = new BlueDoor("BlueDoor", Vector3(i - 0.45f, 0.5f, j), Vector3(0, 0, 0), Vector3(0.05, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(blueDoor);
 
 				//Place wall above door
