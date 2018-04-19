@@ -3,6 +3,7 @@
 #include <time.h>
 #include "StateManager.h"
 #include "GameState.h"
+#include "CommonStates.h"
 
 using namespace std;
 using namespace DirectX;
@@ -24,22 +25,22 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	mpPausedTex = fx.mCache.LoadTexture("paused.dds", true, gd3dDevice);
 	mPausedDimentions = fx.mCache.Get(mpPausedTex).dim;
 
-	mpRedKeyTex = fx.mCache.LoadTexture("RedKey5.dds", true, gd3dDevice);
+	mpRedKeyTex = fx.mCache.LoadTexture("RedKey2.dds", true, gd3dDevice);
 	mRedKeyDimentions = fx.mCache.Get(mpRedKeyTex).dim;
 
-	mpBlueKeyTex = fx.mCache.LoadTexture("BlueKey5.dds", true, gd3dDevice);
+	mpBlueKeyTex = fx.mCache.LoadTexture("BlueKey2.dds", true, gd3dDevice);
 	mBlueKeyDimentions = fx.mCache.Get(mpBlueKeyTex).dim;
 
-	mpYellowKeyTex = fx.mCache.LoadTexture("YellowKey5.dds", true, gd3dDevice);
+	mpYellowKeyTex = fx.mCache.LoadTexture("YellowKey2.dds", true, gd3dDevice);
 	mYellowKeyDimentions = fx.mCache.Get(mpYellowKeyTex).dim;
 
-	mpRedEmptyTex = fx.mCache.LoadTexture("RedKeyEmpty.dds", true, gd3dDevice);
+	mpRedEmptyTex = fx.mCache.LoadTexture("RedKeyEmpty2.dds", true, gd3dDevice);
 	mRedEmptyDimentions = fx.mCache.Get(mpRedEmptyTex).dim;
 
-	mpBlueEmptyTex = fx.mCache.LoadTexture("BlueKeyEmpty.dds", true, gd3dDevice);
+	mpBlueEmptyTex = fx.mCache.LoadTexture("BlueKeyEmpty2.dds", true, gd3dDevice);
 	mBlueEmptyDimentions = fx.mCache.Get(mpBlueEmptyTex).dim;
 
-	mpYellowEmptyTex = fx.mCache.LoadTexture("YellowKeyEmpty.dds", true, gd3dDevice);
+	mpYellowEmptyTex = fx.mCache.LoadTexture("YellowKeyEmpty2.dds", true, gd3dDevice);
 	mYellowEmptyDimentions = fx.mCache.Get(mpYellowEmptyTex).dim;
 
 	start = time(0);
@@ -52,7 +53,8 @@ void UserInterfaceManager::printDebugText(string text) {
 
 void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey) {
 
-	mpSpriteBatch->Begin();
+	CommonStates state(gd3dDevice);
+	mpSpriteBatch->Begin(SpriteSortMode_Deferred, state.NonPremultiplied());
 
 	//background
 	int w, h;
