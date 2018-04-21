@@ -25,23 +25,44 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	mpPausedTex = fx.mCache.LoadTexture("paused.dds", true, gd3dDevice);
 	mPausedDimentions = fx.mCache.Get(mpPausedTex).dim;
 
-	mpRedKeyTex = fx.mCache.LoadTexture("RedKey2.dds", true, gd3dDevice);
-	mRedKeyDimentions = fx.mCache.Get(mpRedKeyTex).dim;
+	//--Collected Coins Begin
+		mpRedKeyTex = fx.mCache.LoadTexture("RedKey2.dds", true, gd3dDevice);
+		mRedKeyDimentions = fx.mCache.Get(mpRedKeyTex).dim;
 
-	mpBlueKeyTex = fx.mCache.LoadTexture("BlueKey2.dds", true, gd3dDevice);
-	mBlueKeyDimentions = fx.mCache.Get(mpBlueKeyTex).dim;
+		mpBlueKeyTex = fx.mCache.LoadTexture("BlueKey2.dds", true, gd3dDevice);
+		mBlueKeyDimentions = fx.mCache.Get(mpBlueKeyTex).dim;
 
-	mpYellowKeyTex = fx.mCache.LoadTexture("YellowKey2.dds", true, gd3dDevice);
-	mYellowKeyDimentions = fx.mCache.Get(mpYellowKeyTex).dim;
+		mpYellowKeyTex = fx.mCache.LoadTexture("YellowKey2.dds", true, gd3dDevice);
+		mYellowKeyDimentions = fx.mCache.Get(mpYellowKeyTex).dim;
+	//--Collected Coins End
 
-	mpRedEmptyTex = fx.mCache.LoadTexture("RedKeyEmpty2.dds", true, gd3dDevice);
-	mRedEmptyDimentions = fx.mCache.Get(mpRedEmptyTex).dim;
+	//--Uncollected Coins Begin
+		mpRedEmptyTex = fx.mCache.LoadTexture("RedKeyEmpty2.dds", true, gd3dDevice);
+		mRedEmptyDimentions = fx.mCache.Get(mpRedEmptyTex).dim;
 
-	mpBlueEmptyTex = fx.mCache.LoadTexture("BlueKeyEmpty2.dds", true, gd3dDevice);
-	mBlueEmptyDimentions = fx.mCache.Get(mpBlueEmptyTex).dim;
+		mpBlueEmptyTex = fx.mCache.LoadTexture("BlueKeyEmpty2.dds", true, gd3dDevice);
+		mBlueEmptyDimentions = fx.mCache.Get(mpBlueEmptyTex).dim;
 
-	mpYellowEmptyTex = fx.mCache.LoadTexture("YellowKeyEmpty2.dds", true, gd3dDevice);
-	mYellowEmptyDimentions = fx.mCache.Get(mpYellowEmptyTex).dim;
+		mpYellowEmptyTex = fx.mCache.LoadTexture("YellowKeyEmpty2.dds", true, gd3dDevice);
+		mYellowEmptyDimentions = fx.mCache.Get(mpYellowEmptyTex).dim;
+	//--Uncollected Coins End
+
+	//--Coins Begin
+		mpOneCoinTex = fx.mCache.LoadTexture("UIOneCoin.dds", true, gd3dDevice);
+		mOneCoinDimentions = fx.mCache.Get(mpOneCoinTex).dim;
+
+		mpTwoCoinTex = fx.mCache.LoadTexture("UITwoCoin.dds", true, gd3dDevice);
+		mTwoCoinDimentions = fx.mCache.Get(mpTwoCoinTex).dim;
+
+		mpThreeCoinTex = fx.mCache.LoadTexture("UIThreeCoin.dds", true, gd3dDevice);
+		mThreeCoinDimentions = fx.mCache.Get(mpThreeCoinTex).dim;
+
+		mpFourCoinTex = fx.mCache.LoadTexture("UIFourCoin.dds", true, gd3dDevice);
+		mFourCoinDimentions = fx.mCache.Get(mpFourCoinTex).dim;
+
+		mpFiveCoinTex = fx.mCache.LoadTexture("UIFiveCoin.dds", true, gd3dDevice);
+		mFiveCoinDimentions = fx.mCache.Get(mpFiveCoinTex).dim;
+	//--Coins End
 
 	start = time(0);
 }
@@ -61,67 +82,84 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	GetClientExtents(w, h);
 
 	//--- Begin Crouching Display 
-	wstringstream crouching;
-	wstringstream crosshair;
-	if (isCrouching)
-	{
-		crosshair << "--=--";
-		crouching << "Crouched";
-	}
-	else
-	{
-		crosshair << "-<O>-";
-		crouching << "Not Crouched";
-	}
-	//Draw Crosshair
-	mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(w / 2.0f - 25, h / 2.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-	//Show crouching ui
-	mpAlgerian->DrawString(mpSpriteBatch, crouching.str().c_str(), Vector2(100, 200), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		wstringstream crouching;
+		wstringstream crosshair;
+		if (isCrouching)
+		{
+			crosshair << "--=--";
+			crouching << "Crouched";
+		}
+		else
+		{
+			crosshair << "-<O>-";
+			crouching << "Not Crouched";
+		}
+		//Draw Crosshair
+		mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(w / 2.0f - 25, h / 2.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		//Show crouching ui
+		mpAlgerian->DrawString(mpSpriteBatch, crouching.str().c_str(), Vector2(100, 200), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Crouching Display 
 
 	//--- Begin FPS Counter
-	if (showFPS) {
-		wstringstream FPSCounter;
-		FPSCounter << "FPS: " << fpsNumber;
-		mpAlgerian->DrawString(mpSpriteBatch, FPSCounter.str().c_str(), Vector2(0, 0), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-	}
+		if (showFPS) {
+			wstringstream FPSCounter;
+			FPSCounter << "FPS: " << fpsNumber;
+			mpAlgerian->DrawString(mpSpriteBatch, FPSCounter.str().c_str(), Vector2(0, 0), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		}
 	//--- End FPS Counter
 
 	//--- Begin Timer Display
-	wstringstream clock;
-	clock  << "Time: " << fixed << setprecision(1) << Timer;
-	mpAlgerian->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(830, 0), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		wstringstream clock;
+		clock  << "Time: " << fixed << setprecision(1) << Timer;
+		mpAlgerian->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(830, 0), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Timer Display
 
 	//--- Begin Coin Display
-	wstringstream coinsPickedUp;
-	coinsPickedUp << "Coins Collected: " << playerScore;
-	mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		wstringstream coinsPickedUp;
+		coinsPickedUp << "Coins Collected: " << playerScore;
+		mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
-	wstringstream coinsDeposited;
-	coinsDeposited << "Coins Deposited: " << playerDeposited;
-	mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		switch (playerScore) {
+		case 1:
+			mpSpriteBatch->Draw(mpOneCoinTex, Vector2(800, h - 50), nullptr, Colours::White, 0, mOneCoinDimentions*0.5f, Vector2(0.1, 0.1));
+			break;
+		case 2:
+			mpSpriteBatch->Draw(mpTwoCoinTex, Vector2(800, h - 50), nullptr, Colours::White, 0, mTwoCoinDimentions*0.5f, Vector2(0.2, 0.2));
+			break;
+		case 3:
+			mpSpriteBatch->Draw(mpThreeCoinTex, Vector2(800, h - 50), nullptr, Colours::White, 0, mThreeCoinDimentions*0.5f, Vector2(0.2, 0.2));
+			break;
+		case 4:
+			mpSpriteBatch->Draw(mpFourCoinTex, Vector2(800, h - 50), nullptr, Colours::White, 0, mFourCoinDimentions*0.5f, Vector2(0.2, 0.2));
+			break;
+		case 5:
+			mpSpriteBatch->Draw(mpFiveCoinTex, Vector2(800, h - 50), nullptr, Colours::White, 0, mFiveCoinDimentions*0.5f, Vector2(0.2, 0.2));
+			break;
+		}
+
+		wstringstream coinsDeposited;
+		coinsDeposited << "Coins Deposited: " << playerDeposited;
+		mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Coin Display
 
 	//--- Begin Key Display
-	wstringstream redKeyFound;
-	if (hasRedKey)
-			mpSpriteBatch->Draw(mpRedKeyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(0.2, 0.2));
-	else if (RedKey)
-		mpSpriteBatch->Draw(mpRedEmptyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
+		wstringstream redKeyFound;
+		if (hasRedKey)
+				mpSpriteBatch->Draw(mpRedKeyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(0.2, 0.2));
+		else if (RedKey)
+			mpSpriteBatch->Draw(mpRedEmptyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
 
-	wstringstream blueKeyFound;
-	if (hasBlueKey)
-		mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
-	else if(BlueKey)
-		mpSpriteBatch->Draw(mpBlueEmptyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
+		wstringstream blueKeyFound;
+		if (hasBlueKey)
+			mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
+		else if(BlueKey)
+			mpSpriteBatch->Draw(mpBlueEmptyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
 
-	wstringstream YellowKeyFound;
-	if (hasYellowKey)
-		mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
-	else if (YellowKey)
-		mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
-
+		wstringstream YellowKeyFound;
+		if (hasYellowKey)
+			mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
+		else if (YellowKey)
+			mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
 	//--- End Key Display
 
 	//--- Begin Debug Text
