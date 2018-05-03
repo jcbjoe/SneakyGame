@@ -19,6 +19,8 @@
 #include "BlueDoor.h"
 #include "WallHalf.h"
 #include "ReturnBox.h"
+#include <vector>
+
 
 class GameState : public State
 {

@@ -174,7 +174,7 @@ void GameState::Render(float dTime) {
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey(), RedKey, BlueKey, YellowKey);
+	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey(), RedKey, BlueKey, YellowKey, gPlayer->getCameraPosition().x, gPlayer->getCameraPosition().z, gPlayer->get2DRotation());
 
 	EndRender();
 	GetMouseAndKeys()->PostProcess();

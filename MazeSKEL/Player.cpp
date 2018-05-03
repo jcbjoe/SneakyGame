@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include "StateManager.h"
 
+#include <Math.h>
 void Player::Initialise(const float& i, const float& j) 
 {
 	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(i + 1, 0.5, j + 1), FX::GetViewMatrix());
@@ -22,6 +23,13 @@ void Player::Initialise(const float& i, const float& j)
 void Player::Release() 
 {
 }
+
+float Player::get2DRotation()
+{
+	const float i = mCamera.getRotY();
+	return  i;
+}
+
 void Player::Update(float dTime) 
 {
 	GetGamepad()->Update();

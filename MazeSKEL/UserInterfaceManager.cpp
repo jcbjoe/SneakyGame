@@ -43,10 +43,15 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	mpYellowEmptyTex = fx.mCache.LoadTexture("YellowKeyEmpty2.dds", true, gd3dDevice);
 	mYellowEmptyDimentions = fx.mCache.Get(mpYellowEmptyTex).dim;
 
-	mpMinimapBGTex = fx.mCache.LoadTexture("MinimapTest.dds", true, gd3dDevice);
+	mpMinimapBGTex = fx.mCache.LoadTexture("mini.dds", true, gd3dDevice);
 	mMinimapBGDimentions = fx.mCache.Get(mpMinimapBGTex).dim;
 
+	mpMiniSquareTex = fx.mCache.LoadTexture("Grating3.dds", true, gd3dDevice);
+	mMiniSquareDimensions = fx.mCache.Get(mpMiniSquareTex).dim;
+
 	start = time(0);
+	offx = 1.0f;
+	offy = 9.0f;
 }
 
 void UserInterfaceManager::printDebugText(string text) {
@@ -54,7 +59,7 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey) {
+void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey, const float& pPosx, const float& pPosz, const float& pRotY) {
 
 	CommonStates state(gd3dDevice);
 	mpSpriteBatch->Begin(SpriteSortMode_Deferred, state.NonPremultiplied());
@@ -85,7 +90,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//--- Begin FPS Counter
 	if (showFPS) {
 		wstringstream FPSCounter;
-		FPSCounter << "FPS: " << fpsNumber;
+		FPSCounter << "FPS: " << pRotY;
 		mpAlgerian->DrawString(mpSpriteBatch, FPSCounter.str().c_str(), Vector2(0, 0), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	}
 	//--- End FPS Counter
@@ -128,9 +133,27 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//--- End Key Display
 
 	//--- Minimap
+	//Background
+	mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(w - 150, 150), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(0.35f, 0.35f));
 
-	mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(w - 200, h - 50), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(0.2f, 0.2f));
+	Level* CurrLVL = GetLevelManager()->getCurrentLevel();
 
+	
+	int rot = 45;
+	for (int j = 0; j < 20; j++)
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			
+			if (CurrLVL->getObjectAtCoordinate(i, j) == 1)
+			{
+				mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(w - 150 + (j * 12) - (pPosz * 12) , 150 + i * 12 - (pPosx * 12)), nullptr, Colours::White, pRotY, mMiniSquareDimensions*0.5f, Vector2(0.023f, 0.023f));
+			}
+		}
+	}
+	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(w - 150, 150), nullptr, Colours::Green, pRotY, mMiniSquareDimensions*0.5f, Vector2(0.015f, 0.015f));
+
+	
 
 	//--- Begin Debug Text
 	int count = 0;
