@@ -139,15 +139,43 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	Level* CurrLVL = GetLevelManager()->getCurrentLevel();
 
 	
-	int rot = 45;
+	float sinAngle = sin(pRotY + PI/2.0f);
+	float cosAngle = cos(pRotY + PI/2.0f);
+
 	for (int j = 0; j < 20; j++)
 	{
 		for (int i = 0; i < 20; i++)
 		{
-			
+			//If a wall needs to be drawn
 			if (CurrLVL->getObjectAtCoordinate(i, j) == 1)
 			{
-				mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(w - 150 + (j * 12) - (pPosz * 12) , 150 + i * 12 - (pPosx * 12)), nullptr, Colours::White, pRotY, mMiniSquareDimensions*0.5f, Vector2(0.023f, 0.023f));
+				//I can simplify maths later - leaving it for now since it works.
+				//Manipulate i/j so it rotates right way
+				float atOriginx = i - pPosx;
+				float atOriginy = j - pPosz;
+
+				float xNew = (atOriginx * cosAngle) - (atOriginy * sinAngle);
+				float yNew = (atOriginx * sinAngle) + (atOriginy * cosAngle);
+
+				xNew += pPosx;
+				yNew += pPosz;
+
+				//Final coordinates to plot to screen
+				float xCoord = w - 150 + (yNew * 12) - (pPosz * 12);
+				float yCoord = 150 + xNew * 12 - (pPosx * 12);
+
+				//Check distance from player
+				float xSqu = (w - 150.0f) - xCoord;
+				float xs = xSqu * xSqu;
+
+				float ySqu = (150.0f) - yCoord;
+				float ys = ySqu * ySqu;
+
+				float sq = sqrt(xs + ys);
+
+				//if should be shown on minimap
+				if (sq < 75.0f)
+					mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord , yCoord), nullptr, Colours::White, -pRotY, mMiniSquareDimensions*0.5f, Vector2(0.023f, 0.023f));
 			}
 		}
 	}
