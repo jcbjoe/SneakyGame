@@ -59,6 +59,9 @@ private:
 
 	ID3D11ShaderResourceView *mpYellowEmptyTex = nullptr;
 	DirectX::SimpleMath::Vector2 mYellowEmptyDimentions;
+
+	ID3D11ShaderResourceView *mpMinimapBGTex = nullptr;
+	DirectX::SimpleMath::Vector2 mMinimapBGDimentions;
 };
 SINGLETON_GET(UserInterfaceManager);
 
