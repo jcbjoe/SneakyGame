@@ -43,6 +43,9 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	mpYellowEmptyTex = fx.mCache.LoadTexture("YellowKeyEmpty2.dds", true, gd3dDevice);
 	mYellowEmptyDimentions = fx.mCache.Get(mpYellowEmptyTex).dim;
 
+	mpMinimapBGTex = fx.mCache.LoadTexture("MinimapTest.dds", true, gd3dDevice);
+	mMinimapBGDimentions = fx.mCache.Get(mpMinimapBGTex).dim;
+
 	start = time(0);
 }
 
@@ -123,6 +126,11 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
 
 	//--- End Key Display
+
+	//--- Minimap
+
+	mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(w - 200, h - 50), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(0.2f, 0.2f));
+
 
 	//--- Begin Debug Text
 	int count = 0;
