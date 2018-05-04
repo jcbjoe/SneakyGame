@@ -136,9 +136,9 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//--- Minimap
 	////////////////////////
 	//MINIMAP VARIABLES (CAN CHANGE)
-	float centerXPos = w - 200.0f;
-	float centerYPos = 200.0f;
-	float scaleOfMinimap = 0.6f;
+	float centerXPos = w * 0.85f;
+	float centerYPos = h * 0.2f;
+	float scaleOfMinimap = 0.000315f * w;
 	//Scale variables for above values (DONT CHANGE)
 	float scaleOfItems	 = 0.1143f * scaleOfMinimap;
 	float distBetweenItems = 57.0f * scaleOfMinimap;
@@ -158,8 +158,8 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		for (int i = 0; i < 20; i++)
 		{
 			int Object = CurrLVL->getObjectAtCoordinate(i, j);
-			//If a wall needs to be drawn
-			if (Object == 1 || Object == 3 )
+			//If a wall / coin / door needs to be displayed
+			if (Object == 1 || Object == 3 || Object == 6 ||Object == 8)
 			{
 				//I can simplify maths later - leaving it for now since it works.
 				//Manipulate i/j so it rotates right way
@@ -206,6 +206,14 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 					case 3:
 						transCol = Vector4(1.0f, 1.0f, 0.0f, transparencyPercentage);
 						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY + PI / 4.0f, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.6f, scaleOfItems * 0.6f));
+						break;
+					case 6:
+						transCol = Vector4(0.5f, 0.3f, 0.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems * 0.2f));
+						break;
+					case 8:
+						transCol = Vector4(0.5f, 0.3f, 0.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.2f, scaleOfItems));
 						break;
 					}
 				}
