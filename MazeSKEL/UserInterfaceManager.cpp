@@ -90,7 +90,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//--- Begin FPS Counter
 	if (showFPS) {
 		wstringstream FPSCounter;
-		FPSCounter << "FPS: " << pRotY;
+		FPSCounter << "FPS: " << fpsNumber;
 		mpAlgerian->DrawString(mpSpriteBatch, FPSCounter.str().c_str(), Vector2(0, 0), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	}
 	//--- End FPS Counter
@@ -138,7 +138,6 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 
 	Level* CurrLVL = GetLevelManager()->getCurrentLevel();
 
-	
 	float sinAngle = sin(pRotY + PI/2.0f);
 	float cosAngle = cos(pRotY + PI/2.0f);
 
@@ -146,8 +145,9 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	{
 		for (int i = 0; i < 20; i++)
 		{
+			int Object = CurrLVL->getObjectAtCoordinate(i, j);
 			//If a wall needs to be drawn
-			if (CurrLVL->getObjectAtCoordinate(i, j) == 1)
+			if (Object == 1 || Object == 3 )
 			{
 				//I can simplify maths later - leaving it for now since it works.
 				//Manipulate i/j so it rotates right way
@@ -161,8 +161,8 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 				yNew += pPosz;
 
 				//Final coordinates to plot to screen
-				float xCoord = w - 150 + (yNew * 12) - (pPosz * 12);
-				float yCoord = 150 + xNew * 12 - (pPosx * 12);
+				float xCoord = w - 150 + (yNew * 20) - (pPosz * 20);
+				float yCoord = 150 + xNew * 20 - (pPosx * 20);
 
 				//Check distance from player
 				float xSqu = (w - 150.0f) - xCoord;
@@ -174,12 +174,33 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 				float sq = sqrt(xs + ys);
 
 				//if should be shown on minimap
-				if (sq < 75.0f)
-					mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord , yCoord), nullptr, Colours::White, -pRotY, mMiniSquareDimensions*0.5f, Vector2(0.023f, 0.023f));
+				if (sq < 85.0f)
+				{
+					float transparencyPercentage = 1.0f;
+
+					if (sq > 75.0f)
+					{
+						float closenessToEdge = 85.0f - sq;
+						transparencyPercentage = closenessToEdge / 10.0f;
+					}
+
+					Vector4 transCol;
+					switch (Object)
+					{
+					case 1:
+						transCol = Vector4(1.0f, 1.0f, 1.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(0.04f, 0.04f));
+						break;
+					case 3:
+						transCol = Vector4(1.0f, 1.0f, 0.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY + PI / 4.0f, mMiniSquareDimensions*0.5f, Vector2(0.025f, 0.025f));
+						break;
+					}
+				}
 			}
 		}
 	}
-	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(w - 150, 150), nullptr, Colours::Green, pRotY, mMiniSquareDimensions*0.5f, Vector2(0.015f, 0.015f));
+	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(w - 150, 150), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(0.03f, 0.03f));
 
 	
 
