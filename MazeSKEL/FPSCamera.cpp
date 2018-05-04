@@ -284,6 +284,8 @@ void FPSCamera::Crouch(bool isCrouched)
 void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 {
 	yaw += _yaw * dTime * rspeed;
+	rot += _yaw * dTime * rspeed;
+
 	pitch += _pitch * dTime * rspeed;
 	roll += _roll * dTime * rspeed;
 	Matrix ori;
