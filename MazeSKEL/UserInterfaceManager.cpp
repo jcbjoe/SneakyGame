@@ -49,6 +49,9 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	mpMiniSquareTex = fx.mCache.LoadTexture("Grating3.dds", true, gd3dDevice);
 	mMiniSquareDimensions = fx.mCache.Get(mpMiniSquareTex).dim;
 
+	mpTimerTex = fx.mCache.LoadTexture("Timer.dds", true, gd3dDevice);
+	mTimerDimensions = fx.mCache.Get(mpTimerTex).dim;
+
 	start = time(0);
 	offx = 1.0f;
 	offy = 9.0f;
@@ -95,20 +98,16 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	}
 	//--- End FPS Counter
 
-	//--- Begin Timer Display
-	wstringstream clock;
-	clock  << "Time: " << fixed << setprecision(1) << Timer;
-	mpAlgerian->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(830, 0), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-	//--- End Timer Display
+	
 
 	//--- Begin Coin Display
-	wstringstream coinsPickedUp;
-	coinsPickedUp << "Coins Collected: " << playerScore;
-	mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-
-	wstringstream coinsDeposited;
-	coinsDeposited << "Coins Deposited: " << playerDeposited;
-	mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//wstringstream coinsPickedUp;
+	//coinsPickedUp << "Coins Collected: " << playerScore;
+	//mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//
+	//wstringstream coinsDeposited;
+	//coinsDeposited << "Coins Deposited: " << playerDeposited;
+	//mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Coin Display
 
 	//--- Begin Key Display
@@ -223,7 +222,18 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//Draw player position on map
 	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(centerXPos, centerYPos), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.75f, scaleOfItems * 0.75f));
 
-	
+	//Draw Timer
+	mpSpriteBatch->Draw(mpTimerTex, Vector2(w / 2.0f, mTimerDimensions.y * scaleOfMinimap * 0.5f), nullptr, Colours::White, 0, mTimerDimensions*0.5f, Vector2(scaleOfMinimap, scaleOfMinimap));
+	//--- Begin Timer Display
+	wstringstream clock;
+	clock << fixed << setprecision(1) << Timer;
+	Vector4 col = Colors::GreenYellow;
+	if (Timer < 10.0f)
+		col = Colors::MediumVioletRed;
+	mpComicSans->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(w * 0.47f, mTimerDimensions.y * scaleOfMinimap * 0.25f), col, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 4.0f, scaleOfMinimap * 4.0f));
+	//--- End Timer Display
+
+
 
 	//--- Begin Debug Text
 	int count = 0;

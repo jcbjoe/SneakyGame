@@ -69,6 +69,10 @@ private:
 
 	ID3D11ShaderResourceView *mpMiniSquareTex = nullptr;
 	DirectX::SimpleMath::Vector2 mMiniSquareDimensions;
+
+	ID3D11ShaderResourceView *mpTimerTex = nullptr;
+	DirectX::SimpleMath::Vector2 mTimerDimensions;
+
 };
 SINGLETON_GET(UserInterfaceManager);
 
