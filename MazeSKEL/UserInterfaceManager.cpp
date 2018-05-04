@@ -133,8 +133,15 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//--- End Key Display
 
 	//--- Minimap
-	//Background
-	mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(w - 150, 150), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(0.35f, 0.35f));
+	////////////////////////
+	//MINIMAP VARIABLES
+	float centerXPos = w - 150;
+	float centerYPos = 150;
+
+	////////////////////////
+
+	//Draw minimap background
+	mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(centerXPos, centerYPos), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(0.35f, 0.35f));
 
 	Level* CurrLVL = GetLevelManager()->getCurrentLevel();
 
@@ -161,14 +168,14 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 				yNew += pPosz;
 
 				//Final coordinates to plot to screen
-				float xCoord = w - 150 + (yNew * 20) - (pPosz * 20);
-				float yCoord = 150 + xNew * 20 - (pPosx * 20);
+				float xCoord = centerXPos + (yNew * 20) - (pPosz * 20);
+				float yCoord = centerYPos + xNew * 20 - (pPosx * 20);
 
 				//Check distance from player
-				float xSqu = (w - 150.0f) - xCoord;
+				float xSqu = centerXPos - xCoord;
 				float xs = xSqu * xSqu;
 
-				float ySqu = (150.0f) - yCoord;
+				float ySqu = centerYPos - yCoord;
 				float ys = ySqu * ySqu;
 
 				float sq = sqrt(xs + ys);
@@ -200,7 +207,8 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 			}
 		}
 	}
-	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(w - 150, 150), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(0.03f, 0.03f));
+	//Draw player position on map
+	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(centerXPos, centerYPos), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(0.03f, 0.03f));
 
 	
 
