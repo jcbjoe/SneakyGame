@@ -132,16 +132,21 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 
 	//--- End Key Display
 
+	////////////////////////
 	//--- Minimap
 	////////////////////////
-	//MINIMAP VARIABLES
-	float centerXPos = w - 150;
-	float centerYPos = 150;
-
+	//MINIMAP VARIABLES (CAN CHANGE)
+	float centerXPos = w - 200.0f;
+	float centerYPos = 200.0f;
+	float scaleOfMinimap = 0.6f;
+	//Scale variables for above values (DONT CHANGE)
+	float scaleOfItems	 = 0.1143f * scaleOfMinimap;
+	float distBetweenItems = 57.0f * scaleOfMinimap;
+	float fadeOffLimit = 240.0f * scaleOfMinimap;
 	////////////////////////
 
 	//Draw minimap background
-	mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(centerXPos, centerYPos), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(0.35f, 0.35f));
+	mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(centerXPos, centerYPos), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(scaleOfMinimap, scaleOfMinimap));
 
 	Level* CurrLVL = GetLevelManager()->getCurrentLevel();
 
@@ -168,8 +173,8 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 				yNew += pPosz;
 
 				//Final coordinates to plot to screen
-				float xCoord = centerXPos + (yNew * 20) - (pPosz * 20);
-				float yCoord = centerYPos + xNew * 20 - (pPosx * 20);
+				float xCoord = centerXPos + (yNew * distBetweenItems) - (pPosz * distBetweenItems);
+				float yCoord = centerYPos + xNew * distBetweenItems - (pPosx * distBetweenItems);
 
 				//Check distance from player
 				float xSqu = centerXPos - xCoord;
@@ -181,14 +186,14 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 				float sq = sqrt(xs + ys);
 
 				//if should be shown on minimap
-				if (sq < 85.0f)
+				if (sq < fadeOffLimit)
 				{
 					float transparencyPercentage = 1.0f;
 
-					if (sq > 75.0f)
+					if (sq > fadeOffLimit * 0.9f)
 					{
-						float closenessToEdge = 85.0f - sq;
-						transparencyPercentage = closenessToEdge / 10.0f;
+						float closenessToEdge = fadeOffLimit - sq;
+						transparencyPercentage = closenessToEdge / (fadeOffLimit * 0.1f);
 					}
 
 					Vector4 transCol;
@@ -196,11 +201,11 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 					{
 					case 1:
 						transCol = Vector4(1.0f, 1.0f, 1.0f, transparencyPercentage);
-						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(0.04f, 0.04f));
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems));
 						break;
 					case 3:
 						transCol = Vector4(1.0f, 1.0f, 0.0f, transparencyPercentage);
-						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY + PI / 4.0f, mMiniSquareDimensions*0.5f, Vector2(0.025f, 0.025f));
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY + PI / 4.0f, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.6f, scaleOfItems * 0.6f));
 						break;
 					}
 				}
@@ -208,7 +213,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		}
 	}
 	//Draw player position on map
-	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(centerXPos, centerYPos), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(0.03f, 0.03f));
+	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(centerXPos, centerYPos), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.75f, scaleOfItems * 0.75f));
 
 	
 
