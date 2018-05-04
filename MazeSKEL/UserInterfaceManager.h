@@ -18,7 +18,7 @@ public:
 		Release();
 	}
 
-	void updateUI(const float fpsNumber, const float Timer, const bool&, const int, const int&, const int&, const int&, const int&);
+	void updateUI(const float fpsNumber, const float Timer, const bool&, const int, const int&, const int&, const int&, const int&, const bool&, const bool&, const bool&, const float&, const float&, const float&);
 	void initialiseUI(bool showFPS);
 
 	void printDebugText(std::string text);
@@ -27,7 +27,11 @@ private:
 	void Release();
 
 	bool showFPS;
-	
+	//Minimap
+	float offx;
+	float offy;
+
+
 	struct debugText {
 		std::string text;
 		int timeAdded;
@@ -51,8 +55,20 @@ private:
 	ID3D11ShaderResourceView *mpYellowKeyTex = nullptr;
 	DirectX::SimpleMath::Vector2 mYellowKeyDimentions;
 
-	ID3D11ShaderResourceView *mpEmptyTex = nullptr;
-	DirectX::SimpleMath::Vector2 mEmptyDimentions;
+	ID3D11ShaderResourceView *mpRedEmptyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mRedEmptyDimentions;
+
+	ID3D11ShaderResourceView *mpBlueEmptyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mBlueEmptyDimentions;
+
+	ID3D11ShaderResourceView *mpYellowEmptyTex = nullptr;
+	DirectX::SimpleMath::Vector2 mYellowEmptyDimentions;
+
+	ID3D11ShaderResourceView *mpMinimapBGTex = nullptr;
+	DirectX::SimpleMath::Vector2 mMinimapBGDimentions;
+
+	ID3D11ShaderResourceView *mpMiniSquareTex = nullptr;
+	DirectX::SimpleMath::Vector2 mMiniSquareDimensions;
 };
 SINGLETON_GET(UserInterfaceManager);
 

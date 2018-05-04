@@ -61,11 +61,15 @@ public:
 	}
 
 	void incrementYRotation(const float rotation) {
-		model_.GetRotation() += Vector3(0, rotation, 0);
+		model_.GetRotation() += Vector3(rotation, 0, 0);
 	}
 
 	void incrementXRotation(const float rotation) {
 		model_.GetRotation() += Vector3(rotation, 0, 0);
+	}
+
+	void incrementRotation(const float x, const float y, const float z) {
+		model_.GetRotation() += Vector3(x, y, z);
 	}
 
 	void moveObject();

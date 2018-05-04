@@ -17,7 +17,7 @@ void GameState::Init() {
 	gPlayer = new Player();
 
 	//Change array to use in level
-	GetLevelManager()->loadLevel(4);
+	GetLevelManager()->loadLevel(0);
 
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);
@@ -155,9 +155,7 @@ void GameState::Update(float dTime) {
 					gPlayer->dropOffCoins();
 					if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
 					{
-						gPlayer->setDeposited(0);
-						gPlayer->setHasRedKey(false);
-						gPlayer->setHasBlueKey(false);
+						gPlayer->resetStats();
 						GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
 						Timer = 60;
 					}
@@ -187,7 +185,7 @@ void GameState::Render(float dTime) {
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey());
+	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey(), RedKey, BlueKey, YellowKey, gPlayer->getCameraPosition().x, gPlayer->getCameraPosition().z, gPlayer->get2DRotation());
 
 	EndRender();
 	GetMouseAndKeys()->PostProcess();
@@ -196,4 +194,23 @@ void GameState::Render(float dTime) {
 void GameState::Release() {
 	GetLevelManager()->Release();
 	GetGameObjectManager()->Release();
+}
+
+void GameState::setRedKey(const bool set) {
+	RedKey = set;
+}
+void GameState::setBlueKey(const bool set) {
+	BlueKey = set;
+}
+void GameState::setYellowKey(const bool set) {
+	YellowKey = set;
+}
+bool GameState::getRedKey() {
+	return RedKey;
+}
+bool GameState::getBlueKey() {
+	return BlueKey;
+}
+bool GameState::getYellowKey() {
+	return YellowKey;
 }

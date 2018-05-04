@@ -35,6 +35,7 @@ public:
 	bool getOpenedRed();
 	bool getOpenedBlue();
 	bool getOpenedYellow();
+	float get2DRotation();
 	//int getKeyNo();
 	//Sets
 	void increaseScore();
@@ -46,6 +47,8 @@ public:
 	void setOpenedYellow();
 	//void changeKeyNo(int x);
 	void dropOffCoins();
+
+	void resetStats();
 
 	void toggleCrouch();
 	Vector3 getCameraPosition();

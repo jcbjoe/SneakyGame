@@ -3,6 +3,7 @@
 #include <time.h>
 #include "StateManager.h"
 #include "GameState.h"
+#include "CommonStates.h"
 
 using namespace std;
 using namespace DirectX;
@@ -24,19 +25,33 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	mpPausedTex = fx.mCache.LoadTexture("paused.dds", true, gd3dDevice);
 	mPausedDimentions = fx.mCache.Get(mpPausedTex).dim;
 
-	mpRedKeyTex = fx.mCache.LoadTexture("RedKey5.dds", true, gd3dDevice);
+	mpRedKeyTex = fx.mCache.LoadTexture("RedKey2.dds", true, gd3dDevice);
 	mRedKeyDimentions = fx.mCache.Get(mpRedKeyTex).dim;
 
-	mpBlueKeyTex = fx.mCache.LoadTexture("BlueKey5.dds", true, gd3dDevice);
+	mpBlueKeyTex = fx.mCache.LoadTexture("BlueKey2.dds", true, gd3dDevice);
 	mBlueKeyDimentions = fx.mCache.Get(mpBlueKeyTex).dim;
 
-	mpYellowKeyTex = fx.mCache.LoadTexture("YellowKey5.dds", true, gd3dDevice);
+	mpYellowKeyTex = fx.mCache.LoadTexture("YellowKey2.dds", true, gd3dDevice);
 	mYellowKeyDimentions = fx.mCache.Get(mpYellowKeyTex).dim;
 
-	mpEmptyTex = fx.mCache.LoadTexture("Empty.dds", true, gd3dDevice);
-	mEmptyDimentions = fx.mCache.Get(mpEmptyTex).dim;
+	mpRedEmptyTex = fx.mCache.LoadTexture("RedKeyEmpty2.dds", true, gd3dDevice);
+	mRedEmptyDimentions = fx.mCache.Get(mpRedEmptyTex).dim;
+
+	mpBlueEmptyTex = fx.mCache.LoadTexture("BlueKeyEmpty2.dds", true, gd3dDevice);
+	mBlueEmptyDimentions = fx.mCache.Get(mpBlueEmptyTex).dim;
+
+	mpYellowEmptyTex = fx.mCache.LoadTexture("YellowKeyEmpty2.dds", true, gd3dDevice);
+	mYellowEmptyDimentions = fx.mCache.Get(mpYellowEmptyTex).dim;
+
+	mpMinimapBGTex = fx.mCache.LoadTexture("mini.dds", true, gd3dDevice);
+	mMinimapBGDimentions = fx.mCache.Get(mpMinimapBGTex).dim;
+
+	mpMiniSquareTex = fx.mCache.LoadTexture("Grating3.dds", true, gd3dDevice);
+	mMiniSquareDimensions = fx.mCache.Get(mpMiniSquareTex).dim;
 
 	start = time(0);
+	offx = 1.0f;
+	offy = 9.0f;
 }
 
 void UserInterfaceManager::printDebugText(string text) {
@@ -44,9 +59,14 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey) {
+void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey, const float& pPosx, const float& pPosz, const float& pRotY) {
 
-	mpSpriteBatch->Begin();
+	CommonStates state(gd3dDevice);
+	mpSpriteBatch->Begin(SpriteSortMode_Deferred, state.NonPremultiplied());
+
+	//background
+	int w, h;
+	GetClientExtents(w, h);
 
 	//--- Begin Crouching Display 
 	wstringstream crouching;
@@ -62,7 +82,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		crouching << "Not Crouched";
 	}
 	//Draw Crosshair
-	mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(495, 384), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(w / 2.0f - 25, h / 2.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//Show crouching ui
 	mpAlgerian->DrawString(mpSpriteBatch, crouching.str().c_str(), Vector2(100, 200), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Crouching Display 
@@ -94,28 +114,95 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//--- Begin Key Display
 	wstringstream redKeyFound;
 	if (hasRedKey)
-		//redKeyFound << "Red Key Collected";
-		//mpAlgerian->DrawString(mpSpriteBatch, redKeyFound.str().c_str(), Vector2(0, 100), Colors::IndianRed, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-		mpSpriteBatch->Draw(mpRedKeyTex, Vector2(25, 740), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(0.1, 0.1));
-	else
-		mpSpriteBatch->Draw(mpEmptyTex, Vector2(25, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
+			mpSpriteBatch->Draw(mpRedKeyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(0.2, 0.2));
+	else if (RedKey)
+		mpSpriteBatch->Draw(mpRedEmptyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
 
 	wstringstream blueKeyFound;
 	if (hasBlueKey)
-		//blueKeyFound << "Blue Key Collected";
-		//mpAlgerian->DrawString(mpSpriteBatch, blueKeyFound.str().c_str(), Vector2(0, 150), Colors::DeepSkyBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-		mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(75, 740), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(0.1, 0.1));
-	else
-		mpSpriteBatch->Draw(mpEmptyTex, Vector2(75, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
+		mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
+	else if(BlueKey)
+		mpSpriteBatch->Draw(mpBlueEmptyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
 
 	wstringstream YellowKeyFound;
 	if (hasYellowKey)
-		//blueKeyFound << "Blue Key Collected";
-		//mpAlgerian->DrawString(mpSpriteBatch, blueKeyFound.str().c_str(), Vector2(0, 150), Colors::DeepSkyBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-		mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(125, 740), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(0.1, 0.1));
-	else
-		mpSpriteBatch->Draw(mpEmptyTex, Vector2(125, 740), nullptr, Colours::White, 0, mEmptyDimentions*0.5f, Vector2(0.1, 0.1));
+		mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
+	else if (YellowKey)
+		mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
+
 	//--- End Key Display
+
+	//--- Minimap
+	//Background
+	mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(w - 150, 150), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(0.35f, 0.35f));
+
+	Level* CurrLVL = GetLevelManager()->getCurrentLevel();
+
+	float sinAngle = sin(pRotY + PI/2.0f);
+	float cosAngle = cos(pRotY + PI/2.0f);
+
+	for (int j = 0; j < 20; j++)
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			int Object = CurrLVL->getObjectAtCoordinate(i, j);
+			//If a wall needs to be drawn
+			if (Object == 1 || Object == 3 )
+			{
+				//I can simplify maths later - leaving it for now since it works.
+				//Manipulate i/j so it rotates right way
+				float atOriginx = i - pPosx;
+				float atOriginy = j - pPosz;
+
+				float xNew = (atOriginx * cosAngle) - (atOriginy * sinAngle);
+				float yNew = (atOriginx * sinAngle) + (atOriginy * cosAngle);
+
+				xNew += pPosx;
+				yNew += pPosz;
+
+				//Final coordinates to plot to screen
+				float xCoord = w - 150 + (yNew * 20) - (pPosz * 20);
+				float yCoord = 150 + xNew * 20 - (pPosx * 20);
+
+				//Check distance from player
+				float xSqu = (w - 150.0f) - xCoord;
+				float xs = xSqu * xSqu;
+
+				float ySqu = (150.0f) - yCoord;
+				float ys = ySqu * ySqu;
+
+				float sq = sqrt(xs + ys);
+
+				//if should be shown on minimap
+				if (sq < 85.0f)
+				{
+					float transparencyPercentage = 1.0f;
+
+					if (sq > 75.0f)
+					{
+						float closenessToEdge = 85.0f - sq;
+						transparencyPercentage = closenessToEdge / 10.0f;
+					}
+
+					Vector4 transCol;
+					switch (Object)
+					{
+					case 1:
+						transCol = Vector4(1.0f, 1.0f, 1.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(0.04f, 0.04f));
+						break;
+					case 3:
+						transCol = Vector4(1.0f, 1.0f, 0.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY + PI / 4.0f, mMiniSquareDimensions*0.5f, Vector2(0.025f, 0.025f));
+						break;
+					}
+				}
+			}
+		}
+	}
+	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(w - 150, 150), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(0.03f, 0.03f));
+
+	
 
 	//--- Begin Debug Text
 	int count = 0;
