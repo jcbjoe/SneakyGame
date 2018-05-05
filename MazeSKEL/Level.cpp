@@ -85,6 +85,10 @@ void Level::reloadLevel() {
 			case 5: { //RedKey to be placed
 				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI/2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(redKey);
+
+				//Light 2 for red key
+				FX::SetupSpotLight(2, true, { (float)i, 2, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 0.0f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 0.0f, 0.0f), 5.0f, 0.5f, D2R(15), D2R(70));
+
 				((GameState*)GetStateManager()->getCurrentState())->setRedKey(true);
 				break;
 			}
@@ -100,6 +104,10 @@ void Level::reloadLevel() {
 			case 7: { //BlueKey to be placed
 				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI/2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(blueKey);
+
+				//Light 3 for blue key
+				FX::SetupSpotLight(3, true, { (float)i, 2, (float)j }, { 0, -1, 0 }, Vector3(0.0f, 0.0f, 1.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(0.0f, 0.0f, 1.0f), 5.0f, 0.5f, D2R(15), D2R(45));
+
 				((GameState*)GetStateManager()->getCurrentState())->setBlueKey(true);
 				break;
 			}
@@ -115,11 +123,18 @@ void Level::reloadLevel() {
 			case 9: { //Door to be placed
 				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.13f, j), Vector3(0, -(PI / 2), 0), Vector3(0.05, 0.05, 0.05));
 				GetGameObjectManager()->addGameObject(returnBox);
+
+				//Light 1 for collection box
+				FX::SetupSpotLight(1, true, { (float)i, 2, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 0.84f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 0.84f, 0.0f), 5.0f, 0.5f, D2R(15), D2R(45));
 				break;
 			}
 			case 10: { //YellowKey to be placed
 				YellowKey* yellowKey = new YellowKey("YellowKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI / 2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(yellowKey);
+
+				//Light 4 for yellow key
+				FX::SetupSpotLight(4, true, { (float)i, 2, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 1.0f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 1.0f, 0.0f), 5.0f, 0.5f, D2R(15), D2R(45));
+
 				((GameState*)GetStateManager()->getCurrentState())->setYellowKey(true);
 				break;
 			}

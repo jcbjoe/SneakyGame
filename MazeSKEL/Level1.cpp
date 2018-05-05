@@ -1,5 +1,4 @@
 #include "Level1.h"
-#include "GameObjectManager.h"
 
 Level1::Level1(string name): Level(name) {
 
@@ -26,14 +25,8 @@ Level1::Level1(string name): Level(name) {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 	};
-
-	//Lighting tests
-
-	FX::SetupSpotLight(1, true, { 9, 2, 8 }, {0, -1, 0}, Vector3(1.0f, 0.84f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 0.84f, 0.0f), 5.0f, 0.5f, D2R(15), D2R(70));
-
-
+	
 	setLevelMap(level);
-
 }
 
 void Level1::Release() {
