@@ -102,7 +102,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 	switch (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(posToCheckX, posToCheckY))
 	{
 	//If Player is near a wall
-	case 1:
+	case 01:
 
 		vecFrom.x = mCamPos.x - round(posToCheckX);
 		vecFrom.y = mCamPos.z - round(posToCheckY);
@@ -117,7 +117,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 			pos.z = mCamPos.z;
 		}
 	//If Player is near a Red door
-	case 6:
+	case 02:
 
 		vecFrom.x = mCamPos.x - round(posToCheckX);
 		vecFrom.y = mCamPos.z - round(posToCheckY);
@@ -134,7 +134,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 
 		break;
 	//If Player is near a Blue door
-	case 8:
+	case 03:
 
 		vecFrom.x = mCamPos.x - round(posToCheckX);
 		vecFrom.y = mCamPos.z - round(posToCheckY);
@@ -152,7 +152,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		break;
 
 	//If player is near the deposit box
-	case 9:
+	case 10:
 		vecFrom.x = mCamPos.x - round(posToCheckX);
 		vecFrom.y = mCamPos.z - round(posToCheckY);
 
