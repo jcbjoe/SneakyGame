@@ -87,7 +87,7 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(redKey);
 
 				//Light 2 for red key
-				FX::SetupSpotLight(2, true, { (float)i, 2, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 0.0f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 0.0f, 0.0f), 5.0f, 0.5f, D2R(15), D2R(70));
+				FX::SetupSpotLight(2, true, { (float)i, 1, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 0.0f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 0.0f, 0.0f), 5.0f, 0.7f, D2R(15), D2R(30));
 
 				((GameState*)GetStateManager()->getCurrentState())->setRedKey(true);
 				break;
@@ -106,7 +106,7 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(blueKey);
 
 				//Light 3 for blue key
-				FX::SetupSpotLight(3, true, { (float)i, 2, (float)j }, { 0, -1, 0 }, Vector3(0.0f, 0.0f, 1.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(0.0f, 0.0f, 1.0f), 5.0f, 0.5f, D2R(15), D2R(45));
+				FX::SetupSpotLight(3, true, { (float)i, 1, (float)j }, { 0, -1, 0 }, Vector3(0.0f, 0.0f, 1.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(0.0f, 0.0f, 1.0f), 5.0f, 0.7f, D2R(15), D2R(30));
 
 				((GameState*)GetStateManager()->getCurrentState())->setBlueKey(true);
 				break;
@@ -120,7 +120,7 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(wallHalf);
 				break;
 			}
-			case 9: { //Door to be placed
+			case 9: { //Box to be placed
 				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.13f, j), Vector3(0, -(PI / 2), 0), Vector3(0.05, 0.05, 0.05));
 				GetGameObjectManager()->addGameObject(returnBox);
 
@@ -133,7 +133,7 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(yellowKey);
 
 				//Light 4 for yellow key
-				FX::SetupSpotLight(4, true, { (float)i, 2, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 1.0f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 1.0f, 0.0f), 5.0f, 0.5f, D2R(15), D2R(45));
+				FX::SetupSpotLight(4, true, { (float)i, 1, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 1.0f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 1.0f, 0.0f), 5.0f, 0.7f, D2R(15), D2R(30));
 
 				((GameState*)GetStateManager()->getCurrentState())->setYellowKey(true);
 				break;
