@@ -200,12 +200,18 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//Draw Timer
 	mpSpriteBatch->Draw(mpTimerTex, Vector2(w / 2.0f, mTimerDimensions.y * scaleOfMinimap * 0.5f), nullptr, Colours::White, 0, mTimerDimensions*0.5f, Vector2(scaleOfMinimap, scaleOfMinimap));
 	//--- Begin Timer Display
+	wstringstream level;
+	level << "Level: " << (GetLevelManager()->getCurrentLevelNumber() + 1);
+
+	mpAlgerian->DrawString(mpSpriteBatch, level.str().c_str(), Vector2(w * 0.45f, 0), Colours::White, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 2.5f, scaleOfMinimap * 2.5f));
+
 	wstringstream clock;
 	clock << fixed << setprecision(1) << Timer;
 	Vector4 col = Colors::GreenYellow;
 	if (Timer < 10.0f)
 		col = Colors::MediumVioletRed;
-	mpComicSans->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(w * 0.47f, mTimerDimensions.y * scaleOfMinimap * 0.25f), col, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 4.0f, scaleOfMinimap * 4.0f));
+	mpAlgerian->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(w * 0.47f, mTimerDimensions.y * scaleOfMinimap * 0.4f), col, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 2.5f, scaleOfMinimap * 2.5f));
+	
 	//--- End Timer Display
 
 

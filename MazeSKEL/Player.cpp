@@ -16,7 +16,9 @@ void Player::Initialise(const float& i, const float& j)
 	MaterialExt& mat = hands_.GetMesh().GetSubMesh(0).material;
 	mat.flags &= ~MaterialExt::LIT;
 	mat.gfxData.Set(Vector4(0.8f, 0.8f, 0.8f, 0), Vector4(0.8f, 0.8f, 0.8f, 0), Vector4(0.0f, 0.0f, 0.0f, 1));
-	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("FloorWood.dds", true, gd3dDevice);
+	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("Grating3.dds", true, gd3dDevice);
+	hands_.GetRotation() = Vector3(D2R(20), PI, 0);
+	hands_.GetScale() = Vector3(0.00185, 0.00185, 0.00185);
 
 
 }
@@ -127,10 +129,7 @@ void Player::Render(float dTime)
 	camLocalToWorld = camLocalToWorld.Invert();
 	
 	Matrix mat;
-
-	hands_.GetRotation() = Vector3(0, PI, 0);
-	hands_.GetScale() = Vector3(0.002, 0.002, 0.002);
-	hands_.GetPosition() = Vector3(0.f, -0.02f, 0.05f);
+	hands_.GetPosition() = Vector3(0.f, -0.03f + (mCamera.getCurrentBob() * 0.1f), 0.05f);
 
 	hands_.GetWorldMatrix(mat);
 	Matrix camLock = mat * camLocalToWorld;
