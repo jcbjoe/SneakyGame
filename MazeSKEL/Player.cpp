@@ -84,7 +84,6 @@ void Player::Update(float dTime)
 		}
 
 		mCamera.Update(dTime);
-		//GetGameObjectManager()->getFirstObjectByName("Skybox")->SetPosition(mCamera.GetPos());
 	}
 	else {
 

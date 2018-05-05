@@ -27,8 +27,10 @@ public:
 	void Update(float dTime) override;
 
 private:
+	float visionCone;
 	int waypointNumber;
 	vector<Vector2> canSee(int x0, int y0, int x1, int y1);
+	float EnemyPlayerAngle();
 };
 
 #endif
