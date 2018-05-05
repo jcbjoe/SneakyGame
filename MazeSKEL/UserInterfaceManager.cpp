@@ -72,22 +72,17 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	GetClientExtents(w, h);
 
 	//--- Begin Crouching Display 
-	wstringstream crouching;
 	wstringstream crosshair;
 	if (isCrouching)
 	{
 		crosshair << "--=--";
-		crouching << "Crouched";
 	}
 	else
 	{
 		crosshair << "-<O>-";
-		crouching << "Not Crouched";
 	}
 	//Draw Crosshair
 	mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(w / 2.0f - 25, h / 2.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-	//Show crouching ui
-	mpAlgerian->DrawString(mpSpriteBatch, crouching.str().c_str(), Vector2(100, 200), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Crouching Display 
 
 	//--- Begin FPS Counter
@@ -110,27 +105,6 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Coin Display
 
-	//--- Begin Key Display
-	wstringstream redKeyFound;
-	if (hasRedKey)
-			mpSpriteBatch->Draw(mpRedKeyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(0.2, 0.2));
-	else if (RedKey)
-		mpSpriteBatch->Draw(mpRedEmptyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
-
-	wstringstream blueKeyFound;
-	if (hasBlueKey)
-		mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
-	else if(BlueKey)
-		mpSpriteBatch->Draw(mpBlueEmptyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
-
-	wstringstream YellowKeyFound;
-	if (hasYellowKey)
-		mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
-	else if (YellowKey)
-		mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
-
-	//--- End Key Display
-
 	////////////////////////
 	//--- Minimap
 	////////////////////////
@@ -138,6 +112,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	float centerXPos = w * 0.85f;
 	float centerYPos = h * 0.2f;
 	float scaleOfMinimap = 0.000315f * w;
+	float keyScale = 0.000156f * w;
 	//Scale variables for above values (DONT CHANGE)
 	float scaleOfItems	 = 0.1143f * scaleOfMinimap;
 	float distBetweenItems = 57.0f * scaleOfMinimap;
@@ -232,6 +207,32 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		col = Colors::MediumVioletRed;
 	mpComicSans->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(w * 0.47f, mTimerDimensions.y * scaleOfMinimap * 0.25f), col, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 4.0f, scaleOfMinimap * 4.0f));
 	//--- End Timer Display
+
+
+	//--- KEY SIDE OVERLAY
+	//Draw Key UI BG
+	mpSpriteBatch->Draw(mpTimerTex, Vector2((w * 0.1f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 2.0f));
+	//--- Begin Key Display
+	if (hasRedKey)
+		mpSpriteBatch->Draw(mpRedKeyTex, Vector2(0.040 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(keyScale, keyScale));
+	else if (RedKey)
+		mpSpriteBatch->Draw(mpRedEmptyTex, Vector2(0.040 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
+
+	if (hasBlueKey)
+		mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(0.136 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(keyScale, keyScale));
+	else if (BlueKey)
+		mpSpriteBatch->Draw(mpBlueEmptyTex, Vector2(0.136 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
+
+	if (hasYellowKey)
+		mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(0.226 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(keyScale, keyScale));
+	else if (YellowKey)
+		mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(0.226 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
+
+	//Draw 
+	mpSpriteBatch->Draw(mpTimerTex, Vector2((w * 0.9f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 2.0f));
+
+
+
 
 
 
