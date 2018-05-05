@@ -22,7 +22,7 @@ void GameState::Init() {
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);
 
-	FX::SetupDirectionalLight(0, true, Vector3(-0.7f, -0.7f, 0.7f), Vector3(0.67f, 0.67f, 0.67f), Vector3(0.35f, 0.45f, 0.35f), Vector3(0.15f, 0.15f, 0.15f));
+	FX::SetupDirectionalLight(0, true, Vector3(-1.0f, -1.0f, -1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.35f, 0.45f, 0.35f), Vector3(0.0f, 0.0f, 0.0f));
 
 	while (ShowCursor(false) >= 0) {};
 }
