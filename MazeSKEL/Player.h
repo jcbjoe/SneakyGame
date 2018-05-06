@@ -35,6 +35,7 @@ public:
 	bool getOpenedRed();
 	bool getOpenedBlue();
 	bool getOpenedYellow();
+	float get2DRotation();
 	//int getKeyNo();
 	//Sets
 	void increaseScore();

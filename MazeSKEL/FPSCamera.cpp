@@ -116,7 +116,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 			pos.x = mCamPos.x;
 			pos.z = mCamPos.z;
 		}
-
+	//If Player is near a Red door
 	case 6:
 
 		vecFrom.x = mCamPos.x - round(posToCheckX);
@@ -124,7 +124,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 
 		distanceFromObjectX = 0.4f;
 		distanceFromObjectY = 0.7f;
-		//If you are close to the wall
+		//If you are close to the door
 		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY  && !hasRedKey)
 		{
 			//Dont allow the player to move
@@ -133,7 +133,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		}
 
 		break;
-
+	//If Player is near a Blue door
 	case 8:
 
 		vecFrom.x = mCamPos.x - round(posToCheckX);
@@ -141,8 +141,8 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 
 		distanceFromObjectX = 0.7f;
 		distanceFromObjectY = 0.4f;
-		//If you are close to the wall
-		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY && !hasRedKey)
+		//If you are close to the door
+		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY && !hasBlueKey)
 		{
 			//Dont allow the player to move
 			pos.x = mCamPos.x;
@@ -284,6 +284,8 @@ void FPSCamera::Crouch(bool isCrouched)
 void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 {
 	yaw += _yaw * dTime * rspeed;
+	rot += _yaw * dTime * rspeed;
+
 	pitch += _pitch * dTime * rspeed;
 	roll += _roll * dTime * rspeed;
 	Matrix ori;
@@ -307,14 +309,17 @@ void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 void FPSCamera::Bob(float dTime, bool isCrouched)
 {
 	bobY = sinf(((counter) * PI) / 180.0f) / 40.0f;
-
 	if (isCrouched)
 		counter += 500 * dTime;
 	else 
 		counter += 1000 * dTime;
 
 	mCamPos.y -= prevChangeY;
+	currBobY -= prevChangeY;
+
 	mCamPos.y += bobY;
+	currBobY += bobY;
+
 	prevChangeY = bobY;
 }
 
@@ -326,10 +331,12 @@ void FPSCamera::ReturnToY(float dtime, float yVal)
 		float difference = yVal - mCamPos.y;
 		if (difference > 0.05f)
 		{
+			currBobY += 0.01f * dtime;
 			mCamPos.y += 0.01f * dtime;
 		}
 		else if (difference < -0.05f)
 		{
+			currBobY -= 0.01f * dtime;
 			mCamPos.y -= 0.01f * dtime;
 		}
 		else

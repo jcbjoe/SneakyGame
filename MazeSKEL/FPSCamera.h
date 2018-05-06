@@ -40,6 +40,9 @@ public:
 		return mpViewSpaceTfm;
 	};
 
+	float getRotY() { return rot; };
+	float getCurrentBob() { return currBobY; };
+
 private:
 	DirectX::SimpleMath::Vector3 mLockAxis{ UNLOCK,UNLOCK,UNLOCK };
 	//the camera matrix to modify
@@ -53,7 +56,9 @@ private:
 
 	float counter = 0;
 	float bobY = 0;
+	float currBobY = 0;
 	float prevChangeY = 0;
+	float rot = 0;
 };
 
 

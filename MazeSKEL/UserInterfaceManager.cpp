@@ -47,6 +47,15 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 		mYellowEmptyDimentions = fx.mCache.Get(mpYellowEmptyTex).dim;
 	//--Uncollected Coins End
 
+	mpMinimapBGTex = fx.mCache.LoadTexture("mini.dds", true, gd3dDevice);
+	mMinimapBGDimentions = fx.mCache.Get(mpMinimapBGTex).dim;
+
+	mpMiniSquareTex = fx.mCache.LoadTexture("Grating3.dds", true, gd3dDevice);
+	mMiniSquareDimensions = fx.mCache.Get(mpMiniSquareTex).dim;
+
+	mpTimerTex = fx.mCache.LoadTexture("Timer.dds", true, gd3dDevice);
+	mTimerDimensions = fx.mCache.Get(mpTimerTex).dim;
+
 	//--Coins Begin
 		mpOneCoinTex = fx.mCache.LoadTexture("UIOneCoin.dds", true, gd3dDevice);
 		mOneCoinDimentions = fx.mCache.Get(mpOneCoinTex).dim;
@@ -65,6 +74,8 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	//--Coins End
 
 	start = time(0);
+	offx = 1.0f;
+	offy = 9.0f;
 }
 
 void UserInterfaceManager::printDebugText(string text) {
@@ -72,7 +83,7 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey) {
+void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey, const float& pPosx, const float& pPosz, const float& pRotY) {
 
 	CommonStates state(gd3dDevice);
 	mpSpriteBatch->Begin(SpriteSortMode_Deferred, state.NonPremultiplied());
@@ -82,22 +93,17 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	GetClientExtents(w, h);
 
 	//--- Begin Crouching Display 
-		wstringstream crouching;
-		wstringstream crosshair;
-		if (isCrouching)
-		{
-			crosshair << "--=--";
-			crouching << "Crouched";
-		}
-		else
-		{
-			crosshair << "-<O>-";
-			crouching << "Not Crouched";
-		}
-		//Draw Crosshair
-		mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(w / 2.0f - 25, h / 2.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-		//Show crouching ui
-		mpAlgerian->DrawString(mpSpriteBatch, crouching.str().c_str(), Vector2(100, 200), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	wstringstream crosshair;
+	if (isCrouching)
+	{
+		crosshair << "--=--";
+	}
+	else
+	{
+		crosshair << "-<O>-";
+	}
+	//Draw Crosshair
+	mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(w / 2.0f - 25, h / 2.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Crouching Display 
 
 	//--- Begin FPS Counter
@@ -108,10 +114,125 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		}
 	//--- End FPS Counter
 
+	
+
+	//--- Begin Coin Display
+	//wstringstream coinsPickedUp;
+	//coinsPickedUp << "Coins Collected: " << playerScore;
+	//mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//
+	//wstringstream coinsDeposited;
+	//coinsDeposited << "Coins Deposited: " << playerDeposited;
+	//mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//--- End Coin Display
+
+	////////////////////////
+	//--- Minimap
+	////////////////////////
+	//MINIMAP VARIABLES (CAN CHANGE)
+	float centerXPos = w * 0.85f;
+	float centerYPos = h * 0.2f;
+	float scaleOfMinimap = 0.000315f * w;
+	float keyScale = 0.000156f * w;
+	//Scale variables for above values (DONT CHANGE)
+	float scaleOfItems	 = 0.1143f * scaleOfMinimap;
+	float distBetweenItems = 57.0f * scaleOfMinimap;
+	float fadeOffLimit = 240.0f * scaleOfMinimap;
+	////////////////////////
+
+	//Draw minimap background
+	mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(centerXPos, centerYPos), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(scaleOfMinimap, scaleOfMinimap));
+
+	Level* CurrLVL = GetLevelManager()->getCurrentLevel();
+
+	float sinAngle = sin(pRotY + PI/2.0f);
+	float cosAngle = cos(pRotY + PI/2.0f);
+
+	for (int j = 0; j < 20; j++)
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			int Object = CurrLVL->getObjectAtCoordinate(i, j);
+			//If a wall / coin / door needs to be displayed
+			if (Object == 1 || Object == 3 || Object == 6 ||Object == 8)
+			{
+				//I can simplify maths later - leaving it for now since it works.
+				//Manipulate i/j so it rotates right way
+				float atOriginx = i - pPosx;
+				float atOriginy = j - pPosz;
+
+				float xNew = (atOriginx * cosAngle) - (atOriginy * sinAngle);
+				float yNew = (atOriginx * sinAngle) + (atOriginy * cosAngle);
+
+				xNew += pPosx;
+				yNew += pPosz;
+
+				//Final coordinates to plot to screen
+				float xCoord = centerXPos + (yNew * distBetweenItems) - (pPosz * distBetweenItems);
+				float yCoord = centerYPos + xNew * distBetweenItems - (pPosx * distBetweenItems);
+
+				//Check distance from player
+				float xSqu = centerXPos - xCoord;
+				float xs = xSqu * xSqu;
+
+				float ySqu = centerYPos - yCoord;
+				float ys = ySqu * ySqu;
+
+				float sq = sqrt(xs + ys);
+
+				//if should be shown on minimap
+				if (sq < fadeOffLimit)
+				{
+					float transparencyPercentage = 1.0f;
+
+					if (sq > fadeOffLimit * 0.9f)
+					{
+						float closenessToEdge = fadeOffLimit - sq;
+						transparencyPercentage = closenessToEdge / (fadeOffLimit * 0.1f);
+					}
+
+					Vector4 transCol;
+					switch (Object)
+					{
+					case 1:
+						transCol = Vector4(1.0f, 1.0f, 1.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems));
+						break;
+					case 3:
+						transCol = Vector4(1.0f, 1.0f, 0.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY + PI / 4.0f, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.6f, scaleOfItems * 0.6f));
+						break;
+					case 6:
+						transCol = Vector4(0.5f, 0.3f, 0.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems * 0.2f));
+						break;
+					case 8:
+						transCol = Vector4(0.5f, 0.3f, 0.0f, transparencyPercentage);
+						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.2f, scaleOfItems));
+						break;
+					}
+				}
+			}
+		}
+	}
+	//Draw player position on map
+	mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(centerXPos, centerYPos), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.75f, scaleOfItems * 0.75f));
+
+	//Draw Timer
+	mpSpriteBatch->Draw(mpTimerTex, Vector2(w / 2.0f, mTimerDimensions.y * scaleOfMinimap * 0.5f), nullptr, Colours::White, 0, mTimerDimensions*0.5f, Vector2(scaleOfMinimap, scaleOfMinimap));
 	//--- Begin Timer Display
-		wstringstream clock;
-		clock  << "Time: " << fixed << setprecision(1) << Timer;
-		mpAlgerian->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(830, 0), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	wstringstream level;
+	level << "Level: " << (GetLevelManager()->getCurrentLevelNumber() + 1);
+
+	mpAlgerian->DrawString(mpSpriteBatch, level.str().c_str(), Vector2(w * 0.45f, 0), Colours::White, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 2.5f, scaleOfMinimap * 2.5f));
+
+	wstringstream clock;
+	clock << fixed << setprecision(1) << Timer;
+	Vector4 col = Colors::GreenYellow;
+	if (Timer < 10.0f)
+		col = Colors::MediumVioletRed;
+	mpAlgerian->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(w * 0.47f, mTimerDimensions.y * scaleOfMinimap * 0.4f), col, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 2.5f, scaleOfMinimap * 2.5f));
+	
 	//--- End Timer Display
 
 	//--- Begin Coin Display
@@ -142,25 +263,32 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Coin Display
 
+	//--- KEY SIDE OVERLAY
+	//Draw Key UI BG
+	mpSpriteBatch->Draw(mpTimerTex, Vector2((w * 0.1f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 2.0f));
 	//--- Begin Key Display
-		wstringstream redKeyFound;
-		if (hasRedKey)
-				mpSpriteBatch->Draw(mpRedKeyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(0.2, 0.2));
-		else if (RedKey)
-			mpSpriteBatch->Draw(mpRedEmptyTex, Vector2(50, h - 50), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
+	if (hasRedKey)
+		mpSpriteBatch->Draw(mpRedKeyTex, Vector2(0.040 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(keyScale, keyScale));
+	else if (RedKey)
+		mpSpriteBatch->Draw(mpRedEmptyTex, Vector2(0.040 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
 
-		wstringstream blueKeyFound;
-		if (hasBlueKey)
-			mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
-		else if(BlueKey)
-			mpSpriteBatch->Draw(mpBlueEmptyTex, Vector2(150, h - 50), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
+	if (hasBlueKey)
+		mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(0.136 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(keyScale, keyScale));
+	else if (BlueKey)
+		mpSpriteBatch->Draw(mpBlueEmptyTex, Vector2(0.136 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
 
-		wstringstream YellowKeyFound;
-		if (hasYellowKey)
-			mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(0.2f, 0.2f));
-		else if (YellowKey)
-			mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(250, h - 50), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(0.2f, 0.2f));
-	//--- End Key Display
+	if (hasYellowKey)
+		mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(0.226 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(keyScale, keyScale));
+	else if (YellowKey)
+		mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(0.226 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
+
+	//Draw 
+	mpSpriteBatch->Draw(mpTimerTex, Vector2((w * 0.9f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 2.0f));
+
+
+
+
+
 
 	//--- Begin Debug Text
 	int count = 0;
