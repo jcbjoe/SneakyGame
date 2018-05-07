@@ -18,7 +18,7 @@ public:
 		Release();
 	}
 
-	void updateUI(const float fpsNumber, const float Timer, const bool&, const int, const int&, const int&, const int&, const int&, const bool&, const bool&, const bool&, const float&, const float&, const float&);
+	void updateUI(const float fpsNumber, const float Timer, const bool&, const int, const int&, const int&, const int&, const int&, const int&, const bool&, const bool&, const bool&, const float&, const float&, const float&);
 	void initialiseUI(bool showFPS);
 
 	void printDebugText(std::string text);
@@ -64,6 +64,9 @@ private:
 		ID3D11ShaderResourceView *mpBlueEmptyTex = nullptr;
 		DirectX::SimpleMath::Vector2 mBlueEmptyDimentions;
 
+		DirectX::SimpleMath::Vector2 mYellowEmptyDimentions;
+		ID3D11ShaderResourceView *mpYellowEmptyTex = nullptr;
+	//--Uncollected Keys End
 
 	ID3D11ShaderResourceView *mpMinimapBGTex = nullptr;
 	DirectX::SimpleMath::Vector2 mMinimapBGDimentions;
@@ -74,9 +77,11 @@ private:
 	ID3D11ShaderResourceView *mpTimerTex = nullptr;
 	DirectX::SimpleMath::Vector2 mTimerDimensions;
 
-	//--Uncollected Keys End
 
 	//--Coins Begin
+	ID3D11ShaderResourceView *mpUIChestTex = nullptr;
+	DirectX::SimpleMath::Vector2 mUIChestDimentions;
+
 		ID3D11ShaderResourceView *mpOneCoinTex = nullptr;
 		DirectX::SimpleMath::Vector2 mOneCoinDimentions;
 
@@ -92,8 +97,6 @@ private:
 		ID3D11ShaderResourceView *mpFiveCoinTex = nullptr;
 		DirectX::SimpleMath::Vector2 mFiveCoinDimentions;
 	//--Coins Ends
-		DirectX::SimpleMath::Vector2 mYellowEmptyDimentions;
-		ID3D11ShaderResourceView *mpYellowEmptyTex = nullptr;
 };
 SINGLETON_GET(UserInterfaceManager);
 

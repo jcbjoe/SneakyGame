@@ -57,6 +57,9 @@ void UserInterfaceManager::initialiseUI(bool showFPS) {
 	mTimerDimensions = fx.mCache.Get(mpTimerTex).dim;
 
 	//--Coins Begin
+		mpUIChestTex = fx.mCache.LoadTexture("UIChest.dds", true, gd3dDevice);
+		mUIChestDimentions = fx.mCache.Get(mpUIChestTex).dim;
+
 		mpOneCoinTex = fx.mCache.LoadTexture("UIOneCoin.dds", true, gd3dDevice);
 		mOneCoinDimentions = fx.mCache.Get(mpOneCoinTex).dim;
 
@@ -83,7 +86,7 @@ void UserInterfaceManager::printDebugText(string text) {
 	debugTextVector.push_back(debugText{ text, seconds_since_start});
 }
 
-void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey, const float& pPosx, const float& pPosz, const float& pRotY) {
+void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& maxCoins, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey, const float& pPosx, const float& pPosz, const float& pRotY) {
 
 	CommonStates state(gd3dDevice);
 	mpSpriteBatch->Begin(SpriteSortMode_Deferred, state.NonPremultiplied());
@@ -260,11 +263,12 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//--- Begin Coin Display
 	wstringstream coinsPickedUp;
 	coinsPickedUp << "Coins Collected: " << playerScore;
-	mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 100), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	mpSpriteBatch->Draw(mpUIChestTex, Vector2(0.9 * w, h - (mTimerDimensions.y * scaleOfMinimap * 2.0f)), nullptr, Colours::White, 0, mUIChestDimentions*0.5f, Vector2(0.17, 0.17));
 
 	switch (playerScore) {
 	case 1:
-		mpSpriteBatch->Draw(mpOneCoinTex, Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.62f)), nullptr, Colours::White, 0, mOneCoinDimentions*0.5f, Vector2(0.5, 0.5));
+		mpSpriteBatch->Draw(mpOneCoinTex, Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mOneCoinDimentions*0.5f, Vector2(0.5, 0.5));
 		break;
 	case 2:
 		mpSpriteBatch->Draw(mpTwoCoinTex, Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mTwoCoinDimentions*0.5f, Vector2(0.5, 0.5));
@@ -279,6 +283,10 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		mpSpriteBatch->Draw(mpFiveCoinTex, Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mFiveCoinDimentions*0.5f, Vector2(0.5, 0.5));
 		break;
 	}
+
+	wstringstream maxCoinsStr;
+	maxCoinsStr << playerDeposited << "/" << maxCoins;
+	mpAlgerian->DrawString(mpSpriteBatch, maxCoinsStr.str().c_str(), Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
 	wstringstream coinsDeposited;
 	coinsDeposited << "Coins Deposited: " << playerDeposited;

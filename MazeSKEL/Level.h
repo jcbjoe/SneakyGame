@@ -40,9 +40,9 @@ public:
 private:
 
 	string levelName;
-
-	int levelMap[20][20];
-	int maxCoins;
+	 
+	int levelMap[20][20]; 
+	int maxCoins = 0;
 
 	vector<Vector3> waypointLocations;
 
