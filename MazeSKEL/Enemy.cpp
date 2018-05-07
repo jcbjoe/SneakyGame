@@ -437,3 +437,19 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 
 	return adjSquares;
 }
+
+float Enemy::EnemyPlayerAngle()
+{
+	Vector3 enemyVec = GetRotation().Forward;
+	Vector3 playerVec = GetPosition() - ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
+
+	float dot = (float)enemyVec.x * (float)playerVec.x + (float)enemyVec.z * (float)playerVec.z;
+	float modEnemy = sqrtf(abs((float)enemyVec.x * (float)enemyVec.x + (float)enemyVec.z + (float)enemyVec.z));
+	float modPlayer = sqrtf(abs((float)playerVec.x * (float)playerVec.x + (float)playerVec.z + (float)playerVec.z));
+
+	float angleBetween = (float)acosf(dot / (modEnemy * modPlayer));
+
+	//GetUserInterfaceManager()->printDebugText(to_string(angleBetween)); 
+	//Vector3 v = (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().Forward()); 
+	return angleBetween;
+}
