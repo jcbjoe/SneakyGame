@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "StateManager.h"
 #include "UserInterfaceManager.h"
+#include "AudioMgrFMOD.h"
 
 
 MainMenuState::MainMenuState() 
@@ -16,6 +17,9 @@ MainMenuState::MainMenuState()
 	LoadTextures();
 
 	ShowCursor(true);
+
+	GetIAudioMgr()->GetSfxMgr()->Load("music");
+	GetIAudioMgr()->GetSfxMgr()->Play("NewYork", true, false, nullptr, 1.0);
 }
 
 void MainMenuState::Update(float dTime){
