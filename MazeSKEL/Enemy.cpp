@@ -8,6 +8,7 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 	waypointNumber = 1;
 
+	visionCone = D2R(90);
 	GetModel().Initialise(*GetMeshManager()->GetMesh("Ghost"));
 
 	GameObject::setInitialPos();
@@ -48,6 +49,11 @@ void Enemy::Update(float dTime) {
 			if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
 				if (distance > 1.5) {
 					canSeeBool = false;
+				}
+				else
+				{
+					if (EnemyPlayerAngle() > (visionCone / 2.0f))
+						canSeeBool = false;
 				}
 			}
 			else {

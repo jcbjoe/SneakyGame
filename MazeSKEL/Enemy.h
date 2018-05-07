@@ -29,6 +29,7 @@ public:
 
 private:
 
+	float visionCone;
 	int waypointNumber;
 	vector<Vector2> canSee(int x0, int y0, int x1, int y1);
 	bool followingPath;
@@ -48,6 +49,7 @@ private:
 	void removeFromVector(customNode* nodeToRemove, vector<customNode*>& openList);
 	bool vectorContains(customNode* containNode, vector<customNode*>& nodeVector);
 	vector<customNode*> getAdjacentSquares(customNode* node, customNode* destination);
+	float EnemyPlayerAngle();
 };
 
 #endif
