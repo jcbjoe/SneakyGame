@@ -133,12 +133,14 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 	//--- Minimap
 	////////////////////////
 	//MINIMAP VARIABLES (CAN CHANGE)
-	float centerXPos = w * 0.85f;
-	float centerYPos = h * 0.2f;
+	float centerXPos =	w * 0.85f;
+	float centerYPos =	h * 0.2f;
 	float scaleOfMinimap = 0.000315f * w;
-	float keyScale = 0.000156f * w;
+	float keyScale =	0.000156f * w;
+	float coinScale =	0.00026f * w;
+	float chestScale =	0.0000885f * w;
 	//Scale variables for above values (DONT CHANGE)
-	float scaleOfItems	 = 0.1143f * scaleOfMinimap;
+	float scaleOfItems= 0.1143f * scaleOfMinimap;
 	float distBetweenItems = 57.0f * scaleOfMinimap;
 	float fadeOffLimit = 240.0f * scaleOfMinimap;
 	////////////////////////
@@ -258,39 +260,42 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(0.226 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
 
 	//Draw 
-	mpSpriteBatch->Draw(mpTimerTex, Vector2((w * 0.9f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 2.0f));
+	mpSpriteBatch->Draw(mpTimerTex, Vector2((w * 0.9f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 4.0f));
 	
 	//--- Begin Coin Display
-	wstringstream coinsPickedUp;
-	coinsPickedUp << "Coins Collected: " << playerScore;
-	mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 100), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-	mpSpriteBatch->Draw(mpUIChestTex, Vector2(0.9 * w, h - (mTimerDimensions.y * scaleOfMinimap * 2.0f)), nullptr, Colours::White, 0, mUIChestDimentions*0.5f, Vector2(0.17, 0.17));
+	//wstringstream coinsPickedUp;
+	//coinsPickedUp << "Coins Collected: " << playerScore;
+	//mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 100), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
+	//Drawing coins on screen
 	switch (playerScore) {
 	case 1:
-		mpSpriteBatch->Draw(mpOneCoinTex, Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mOneCoinDimentions*0.5f, Vector2(0.5, 0.5));
+		mpSpriteBatch->Draw(mpOneCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mOneCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 		break;
 	case 2:
-		mpSpriteBatch->Draw(mpTwoCoinTex, Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mTwoCoinDimentions*0.5f, Vector2(0.5, 0.5));
+		mpSpriteBatch->Draw(mpTwoCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mTwoCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 		break;
 	case 3:
-		mpSpriteBatch->Draw(mpThreeCoinTex, Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mThreeCoinDimentions*0.5f, Vector2(0.5, 0.5));
+		mpSpriteBatch->Draw(mpThreeCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mThreeCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 		break;
 	case 4:
-		mpSpriteBatch->Draw(mpFourCoinTex, Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mFourCoinDimentions*0.5f, Vector2(0.5, 0.5));
+		mpSpriteBatch->Draw(mpFourCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mFourCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 		break;
 	case 5:
-		mpSpriteBatch->Draw(mpFiveCoinTex, Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mFiveCoinDimentions*0.5f, Vector2(0.5, 0.5));
+		mpSpriteBatch->Draw(mpFiveCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mFiveCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 		break;
 	}
 
+	//Collected coins
+	mpSpriteBatch->Draw(mpUIChestTex, Vector2(0.85 * w, h - (mTimerDimensions.y * scaleOfMinimap * 1.60f)), nullptr, Colours::White, 0, mUIChestDimentions*0.5f, Vector2(chestScale, chestScale));
+	
 	wstringstream maxCoinsStr;
 	maxCoinsStr << playerDeposited << "/" << maxCoins;
-	mpAlgerian->DrawString(mpSpriteBatch, maxCoinsStr.str().c_str(), Vector2(0.86 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	mpAlgerian->DrawString(mpSpriteBatch, maxCoinsStr.str().c_str(), Vector2(0.90f * w, h - (mTimerDimensions.y * scaleOfMinimap * 1.8f)), Colors::White, 0, Vector2(0, 0), Vector2( scaleOfMinimap * 3.0f, scaleOfMinimap * 3.0f));
 
-	wstringstream coinsDeposited;
-	coinsDeposited << "Coins Deposited: " << playerDeposited;
-	mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+	//wstringstream coinsDeposited;
+	//coinsDeposited << "Coins Deposited: " << playerDeposited;
+	//mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 	//--- End Coin Display
 
 

@@ -8,7 +8,7 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 	waypointNumber = 1;
 
-	visionCone = D2R(90);
+	visionCone = D2R(45);
 	GetModel().Initialise(*GetMeshManager()->GetMesh("Ghost"));
 
 	GameObject::setInitialPos();
