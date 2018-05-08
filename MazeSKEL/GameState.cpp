@@ -30,6 +30,7 @@ void GameState::Init() {
 }
 
 void GameState::Update(float dTime) {
+	GetIAudioMgr()->Update();
 	//Load level 1 for now
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{
@@ -97,7 +98,7 @@ void GameState::Update(float dTime) {
 			//float distFromLoot = 
 			if (distanceFromLoot < 1.2)
 			{
-				if (obj->GetName() == "RedDoor")
+				if (obj->GetName() == "RedDoor" && !obj->getMove())
 				{
 					if (gPlayer->getHasRedKey()) {
 						gPlayer->setOpenedRed();
@@ -107,7 +108,7 @@ void GameState::Update(float dTime) {
 					}
 				}
 				else
-					if (obj->GetName() == "BlueDoor")
+					if (obj->GetName() == "BlueDoor" && !obj->getMove())
 					{
 						if (gPlayer->getHasBlueKey()) {
 							gPlayer->setOpenedBlue();
@@ -123,36 +124,36 @@ void GameState::Update(float dTime) {
 				{
 					gPlayer->increaseScore();
 					obj->setIndex(index);
-					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", true, false, nullptr, 1.0);
+					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 					obj->moveObject();
 					return;
 				}
 				else
-					if (obj->GetName() == "RedKey")
+					if (obj->GetName() == "RedKey" && !obj->getMove())
 					{
 						gPlayer->setHasRedKey(true);
 						obj->setIndex(index);
-						GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", true, false, nullptr, 1.0);
+						GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 						obj->moveObject();
 						FX::DisableLight(2);
 						return;
 					}
 					else
-						if (obj->GetName() == "BlueKey")
+						if (obj->GetName() == "BlueKey" && !obj->getMove())
 						{
 							gPlayer->setHasBlueKey(true);
 							obj->setIndex(index);
-							GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", true, false, nullptr, 1.0);
+							GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 							obj->moveObject();
 							FX::DisableLight(3);
 							return;
 						}
 						else
-							if (obj->GetName() == "YellowKey")
+							if (obj->GetName() == "YellowKey" && !obj->getMove())
 							{
 								gPlayer->setHasYellowKey(true);
 								obj->setIndex(index);
-								GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", true, false, nullptr, 1.0);
+								GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 								obj->moveObject();
 								FX::DisableLight(4);
 								return;
@@ -207,6 +208,7 @@ void GameState::Render(float dTime) {
 void GameState::Release() {
 	GetLevelManager()->Release();
 	GetGameObjectManager()->Release();
+	delete GetIAudioMgr();
 }
 
 void GameState::setRedKey(const bool set) {
