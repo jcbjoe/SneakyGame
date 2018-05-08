@@ -32,10 +32,6 @@ float Player::get2DRotation()
 
 void Player::Update(float dTime) 
 {
-
-	Vector3 look = { 0, 0, 1 };
-	Matrix ma = Matrix::CreateFromYawPitchRoll(mCamera.getRotation().y, mCamera.getRotation().x, mCamera.getRotation().z);
-	FX::SetupSpotLight(7, true, Vector3(mCamera.GetPos().x, 0.5, mCamera.GetPos().z), Vector3::TransformNormal(look, ma), Vector3(0.4f, 0.4f, 0.4f), Vector3(0.35f, 0.35f, 0.35f), Vector3(0.2f, 0.2f, 0.2f), 100.0f, 0.1f, D2R(0), D2R(25));
 	GetGamepad()->Update();
 	if (!((GameState*)GetStateManager()->getCurrentState())->paused) {
 
@@ -49,7 +45,7 @@ void Player::Update(float dTime)
 		}
 		else
 		{
-			isCrouched = false;
+			isCrouched = false;			
 			moveSpeed = 5.0f;
 			mCamera.Crouch(isCrouched);
 		}
@@ -85,8 +81,12 @@ void Player::Update(float dTime)
 				mCamera.ReturnToY(dTime, 0.5f);
 		}
 		
-
 		mCamera.Update(dTime);
+
+		Vector3 look = { 0, 0, 1 };
+		Matrix ma = Matrix::CreateFromYawPitchRoll(mCamera.getRotation().y, mCamera.getRotation().x, mCamera.getRotation().z);
+		FX::SetupSpotLight(7, true, Vector3(mCamera.GetPos().x, mCamera.GetPos().y, mCamera.GetPos().z), Vector3::TransformNormal(look, ma), Vector3(0.4f, 0.4f, 0.4f), Vector3(0.35f, 0.35f, 0.35f), Vector3(0.2f, 0.2f, 0.2f), 100.0f, 0.1f, D2R(0), D2R(25));
+
 
 	}
 	else {
