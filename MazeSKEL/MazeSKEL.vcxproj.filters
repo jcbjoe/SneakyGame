@@ -101,12 +101,6 @@
     <ClCompile Include="UserFolder.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="AudioMgr.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioMgrFMOD.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="FPSCamera.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -200,6 +194,12 @@
     <ClCompile Include="GameOverState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="AudioMgr.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioMgrFMOD.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -245,12 +245,6 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="UserFolder.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioMgr.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioMgrFMOD.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="FPSCamera.h">
@@ -351,6 +345,12 @@
     </ClInclude>
     <ClInclude Include="GameOverState.h">
       <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioMgr.h">
+      <Filter>Headers\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioMgrFMOD.h">
+      <Filter>Headers\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

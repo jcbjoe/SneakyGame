@@ -18,7 +18,7 @@ public:
 		Release();
 	}
 
-	void updateUI(const float fpsNumber, const float Timer, const bool&, const int, const int&, const int&, const int&, const int&, const bool&, const bool&, const bool&, const float&, const float&, const float&);
+	void updateUI(const float fpsNumber, const float Timer, const bool&, const int, const int&, const int&, const int&, const int&, const int&, const bool&, const bool&, const bool&, const float&, const float&, const float&);
 	void initialiseUI(bool showFPS);
 
 	void printDebugText(std::string text);
@@ -46,29 +46,57 @@ private:
 	ID3D11ShaderResourceView *mpPausedTex = nullptr;
 	DirectX::SimpleMath::Vector2 mPausedDimentions;
 
-	ID3D11ShaderResourceView *mpRedKeyTex = nullptr;
-	DirectX::SimpleMath::Vector2 mRedKeyDimentions;
+	//--Collected Keys Begin
+		ID3D11ShaderResourceView *mpRedKeyTex = nullptr;
+		DirectX::SimpleMath::Vector2 mRedKeyDimentions;
 
-	ID3D11ShaderResourceView *mpBlueKeyTex = nullptr;
-	DirectX::SimpleMath::Vector2 mBlueKeyDimentions;
+		ID3D11ShaderResourceView *mpBlueKeyTex = nullptr;
+		DirectX::SimpleMath::Vector2 mBlueKeyDimentions;
 
-	ID3D11ShaderResourceView *mpYellowKeyTex = nullptr;
-	DirectX::SimpleMath::Vector2 mYellowKeyDimentions;
+		ID3D11ShaderResourceView *mpYellowKeyTex = nullptr;
+		DirectX::SimpleMath::Vector2 mYellowKeyDimentions;
+	//--Collected Keys Ended
 
-	ID3D11ShaderResourceView *mpRedEmptyTex = nullptr;
-	DirectX::SimpleMath::Vector2 mRedEmptyDimentions;
+	//--Uncollected Keys Begin
+		ID3D11ShaderResourceView *mpRedEmptyTex = nullptr;
+		DirectX::SimpleMath::Vector2 mRedEmptyDimentions;
 
-	ID3D11ShaderResourceView *mpBlueEmptyTex = nullptr;
-	DirectX::SimpleMath::Vector2 mBlueEmptyDimentions;
+		ID3D11ShaderResourceView *mpBlueEmptyTex = nullptr;
+		DirectX::SimpleMath::Vector2 mBlueEmptyDimentions;
 
-	ID3D11ShaderResourceView *mpYellowEmptyTex = nullptr;
-	DirectX::SimpleMath::Vector2 mYellowEmptyDimentions;
+		DirectX::SimpleMath::Vector2 mYellowEmptyDimentions;
+		ID3D11ShaderResourceView *mpYellowEmptyTex = nullptr;
+	//--Uncollected Keys End
 
 	ID3D11ShaderResourceView *mpMinimapBGTex = nullptr;
 	DirectX::SimpleMath::Vector2 mMinimapBGDimentions;
 
 	ID3D11ShaderResourceView *mpMiniSquareTex = nullptr;
 	DirectX::SimpleMath::Vector2 mMiniSquareDimensions;
+
+	ID3D11ShaderResourceView *mpTimerTex = nullptr;
+	DirectX::SimpleMath::Vector2 mTimerDimensions;
+
+
+	//--Coins Begin
+	ID3D11ShaderResourceView *mpUIChestTex = nullptr;
+	DirectX::SimpleMath::Vector2 mUIChestDimentions;
+
+		ID3D11ShaderResourceView *mpOneCoinTex = nullptr;
+		DirectX::SimpleMath::Vector2 mOneCoinDimentions;
+
+		ID3D11ShaderResourceView *mpTwoCoinTex = nullptr;
+		DirectX::SimpleMath::Vector2 mTwoCoinDimentions;
+
+		ID3D11ShaderResourceView *mpThreeCoinTex = nullptr;
+		DirectX::SimpleMath::Vector2 mThreeCoinDimentions;
+
+		ID3D11ShaderResourceView *mpFourCoinTex = nullptr;
+		DirectX::SimpleMath::Vector2 mFourCoinDimentions;
+
+		ID3D11ShaderResourceView *mpFiveCoinTex = nullptr;
+		DirectX::SimpleMath::Vector2 mFiveCoinDimentions;
+	//--Coins Ends
 };
 SINGLETON_GET(UserInterfaceManager);
 

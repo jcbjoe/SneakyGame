@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "File.h"
 #include "UserFolder.h"
+#include "AudioMgr.h"
 #include "AudioMgrFMOD.h"
 #include "LevelManager.h"
 #include "StateManager.h"
@@ -80,8 +81,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	new GameObjectManager;
 	new MouseAndKeys;
 	new Gamepad;
+	new AudioMgrFMOD;
+	GetIAudioMgr()->Initialise();
 	new LevelManager;
 	new StateManager;
+
 	GetStateManager()->getCurrentState()->Init();
 
 	Run(Update, Render);
@@ -96,7 +100,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	delete GetLevelManager();
 	delete GetStateManager();
 	delete FX::GetMyFX();
-	
+	delete GetIAudioMgr();
 
 	ReleaseD3D();
 

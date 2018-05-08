@@ -8,6 +8,7 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 	waypointNumber = 1;
 
+	visionCone = D2R(90);
 	GetModel().Initialise(*GetMeshManager()->GetMesh("Ghost"));
 
 	GameObject::setInitialPos();
@@ -48,6 +49,11 @@ void Enemy::Update(float dTime) {
 			if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
 				if (distance > 1.5) {
 					canSeeBool = false;
+				}
+				else
+				{
+					if (EnemyPlayerAngle() > (visionCone / 2.0f))
+						canSeeBool = false;
 				}
 			}
 			else {
@@ -430,4 +436,20 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 
 
 	return adjSquares;
+}
+
+float Enemy::EnemyPlayerAngle()
+{
+	Vector3 enemyVec = GetRotation().Forward;
+	Vector3 playerVec = GetPosition() - ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
+
+	float dot = (float)enemyVec.x * (float)playerVec.x + (float)enemyVec.z * (float)playerVec.z;
+	float modEnemy = sqrtf(abs((float)enemyVec.x * (float)enemyVec.x + (float)enemyVec.z + (float)enemyVec.z));
+	float modPlayer = sqrtf(abs((float)playerVec.x * (float)playerVec.x + (float)playerVec.z + (float)playerVec.z));
+
+	float angleBetween = (float)acosf(dot / (modEnemy * modPlayer));
+
+	//GetUserInterfaceManager()->printDebugText(to_string(angleBetween)); 
+	//Vector3 v = (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().Forward()); 
+	return angleBetween;
 }

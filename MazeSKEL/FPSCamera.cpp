@@ -309,14 +309,17 @@ void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 void FPSCamera::Bob(float dTime, bool isCrouched)
 {
 	bobY = sinf(((counter) * PI) / 180.0f) / 40.0f;
-
 	if (isCrouched)
 		counter += 500 * dTime;
 	else 
 		counter += 1000 * dTime;
 
 	mCamPos.y -= prevChangeY;
+	currBobY -= prevChangeY;
+
 	mCamPos.y += bobY;
+	currBobY += bobY;
+
 	prevChangeY = bobY;
 }
 
@@ -328,10 +331,12 @@ void FPSCamera::ReturnToY(float dtime, float yVal)
 		float difference = yVal - mCamPos.y;
 		if (difference > 0.05f)
 		{
+			currBobY += 0.01f * dtime;
 			mCamPos.y += 0.01f * dtime;
 		}
 		else if (difference < -0.05f)
 		{
+			currBobY -= 0.01f * dtime;
 			mCamPos.y -= 0.01f * dtime;
 		}
 		else
