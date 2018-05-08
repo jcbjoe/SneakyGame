@@ -157,7 +157,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		{
 			int Object = CurrLVL->getObjectAtCoordinate(i, j);
 			//If a wall needs to be drawn
-			if (Object == 01 || Object == 11 )
+			if (Object == 01 || Object == 11 || Object == 02 || Object == 03)
 			{
 				//I can simplify maths later - leaving it for now since it works.
 				//Manipulate i/j so it rotates right way
@@ -197,19 +197,19 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 					Vector4 transCol;
 					switch (Object)
 					{
-					case 1:
+					case 01:
 						transCol = Vector4(1.0f, 1.0f, 1.0f, transparencyPercentage);
 						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems));
 						break;
-					case 3:
+					case 11:
 						transCol = Vector4(1.0f, 1.0f, 0.0f, transparencyPercentage);
 						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY + PI / 4.0f, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.6f, scaleOfItems * 0.6f));
 						break;
-					case 6:
+					case 02:
 						transCol = Vector4(0.5f, 0.3f, 0.0f, transparencyPercentage);
 						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems * 0.2f));
 						break;
-					case 8:
+					case 03:
 						transCol = Vector4(0.5f, 0.3f, 0.0f, transparencyPercentage);
 						mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.2f, scaleOfItems));
 						break;
