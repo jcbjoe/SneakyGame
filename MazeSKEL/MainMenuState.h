@@ -12,11 +12,23 @@ public:
 	void LoadTextures();
 	void Update(float dTime) override;
 
+	void Release() override;
+
 private:
 	FPSCamera mCamera;
 
 	ID3D11ShaderResourceView *mpBackgroundTex = nullptr;
-	DirectX::SimpleMath::Vector2 mBackgroundDimentions;
+	ID3D11ShaderResourceView *mStartButtonTex = nullptr;
+	ID3D11ShaderResourceView *mExitButtonTex = nullptr;
+	ID3D11ShaderResourceView *mArrowTex = nullptr;
+	ID3D11ShaderResourceView *mHighscoreButtonTex = nullptr;
+	ID3D11ShaderResourceView *mHelpButtonTex = nullptr;
+	DirectX::SimpleMath::Vector2 mBackgroundDimentions, mStartButtonDimentions, mExitButtonDimentions, mArrowDimentions, mHighscoreButtonDimentions, mHelpButtonDimentions;
+
+	int selected;
+
+	bool gamepadDown = false;
+
 };
 
 #endif
