@@ -115,10 +115,11 @@ void GameState::Update(float dTime) {
 			}
 			if (distanceFromLoot < 0.5f)
 			{
-				if (obj->GetName() == "Loot")
+				if (obj->GetName() == "Loot" && !obj->getMove())
 				{
 					gPlayer->increaseScore();
-					GetGameObjectManager()->deleteGameObjectByIndex(index);
+					obj->setIndex(index);
+					obj->moveObject();
 					return;
 				}
 				else

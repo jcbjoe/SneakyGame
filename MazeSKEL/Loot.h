@@ -7,6 +7,7 @@
 #include "GeometryBuilder.h" 
 #include "FX.h" 
 #include "GameObject.h"
+#include "GameObjectManager.h"
 
 using namespace std;
 using namespace DirectX;
@@ -18,9 +19,10 @@ public:
 	Loot(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 
 	void Update(float dTime) override;
-
 private:
-
+	float x = 0;
+	float y = 0.6;
+	float z = 0;
 };
 #endif
 
