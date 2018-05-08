@@ -8,7 +8,7 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 	waypointNumber = 1;
 
-	visionCone = D2R(45);
+	visionCone = D2R(50);
 	GetModel().Initialise(*GetMeshManager()->GetMesh("Ghost"));
 
 	GameObject::setInitialPos();
@@ -32,17 +32,10 @@ void Enemy::Update(float dTime) {
 
 		Vector3 playerPos = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
 
-		Vector3 test = GetRotation();
-
-		string output = to_string(test.x) + ',' + to_string(test.y) + ',' + to_string(test.z);
-
 		Vector3 eye = { 0, 0, -1 };
-		Vector3 normRot = GetRotation();
+		Matrix ma = Matrix::CreateRotationY(GetRotation().y);
 
-		Matrix ma = Matrix::CreateRotationY(normRot.y);
-
-		GetUserInterfaceManager()->printDebugText(output);
-		FX::SetupSpotLight(7, true, { GetPosition().x, 0.5f, GetPosition().z + 1 }, Vector3::TransformNormal(eye, ma) , Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(8.0f, 0.84f, 8.0f), 9.0f, 0.5f, D2R(15), D2R(45));
+		FX::SetupSpotLight(6, true, { GetPosition().x, 0.0f, GetPosition().z }, Vector3::TransformNormal(eye, ma), Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(0.8f, 0.84f, 0.8f), 3.0f, 0.5f, D2R(15), D2R(50));
 
 		bool canSeeBool = true;
 
@@ -60,12 +53,12 @@ void Enemy::Update(float dTime) {
 
 		if (canSeeBool) {
 			if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
-				if (distance > 1.5) {
+				if (distance > 2) {
 					canSeeBool = false;
 				}
 				else
 				{
-					if (EnemyPlayerAngle() > (visionCone / 2.0f))
+					if (EnemyPlayerAngle() >= (visionCone / 2.0f))
 						canSeeBool = false;
 				}
 			}
@@ -454,16 +447,19 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 
 float Enemy::EnemyPlayerAngle()
 {
-	Vector3 enemyVec = GetRotation().Forward;
-	Vector3 playerVec = GetPosition() - ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
 
-	float dot = (float)enemyVec.x * (float)playerVec.x + (float)enemyVec.z * (float)playerVec.z;
-	float modEnemy = sqrtf(abs((float)enemyVec.x * (float)enemyVec.x + (float)enemyVec.z + (float)enemyVec.z));
-	float modPlayer = sqrtf(abs((float)playerVec.x * (float)playerVec.x + (float)playerVec.z + (float)playerVec.z));
+	Vector3 enemyDir = Vector3::TransformNormal({ 0, 0, -1 }, Matrix::CreateRotationY(GetRotation().y));
+	Vector3 playerDir = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition() - GetPosition();
+
+	float dot = (float)playerDir.x * (float)enemyDir.x + (float)playerDir.x * (float)enemyDir.z;
+	float modEnemy = sqrtf(abs((float)enemyDir.x * (float)enemyDir.x + (float)enemyDir.z + (float)enemyDir.z));
+	float modPlayer = sqrtf(abs((float)playerDir.x * (float)playerDir.x + (float)playerDir.z + (float)playerDir.z));
 
 	float angleBetween = (float)acosf(dot / (modEnemy * modPlayer));
 
-	//GetUserInterfaceManager()->printDebugText(to_string(angleBetween)); 
+	if (angleBetween > 360.0f || angleBetween < 0.0f)
+		angleBetween = 0.0f;
+	//GetUserInterfaceManager()->printDebugText("ANGLE: " + to_string((float)R2D(angleBetween))); 
 	//Vector3 v = (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().Forward()); 
 	return angleBetween;
 }
