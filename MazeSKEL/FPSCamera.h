@@ -32,6 +32,8 @@ public:
 		return mCamPos;
 	}
 
+	Vector3 FPSCamera::getRotation() const { return Vector3(pitch, yaw, roll); }
+
 	void Bob(float dtime, bool isCrouched);
 	void ReturnToY(float dtime, float yVal);
 
