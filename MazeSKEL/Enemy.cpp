@@ -14,6 +14,7 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	GameObject::setInitialPos();
 
 	MaterialExt mat = GetModel().GetMesh().GetSubMesh(0).material;
+	mat.gfxData.Set(Vector4(0.4f, 0.4f, 0.4f, 0), Vector4(1.0f, 1.0f, 1.0f, 0), Vector4(0.3f, 0.3f, 0.3f, 1));
 	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("booMap.dds", true, gd3dDevice);
 	mat.texture = "booMap.dds";
 	mat.texTrsfm.scale = Vector2(1, 1);
@@ -30,6 +31,18 @@ void Enemy::Update(float dTime) {
 	if (GetStateManager()->getCurrentStateName() == "MainGameState") {
 
 		Vector3 playerPos = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
+
+		Vector3 test = GetRotation();
+
+		string output = to_string(test.x) + ',' + to_string(test.y) + ',' + to_string(test.z);
+
+		Vector3 eye = { 0, 0, -1 };
+		Vector3 normRot = GetRotation();
+
+		Matrix ma = Matrix::CreateRotationY(normRot.y);
+
+		GetUserInterfaceManager()->printDebugText(output);
+		FX::SetupSpotLight(7, true, { GetPosition().x, 0.5f, GetPosition().z + 1 }, Vector3::TransformNormal(eye, ma) , Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(8.0f, 0.84f, 8.0f), 9.0f, 0.5f, D2R(15), D2R(45));
 
 		bool canSeeBool = true;
 
@@ -66,7 +79,7 @@ void Enemy::Update(float dTime) {
 
 		if (canSeeBool) {
 
-			Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), playerPos, (1 * dTime) / distance);
+			Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), playerPos, (movespeed * dTime) / distance);
 
 			Vector3 rotato = playerPos;
 			rotato.x = 0;
@@ -89,7 +102,7 @@ void Enemy::Update(float dTime) {
 
 				float distanceFromPath = Vector3().Distance(GetModel().GetPosition(), currentPath.at(currentPathPos));
 
-				Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), currentPath.at(currentPathPos), (2 * dTime) / distanceFromPath);
+				Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), currentPath.at(currentPathPos), (movespeed * dTime) / distanceFromPath);
 
 				SetPosition(pos);
 
@@ -98,7 +111,8 @@ void Enemy::Update(float dTime) {
 				dirToEnemy.y = currentPath.at(currentPathPos).z - GetModel().GetPosition().z;
 
 				// get the player angle on the y axis
-				SetRotation(Vector3(GetModel().GetRotation().x, atan2(-dirToEnemy.y, dirToEnemy.x) - (PI / 2), GetModel().GetRotation().z));
+				Vector3 lerpToTarget = Vector3::Lerp(GetModel().GetRotation(), Vector3(GetModel().GetRotation().x, atan2(-dirToEnemy.y, dirToEnemy.x) - (PI / 2), GetModel().GetRotation().z), (5 * dTime));
+				SetRotation(lerpToTarget);
 
 				if (distanceFromPath < 0.25) {
 					if (currentPathPos == (currentPath.size() - 1)) {
