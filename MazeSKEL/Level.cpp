@@ -47,80 +47,136 @@ void Level::reloadLevel() {
 	Ceiling* ceiling = new Ceiling("Ceiling", Vector3(9.5f, 2.0f, 9.5f), Vector3(PI, 0, 0), Vector3(10, 1, 10));
 	GetGameObjectManager()->addGameObject(ceiling);
 
-	//For every space in the level
+	//////////////////////////////////
+	// For every space in the level //
+	//////////////////////////////////
+	// For terrain pieces:
+	//
+	// 00 = EMPTY SPACE
+	// 01 = WALL
+	// 02 = RED DOOR
+	// 03 = BLUE DOOR
+	// 04 = YELLOW DOOR
+	//
+	// For collectables:
+	//
+	// 10 = RETURN BOX (WITH GOLD LIGHT)
+	// 11 = COIN
+	// 12 = RED KEY (WITH RED LIGHT)
+	// 13 = BLUE KEY (WITH BLUE LIGHT)
+	// 14 = YELLOW KEY (WITH YELLOW LIGHT~)
+	//
+	// For lighting:
+	//
+	//
+	// For the player:
+	//
+	// 30 = PLAYER
+	// 31 = ENEMY
+
 	for (int i(0); i < 20; i++)
 	{
 		for (int j(0); j < 20; j++)
 		{
 			switch (levelMap[i][j])
 			{
-			case 0: {
+			case 00: //Empty
+			{
 				break;
 			}
-			case 1: { //Wall to be placed
-
+			case 01: //Wall
+			{ 
 				Wall* wall = new Wall("Wall", Vector3(i, 1.0f, j), Vector3(0, 0, 0), Vector3(0.5, 1.0, 0.5));
 				GetGameObjectManager()->addGameObject(wall);
+				break;
+			}
+			case 02: //Red Door
+			{ 
+				RedDoor* redDoor = new RedDoor("RedDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.1));
+				GetGameObjectManager()->addGameObject(redDoor);
 
+				//Half wall
+				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(wallHalf);
 				break;
 			}
-			case 2: { 
-					 	//Place player
-				((GameState*)GetStateManager()->getCurrentState())->getPlayer()->Initialise(i, j);
+			case 03: //Blue Door
+			{ 
+				BlueDoor* blueDoor = new BlueDoor("BlueDoor", Vector3(i - 0.45f, 0.5f, j), Vector3(0, 0, 0), Vector3(0.05, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(blueDoor);
+
+				//Half wall
+				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(wallHalf);
 				break;
 			}
-			case 3: { //Loot to be placed
-				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(-PI/2, 0, 0), Vector3(0.02, 0.02, 0.02));
+			case 04: //Yellow Door
+			{
+				//Half wall
+				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
+				GetGameObjectManager()->addGameObject(wallHalf);
+				break;
+			}
+			case 10: //Return Box
+			{ 
+				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.13f, j), Vector3(0, -(PI / 2), 0), Vector3(0.05, 0.05, 0.05));
+				GetGameObjectManager()->addGameObject(returnBox);
+
+				//Light 1 for collection box
+				FX::SetupSpotLight(1, true, { (float)i, 2, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 0.84f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 0.84f, 0.0f), 5.0f, 0.5f, D2R(15), D2R(45));
+				break;
+			}
+			case 11: //Coin
+			{ 
+				Loot* loot = new Loot("Loot", Vector3(i, 0.3f, j), Vector3(-PI / 2, 0, 0), Vector3(0.02, 0.02, 0.02));
 				GetGameObjectManager()->addGameObject(loot);
 
 				maxCoins++;
 				break;
-
 			}
-			case 4: { //Enemy to be placed
-				Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.007f, 0.007f, 0.007f));
-				GetGameObjectManager()->addGameObject(enemy);
-				break;
-			}
-			case 5: { //RedKey to be placed
-				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI/2), Vector3(0.0005, 0.0005, 0.0005));
+			case 12: //Red Key
+			{ 
+				RedKey* redKey = new RedKey("RedKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI / 2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(redKey);
+
+				//Light 2
+				FX::SetupSpotLight(2, true, { (float)i, 1, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 0.0f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 0.0f, 0.0f), 5.0f, 0.7f, D2R(15), D2R(30));
+
 				((GameState*)GetStateManager()->getCurrentState())->setRedKey(true);
 				break;
 			}
-			case 6: { //Door to be placed
-				RedDoor* redDoor = new RedDoor("RedDoor", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.1));
-				GetGameObjectManager()->addGameObject(redDoor);
-
-				//Place wall above door
-				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(wallHalf);
-				break;
-			}
-			case 7: { //BlueKey to be placed
-				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI/2), Vector3(0.0005, 0.0005, 0.0005));
+			case 13: //Blue Key
+			{ 
+				BlueKey* blueKey = new BlueKey("BlueKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI / 2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(blueKey);
+
+				//Light 3
+				FX::SetupSpotLight(3, true, { (float)i, 1, (float)j }, { 0, -1, 0 }, Vector3(0.0f, 0.0f, 1.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(0.0f, 0.0f, 1.0f), 5.0f, 0.7f, D2R(15), D2R(30));
+
 				((GameState*)GetStateManager()->getCurrentState())->setBlueKey(true);
 				break;
 			}
-			case 8: { //Door to be placed
-				BlueDoor* blueDoor = new BlueDoor("BlueDoor", Vector3(i - 0.45f, 0.5f, j), Vector3(0, 0, 0), Vector3(0.05, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(blueDoor);
-
-				//Place wall above door
-				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
-				GetGameObjectManager()->addGameObject(wallHalf);
-				break;
-			}
-			case 9: { //Door to be placed
-				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.13f, j), Vector3(0, -(PI / 2), 0), Vector3(0.05, 0.05, 0.05));
-				GetGameObjectManager()->addGameObject(returnBox);
-				break;
-			}
-			case 10: { //YellowKey to be placed
+			case 14: //Yellow Key
+			{ 
 				YellowKey* yellowKey = new YellowKey("YellowKey", Vector3(i, 0.3f, j), Vector3(0, 0, PI / 2), Vector3(0.0005, 0.0005, 0.0005));
 				GetGameObjectManager()->addGameObject(yellowKey);
+
+				//Light 4
+				FX::SetupSpotLight(4, true, { (float)i, 1, (float)j }, { 0, -1, 0 }, Vector3(1.0f, 1.0f, 0.0f), Vector3(0.35f, 0.35f, 0.35f), Vector3(1.0f, 1.0f, 0.0f), 5.0f, 0.7f, D2R(15), D2R(30));
+
 				((GameState*)GetStateManager()->getCurrentState())->setYellowKey(true);
+				break;
+			}
+			case 30: //Player
+			{ 
+				((GameState*)GetStateManager()->getCurrentState())->getPlayer()->Initialise(i, j);
+				break;
+			}
+			
+			case 31: //Enemy
+			{ 
+				Enemy* enemy = new Enemy("Enemy", Vector3(i, 0.5f, j), Vector3(0, 0, 0), Vector3(0.007f, 0.007f, 0.007f));
+				GetGameObjectManager()->addGameObject(enemy);
 				break;
 			}
 			default:

@@ -5,6 +5,7 @@
 #include <vector>
 #include "D3D.h"
 #include "D3DUtil.h"
+#include "FX.h"
 
 class Player;
 

@@ -147,7 +147,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		{
 			int Object = CurrLVL->getObjectAtCoordinate(i, j);
 			//If a wall needs to be drawn
-			if (Object == 1 || Object == 3 )
+			if (Object == 01 || Object == 11 )
 			{
 				//I can simplify maths later - leaving it for now since it works.
 				//Manipulate i/j so it rotates right way

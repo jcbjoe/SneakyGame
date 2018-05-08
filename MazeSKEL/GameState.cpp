@@ -22,7 +22,7 @@ void GameState::Init() {
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);
 
-	FX::SetupDirectionalLight(0, true, Vector3(-0.7f, -0.7f, 0.7f), Vector3(0.67f, 0.67f, 0.67f), Vector3(0.35f, 0.45f, 0.35f), Vector3(0.15f, 0.15f, 0.15f));
+	FX::SetupDirectionalLight(0, true, Vector3(-1.0f, -1.0f, -1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.65f, 0.75f, 0.65f), Vector3(0.0f, 0.0f, 0.0f));
 
 	while (ShowCursor(false) >= 0) {};
 }
@@ -127,6 +127,7 @@ void GameState::Update(float dTime) {
 						gPlayer->setHasRedKey(true);
 						obj->setIndex(index);
 						obj->moveObject();
+						FX::DisableLight(2);
 						return;
 					}
 					else
@@ -135,6 +136,7 @@ void GameState::Update(float dTime) {
 							gPlayer->setHasBlueKey(true);
 							obj->setIndex(index);
 							obj->moveObject();
+							FX::DisableLight(3);
 							return;
 						}
 						else
@@ -143,6 +145,7 @@ void GameState::Update(float dTime) {
 								gPlayer->setHasYellowKey(true);
 								obj->setIndex(index);
 								obj->moveObject();
+								FX::DisableLight(4);
 								return;
 							}
 			}
