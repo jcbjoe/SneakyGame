@@ -29,7 +29,10 @@ public:
 
 private:
 
+	void detectPlayer(bool& bl);
+	float detectionMeter;
 	float visionCone;
+
 	int waypointNumber;
 	vector<Vector2> canSee(int x0, int y0, int x1, int y1);
 	bool followingPath;
@@ -51,6 +54,7 @@ private:
 	bool vectorContains(customNode* containNode, vector<customNode*>& nodeVector);
 	vector<customNode*> getAdjacentSquares(customNode* node, customNode* destination);
 	float EnemyPlayerAngle();
+	
 };
 
 #endif
