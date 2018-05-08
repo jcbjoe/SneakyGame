@@ -6,7 +6,7 @@
 #include <Math.h>
 void Player::Initialise(const float& i, const float& j) 
 {
-	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(i + 1, 0.5, j + 1), FX::GetViewMatrix());
+	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(i + 1, 0.5, j), FX::GetViewMatrix());
 	mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 
 	hands_.Initialise(*GetMeshManager()->GetMesh("Hands"));
@@ -19,8 +19,6 @@ void Player::Initialise(const float& i, const float& j)
 	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("Grating3.dds", true, gd3dDevice);
 	hands_.GetRotation() = Vector3(D2R(20), PI, 0);
 	hands_.GetScale() = Vector3(0.00185, 0.00185, 0.00185);
-
-
 }
 void Player::Release() 
 {
@@ -34,6 +32,10 @@ float Player::get2DRotation()
 
 void Player::Update(float dTime) 
 {
+
+	Vector3 look = { 0, 0, 1 };
+	Matrix ma = Matrix::CreateFromYawPitchRoll(mCamera.getRotation().y, mCamera.getRotation().x, mCamera.getRotation().z);
+	FX::SetupSpotLight(7, true, Vector3(mCamera.GetPos().x, 0.5, mCamera.GetPos().z), Vector3::TransformNormal(look, ma), Vector3(0.4f, 0.4f, 0.4f), Vector3(0.35f, 0.35f, 0.35f), Vector3(0.2f, 0.2f, 0.2f), 100.0f, 0.1f, D2R(0), D2R(25));
 	GetGamepad()->Update();
 	if (!((GameState*)GetStateManager()->getCurrentState())->paused) {
 
@@ -82,8 +84,10 @@ void Player::Update(float dTime)
 			else
 				mCamera.ReturnToY(dTime, 0.5f);
 		}
+		
 
 		mCamera.Update(dTime);
+
 	}
 	else {
 
