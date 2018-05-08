@@ -24,6 +24,8 @@ void GameState::Init() {
 
 	FX::SetupDirectionalLight(0, true, Vector3(-1.0f, -1.0f, -1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.65f, 0.75f, 0.65f), Vector3(0.0f, 0.0f, 0.0f));
 
+	GetIAudioMgr()->GetSfxMgr()->Load("sfx");
+
 	while (ShowCursor(false) >= 0) {};
 }
 
@@ -99,6 +101,7 @@ void GameState::Update(float dTime) {
 				{
 					if (gPlayer->getHasRedKey()) {
 						gPlayer->setOpenedRed();
+						GetIAudioMgr()->GetSfxMgr()->Play("soundDoorSlide", false, false, nullptr, 1.0);
 						obj->moveObject();
 						return;
 					}
@@ -108,6 +111,7 @@ void GameState::Update(float dTime) {
 					{
 						if (gPlayer->getHasBlueKey()) {
 							gPlayer->setOpenedBlue();
+							GetIAudioMgr()->GetSfxMgr()->Play("soundDoorCreak", false, false, nullptr, 1.0);
 							obj->moveObject();
 							return;
 						}
@@ -119,6 +123,7 @@ void GameState::Update(float dTime) {
 				{
 					gPlayer->increaseScore();
 					obj->setIndex(index);
+					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", true, false, nullptr, 1.0);
 					obj->moveObject();
 					return;
 				}
@@ -127,6 +132,7 @@ void GameState::Update(float dTime) {
 					{
 						gPlayer->setHasRedKey(true);
 						obj->setIndex(index);
+						GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", true, false, nullptr, 1.0);
 						obj->moveObject();
 						FX::DisableLight(2);
 						return;
@@ -136,6 +142,7 @@ void GameState::Update(float dTime) {
 						{
 							gPlayer->setHasBlueKey(true);
 							obj->setIndex(index);
+							GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", true, false, nullptr, 1.0);
 							obj->moveObject();
 							FX::DisableLight(3);
 							return;
@@ -145,6 +152,7 @@ void GameState::Update(float dTime) {
 							{
 								gPlayer->setHasYellowKey(true);
 								obj->setIndex(index);
+								GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", true, false, nullptr, 1.0);
 								obj->moveObject();
 								FX::DisableLight(4);
 								return;
@@ -156,6 +164,7 @@ void GameState::Update(float dTime) {
 				if (gPlayer->getScore() != 0)
 				{
 					//Deposit them
+					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinDeposit", false, false, nullptr, 1.0);
 					gPlayer->dropOffCoins();
 					if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
 					{
