@@ -1,6 +1,7 @@
 #include "GameState.h"
 #include "GameOverState.h"
 #include "StateManager.h"
+#include "CommonStates.h"
 
 GameState::GameState()
 	:
@@ -27,13 +28,18 @@ void GameState::Init() {
 
 	FX::SetupDirectionalLight(0, true, Vector3(-1.0f, -1.0f, -1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.45f, 0.55f, 0.45f), Vector3(0.0f, 0.0f, 0.0f));
 
-	GetIAudioMgr()->GetSfxMgr()->Load("sfx");
+	paused = false;
 
 	while (ShowCursor(false) >= 0) {};
+
 }
 
 void GameState::Update(float dTime) {
 	GetIAudioMgr()->Update();
+
+	if (GetMouseAndKeys()->IsPressed(VK_BACK)) {
+		GetStateManager()->changeState("GameOverState");
+	}
 
 	//Timer Incrementer
 	if (!paused) {
@@ -44,7 +50,20 @@ void GameState::Update(float dTime) {
 		}
 	}
 
-	pauseKeyPressed();
+	if (GetMouseAndKeys()->IsPressed(VK_P) || GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_START)) {
+		pDown = true;
+	} else {
+		if (pDown){
+			paused = !paused;
+			pDown = false;
+			if (paused) {
+				
+				ShowCursor(true);
+			} else {
+				while (ShowCursor(false) >= 0) {};
+			}
+		}
+	}
 
 	//Update All GameObjects
 	vector<GameObject*>& objects = GetGameObjectManager()->getGameObjects();
@@ -177,6 +196,8 @@ void GameState::Render(float dTime) {
 void GameState::Release() {
 	GetLevelManager()->Release();
 	GetGameObjectManager()->Release();
+	FX::MyFX& fx = *FX::GetMyFX();
+	fx.mCache.Release();
 }
 
 void GameState::setRedKey(const bool set) {

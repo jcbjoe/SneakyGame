@@ -26,6 +26,8 @@ public:
 private:
 	void Release();
 
+	void handlePauseMenu();
+
 	bool showFPS;
 	//Minimap
 	float offx;
@@ -42,9 +44,6 @@ private:
 	DirectX::SpriteFont *mpComicSans = nullptr, *mpAlgerian = nullptr;
 
 	time_t start;
-
-	ID3D11ShaderResourceView *mpPausedTex = nullptr;
-	DirectX::SimpleMath::Vector2 mPausedDimentions;
 
 	//--Collected Keys Begin
 		ID3D11ShaderResourceView *mpRedKeyTex = nullptr;
@@ -97,6 +96,31 @@ private:
 		ID3D11ShaderResourceView *mpFiveCoinTex = nullptr;
 		DirectX::SimpleMath::Vector2 mFiveCoinDimentions;
 	//--Coins Ends
+
+		ID3D11ShaderResourceView *mpPausedTex = nullptr;
+		DirectX::SimpleMath::Vector2 mPausedDimentions;
+
+		ID3D11ShaderResourceView *mpResumeTex = nullptr;
+		DirectX::SimpleMath::Vector2 mResumeDimentions;
+
+		ID3D11ShaderResourceView *mpMainMenuTex = nullptr;
+		DirectX::SimpleMath::Vector2 mMainMenuDimentions;
+
+		ID3D11ShaderResourceView *mArrowTex = nullptr;
+		DirectX::SimpleMath::Vector2 mArrowDimentions;
+
+		struct bounds {
+			DirectX::SimpleMath::Vector2 topLeft;
+			DirectX::SimpleMath::Vector2 bottomRight;
+		};
+
+		int selected;
+
+		bounds drawButton(ID3D11ShaderResourceView *tex, DirectX::SimpleMath::Vector2 dimentions, float hOffset, float wOffset);
+
+		bool gamepadDown;
+
+		bool firstPause;
 };
 SINGLETON_GET(UserInterfaceManager);
 

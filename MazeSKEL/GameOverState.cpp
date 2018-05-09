@@ -16,8 +16,11 @@ GameOverState::GameOverState()
 
 void GameOverState::Init() {
 	handled = false;
-
+	selected = 0;
+	gamepadDown = false;
 	LoadTextures();
+
+	ShowCursor(true);
 
 	mLoadThread = std::async(launch::async, &GameOverState::handleGameOver, this);
 }
@@ -30,6 +33,40 @@ void GameOverState::handleGameOver() {
 void GameOverState::Update(float dTime) {
 	if (handled) {
 		GetStateManager()->changeState("MainMenuState");
+	}
+	GetGamepad()->Update();
+	if (GetGamepad()->IsConnected(0)) {
+
+		if (GetGamepad()->GetState(0).leftStickY < 0) {
+			if (!gamepadDown) {
+				if (selected == 2)
+					selected = 0;
+				else
+					selected++;
+			}
+			gamepadDown = true;
+		}
+		else if (GetGamepad()->GetState(0).leftStickY > 0) {
+			if (!gamepadDown) {
+				if (selected == 0)
+					selected = 2;
+				else
+					selected--;
+			}
+			gamepadDown = true;
+		}
+		else {
+			if (gamepadDown) {
+				gamepadDown = false;
+			}
+		}
+
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 0) {
+			GetStateManager()->changeState("LoadingState");
+		}
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 2) {
+			GetStateManager()->changeState("MainMenu");
+		}
 	}
 }
 
@@ -56,9 +93,97 @@ void GameOverState::Render(float dTime) {
 		sz = 1.25f;
 	fx.mpSpriteB->Draw(mpBackgroundTex, Vector2(w / 2.f, h / 2.f), nullptr, Colours::White, 0, mBackgroundDimentions*0.5f, Vector2(sz, sz));
 
+	////////////////////////////////////////////// PLAY AGAIN //////////////////////////////////////////////////////////////////////////////
+	GameOverState::bounds boundsOfPlayAgain = drawButton(mpPlayAgainTex, mPlayAgainDimentions, -50, 0);
 
+	if (
+		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfPlayAgain.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfPlayAgain.bottomRight.x))
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfPlayAgain.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfPlayAgain.bottomRight.y))
+		)
+	{
+		selected = 0;
+	}
+
+	if (
+		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfPlayAgain.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfPlayAgain.bottomRight.x))
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfPlayAgain.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfPlayAgain.bottomRight.y))
+		)
+	{
+		GetStateManager()->changeState("LoadingState");
+	}
+
+
+	////////////////////////////////////////////// HIGHSCORES //////////////////////////////////////////////////////////////////////////////
+	GameOverState::bounds boundsOfHighscore = drawButton(mpHighscoreTex, mHighscoreDimentions, 50, 0);
+	if (
+		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfHighscore.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfHighscore.bottomRight.x))
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfHighscore.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfHighscore.bottomRight.y))
+		)
+	{
+		selected = 1;
+	}
+
+	if (
+		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfHighscore.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfHighscore.bottomRight.x))
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfHighscore.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfHighscore.bottomRight.y))
+		)
+	{
+		//GetStateManager()->changeState("LoadingState");
+	}
+
+	////////////////////////////////////////////// MAINMENU //////////////////////////////////////////////////////////////////////////////
+	GameOverState::bounds boundsOfMainMenu = drawButton(mpMainMenuTex, mMainMenuDimentions, 150, 0);
+	if (
+		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfMainMenu.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfMainMenu.bottomRight.x))
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfMainMenu.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfMainMenu.bottomRight.y))
+		)
+	{
+		selected = 2;
+	}
+
+	if (
+		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfMainMenu.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfMainMenu.bottomRight.x))
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfMainMenu.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfMainMenu.bottomRight.y))
+		)
+	{
+		GetStateManager()->changeState("MainMenu");
+	}
+
+	int ArrowHOffset, ArrowWOffset;
+	switch (selected) {
+
+	case 0: ArrowHOffset = -50;
+		ArrowWOffset = -240;
+		break;
+	case 1: ArrowHOffset = 50;
+		ArrowWOffset = -255;
+		break;
+	case 2: ArrowHOffset = 150;
+		ArrowWOffset = -250;
+		break;
+	}
+
+	float arrowsz(h / mArrowDimentions.y);
+	if (arrowsz > 1.25f)
+		arrowsz = 1.25f;
+
+	fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + ArrowWOffset, (h / 2.f) + ArrowHOffset), nullptr, Colours::White, 0, mArrowDimentions*0.5f, Vector2(arrowsz, arrowsz));
 
 	fx.mpSpriteB->End();
+
+
 
 	EndRender();
 }
@@ -67,8 +192,41 @@ void GameOverState::Render(float dTime) {
 void GameOverState::LoadTextures() {
 	FX::MyFX& fx = *FX::GetMyFX();
 
-	mpBackgroundTex = fx.mCache.LoadTexture("Gameover.dds", true, gd3dDevice);
+	mpBackgroundTex = fx.mCache.LoadTexture("Screens/GameOver/GameOver.dds", true, gd3dDevice);
 	mBackgroundDimentions = fx.mCache.Get(mpBackgroundTex).dim;
+
+	mpPlayAgainTex = fx.mCache.LoadTexture("Screens/GameOver/playagain.dds", true, gd3dDevice);
+	mpHighscoreTex = fx.mCache.LoadTexture("Screens/GameOver/HighscoreButton.dds", true, gd3dDevice);
+	mpMainMenuTex = fx.mCache.LoadTexture("Screens/GameOver/mainMenuButton.dds", true, gd3dDevice);
+	mPlayAgainDimentions = fx.mCache.Get(mpPlayAgainTex).dim;
+	mHighscoreDimentions = fx.mCache.Get(mpHighscoreTex).dim;
+	mMainMenuDimentions = fx.mCache.Get(mpMainMenuTex).dim;
+
+	mArrowTex = fx.mCache.LoadTexture("Screens/MainMenu/Arrow.dds", true, gd3dDevice);
+	mArrowDimentions = fx.mCache.Get(mArrowTex).dim;
+}
+
+GameOverState::bounds GameOverState::drawButton(ID3D11ShaderResourceView *tex, Vector2 dimentions, float hOffset, float wOffset) {
+	GameOverState::bounds boundsOfbutton;
+	FX::MyFX& fx = *FX::GetMyFX();
+	int w, h;
+	GetClientExtents(w, h);
+	float sz(h / dimentions.y);
+	if (sz > 1.25f)
+		sz = 1.25f;
+	fx.mpSpriteB->Draw(tex, Vector2((w / 2.f) + wOffset, (h / 2.f) + hOffset), nullptr, Colours::White, 0, dimentions*0.5f, Vector2(sz, sz));
+
+	Vector2 TopLeft = Vector2(((w / 2.f) + wOffset) - (dimentions.x / 2 * sz), ((h / 2.f) + hOffset) - (dimentions.y / 2 * sz));
+	Vector2 BottomRight = Vector2(((w / 2.f) + wOffset) + (dimentions.x / 2 * sz), ((h / 2.f) + hOffset) + (dimentions.y / 2 * sz));
+	boundsOfbutton.topLeft = TopLeft;
+	boundsOfbutton.bottomRight = BottomRight;
+
+	return boundsOfbutton;
+}
+
+void GameOverState::Release() {
+	FX::MyFX& fx = *FX::GetMyFX();
+	fx.mCache.Release();
 }
 
 void GameOverState::setStats(vector<levelStats> ls)

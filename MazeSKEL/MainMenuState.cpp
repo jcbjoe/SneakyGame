@@ -11,22 +11,70 @@ MainMenuState::MainMenuState()
 	State("MainMenu"), selected(0)
 {
 	//Initialise window and hide cursor
+
+
+	//GetIAudioMgr()->GetSfxMgr()->Load("music");
+	//GetIAudioMgr()->GetSfxMgr()->Play("NewYork", true, false, nullptr, 1.0);
+}
+
+void MainMenuState::Init() {
 	GetMouseAndKeys()->Initialise(GetMainWnd(), 1, 1);
 	GetGamepad()->Initialise();
 
 	LoadTextures();
 
 	ShowCursor(true);
-
-	GetIAudioMgr()->GetSfxMgr()->Load("music");
-	GetIAudioMgr()->GetSfxMgr()->Play("NewYork", true, false, nullptr, 0.5);
+	pressedOnInit = false;
+	GetGamepad()->Update();
+	if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
+		pressedOnInit = true;
+	}
 }
 
 void MainMenuState::Update(float dTime){
+	GetGamepad()->Update();
+	if (!(GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) && pressedOnInit) {
+		pressedOnInit = false;
+	}
 
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{
 		GetStateManager()->changeState("LoadingState");
+	}
+
+	
+	if (GetGamepad()->IsConnected(0)) {
+
+		if (GetGamepad()->GetState(0).leftStickY < 0) {
+			if (!gamepadDown) {
+				if (selected == 3)
+					selected = 0;
+				else
+					selected++;
+			}
+			gamepadDown = true;
+		}
+		else if (GetGamepad()->GetState(0).leftStickY > 0) {
+			if (!gamepadDown) {
+				if (selected == 0)
+					selected = 3;
+				else
+					selected--;
+			}
+			gamepadDown = true;
+		}
+		else {
+			if (gamepadDown) {
+				gamepadDown = false;
+			}
+		}
+
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && !pressedOnInit) {
+			if(selected == 0)
+				GetStateManager()->changeState("LoadingState");
+			if(selected == 3)
+				PostQuitMessage(0);
+		}
 	}
 }
 
@@ -55,22 +103,12 @@ void MainMenuState::Render(float dTime) {
 	fx.mpSpriteB->Draw(mpBackgroundTex, Vector2(w / 2.f, h / 2.f), nullptr, Colours::White, 0, mBackgroundDimentions*0.5f, Vector2(sz, sz));
 
 	//////////////////////////////////////////////////////// START BUTTON //////////////////////////////////////////////////////////////////////
-	int StartHOffset, StartWOffset;
-	StartHOffset = -50;
-	StartWOffset = 0;
-
-	float startsz(h / mHighscoreButtonDimentions.y);
-	if (startsz > 1.25f)
-		startsz = 1.25f;
-	fx.mpSpriteB->Draw(mStartButtonTex, Vector2((w / 2.f) + StartWOffset, (h / 2.f) + StartHOffset), nullptr, Colours::White, 0, mStartButtonDimentions*0.5f, Vector2(startsz, startsz));
-
-	Vector2 startTopLeft = Vector2(((w / 2.f) + StartWOffset) - (mStartButtonDimentions.x * startsz), ((h / 2.f) + StartHOffset) - (mStartButtonDimentions.y * startsz));
-	Vector2 startBottomRight = Vector2(((w / 2.f) + StartWOffset) + (mStartButtonDimentions.x * startsz), ((h / 2.f) + StartHOffset) + (mStartButtonDimentions.y * startsz));
+	bounds startBounds = drawButton(mStartButtonTex, mStartButtonDimentions, -50, 0);
 
 	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= startTopLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= startBottomRight.x))
+		((GetMouseAndKeys()->GetMousePos(true).x >= startBounds.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= startBounds.bottomRight.x))
 		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= startTopLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= startBottomRight.y))
+		((GetMouseAndKeys()->GetMousePos(true).y >= startBounds.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= startBounds.bottomRight.y))
 		)
 	{
 		selected = 0;
@@ -79,32 +117,21 @@ void MainMenuState::Render(float dTime) {
 	if (
 		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
 		&&
-		((GetMouseAndKeys()->GetMousePos(true).x >= startTopLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= startBottomRight.x))
+		((GetMouseAndKeys()->GetMousePos(true).x >= startBounds.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= startBounds.bottomRight.x))
 		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= startTopLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= startBottomRight.y))
+		((GetMouseAndKeys()->GetMousePos(true).y >= startBounds.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= startBounds.bottomRight.y))
 		)
 	{
 		GetStateManager()->changeState("LoadingState");
 	}
 
 	//////////////////////////////////////////////////////// HIGHSCORE BUTTON //////////////////////////////////////////////////////////////////////
-
-	int HighscoreHOffset, HighscoreWOffset;
-	HighscoreHOffset = 50;
-	HighscoreWOffset = 0;
-
-	float highscoresz(h / mHighscoreButtonDimentions.y);
-	if (highscoresz > 1.25f)
-		highscoresz = 1.25f;
-	fx.mpSpriteB->Draw(mHighscoreButtonTex, Vector2((w / 2.f) + HighscoreWOffset, (h / 2.f) + HighscoreHOffset), nullptr, Colours::White, 0, mHighscoreButtonDimentions*0.5f, Vector2(highscoresz, highscoresz));
-
-	Vector2 highscoreTopLeft = Vector2(((w / 2.f) + HighscoreWOffset) - (mHighscoreButtonDimentions.x * highscoresz), ((h / 2.f) + HighscoreHOffset) - (mHighscoreButtonDimentions.y * highscoresz));
-	Vector2 highscoreBottomRight = Vector2(((w / 2.f) + HighscoreWOffset) + (mHighscoreButtonDimentions.x * highscoresz), ((h / 2.f) + HighscoreHOffset) + (mHighscoreButtonDimentions.y * highscoresz));
+	bounds highscoreBounds = drawButton(mHighscoreButtonTex, mHighscoreButtonDimentions, 50, 0);
 
 	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= highscoreTopLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= highscoreBottomRight.x))
+		((GetMouseAndKeys()->GetMousePos(true).x >= highscoreBounds.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= highscoreBounds.bottomRight.x))
 		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= highscoreTopLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= highscoreBottomRight.y))
+		((GetMouseAndKeys()->GetMousePos(true).y >= highscoreBounds.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= highscoreBounds.bottomRight.y))
 		)
 	{
 		selected = 1;
@@ -112,46 +139,25 @@ void MainMenuState::Render(float dTime) {
 
 	//////////////////////////////////////////////////////// HELP BUTTON //////////////////////////////////////////////////////////////////////
 
-	int HelpHOffset, HelpWOffset;
-	HelpHOffset = 150;
-	HelpWOffset = 0;
 
-	float helpsz(h / mHelpButtonDimentions.y);
-	if (helpsz > 1.25f)
-		helpsz = 1.25f;
-	fx.mpSpriteB->Draw(mHelpButtonTex, Vector2((w / 2.f) + HelpWOffset, (h / 2.f) + HelpHOffset), nullptr, Colours::White, 0, mHelpButtonDimentions*0.5f, Vector2(helpsz, helpsz));
-
-	Vector2 helpTopLeft = Vector2(((w / 2.f) + HelpWOffset) - (mHelpButtonDimentions.x * helpsz), ((h / 2.f) + HelpHOffset) - (mHelpButtonDimentions.y * helpsz));
-	Vector2 helpBottomRight = Vector2(((w / 2.f) + HelpWOffset) + (mHelpButtonDimentions.x * helpsz), ((h / 2.f) + HelpHOffset) + (mHelpButtonDimentions.y * helpsz));
+	bounds helpBounds = drawButton(mHelpButtonTex, mHelpButtonDimentions, 150, 0);
 
 	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= helpTopLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= helpBottomRight.x))
+		((GetMouseAndKeys()->GetMousePos(true).x >= helpBounds.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= helpBounds.bottomRight.x))
 		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= helpTopLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= helpBottomRight.y))
+		((GetMouseAndKeys()->GetMousePos(true).y >= helpBounds.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= helpBounds.bottomRight.y))
 		)
 	{
 		selected = 2;
 	}
 
 	//////////////////////////////////////////////////////// EXIT BUTTON //////////////////////////////////////////////////////////////////////
-
-	int ExitHOffset, ExitWOffset;
-	ExitHOffset = 250;
-	ExitWOffset = 0;
-
-	float exitsz(h / mExitButtonDimentions.y);
-	if (exitsz > 1.25f)
-		exitsz = 1.25f;
-	fx.mpSpriteB->Draw(mExitButtonTex, Vector2((w / 2.f) + ExitWOffset, (h / 2.f) + ExitHOffset), nullptr, Colours::White, 0, mExitButtonDimentions*0.5f, Vector2(exitsz, exitsz));
-
-	Vector2 exitTopLeft = Vector2(((w / 2.f) + ExitWOffset) - (mExitButtonDimentions.x * exitsz), ((h / 2.f) + ExitHOffset) - (mExitButtonDimentions.y * exitsz));
-	Vector2 exitBottomRight = Vector2(((w / 2.f) + ExitWOffset) + (mExitButtonDimentions.x * exitsz), ((h / 2.f) + ExitHOffset) + (mExitButtonDimentions.y * exitsz));
-
+	bounds exitBounds = drawButton(mExitButtonTex, mExitButtonDimentions, 250, 0);
 
 	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= exitTopLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= exitBottomRight.x))
+		((GetMouseAndKeys()->GetMousePos(true).x >= exitBounds.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= exitBounds.bottomRight.x))
 		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= exitTopLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= exitBottomRight.y))
+		((GetMouseAndKeys()->GetMousePos(true).y >= exitBounds.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= exitBounds.bottomRight.y))
 		)
 	{
 		selected = 3;
@@ -161,9 +167,9 @@ void MainMenuState::Render(float dTime) {
 	if (
 		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
 		&&
-		((GetMouseAndKeys()->GetMousePos(true).x >= exitTopLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= exitBottomRight.x))
+		((GetMouseAndKeys()->GetMousePos(true).x >= exitBounds.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= exitBounds.bottomRight.x))
 		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= exitTopLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= exitBottomRight.y))
+		((GetMouseAndKeys()->GetMousePos(true).y >= exitBounds.bottomRight.y) && (GetMouseAndKeys()->GetMousePos(true).y <= exitBounds.bottomRight.y))
 		)
 	{
 		PostQuitMessage(0);
@@ -175,16 +181,16 @@ void MainMenuState::Render(float dTime) {
 	switch (selected) {
 
 		case 0: ArrowHOffset = -50;
-				ArrowWOffset = -150;
+				ArrowWOffset = -120;
 				break;
 		case 1: ArrowHOffset = 50;
-				ArrowWOffset = -285;
+				ArrowWOffset = -255;
 			break;
 		case 2: ArrowHOffset = 150;
-				ArrowWOffset = -160;
+				ArrowWOffset = -130;
 			break;
 		case 3: ArrowHOffset = 250;
-				ArrowWOffset = -125;
+				ArrowWOffset = -95;
 				break;
 	}
 
@@ -193,42 +199,6 @@ void MainMenuState::Render(float dTime) {
 		arrowsz = 1.25f;
 
 	fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + ArrowWOffset, (h / 2.f) + ArrowHOffset), nullptr, Colours::White, 0, mArrowDimentions*0.5f, Vector2(arrowsz, arrowsz));
-
-
-	GetGamepad()->Update();
-	if (GetGamepad()->IsConnected(0)) {
-
-		if (GetGamepad()->GetState(0).leftStickY < 0) {
-			if (!gamepadDown) {
-				if (selected == 3)
-					selected = 0;
-				else
-					selected++;
-			}
-			gamepadDown = true;
-		}
-		else if (GetGamepad()->GetState(0).leftStickY > 0){
-			if (!gamepadDown) {
-				if (selected == 0)
-					selected = 3;
-				else
-					selected--;
-			}
-			gamepadDown = true;
-		}
-		else {
-			if (gamepadDown) {
-				gamepadDown = false;
-			}
-		}
-
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 0) {
-			GetStateManager()->changeState("LoadingState");
-		}
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 3) {
-			PostQuitMessage(0);
-		}
-	}
 
 
 
@@ -265,4 +235,21 @@ void MainMenuState::Release() {
 
 	fx.mCache.Release();
 
+}
+MainMenuState::bounds MainMenuState::drawButton(ID3D11ShaderResourceView *tex, Vector2 dimentions, float hOffset, float wOffset) {
+	MainMenuState::bounds boundsOfbutton;
+	FX::MyFX& fx = *FX::GetMyFX();
+	int w, h;
+	GetClientExtents(w, h);
+	float sz(h / dimentions.y);
+	if (sz > 1.25f)
+		sz = 1.25f;
+	fx.mpSpriteB->Draw(tex, Vector2((w / 2.f) + wOffset, (h / 2.f) + hOffset), nullptr, Colours::White, 0, dimentions*0.5f, Vector2(sz, sz));
+
+	Vector2 TopLeft = Vector2(((w / 2.f) + wOffset) - (dimentions.x / 2 * sz), ((h / 2.f) + hOffset) - (dimentions.y / 2 * sz));
+	Vector2 BottomRight = Vector2(((w / 2.f) + wOffset) + (dimentions.x / 2 * sz), ((h / 2.f) + hOffset) + (dimentions.y / 2 * sz));
+	boundsOfbutton.topLeft = TopLeft;
+	boundsOfbutton.bottomRight = BottomRight;
+
+	return boundsOfbutton;
 }

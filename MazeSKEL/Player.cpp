@@ -61,8 +61,8 @@ void Player::Update(float dTime)
 
 		if (GetGamepad()->IsConnected(0))
 			m = (Vector2(GetGamepad()->GetState(0).rightStickX, -GetGamepad()->GetState(0).rightStickY) / turnSpeed * 1.5f);
-		else
-			m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
+
+		m += (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 
 		if (m.x != 0 || m.y != 0)
 		{
@@ -88,38 +88,6 @@ void Player::Update(float dTime)
 		FX::SetupSpotLight(7, true, Vector3(mCamera.GetPos().x, mCamera.GetPos().y, mCamera.GetPos().z), Vector3::TransformNormal(look, ma), Vector3(0.4f, 0.4f, 0.4f), Vector3(0.35f, 0.35f, 0.35f), Vector3(0.2f, 0.2f, 0.2f), 100.0f, 0.1f, D2R(0), D2R(25));
 
 
-	}
-	else {
-
-		//Return
-		if (
-			GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-			&& ((GetMouseAndKeys()->GetMousePos(true).x >= 250) && (GetMouseAndKeys()->GetMousePos(true).x <= 766))
-			&& ((GetMouseAndKeys()->GetMousePos(true).y >= 250) && (GetMouseAndKeys()->GetMousePos(true).y <= 371))
-			)
-		{
-			((GameState*)GetStateManager()->getCurrentState())->paused = false;
-		}
-
-		//MainMenu
-		if (
-			GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-			&& ((GetMouseAndKeys()->GetMousePos(true).x >= 250) && (GetMouseAndKeys()->GetMousePos(true).x <= 766))
-			&& ((GetMouseAndKeys()->GetMousePos(true).y >= 440) && (GetMouseAndKeys()->GetMousePos(true).y <= 550))
-			)
-		{
-			GetStateManager()->changeState("GameOverState");
-		}
-
-		//Exit
-		if (
-			GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-			&& ((GetMouseAndKeys()->GetMousePos(true).x >= 250) && (GetMouseAndKeys()->GetMousePos(true).x <= 766))
-			&& ((GetMouseAndKeys()->GetMousePos(true).y >= 620) && (GetMouseAndKeys()->GetMousePos(true).y <= 730))
-			)
-		{
-			PostQuitMessage(0);
-		}
 	}
 }
 void Player::Render(float dTime) 

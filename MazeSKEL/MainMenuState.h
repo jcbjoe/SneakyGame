@@ -11,7 +11,7 @@ public:
 	void Render(float dTime) override;
 	void LoadTextures();
 	void Update(float dTime) override;
-
+	void Init() override;
 	void Release() override;
 
 private:
@@ -28,6 +28,15 @@ private:
 	int selected;
 
 	bool gamepadDown = false;
+
+	struct bounds {
+		Vector2 topLeft;
+		Vector2 bottomRight;
+	};
+
+	bounds drawButton(ID3D11ShaderResourceView *tex, Vector2 dimentions, float hOffset, float wOffset);
+
+	bool pressedOnInit;
 
 };
 
