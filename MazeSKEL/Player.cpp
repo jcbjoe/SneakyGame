@@ -61,8 +61,8 @@ void Player::Update(float dTime)
 
 		if (GetGamepad()->IsConnected(0))
 			m = (Vector2(GetGamepad()->GetState(0).rightStickX, -GetGamepad()->GetState(0).rightStickY) / turnSpeed * 1.5f);
-		else
-			m = (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
+
+		m += (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 
 		if (m.x != 0 || m.y != 0)
 		{
