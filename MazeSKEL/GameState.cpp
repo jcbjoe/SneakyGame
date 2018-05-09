@@ -12,12 +12,11 @@ void GameState::Init() {
 
 	GetLevelManager()->initialise();
 
-	Timer = 60;
-
 	gPlayer = new Player();
 
+	Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
 	//Change array to use in level
-	GetLevelManager()->loadLevel(4);
+	GetLevelManager()->loadLevel(0);
 
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);
@@ -161,7 +160,7 @@ void GameState::Update(float dTime) {
 					{
 						gPlayer->resetStats();
 						GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
-						Timer = 60;
+						Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
 					}
 				}
 

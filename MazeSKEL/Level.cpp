@@ -15,13 +15,11 @@
 #include "GameState.h"
 #include "StateManager.h"
 
-Level::Level(string name)
-{
-	levelName = name;
-	maxCoins = 0;
-}
+Level::Level(string n, float t)
+	: levelName(n), timer(t)
+{}
 
-void Level::setLevelMap(int level[20][20]) {
+void Level::setLevelMap(int level[levelSize][levelSize]) {
 
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 20; j++) {
@@ -119,7 +117,20 @@ void Level::reloadLevel() {
 			}
 			case 10: //Return Box
 			{ 
-				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.13f, j), Vector3(0, -(PI / 2), 0), Vector3(0.05, 0.05, 0.05));
+				Vector3 offset;
+
+				if (levelMap[i + 1][j] != 01)
+					offset = Vector3(0, PI, 0);
+				else if (levelMap[i - 1][j] != 01)
+					offset = Vector3(0, 0, 0);
+				else if (levelMap[i][j + 1] != 01)
+					offset = Vector3(0, (PI / 2), 0);
+				else if (levelMap[i][j - 1] != 01)
+					offset = Vector3(0, -(PI / 2), 0 );
+					
+
+				ReturnBox* returnBox = new ReturnBox("ReturnBox", Vector3(i, 0.13f, j), offset, Vector3(0.05, 0.05, 0.05));
+
 				GetGameObjectManager()->addGameObject(returnBox);
 
 				//Light 1 for collection box
