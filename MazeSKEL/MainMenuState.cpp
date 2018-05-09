@@ -24,6 +24,8 @@ void MainMenuState::Init() {
 	LoadTextures();
 
 	ShowCursor(true);
+
+	GetIAudioMgr()->GetSfxMgr()->Load("music");
 	pressedOnInit = false;
 	GetGamepad()->Update();
 	if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
@@ -32,6 +34,9 @@ void MainMenuState::Init() {
 }
 
 void MainMenuState::Update(float dTime){
+	GetIAudioMgr()->Update();
+	if (GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
+		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 	GetGamepad()->Update();
 	if (!(GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) && pressedOnInit) {
 		pressedOnInit = false;

@@ -28,8 +28,11 @@ public:
 
 	int getCurrentLevelNumber() const { return currentLevelNumber; }
 
+	int getMaxLevels() const { return maxLevels; }
+
 private:
 	int currentLevelNumber;
+	int maxLevels;
 
 	vector<Level*> levels;
 };

@@ -38,6 +38,7 @@ private:
 
 	bool pressedOnInit;
 
+	unsigned int musicHdl;
 };
 
 #endif

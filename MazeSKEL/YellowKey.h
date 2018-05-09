@@ -21,6 +21,7 @@ public:
 	void Update(float dTime) override;
 private:
 	float x = 0;
+	float i = 0;
 	float y = 0;
 };
 #endif

@@ -13,6 +13,7 @@ void FPSCamera::Initialise(const Vector3& pos, const DirectX::SimpleMath::Vector
 	mpViewSpaceTfm = &viewSpaceTfm;
 	CreateViewMatrix(*mpViewSpaceTfm, pos, tgt, Vector3(0, 1, 0));
 	mCamPos = pos;
+	startPos = pos;
 }
 
 void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right, bool& isMoving, bool hasRedKey, bool hasBlueKey)
@@ -170,6 +171,8 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		//ADD OTHER CASES FOR OTHER OBJECTS
 	}
 
+
+
 	CreateViewMatrix(*mpViewSpaceTfm, pos, pos + dir, up);
 
 	mCamPos = Vector3(pos.x, mCamPos.y, pos.z);
@@ -182,6 +185,23 @@ void FPSCamera::Update(float dTime)
 	if (!((GameState*)GetStateManager()->getCurrentState())->paused) {
 		//Function to reupdate the camera (rotating by nothing)
 		Rotate(dTime, 0, 0, 0);
+	}
+
+	vector<GameObject*> go = GetGameObjectManager()->getAllObjectsByName("Enemy");
+	if (go.size() > 0)
+	{
+		float detect = 0;
+		for (int i = 0; i < go.size(); i++)
+		{
+			Vector3 distFromPlayer = go[i]->GetPosition() - mCamPos;
+			float len = distFromPlayer.Length();
+			if (len < 0.3f)
+			{
+				//Move player back
+				mCamPos = startPos;
+			}
+		}
+
 	}
 }
 

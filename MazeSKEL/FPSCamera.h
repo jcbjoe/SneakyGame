@@ -61,6 +61,8 @@ private:
 	float currBobY = 0;
 	float prevChangeY = 0;
 	float rot = 0;
+
+	Vector3 startPos;
 };
 
 

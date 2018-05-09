@@ -7,12 +7,11 @@
 void Player::Initialise(const float& i, const float& j) 
 {
 	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(i + 1, 0.5, j), FX::GetViewMatrix());
+	
 	mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 
 	hands_.Initialise(*GetMeshManager()->GetMesh("Hands"));
-
-
-
+	
 	MaterialExt& mat = hands_.GetMesh().GetSubMesh(0).material;
 	mat.flags &= ~MaterialExt::LIT;
 	mat.gfxData.Set(Vector4(0.8f, 0.8f, 0.8f, 0), Vector4(0.8f, 0.8f, 0.8f, 0), Vector4(0.0f, 0.0f, 0.0f, 1));

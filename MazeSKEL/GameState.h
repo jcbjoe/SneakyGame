@@ -54,12 +54,14 @@ private:
 	bool BlueKey = false;
 	bool YellowKey = false;
 	bool pDown = false;
+	bool nearBoxFlag = false;
 
 	float distBetweenPlayerAndObj(GameObject* obj);
 	void pauseKeyPressed();
 
 	vector<levelStats> currGameStats;
 	void saveStats();
+	unsigned int musicHdl;
 };
 
 

@@ -14,14 +14,12 @@ void GameState::Init() {
 
 	GetLevelManager()->initialise();
 
-	Timer = 60;
-
 	gPlayer = new Player();
 	currGameStats.clear();
 
-
+	Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
 	//Change array to use in level
-	GetLevelManager()->loadLevel(3);
+	GetLevelManager()->loadLevel(0);
 
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);
@@ -30,12 +28,15 @@ void GameState::Init() {
 
 	paused = false;
 
+
 	while (ShowCursor(false) >= 0) {};
 
 }
 
 void GameState::Update(float dTime) {
 	GetIAudioMgr()->Update();
+	if(GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
+		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 
 	if (GetMouseAndKeys()->IsPressed(VK_BACK)) {
 		GetStateManager()->changeState("GameOverState");
@@ -50,6 +51,7 @@ void GameState::Update(float dTime) {
 		}
 	}
 
+	nearBoxFlag = false;
 	if (GetMouseAndKeys()->IsPressed(VK_P) || GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_START)) {
 		pDown = true;
 	} else {
@@ -148,24 +150,34 @@ void GameState::Update(float dTime) {
 								return;
 							}
 			}
-			if (distFromObj < 0.55f && objName == "ReturnBox")
+			if (objName == "ReturnBox")
 			{
-				//If player has coins to deposit
-				if (gPlayer->getScore() != 0)
+				if (distFromObj < 0.55f)
 				{
-					//Deposit them
-					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinDeposit", false, false, nullptr, 1.0);
-					gPlayer->dropOffCoins();
-					if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
+					//If player has coins to deposit
+					if (gPlayer->getScore() != 0)
 					{
-						saveStats();
-						gPlayer->resetStats();
-						GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
-						Timer = 60;
+						//Deposit them
+						GetIAudioMgr()->GetSfxMgr()->Play("soundCoinDeposit", false, false, nullptr, 1.0);
+						gPlayer->dropOffCoins();
+						if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
+						{
+							saveStats();
+							gPlayer->resetStats();
+							if (GetLevelManager()->getCurrentLevelNumber() == GetLevelManager()->getMaxLevels())
+								GetStateManager()->changeState("GameOverState");
+							else
+							{
+								GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
+								Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
+							}
+						}
 					}
-				}
 
-				return;
+					return;
+				}
+				else if (distFromObj < 0.75f)
+					nearBoxFlag = true;
 			}
 		}
 		index++;
@@ -187,7 +199,7 @@ void GameState::Render(float dTime) {
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), GetLevelManager()->getCurrentLevel()->getMaxCoins(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey(), RedKey, BlueKey, YellowKey, gPlayer->getCameraPosition().x, gPlayer->getCameraPosition().z, gPlayer->get2DRotation());
+	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), GetLevelManager()->getCurrentLevel()->getMaxCoins(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey(), RedKey, BlueKey, YellowKey, gPlayer->getCameraPosition().x, gPlayer->getCameraPosition().z, gPlayer->get2DRotation(), nearBoxFlag);
 
 	EndRender();
 	GetMouseAndKeys()->PostProcess();
