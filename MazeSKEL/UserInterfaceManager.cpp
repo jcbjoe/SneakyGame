@@ -304,13 +304,6 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 		mpAlgerian->DrawString(mpSpriteBatch, nearBoxStr.str().c_str(), Vector2(0.3f * w, h * 0.70f), Colors::Orange, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 3.0f));
 
 	}
-	//wstringstream coinsDeposited;
-	//coinsDeposited << "Coins Deposited: " << playerDeposited;
-	//mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-	//--- End Coin Display
-
-
-
 
 	//--- Begin Debug Text
 	int count = 0;
