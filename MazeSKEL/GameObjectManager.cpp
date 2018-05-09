@@ -40,7 +40,7 @@ void GameObjectManager::loadObjects()
 
 void GameObjectManager::Release()
 {
-
+	GetMeshManager()->Release();
 }
 
 void GameObjectManager::addGameObject(GameObject* gObj) {

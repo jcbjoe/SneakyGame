@@ -50,6 +50,7 @@ private:
 	bool BlueKey = false;
 	bool YellowKey = false;
 	bool pDown = false;
+
 };
 
 

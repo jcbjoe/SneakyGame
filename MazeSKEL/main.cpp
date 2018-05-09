@@ -17,12 +17,12 @@ using namespace DirectX::SimpleMath;
 
 void Update(float dTime)
 {
-	GetStateManager()->getCurrentState()->Update(dTime);
+	GetStateManager()->Update(dTime);
 }
 
 void Render(float dTime)
 {
-	GetStateManager()->getCurrentState()->Render(dTime);
+	GetStateManager()->Render(dTime);
 }
 
 void OnResize(int screenWidth, int screenHeight)

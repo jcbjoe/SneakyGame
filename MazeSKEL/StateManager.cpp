@@ -18,6 +18,8 @@ StateManager::StateManager()
 	
 
 	currentState = 0;
+
+	recordPress = false;
 }
 
 State* StateManager::getCurrentState() {
@@ -36,6 +38,7 @@ void StateManager::changeState(string stateName) {
 	}
 
 	if (found) {
+		recordPress = true;
 		getCurrentState()->Release();
 		currentState = counter;
 		getCurrentState()->Init();
@@ -59,4 +62,12 @@ void StateManager::Release() {
 
 string StateManager::getCurrentStateName() {
 	return getCurrentState()->getStateName();
+}
+
+void StateManager::Update(float dTime) {
+	getCurrentState()->Update(dTime);
+}
+
+void StateManager::Render(float dTime) {
+	getCurrentState()->Render(dTime);
 }

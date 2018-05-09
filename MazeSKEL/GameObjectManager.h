@@ -19,10 +19,6 @@ public:
 
 	void loadObjects();
 
-	~GameObjectManager() {
-		Release();
-	}
-
 	void addGameObject(GameObject* gObj);
 
 	vector<GameObject*>& getGameObjects();

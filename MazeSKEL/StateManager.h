@@ -22,6 +22,12 @@ public:
 
 	string getCurrentStateName();
 
+	bool recordPress;
+
+	void Update(float dTime);
+
+	void Render(float dTime);
+
 private:
 	int currentState;
 

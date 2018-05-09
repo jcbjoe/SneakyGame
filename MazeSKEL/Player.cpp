@@ -89,38 +89,6 @@ void Player::Update(float dTime)
 
 
 	}
-	else {
-
-		//Return
-		if (
-			GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-			&& ((GetMouseAndKeys()->GetMousePos(true).x >= 250) && (GetMouseAndKeys()->GetMousePos(true).x <= 766))
-			&& ((GetMouseAndKeys()->GetMousePos(true).y >= 250) && (GetMouseAndKeys()->GetMousePos(true).y <= 371))
-			)
-		{
-			((GameState*)GetStateManager()->getCurrentState())->paused = false;
-		}
-
-		//MainMenu
-		if (
-			GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-			&& ((GetMouseAndKeys()->GetMousePos(true).x >= 250) && (GetMouseAndKeys()->GetMousePos(true).x <= 766))
-			&& ((GetMouseAndKeys()->GetMousePos(true).y >= 440) && (GetMouseAndKeys()->GetMousePos(true).y <= 550))
-			)
-		{
-			GetStateManager()->changeState("GameOverState");
-		}
-
-		//Exit
-		if (
-			GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-			&& ((GetMouseAndKeys()->GetMousePos(true).x >= 250) && (GetMouseAndKeys()->GetMousePos(true).x <= 766))
-			&& ((GetMouseAndKeys()->GetMousePos(true).y >= 620) && (GetMouseAndKeys()->GetMousePos(true).y <= 730))
-			)
-		{
-			PostQuitMessage(0);
-		}
-	}
 }
 void Player::Render(float dTime) 
 {
