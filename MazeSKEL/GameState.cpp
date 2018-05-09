@@ -208,7 +208,6 @@ void GameState::Render(float dTime) {
 void GameState::Release() {
 	GetLevelManager()->Release();
 	GetGameObjectManager()->Release();
-	delete GetIAudioMgr();
 }
 
 void GameState::setRedKey(const bool set) {
