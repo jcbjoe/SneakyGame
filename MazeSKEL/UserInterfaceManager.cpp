@@ -317,28 +317,18 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 			maxCoinsStr << playerDeposited << "/" << maxCoins;
 			mpAlgerian->DrawString(mpSpriteBatch, maxCoinsStr.str().c_str(), Vector2(0.90f * w, h - (mTimerDimensions.y * scaleOfMinimap * 1.8f)), Colors::White, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 3.0f));
 
-	//NEAR DEPOSIT BOX
-	if ((nearBoxFlag == true) && playerScore > 0)
-	{
-		wstringstream nearBoxStr;
-		nearBoxStr << "Press 'CROUCH' To Deposit";
-		mpAlgerian->DrawString(mpSpriteBatch, nearBoxStr.str().c_str(), Vector2(0.3f * w, h * 0.70f), Colors::Orange, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 3.0f));
-			//wstringstream coinsDeposited;
-			//coinsDeposited << "Coins Deposited: " << playerDeposited;
-			//mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-			//--- End Coin Display
+			//NEAR DEPOSIT BOX
+			if ((nearBoxFlag == true) && playerScore > 0)
+			{
+				wstringstream nearBoxStr;
+				nearBoxStr << "Press 'CROUCH' To Deposit";
+				mpAlgerian->DrawString(mpSpriteBatch, nearBoxStr.str().c_str(), Vector2(0.3f * w, h * 0.70f), Colors::Orange, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 3.0f));
+				//wstringstream coinsDeposited;
+				//coinsDeposited << "Coins Deposited: " << playerDeposited;
+				//mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+				//--- End Coin Display
 
-	}
-
-	//--- Begin Debug Text
-	int count = 0;
-	for (int elementInVector = debugTextVector.size(); elementInVector > 0; elementInVector--) {
-		wstringstream textToAdd;
-		textToAdd << debugTextVector.at(elementInVector - 1).text.c_str();
-		int height = 25 * ((debugTextVector.size() - elementInVector) + 1);
-		mpComicSans->DrawString(mpSpriteBatch, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-
-
+			}
 
 			//--- Begin Debug Text
 			int count = 0;
@@ -348,20 +338,31 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 				int height = 25 * ((debugTextVector.size() - elementInVector) + 1);
 				mpComicSans->DrawString(mpSpriteBatch, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
-				count++;
-				if (count == 30)
-					break;
-			}
-			//--- End Debug Text
 
-			
 
-			int seconds_since_start = difftime(time(0), start);
-			for (int elementInVector = 0; elementInVector < debugTextVector.size(); elementInVector++) {
-				const int secondsToStayOnScreen = 5;
-				debugText currentText = debugTextVector.at(elementInVector);
-				if ((seconds_since_start - currentText.timeAdded) > secondsToStayOnScreen) {
-					debugTextVector.erase(debugTextVector.begin() + elementInVector);
+				//--- Begin Debug Text
+				int count = 0;
+				for (int elementInVector = debugTextVector.size(); elementInVector > 0; elementInVector--) {
+					wstringstream textToAdd;
+					textToAdd << debugTextVector.at(elementInVector - 1).text.c_str();
+					int height = 25 * ((debugTextVector.size() - elementInVector) + 1);
+					mpComicSans->DrawString(mpSpriteBatch, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+
+					count++;
+					if (count == 30)
+						break;
+				}
+				//--- End Debug Text
+
+
+
+				int seconds_since_start = difftime(time(0), start);
+				for (int elementInVector = 0; elementInVector < debugTextVector.size(); elementInVector++) {
+					const int secondsToStayOnScreen = 5;
+					debugText currentText = debugTextVector.at(elementInVector);
+					if ((seconds_since_start - currentText.timeAdded) > secondsToStayOnScreen) {
+						debugTextVector.erase(debugTextVector.begin() + elementInVector);
+					}
 				}
 			}
 		}
@@ -401,8 +402,7 @@ void UserInterfaceManager::handlePauseMenu() {
 					selected--;
 			}
 			gamepadDown = true;
-		}
-		else {
+		} else {
 			if (gamepadDown) {
 				gamepadDown = false;
 			}

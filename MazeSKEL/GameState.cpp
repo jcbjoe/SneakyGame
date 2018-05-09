@@ -92,8 +92,10 @@ void GameState::Update(float dTime) {
 				if (obj->GetName() == "RedDoor" && !obj->getMove())
 				{
 					if (gPlayer->getHasRedKey()) {
+						if (!(gPlayer->getOpenedRed())) {
+							GetIAudioMgr()->GetSfxMgr()->Play("soundDoorSlide", false, false, nullptr, 1.0);
+						}
 						gPlayer->setOpenedRed();
-						GetIAudioMgr()->GetSfxMgr()->Play("soundDoorSlide", false, false, nullptr, 1.0);
 						obj->moveObject();
 						return;
 					}
@@ -102,8 +104,12 @@ void GameState::Update(float dTime) {
 					if (obj->GetName() == "BlueDoor" && !obj->getMove())
 					{
 						if (gPlayer->getHasBlueKey()) {
+
+							if (!(gPlayer->getOpenedBlue())) {
+								GetIAudioMgr()->GetSfxMgr()->Play("soundDoorCreak", false, false, nullptr, 1.0);
+							}
+
 							gPlayer->setOpenedBlue();
-							GetIAudioMgr()->GetSfxMgr()->Play("soundDoorCreak", false, false, nullptr, 1.0);
 							obj->moveObject();
 							return;
 						}

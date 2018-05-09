@@ -18,6 +18,9 @@ void Player::Initialise(const float& i, const float& j)
 	mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("Grating3.dds", true, gd3dDevice);
 	hands_.GetRotation() = Vector3(D2R(20), PI, 0);
 	hands_.GetScale() = Vector3(0.00185, 0.00185, 0.00185);
+
+	openedBlue = false;
+		openedRed = false;
 }
 void Player::Release() 
 {
@@ -203,9 +206,9 @@ bool Player::getOpenedRed() {
 }
 
 void Player::setOpenedBlue() {
-	openedRed = true;
+	openedBlue = true;
 }
 
 bool Player::getOpenedBlue() {
-	return openedRed;
+	return openedBlue;
 }

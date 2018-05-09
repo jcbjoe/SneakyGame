@@ -30,129 +30,133 @@ bool tDown = false;
 void Enemy::Update(float dTime) {
 
 	if (GetStateManager()->getCurrentStateName() == "MainGameState") {
+		if (!((GameState*)GetStateManager()->getCurrentState())->paused) {
 
-		Vector3 playerPos = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
+			Vector3 playerPos = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition();
 
-		Vector3 eye = { 0, 0, -1 };
-		Matrix ma = Matrix::CreateRotationY(GetRotation().y);
+			Vector3 eye = { 0, 0, -1 };
+			Matrix ma = Matrix::CreateRotationY(GetRotation().y);
 
-		FX::SetupSpotLight(6, true, { GetPosition().x, 0.0f, GetPosition().z }, Vector3::TransformNormal(eye, ma), Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(0.8f, 0.84f, 0.8f), 3.0f, 0.5f, D2R(15), D2R(50));
+			FX::SetupSpotLight(6, true, { GetPosition().x, 0.0f, GetPosition().z }, Vector3::TransformNormal(eye, ma), Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(0.8f, 0.84f, 0.8f), 3.0f, 0.5f, D2R(15), D2R(50));
 
-		bool canSeeBool = true;
-	
+			bool canSeeBool = true;
 
-		vector<Vector2> inbetween = canSee(round(playerPos.x), round(playerPos.z), round(GetModel().GetPosition().x), round(GetModel().GetPosition().z));
 
-		for (Vector2 coords : inbetween) {
-			int objType = GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(coords.x, coords.y);
-			if (objType == 1) {
-				canSeeBool = false;
-				break;
-			}
-		}
+			vector<Vector2> inbetween = canSee(round(playerPos.x), round(playerPos.z), round(GetModel().GetPosition().x), round(GetModel().GetPosition().z));
 
-		float distance = Vector3().Distance(GetModel().GetPosition(), playerPos);
-
-		if (distance < 0.2 && !caught) {
-			setCaught();
-			GetIAudioMgr()->GetSfxMgr()->Play("soundCaught", false, false, nullptr, 1.0);
-		}
-
-		if (canSeeBool) {
-			if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
-				if (distance > 2) {
+			for (Vector2 coords : inbetween) {
+				int objType = GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(coords.x, coords.y);
+				if (objType == 1) {
 					canSeeBool = false;
+					break;
+				}
+			}
+
+			float distance = Vector3().Distance(GetModel().GetPosition(), playerPos);
+
+			if (distance < 0.2 && !caught) {
+				setCaught();
+				GetIAudioMgr()->GetSfxMgr()->Play("soundCaught", false, false, nullptr, 1.0);
+			}
+
+			if (canSeeBool) {
+				if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
+					if (distance > 2) {
+						canSeeBool = false;
+					}
+					else
+					{
+						if (EnemyPlayerAngle() >= (visionCone / 2.0f))
+						{
+							canSeeBool = false;
+						}
+					}
 				}
 				else
 				{
-					if (EnemyPlayerAngle() >= (visionCone / 2.0f))
-					{						
-							canSeeBool = false;
-					}						
+					if (distance > 5)
+					{
+						canSeeBool = false;
+					}
 				}
 			}
-			else 
-			{
-				if (distance > 5) 
-				{
-					canSeeBool = false;
-				}
-			}		
-		}
 
-		//Change bool based on enemies detection status
-		detectPlayer(canSeeBool);
+			//Change bool based on enemies detection status
+			detectPlayer(canSeeBool);
 
-		if (canSeeBool) {
+			if (canSeeBool) {
 
-			Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), playerPos, (movespeed * dTime) / distance);
+				Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), playerPos, (movespeed * dTime) / distance);
 
-			Vector3 rotato = playerPos;
-			rotato.x = 0;
-			rotato.z = 0;
+				Vector3 rotato = playerPos;
+				rotato.x = 0;
+				rotato.z = 0;
 
-			Vector2 dirToEnemy;
-			dirToEnemy.x = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().x - GetModel().GetPosition().x;
-			dirToEnemy.y = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().z - GetModel().GetPosition().z;
+				Vector2 dirToEnemy;
+				dirToEnemy.x = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().x - GetModel().GetPosition().x;
+				dirToEnemy.y = ((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().z - GetModel().GetPosition().z;
 
-			// get the player angle on the y axis
-			SetRotation(Vector3(GetModel().GetRotation().x,atan2(-dirToEnemy.y, dirToEnemy.x) - (PI/2), GetModel().GetRotation().z));
-
-			SetPosition(pos);
-
-			followingPath = false;
-
-		} else {
-
-			if (followingPath) {
-
-				float distanceFromPath = Vector3().Distance(GetModel().GetPosition(), currentPath.at(currentPathPos));
-
-				Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), currentPath.at(currentPathPos), (movespeed * dTime) / distanceFromPath);
+				// get the player angle on the y axis
+				SetRotation(Vector3(GetModel().GetRotation().x, atan2(-dirToEnemy.y, dirToEnemy.x) - (PI / 2), GetModel().GetRotation().z));
 
 				SetPosition(pos);
 
-				Vector2 dirToEnemy;
-				dirToEnemy.x = currentPath.at(currentPathPos).x - GetModel().GetPosition().x;
-				dirToEnemy.y = currentPath.at(currentPathPos).z - GetModel().GetPosition().z;
+				followingPath = false;
 
-				// get the player angle on the y axis
-				Vector3 lerpToTarget = Vector3::Lerp(GetModel().GetRotation(), Vector3(GetModel().GetRotation().x, atan2(-dirToEnemy.y, dirToEnemy.x) - (PI / 2), GetModel().GetRotation().z), (5 * dTime));
-				SetRotation(lerpToTarget);
+			}
+			else {
 
-				if (distanceFromPath < 0.25) {
-					if (currentPathPos == (currentPath.size() - 1)) {
+				if (followingPath) {
 
-						pathFindToNextWaypoint();
-						currentPathPos = 0;
+					float distanceFromPath = Vector3().Distance(GetModel().GetPosition(), currentPath.at(currentPathPos));
 
-						if (waypointNumber > GetLevelManager()->getCurrentLevel()->getHowManyWaypoints())
-							waypointNumber = 1;
-						else
-							waypointNumber++;
+					Vector3 pos = Vector3::Lerp(GetModel().GetPosition(), currentPath.at(currentPathPos), (movespeed * dTime) / distanceFromPath);
 
-						pathFindToNextWaypoint();
+					SetPosition(pos);
 
-					}
-					else {
+					Vector2 dirToEnemy;
+					dirToEnemy.x = currentPath.at(currentPathPos).x - GetModel().GetPosition().x;
+					dirToEnemy.y = currentPath.at(currentPathPos).z - GetModel().GetPosition().z;
 
-						currentPathPos++;
+					// get the player angle on the y axis
+					Vector3 lerpToTarget = Vector3::Lerp(GetModel().GetRotation(), Vector3(GetModel().GetRotation().x, atan2(-dirToEnemy.y, dirToEnemy.x) - (PI / 2), GetModel().GetRotation().z), (5 * dTime));
+					SetRotation(lerpToTarget);
 
+					if (distanceFromPath < 0.25) {
+						if (currentPathPos == (currentPath.size() - 1)) {
+
+							pathFindToNextWaypoint();
+							currentPathPos = 0;
+
+							if (waypointNumber > GetLevelManager()->getCurrentLevel()->getHowManyWaypoints())
+								waypointNumber = 1;
+							else
+								waypointNumber++;
+
+							pathFindToNextWaypoint();
+
+						}
+						else {
+
+							currentPathPos++;
+
+						}
 					}
 				}
-			} else {
-				pathFindToNextWaypoint();
+				else {
+					pathFindToNextWaypoint();
+				}
+
 			}
 
-		}
-
-		if (GetMouseAndKeys()->IsPressed(VK_T)) {
-			tDown = true;
-		}
-		else {
-			if (tDown) {
-				GameObject* waypoint2 = GetGameObjectManager()->getFirstObjectByName("Waypoint" + to_string(waypointNumber));
-				tDown = false;
+			if (GetMouseAndKeys()->IsPressed(VK_T)) {
+				tDown = true;
+			}
+			else {
+				if (tDown) {
+					GameObject* waypoint2 = GetGameObjectManager()->getFirstObjectByName("Waypoint" + to_string(waypointNumber));
+					tDown = false;
+				}
 			}
 		}
 	}
