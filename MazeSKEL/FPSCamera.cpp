@@ -255,6 +255,12 @@ void FPSCamera::Bob(float dTime, bool isCrouched)
 	currBobY += bobY;
 
 	prevChangeY = bobY;
+
+	if(sinf(((counter)* PI) / 180.0f) < -0.99)
+		if(isCrouched)
+			GetIAudioMgr()->GetSfxMgr()->Play("soundFootstep3", false, false, nullptr, 0.3);
+		else
+			GetIAudioMgr()->GetSfxMgr()->Play("soundFootstep3", false, false, nullptr, 0.5);
 }
 
 void FPSCamera::ReturnToY(float dtime, float yVal)

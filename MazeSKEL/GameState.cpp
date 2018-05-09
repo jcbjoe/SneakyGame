@@ -27,10 +27,13 @@ void GameState::Init() {
 
 	FX::SetupDirectionalLight(0, true, Vector3(-1.0f, -1.0f, -1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.45f, 0.55f, 0.45f), Vector3(0.0f, 0.0f, 0.0f));
 
+	GetIAudioMgr()->GetSfxMgr()->Load("sfx");
+
 	while (ShowCursor(false) >= 0) {};
 }
 
 void GameState::Update(float dTime) {
+	GetIAudioMgr()->Update();
 
 	//Timer Incrementer
 	if (!paused) {
@@ -65,19 +68,21 @@ void GameState::Update(float dTime) {
 			//float distFromLoot = 
 			if (distFromObj < 1.2)
 			{
-				if (obj->GetName() == "RedDoor")
+				if (obj->GetName() == "RedDoor" && !obj->getMove())
 				{
 					if (gPlayer->getHasRedKey()) {
 						gPlayer->setOpenedRed();
+						GetIAudioMgr()->GetSfxMgr()->Play("soundDoorSlide", false, false, nullptr, 1.0);
 						obj->moveObject();
 						return;
 					}
 				}
 				else
-					if (obj->GetName() == "BlueDoor")
+					if (obj->GetName() == "BlueDoor" && !obj->getMove())
 					{
 						if (gPlayer->getHasBlueKey()) {
 							gPlayer->setOpenedBlue();
+							GetIAudioMgr()->GetSfxMgr()->Play("soundDoorCreak", false, false, nullptr, 1.0);
 							obj->moveObject();
 							return;
 						}
@@ -89,32 +94,36 @@ void GameState::Update(float dTime) {
 				{
 					gPlayer->increaseScore();
 					obj->setIndex(index);
+					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 					obj->moveObject();
 					return;
 				}
 				else
-					if (obj->GetName() == "RedKey")
+					if (obj->GetName() == "RedKey" && !obj->getMove())
 					{
 						gPlayer->setHasRedKey(true);
 						obj->setIndex(index);
+						GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 						obj->moveObject();
 						FX::DisableLight(2);
 						return;
 					}
 					else
-						if (obj->GetName() == "BlueKey")
+						if (obj->GetName() == "BlueKey" && !obj->getMove())
 						{
 							gPlayer->setHasBlueKey(true);
 							obj->setIndex(index);
+							GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 							obj->moveObject();
 							FX::DisableLight(3);
 							return;
 						}
 						else
-							if (obj->GetName() == "YellowKey")
+							if (obj->GetName() == "YellowKey" && !obj->getMove())
 							{
 								gPlayer->setHasYellowKey(true);
 								obj->setIndex(index);
+								GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 								obj->moveObject();
 								FX::DisableLight(4);
 								return;
@@ -126,6 +135,7 @@ void GameState::Update(float dTime) {
 				if (gPlayer->getScore() != 0)
 				{
 					//Deposit them
+					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinDeposit", false, false, nullptr, 1.0);
 					gPlayer->dropOffCoins();
 					if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
 					{

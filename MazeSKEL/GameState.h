@@ -19,6 +19,7 @@
 #include "BlueDoor.h"
 #include "WallHalf.h"
 #include "ReturnBox.h"
+#include "AudioMgrFMOD.h"
 #include <vector>
 
 #include "levelStats.h"

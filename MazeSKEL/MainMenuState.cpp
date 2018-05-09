@@ -18,8 +18,8 @@ MainMenuState::MainMenuState()
 
 	ShowCursor(true);
 
-	//GetIAudioMgr()->GetSfxMgr()->Load("music");
-	//GetIAudioMgr()->GetSfxMgr()->Play("NewYork", true, false, nullptr, 1.0);
+	GetIAudioMgr()->GetSfxMgr()->Load("music");
+	GetIAudioMgr()->GetSfxMgr()->Play("NewYork", true, false, nullptr, 0.5);
 }
 
 void MainMenuState::Update(float dTime){

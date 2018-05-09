@@ -53,6 +53,9 @@ void Enemy::Update(float dTime) {
 
 		float distance = Vector3().Distance(GetModel().GetPosition(), playerPos);
 
+		if(distance < 0.2)
+			GetIAudioMgr()->GetSfxMgr()->Play("soundCaught", false, false, nullptr, 1.0);
+
 		if (canSeeBool) {
 			if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
 				if (distance > 2) {
