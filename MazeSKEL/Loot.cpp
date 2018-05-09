@@ -29,7 +29,7 @@ void Loot::Update(float dTime)
 		//Rotation
 			incrementRotation(0, dTime * 10, 0);
 		//Scale
-			x += dTime * 0.02;
+			x += dTime * 0.04;
 			GetModel().GetScale() = GetScale() - Vector3(x, x, x);
 		if (x > 0.02)
 			GetGameObjectManager()->deleteGameObjectByIndex(getIndex());

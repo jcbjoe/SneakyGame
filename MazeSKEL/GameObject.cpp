@@ -61,3 +61,8 @@ void GameObject::setInitialPos() {
 	SetRotation(rotation_);
 	SetScale(scale_);
 }
+
+void GameObject::setMove(bool bl)
+{
+	move_ = bl;
+}

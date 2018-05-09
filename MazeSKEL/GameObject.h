@@ -78,6 +78,7 @@ public:
 	int getIndex();
 
 	void setInitialPos();
+	void setMove(bool bl);
 private:
 
 	string name_;
@@ -91,3 +92,5 @@ private:
 };
 
 #endif
+
+
