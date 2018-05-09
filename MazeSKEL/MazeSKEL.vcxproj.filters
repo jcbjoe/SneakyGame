@@ -352,6 +352,9 @@
     <ClInclude Include="AudioMgrFMOD.h">
       <Filter>Headers\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="LevelStats.h">
+      <Filter>Headers\Levels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\FX\LightHelper.hlsl">

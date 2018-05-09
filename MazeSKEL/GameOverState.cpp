@@ -70,3 +70,9 @@ void GameOverState::LoadTextures() {
 	mpBackgroundTex = fx.mCache.LoadTexture("Gameover.dds", true, gd3dDevice);
 	mBackgroundDimentions = fx.mCache.Get(mpBackgroundTex).dim;
 }
+
+void GameOverState::setStats(vector<levelStats> ls)
+{
+	//Do something with stored stats :)_
+
+}
