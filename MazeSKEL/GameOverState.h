@@ -28,6 +28,7 @@ private:
 
 	bool handled = false;
 
+	unsigned int musicHdl;
 };
 
 #endif

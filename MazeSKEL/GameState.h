@@ -60,6 +60,7 @@ private:
 
 	vector<levelStats> currGameStats;
 	void saveStats();
+	unsigned int musicHdl;
 };
 
 

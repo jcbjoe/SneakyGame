@@ -29,6 +29,7 @@ private:
 
 	bool gamepadDown = false;
 
+	unsigned int musicHdl;
 };
 
 #endif

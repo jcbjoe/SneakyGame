@@ -29,11 +29,14 @@ void GameState::Init() {
 
 	GetIAudioMgr()->GetSfxMgr()->Load("sfx");
 
+
 	while (ShowCursor(false) >= 0) {};
 }
 
 void GameState::Update(float dTime) {
 	GetIAudioMgr()->Update();
+	if(GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
+		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 
 	//Timer Incrementer
 	if (!paused) {

@@ -5,6 +5,7 @@
 #include "UserInterfaceManager.h"
 #include "GameObjectManager.h"
 #include "Mesh.h"
+#include "AudioMgrFMOD.h"
 
 
 GameOverState::GameOverState()
@@ -28,6 +29,10 @@ void GameOverState::handleGameOver() {
 }
 
 void GameOverState::Update(float dTime) {
+	GetIAudioMgr()->Update();
+	if (GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
+		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
+
 	if (handled) {
 		GetStateManager()->changeState("MainMenuState");
 	}
