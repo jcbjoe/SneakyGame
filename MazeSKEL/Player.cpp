@@ -7,6 +7,7 @@
 void Player::Initialise(const float& i, const float& j) 
 {
 	mCamera.Initialise(Vector3(i, 0.5f,j), Vector3(i + 1, 0.5, j), FX::GetViewMatrix());
+	
 	mCamera.LockMovementAxis(FPSCamera::UNLOCK, FPSCamera::UNLOCK, FPSCamera::UNLOCK);
 
 	hands_.Initialise(*GetMeshManager()->GetMesh("Hands"));
