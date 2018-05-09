@@ -22,6 +22,9 @@ private:
 	ID3D11ShaderResourceView *mpBackgroundTex = nullptr;
 	DirectX::SimpleMath::Vector2 mBackgroundDimentions;
 
+	DirectX::SpriteBatch *mpSpriteBatch = nullptr;
+	DirectX::SpriteFont *mpComicSans = nullptr, *mpAlgerian = nullptr;
+
 	void handleGameOver();
 
 	std::future<void> mLoadThread;
@@ -29,6 +32,14 @@ private:
 	bool handled = false;
 
 	unsigned int musicHdl;
+
+	int levels;
+	int totTimeTaken;
+	int totCoinsDeposited;
+
+	char name[3] = { 'A' , 'A' , 'A' };
+	int selector;
+	bool keyPressed = false;
 };
 
 #endif

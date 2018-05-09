@@ -40,6 +40,8 @@ void GameState::Update(float dTime) {
 	if (!paused) {
 		Timer -= dTime;
 		if (Timer < 0) {
+			saveStats();
+			gPlayer->resetStats();
 			GetStateManager()->changeState("GameOverState");
 			((GameOverState*)GetStateManager()->getCurrentState())->setStats(currGameStats);
 		}
@@ -243,8 +245,8 @@ void GameState::saveStats()
 {
 	levelStats thisLevel;
 	thisLevel.CoinsCollected = gPlayer->getDeposited();
-	thisLevel.Level = GetLevelManager()->getCurrentLevelNumber();
-	thisLevel.TimeTaken = Timer;
+	thisLevel.Level = GetLevelManager()->getCurrentLevelNumber() + 1;
+	thisLevel.TimeTaken = GetLevelManager()->getCurrentLevel()->getLevelTimer() - Timer;
 
 	currGameStats.push_back(thisLevel);
 }
