@@ -7,8 +7,7 @@ class Level2 : public Level
 {
 public:
 
-	Level2(string name);
-
+	Level2(string name, float timer);
 	void Release() override;
 
 private:

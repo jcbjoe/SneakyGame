@@ -1,6 +1,8 @@
 #include "Level3.h"
 
-Level3::Level3(string name) : Level(name) {
+Level3::Level3(string name, float timer)
+	: Level(name, timer) 
+{
 
 	int level[20][20] =
 	{

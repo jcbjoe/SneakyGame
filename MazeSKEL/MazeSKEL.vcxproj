@@ -108,6 +108,7 @@
     <ClCompile Include="Level3.cpp" />
     <ClCompile Include="Level4.cpp" />
     <ClCompile Include="Level5.cpp" />
+    <ClCompile Include="Level6.cpp" />
     <ClCompile Include="LoadingState.cpp" />
     <ClCompile Include="RedDoor.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Level3.h" />
     <ClInclude Include="Level4.h" />
     <ClInclude Include="Level5.h" />
+    <ClInclude Include="Level6.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="RedDoor.h" />
     <ClInclude Include="Enemy.h" />

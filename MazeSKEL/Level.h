@@ -16,7 +16,7 @@ using namespace DirectX::SimpleMath;
 class Level
 {
 public:
-	Level(string levelName);
+	Level(string n, float t);
 
 	const static int levelSize = 20;
 
@@ -25,6 +25,8 @@ public:
 	int getObjectAtCoordinate(int x, int y);
 
 	string getLevelName();
+
+	float getLevelTimer() { return timer; }
 
 	void reloadLevel();
 
@@ -41,9 +43,10 @@ public:
 private:
 
 	string levelName;
+	float timer;
 	 
-	int levelMap[20][20]; 
-	int maxCoins = 0;
+	int levelMap[levelSize][levelSize]; 
+	int maxCoins;
 
 	vector<Vector3> waypointLocations;
 

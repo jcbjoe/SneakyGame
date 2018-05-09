@@ -38,7 +38,7 @@ private:
 	bool followingPath;
 	int currentPathPos;
 	vector<Vector3> currentPath;
-	float movespeed = 0.75f;
+	float movespeed = 1.5f;
 
 	struct customNode {
 		int x;

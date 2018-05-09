@@ -1,6 +1,8 @@
 #include "Level1.h"
 
-Level1::Level1(string name): Level(name) {
+Level1::Level1(string name, float timer)
+	: Level(name, timer) 
+{
 
 	int level[20][20] =
 	{
