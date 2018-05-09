@@ -199,7 +199,7 @@ void Level::reloadLevel() {
 	for (Vector3 loc : waypointLocations) {
 		std::ostringstream oss;
 		oss << "Waypoint" << count;
-		GameObject* waypoint = new GameObject(oss.str(), loc, Vector3(0, 0, 0), Vector3(0.1, 0.1, 0.1), "cube", "waypoint.dds");
+		GameObject* waypoint = new GameObject(oss.str(), loc, Vector3(0, 0, 0), Vector3(0, 0, 0), "cube", "waypoint.dds");
 		GetGameObjectManager()->addGameObject(waypoint);
 		count++;
 	}

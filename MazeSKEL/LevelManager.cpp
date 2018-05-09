@@ -28,8 +28,9 @@ void LevelManager::initialise() {
 	levels.push_back(level3);
 	levels.push_back(level4);
 	levels.push_back(level5);
-
 	levels.push_back(level6);
+
+	maxLevels = levels.size()-1;
 
 	currentLevelNumber = 0;
 

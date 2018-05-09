@@ -145,8 +145,13 @@ void GameState::Update(float dTime) {
 						{
 							saveStats();
 							gPlayer->resetStats();
-							GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
-							Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
+							if (GetLevelManager()->getCurrentLevelNumber() == GetLevelManager()->getMaxLevels())
+								GetStateManager()->changeState("GameOverState");
+							else
+							{
+								GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
+								Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
+							}
 						}
 					}
 
