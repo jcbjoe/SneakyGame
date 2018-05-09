@@ -67,6 +67,6 @@ void GameOverState::Render(float dTime) {
 void GameOverState::LoadTextures() {
 	FX::MyFX& fx = *FX::GetMyFX();
 
-	mpBackgroundTex = fx.mCache.LoadTexture("Gameover.dds", true, gd3dDevice);
+	mpBackgroundTex = fx.mCache.LoadTexture("Screens/GameOver/GameOver.dds", true, gd3dDevice);
 	mBackgroundDimentions = fx.mCache.Get(mpBackgroundTex).dim;
 }

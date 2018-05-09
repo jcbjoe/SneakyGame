@@ -153,9 +153,6 @@ void LoadingState::Render(float dTime) {
 
 	}
 
-
-
-
 	fx.mpSpriteB->End();
 
 	EndRender();
