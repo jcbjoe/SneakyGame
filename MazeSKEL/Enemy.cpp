@@ -6,6 +6,7 @@ Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 	:
 	GameObject(name, position, rotation, scale) {
 
+	detectionMeter = 0.0f;
 	waypointNumber = 1;
 
 	visionCone = D2R(50);
@@ -38,6 +39,7 @@ void Enemy::Update(float dTime) {
 		FX::SetupSpotLight(6, true, { GetPosition().x, 0.0f, GetPosition().z }, Vector3::TransformNormal(eye, ma), Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(0.8f, 0.84f, 0.8f), 3.0f, 0.5f, D2R(15), D2R(50));
 
 		bool canSeeBool = true;
+	
 
 		vector<Vector2> inbetween = canSee(round(playerPos.x), round(playerPos.z), round(GetModel().GetPosition().x), round(GetModel().GetPosition().z));
 
@@ -59,15 +61,23 @@ void Enemy::Update(float dTime) {
 				else
 				{
 					if (EnemyPlayerAngle() >= (visionCone / 2.0f))
-						canSeeBool = false;
+					{						
+							canSeeBool = false;
+					}						
 				}
 			}
-			else {
-				if (distance > 3) {
+			else 
+			{
+				if (distance > 5) 
+				{
 					canSeeBool = false;
 				}
-			}
+			}		
 		}
+
+		//Change bool based on enemies detection status
+		detectPlayer(canSeeBool);
+		GetUserInterfaceManager()->printDebugText(to_string(detectionMeter));
 
 
 		if (canSeeBool) {
@@ -462,4 +472,27 @@ float Enemy::EnemyPlayerAngle()
 	//GetUserInterfaceManager()->printDebugText("ANGLE: " + to_string((float)R2D(angleBetween))); 
 	//Vector3 v = (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCameraPosition().Forward()); 
 	return angleBetween;
+}
+
+void Enemy::detectPlayer(bool& canSeeBool)
+{
+	if (canSeeBool)
+	{
+		detectionMeter += 0.5f;
+		if (detectionMeter >= 100.0f)
+		{
+			detectionMeter = 100.0f;
+		}
+		else
+			canSeeBool = false;
+	}
+	else
+	{
+		detectionMeter -= 0.5f;
+		if (detectionMeter <= 0.0f)
+		{
+			detectionMeter = 0.0f;
+		}
+		canSeeBool = false;
+	}
 }
