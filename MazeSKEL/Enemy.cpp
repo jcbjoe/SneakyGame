@@ -77,8 +77,6 @@ void Enemy::Update(float dTime) {
 
 		//Change bool based on enemies detection status
 		detectPlayer(canSeeBool);
-		GetUserInterfaceManager()->printDebugText(to_string(detectionMeter));
-
 
 		if (canSeeBool) {
 
