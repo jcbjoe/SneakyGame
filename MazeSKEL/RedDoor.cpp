@@ -22,5 +22,9 @@ void RedDoor::Update(float dTime) {
 		if (x <= 0.97) {
 			x += 0.5 * dTime;
 		}
+		else
+		{
+			setMove(false);
+		}
 	}
 }
