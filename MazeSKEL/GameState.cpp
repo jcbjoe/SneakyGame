@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "GameOverState.h"
 #include "StateManager.h"
 
 GameState::GameState()
@@ -13,6 +14,7 @@ void GameState::Init() {
 	GetLevelManager()->initialise();
 
 	gPlayer = new Player();
+	currGameStats.clear();
 
 	Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
 	//Change array to use in level
@@ -23,52 +25,30 @@ void GameState::Init() {
 
 	FX::SetupDirectionalLight(0, true, Vector3(-1.0f, -1.0f, -1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.45f, 0.55f, 0.45f), Vector3(0.0f, 0.0f, 0.0f));
 
+	GetIAudioMgr()->GetSfxMgr()->Load("sfx");
+
+
 	while (ShowCursor(false) >= 0) {};
 }
 
 void GameState::Update(float dTime) {
-	//Load level 1 for now
-	if (GetMouseAndKeys()->IsPressed(VK_1))
-	{
-		GetLevelManager()->loadLevel(0);
-		Timer = 100;
-	}
-	//Load level 2 for now
-	else if (GetMouseAndKeys()->IsPressed(VK_2))
-	{
-		GetLevelManager()->loadLevel(1);
-		Timer = 50;
-	}
+	GetIAudioMgr()->Update();
+	if(GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
+		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 
 	//Timer Incrementer
 	if (!paused) {
 		Timer -= dTime;
 		if (Timer < 0) {
 			GetStateManager()->changeState("GameOverState");
+			((GameOverState*)GetStateManager()->getCurrentState())->setStats(currGameStats);
 		}
 	}
 
-	if (GetMouseAndKeys()->IsPressed(VK_P)) {
-		pDown = true;
-	} else {
-		if (pDown){
-			paused = !paused;
-			pDown = false;
-			if (paused) {
-				ShowCursor(true);
-			} else {
-				while (ShowCursor(false) >= 0) {};
-			}
-		}
-	}
+	pauseKeyPressed();
 
-	if (GetMouseAndKeys()->IsPressed(VK_F1)) {
-		GetUserInterfaceManager()->printDebugText("X: " + to_string(gPlayer->getCameraPosition().x) + " Y: " + to_string(gPlayer->getCameraPosition().z));
-	}
-
+	//Update All GameObjects
 	vector<GameObject*>& objects = GetGameObjectManager()->getGameObjects();
-
-
 	for (int objIndex = 0; objIndex < objects.size(); objIndex++)
 	{
 		objects.at(objIndex)->Update(dTime);
@@ -84,80 +64,83 @@ void GameState::Update(float dTime) {
 		string objName = obj->GetName();
 		if (objName == "Loot" || objName == "RedKey" || objName == "RedDoor" || objName == "BlueKey" || objName == "BlueDoor" || objName == "YellowKey" || objName == "ReturnBox")
 		{
-			//check loot collision
-			Vector3 vectorToLoot = gPlayer->getCameraPosition() - obj->GetPosition();
-			float x = vectorToLoot.x *  vectorToLoot.x;
-			float y = vectorToLoot.y *  vectorToLoot.y;
-			float z = vectorToLoot.z * vectorToLoot.z;
-			float distanceFromLoot = sqrt(x + y + z);
+			float distFromObj = distBetweenPlayerAndObj(obj);
 
 			//float distFromLoot = 
-			if (distanceFromLoot < 1.2)
+			if (distFromObj < 1.2)
 			{
-				if (obj->GetName() == "RedDoor")
+				if (obj->GetName() == "RedDoor" && !obj->getMove())
 				{
 					if (gPlayer->getHasRedKey()) {
 						gPlayer->setOpenedRed();
+						GetIAudioMgr()->GetSfxMgr()->Play("soundDoorSlide", false, false, nullptr, 1.0);
 						obj->moveObject();
 						return;
 					}
 				}
 				else
-					if (obj->GetName() == "BlueDoor")
+					if (obj->GetName() == "BlueDoor" && !obj->getMove())
 					{
 						if (gPlayer->getHasBlueKey()) {
 							gPlayer->setOpenedBlue();
+							GetIAudioMgr()->GetSfxMgr()->Play("soundDoorCreak", false, false, nullptr, 1.0);
 							obj->moveObject();
 							return;
 						}
 					}
 			}
-			if (distanceFromLoot < 0.5f)
+			if (distFromObj < 0.5f)
 			{
 				if (obj->GetName() == "Loot" && !obj->getMove())
 				{
 					gPlayer->increaseScore();
 					obj->setIndex(index);
+					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 					obj->moveObject();
 					return;
 				}
 				else
-					if (obj->GetName() == "RedKey")
+					if (obj->GetName() == "RedKey" && !obj->getMove())
 					{
 						gPlayer->setHasRedKey(true);
 						obj->setIndex(index);
+						GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 						obj->moveObject();
 						FX::DisableLight(2);
 						return;
 					}
 					else
-						if (obj->GetName() == "BlueKey")
+						if (obj->GetName() == "BlueKey" && !obj->getMove())
 						{
 							gPlayer->setHasBlueKey(true);
 							obj->setIndex(index);
+							GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 							obj->moveObject();
 							FX::DisableLight(3);
 							return;
 						}
 						else
-							if (obj->GetName() == "YellowKey")
+							if (obj->GetName() == "YellowKey" && !obj->getMove())
 							{
 								gPlayer->setHasYellowKey(true);
 								obj->setIndex(index);
+								GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
 								obj->moveObject();
 								FX::DisableLight(4);
 								return;
 							}
 			}
-			if (distanceFromLoot < 0.55f && objName == "ReturnBox")
+			if (distFromObj < 0.55f && objName == "ReturnBox")
 			{
 				//If player has coins to deposit
 				if (gPlayer->getScore() != 0)
 				{
 					//Deposit them
+					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinDeposit", false, false, nullptr, 1.0);
 					gPlayer->dropOffCoins();
 					if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
 					{
+						saveStats();
 						gPlayer->resetStats();
 						GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
 						Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
@@ -179,8 +162,6 @@ void GameState::Render(float dTime) {
 	}
 
 	gPlayer->Render(dTime);
-
-	float alpha = 0.5f + sinf(gAngle * 2)*0.5f;
 
 	FX::SetPerFrameConsts(gd3dImmediateContext, gPlayer->getCameraPosition());
 
@@ -216,4 +197,43 @@ bool GameState::getBlueKey() {
 }
 bool GameState::getYellowKey() {
 	return YellowKey;
+}
+
+float GameState::distBetweenPlayerAndObj(GameObject * obj)
+{
+	//check loot collision
+	Vector3 vectorToLoot = gPlayer->getCameraPosition() - obj->GetPosition();
+	float x = vectorToLoot.x *  vectorToLoot.x;
+	float y = vectorToLoot.y *  vectorToLoot.y;
+	float z = vectorToLoot.z * vectorToLoot.z;
+	return sqrt(x + y + z);
+}
+
+void GameState::pauseKeyPressed()
+{
+	if (GetMouseAndKeys()->IsPressed(VK_P)) {
+		pDown = true;
+	}
+	else {
+		if (pDown) {
+			paused = !paused;
+			pDown = false;
+			if (paused) {
+				ShowCursor(true);
+			}
+			else {
+				while (ShowCursor(false) >= 0) {};
+			}
+		}
+	}
+}
+
+void GameState::saveStats()
+{
+	levelStats thisLevel;
+	thisLevel.CoinsCollected = gPlayer->getDeposited();
+	thisLevel.Level = GetLevelManager()->getCurrentLevelNumber();
+	thisLevel.TimeTaken = Timer;
+
+	currGameStats.push_back(thisLevel);
 }

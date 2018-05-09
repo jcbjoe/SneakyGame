@@ -19,7 +19,10 @@
 #include "BlueDoor.h"
 #include "WallHalf.h"
 #include "ReturnBox.h"
+#include "AudioMgrFMOD.h"
 #include <vector>
+
+#include "levelStats.h"
 
 
 class GameState : public State
@@ -42,6 +45,7 @@ public:
 	bool getYellowKey();
 
 	Player* getPlayer() { return gPlayer; }
+
 private:
 	float gAngle = 0;
 	Player* gPlayer;
@@ -50,6 +54,13 @@ private:
 	bool BlueKey = false;
 	bool YellowKey = false;
 	bool pDown = false;
+
+	float distBetweenPlayerAndObj(GameObject* obj);
+	void pauseKeyPressed();
+
+	vector<levelStats> currGameStats;
+	void saveStats();
+	unsigned int musicHdl;
 };
 
 

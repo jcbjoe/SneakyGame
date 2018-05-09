@@ -53,6 +53,11 @@ void Enemy::Update(float dTime) {
 
 		float distance = Vector3().Distance(GetModel().GetPosition(), playerPos);
 
+		if (distance < 0.2 && !caught) {
+			setCaught();
+			GetIAudioMgr()->GetSfxMgr()->Play("soundCaught", false, false, nullptr, 1.0);
+		}
+
 		if (canSeeBool) {
 			if (((GameState*)GetStateManager()->getCurrentState())->getPlayer()->getCrouchStatus()) {
 				if (distance > 2) {
@@ -77,8 +82,6 @@ void Enemy::Update(float dTime) {
 
 		//Change bool based on enemies detection status
 		detectPlayer(canSeeBool);
-		GetUserInterfaceManager()->printDebugText(to_string(detectionMeter));
-
 
 		if (canSeeBool) {
 
@@ -495,4 +498,11 @@ void Enemy::detectPlayer(bool& canSeeBool)
 		}
 		canSeeBool = false;
 	}
+}
+
+bool Enemy::getCaught() {
+	return caught;
+}
+void Enemy::setCaught() {
+	caught = true;
 }

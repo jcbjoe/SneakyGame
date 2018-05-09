@@ -161,6 +161,7 @@
     <ClInclude Include="Level3.h" />
     <ClInclude Include="Level4.h" />
     <ClInclude Include="Level5.h" />
+    <ClInclude Include="LevelStats.h" />
     <ClInclude Include="Level6.h" />
     <ClInclude Include="LoadingState.h" />
     <ClInclude Include="RedDoor.h" />

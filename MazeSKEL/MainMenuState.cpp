@@ -18,11 +18,13 @@ MainMenuState::MainMenuState()
 
 	ShowCursor(true);
 
-	//GetIAudioMgr()->GetSfxMgr()->Load("music");
-	//GetIAudioMgr()->GetSfxMgr()->Play("NewYork", true, false, nullptr, 1.0);
+	GetIAudioMgr()->GetSfxMgr()->Load("music");
 }
 
 void MainMenuState::Update(float dTime){
+	GetIAudioMgr()->Update();
+	if (GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
+		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 
 	if (GetMouseAndKeys()->IsPressed(VK_1))
 	{

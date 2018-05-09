@@ -177,11 +177,6 @@ bool Player::getHasYellowKey()
 	return hasYellowKey;
 }
 
-//int Player::getKeyNo() {
-//	return keyNo;
-//}
-
-//Sets
 void Player::toggleCrouch()
 {
 	isCrouched = !isCrouched;

@@ -358,6 +358,9 @@
     <ClInclude Include="Level6.h">
       <Filter>Headers\Levels</Filter>
     </ClInclude>
+    <ClInclude Include="LevelStats.h">
+      <Filter>Headers\Levels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\FX\LightHelper.hlsl">

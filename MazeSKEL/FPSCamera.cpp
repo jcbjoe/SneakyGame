@@ -125,7 +125,7 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		distanceFromObjectX = 0.4f;
 		distanceFromObjectY = 0.7f;
 		//If you are close to the door
-		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY  && !hasRedKey)
+		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY  && (!hasRedKey || GetGameObjectManager()->getFirstObjectByName("RedDoor")->getMove()))
 		{
 			//Dont allow the player to move
 			pos.x = mCamPos.x;
@@ -142,7 +142,8 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		distanceFromObjectX = 0.7f;
 		distanceFromObjectY = 0.4f;
 		//If you are close to the door
-		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY && !hasBlueKey)
+	
+		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY && (!hasBlueKey || GetGameObjectManager()->getFirstObjectByName("BlueDoor")->getMove()))
 		{
 			//Dont allow the player to move
 			pos.x = mCamPos.x;
@@ -168,73 +169,6 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		break;
 		//ADD OTHER CASES FOR OTHER OBJECTS
 	}
-
-	////For every object in the level
-	//for (int i(0); i < 10; i++)
-	//{
-	//	for (int k(0); k < 10; k++)
-	//	{
-	//		
-	//		//If object in world is a wall
-	//		if (GetLevelManager()->getObjectAtCoordinate(i, k) == 1)
-	//		{
-	//			//Setup variables
-	//			float leftX = i - 0.5f;
-	//			float rightX = i + 0.5f;
-	//			float topZ = k + 0.5f;
-	//			float bottomZ = k - 0.5f;
-	//
-	//			float finalZ = mCamPos.z;
-	//			float finalX = mCamPos.x;
-	//
-	//			bool alreadyCollidedLR(false);
-	//			bool alreadyCollidedTB(false);
-	//			//If you have collided with the top side of a block
-	//			if ((pos.z < topZ && pos.z > k + 0.5f) && (pos.x <= rightX && pos.x >= leftX))
-	//			{
-	//				//get players position relative to the array.
-	//				int pIndexX = (int)round(pos.x);
-	//				int pIndexZ = (int)round(pos.z);
-	//				alreadyCollidedTB = true;
-	//				finalZ = topZ;
-	//			}
-	//			else if ((pos.z > bottomZ && pos.z < k - 0.5f) && (pos.x <= rightX && pos.x >= leftX))
-	//			{
-	//				int pIndexX = (int)round(pos.x);
-	//				int pIndexZ = (int)round(pos.z);
-	//				alreadyCollidedTB = true;
-	//				finalZ = bottomZ;
-	//			}
-	//
-	//
-	//			////If you have collided with the left side of a block
-	//			else if ((pos.x > leftX && pos.x < i + 0.5f) && (pos.z <= topZ && pos.z >= bottomZ))
-	//			{
-	//				int pIndexX = (int)round(pos.x);
-	//				int pIndexZ = (int)round(pos.z);
-	//				finalX = leftX;
-	//				alreadyCollidedLR = true;
-	//			}
-	//			//If you have collided with the right side of a block
-	//			else if ((pos.x < rightX && pos.x > i - 0.5f) && (pos.z <= topZ && pos.z >= bottomZ))
-	//			{
-	//				int pIndexX = (int)pos.x;
-	//				int pIndexZ = (int)pos.z;
-	//				finalX = rightX;
-	//				alreadyCollidedLR = true;
-	//			}
-	//
-	//			if (alreadyCollidedTB)
-	//			{
-	//				pos.z = finalZ;
-	//			}
-	//			else if (alreadyCollidedLR)
-	//			{
-	//				pos.x = finalX;
-	//			}
-	//		}
-	//	}
-	//}
 
 	CreateViewMatrix(*mpViewSpaceTfm, pos, pos + dir, up);
 
@@ -321,6 +255,12 @@ void FPSCamera::Bob(float dTime, bool isCrouched)
 	currBobY += bobY;
 
 	prevChangeY = bobY;
+
+	if(sinf(((counter)* PI) / 180.0f) < -0.99)
+		if(isCrouched)
+			GetIAudioMgr()->GetSfxMgr()->Play("soundFootstep3", false, false, nullptr, 0.3);
+		else
+			GetIAudioMgr()->GetSfxMgr()->Play("soundFootstep3", false, false, nullptr, 0.5);
 }
 
 void FPSCamera::ReturnToY(float dtime, float yVal)

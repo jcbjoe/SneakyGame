@@ -3,6 +3,7 @@
 
 #include "State.h"
 #include "FPSCamera.h"
+#include "LevelStats.h"
 class GameOverState : public State
 {
 public:
@@ -12,6 +13,8 @@ public:
 	void LoadTextures();
 	void Update(float dTime) override;
 	void Init() override;
+
+	void setStats(vector<levelStats> ls);
 
 private:
 	FPSCamera mCamera;
@@ -25,6 +28,7 @@ private:
 
 	bool handled = false;
 
+	unsigned int musicHdl;
 };
 
 #endif
