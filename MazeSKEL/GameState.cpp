@@ -45,6 +45,7 @@ void GameState::Update(float dTime) {
 		}
 	}
 
+	nearBoxFlag = false;
 	pauseKeyPressed();
 
 	//Update All GameObjects
@@ -130,24 +131,29 @@ void GameState::Update(float dTime) {
 								return;
 							}
 			}
-			if (distFromObj < 0.55f && objName == "ReturnBox")
+			if (objName == "ReturnBox")
 			{
-				//If player has coins to deposit
-				if (gPlayer->getScore() != 0)
+				if (distFromObj < 0.55f)
 				{
-					//Deposit them
-					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinDeposit", false, false, nullptr, 1.0);
-					gPlayer->dropOffCoins();
-					if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
+					//If player has coins to deposit
+					if (gPlayer->getScore() != 0)
 					{
-						saveStats();
-						gPlayer->resetStats();
-						GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
-						Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
+						//Deposit them
+						GetIAudioMgr()->GetSfxMgr()->Play("soundCoinDeposit", false, false, nullptr, 1.0);
+						gPlayer->dropOffCoins();
+						if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
+						{
+							saveStats();
+							gPlayer->resetStats();
+							GetLevelManager()->loadLevel((GetLevelManager()->getCurrentLevelNumber() + 1));
+							Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
+						}
 					}
-				}
 
-				return;
+					return;
+				}
+				else if (distFromObj < 0.75f)
+					nearBoxFlag = true;
 			}
 		}
 		index++;
@@ -169,7 +175,7 @@ void GameState::Render(float dTime) {
 	Matrix w = Matrix::CreateRotationY(sinf(gAngle));
 	FX::SetPerObjConsts(gd3dImmediateContext, w);
 
-	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), GetLevelManager()->getCurrentLevel()->getMaxCoins(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey(), RedKey, BlueKey, YellowKey, gPlayer->getCameraPosition().x, gPlayer->getCameraPosition().z, gPlayer->get2DRotation());
+	GetUserInterfaceManager()->updateUI(1 / dTime, Timer, gPlayer->getCrouchStatus(), gPlayer->getScore(), gPlayer->getDeposited(), GetLevelManager()->getCurrentLevel()->getMaxCoins(), gPlayer->getHasRedKey(), gPlayer->getHasBlueKey(), gPlayer->getHasYellowKey(), RedKey, BlueKey, YellowKey, gPlayer->getCameraPosition().x, gPlayer->getCameraPosition().z, gPlayer->get2DRotation(), nearBoxFlag);
 
 	EndRender();
 	GetMouseAndKeys()->PostProcess();
