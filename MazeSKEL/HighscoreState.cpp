@@ -58,7 +58,7 @@ void HighscoreState::Render(float dTime) {
 
 
 	////////////////////////////////////////////// MAINMENU //////////////////////////////////////////////////////////////////////////////
-	HighscoreState::bounds boundsOfMainMenu = drawButton(mpMainMenuTex, mMainMenuDimentions, 150, 0);
+	HighscoreState::bounds boundsOfMainMenu = drawButton(mpMainMenuTex, mMainMenuDimentions, 300, 0);
 	if (
 		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfMainMenu.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfMainMenu.bottomRight.x))
 		&&
@@ -82,7 +82,7 @@ void HighscoreState::Render(float dTime) {
 	int ArrowHOffset, ArrowWOffset;
 	switch (selected) {
 
-	case 0: ArrowHOffset = 150;
+	case 0: ArrowHOffset = 300;
 		ArrowWOffset = -240;
 		break;
 	}

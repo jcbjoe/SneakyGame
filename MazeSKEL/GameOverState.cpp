@@ -144,13 +144,24 @@ void GameOverState::Render(float dTime) {
 	//background
 	int w, h;
 	GetClientExtents(w, h);
+
+
+	wstringstream wss;
+	wss << "YOU SURVIVED TO LEVEL " << to_string(levels).c_str() << " AND COLLECTED " << to_string(totCoinsDeposited).c_str() << " IN " << to_string(totTimeTaken).c_str() << " SECONDS";
+	mpComicSans->DrawString(fx.mpSpriteB, wss.str().c_str(), Vector2(0.0f, 0.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+
+	wstringstream wss2;
+	wss2 << "USE MOVEMENT KEYS TO ENTER A NAME, ENTER TO SUBMIT SCORE";
+	mpComicSans->DrawString(fx.mpSpriteB, wss2.str().c_str(), Vector2(0.25f * w, 20.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+
+
 	float sz(h / mBackgroundDimentions.y);
 	if (sz > 1.25f)
 		sz = 1.25f;
 	fx.mpSpriteB->Draw(mpBackgroundTex, Vector2(w / 2.f, h / 2.f), nullptr, Colours::White, 0, mBackgroundDimentions*0.5f, Vector2(sz, sz));
 
 	////////////////////////////////////////////// PLAY AGAIN //////////////////////////////////////////////////////////////////////////////
-	GameOverState::bounds boundsOfPlayAgain = drawButton(mpPlayAgainTex, mPlayAgainDimentions, -50, 0);
+	GameOverState::bounds boundsOfPlayAgain = drawButton(mpPlayAgainTex, mPlayAgainDimentions, 100, 0);
 
 	if (
 		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfPlayAgain.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfPlayAgain.bottomRight.x))
@@ -160,13 +171,6 @@ void GameOverState::Render(float dTime) {
 	{
 		selected = 0;
 	}
-	wstringstream wss;
-	wss << "YOU SURVIVED TO LEVEL " << to_string(levels).c_str() << " AND COLLECTED " << to_string(totCoinsDeposited).c_str() << " IN " << to_string(totTimeTaken).c_str() << " SECONDS";
-	mpComicSans->DrawString(fx.mpSpriteB, wss.str().c_str(), Vector2(0.0f, 0.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-	
-	wstringstream wss2;
-	wss2 << "USE MOVEMENT KEYS TO ENTER A NAME, ENTER TO SUBMIT SCORE";
-	mpComicSans->DrawString(fx.mpSpriteB, wss2.str().c_str(), Vector2(0.25f * w, 20.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
 	if (
 		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
@@ -181,7 +185,7 @@ void GameOverState::Render(float dTime) {
 
 
 	////////////////////////////////////////////// HIGHSCORES //////////////////////////////////////////////////////////////////////////////
-	GameOverState::bounds boundsOfHighscore = drawButton(mpHighscoreTex, mHighscoreDimentions, 50, 0);
+	GameOverState::bounds boundsOfHighscore = drawButton(mpHighscoreTex, mHighscoreDimentions, 200, 0);
 	if (
 		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfHighscore.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfHighscore.bottomRight.x))
 		&&
@@ -203,7 +207,7 @@ void GameOverState::Render(float dTime) {
 	}
 
 	////////////////////////////////////////////// MAINMENU //////////////////////////////////////////////////////////////////////////////
-	GameOverState::bounds boundsOfMainMenu = drawButton(mpMainMenuTex, mMainMenuDimentions, 150, 0);
+	GameOverState::bounds boundsOfMainMenu = drawButton(mpMainMenuTex, mMainMenuDimentions, 300, 0);
 	if (
 		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfMainMenu.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfMainMenu.bottomRight.x))
 		&&
@@ -227,13 +231,13 @@ void GameOverState::Render(float dTime) {
 	int ArrowHOffset, ArrowWOffset;
 	switch (selected) {
 
-	case 0: ArrowHOffset = -50;
+	case 0: ArrowHOffset = 100;
 		ArrowWOffset = -240;
 		break;
-	case 1: ArrowHOffset = 50;
+	case 1: ArrowHOffset = 200;
 		ArrowWOffset = -255;
 		break;
-	case 2: ArrowHOffset = 150;
+	case 2: ArrowHOffset = 300;
 		ArrowWOffset = -250;
 		break;
 	}
