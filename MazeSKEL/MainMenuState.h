@@ -12,7 +12,7 @@ public:
 	void LoadTextures();
 	void Update(float dTime) override;
 	void Init() override;
-	void Release() override;
+	void ReleaseFromLevel() override;
 
 private:
 	FPSCamera mCamera;

@@ -185,7 +185,7 @@ void LoadingState::LoadTextures() {
 	mBar0Dimentions = fx.mCache.Get(mpBar0Tex).dim;
 }
 
-void LoadingState::Release() {
+void LoadingState::ReleaseFromLevel() {
 	FX::MyFX& fx = *FX::GetMyFX();
 
 	fx.mCache.Release();

@@ -174,7 +174,7 @@ void MainMenuState::Render(float dTime) {
 		&&
 		((GetMouseAndKeys()->GetMousePos(true).x >= exitBounds.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= exitBounds.bottomRight.x))
 		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= exitBounds.bottomRight.y) && (GetMouseAndKeys()->GetMousePos(true).y <= exitBounds.bottomRight.y))
+		((GetMouseAndKeys()->GetMousePos(true).y >= exitBounds.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= exitBounds.bottomRight.y))
 		)
 	{
 		PostQuitMessage(0);
@@ -235,12 +235,12 @@ void MainMenuState::LoadTextures() {
 	mHelpButtonDimentions = fx.mCache.Get(mHelpButtonTex).dim;
 }
 
-void MainMenuState::Release() {
+void MainMenuState::ReleaseFromLevel() {
 	FX::MyFX& fx = *FX::GetMyFX();
 
 	fx.mCache.Release();
-
 }
+
 MainMenuState::bounds MainMenuState::drawButton(ID3D11ShaderResourceView *tex, Vector2 dimentions, float hOffset, float wOffset) {
 	MainMenuState::bounds boundsOfbutton;
 	FX::MyFX& fx = *FX::GetMyFX();

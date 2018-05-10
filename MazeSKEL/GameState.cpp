@@ -7,14 +7,13 @@ GameState::GameState()
 	:
 	State("MainGameState")
 {
-
+	gPlayer = new Player();
 }
 
 void GameState::Init() {
 
 	GetLevelManager()->initialise();
-
-	gPlayer = new Player();
+	
 	currGameStats.clear();
 
 	Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
@@ -32,6 +31,20 @@ void GameState::Init() {
 	while (ShowCursor(false) >= 0) {};
 
 }
+
+void GameState::ReleaseFromLevel() {
+	GetLevelManager()->Release();
+	GetGameObjectManager()->Release();
+	GetMeshManager()->Release();
+	FX::MyFX& fx = *FX::GetMyFX();
+	fx.mCache.Release();
+}
+
+void GameState::Destruct() {
+	delete gPlayer;
+}
+
+
 
 void GameState::Update(float dTime) {
 	GetIAudioMgr()->Update();
@@ -211,12 +224,7 @@ void GameState::Render(float dTime) {
 	GetMouseAndKeys()->PostProcess();
 }
 
-void GameState::Release() {
-	GetLevelManager()->Release();
-	GetGameObjectManager()->Release();
-	FX::MyFX& fx = *FX::GetMyFX();
-	fx.mCache.Release();
-}
+
 
 void GameState::setRedKey(const bool set) {
 	RedKey = set;

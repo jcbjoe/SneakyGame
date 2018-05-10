@@ -17,6 +17,10 @@ class GameObjectManager : public Singleton<GameObjectManager>
 public:
 	GameObjectManager();
 
+	~GameObjectManager() {
+		Release();
+	}
+
 	void loadObjects();
 
 	void addGameObject(GameObject* gObj);

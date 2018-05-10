@@ -16,6 +16,10 @@ public:
 
 	LevelManager();
 
+	~LevelManager() {
+		Release();
+	}
+
 	Level* getCurrentLevel() { return levels.at(currentLevelNumber); }
 	
 	void loadLevel(int levelNum);

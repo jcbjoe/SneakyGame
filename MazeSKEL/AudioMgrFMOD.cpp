@@ -32,6 +32,7 @@ public:
 	//keep a single array of file handle to open files, if its streaming
 	//it will stay open a long time
 	static vector<File*> s_openFiles;
+
 };
 
 
@@ -276,6 +277,7 @@ AudioGroupFMOD::~AudioGroupFMOD()
 	Stop();
 	for( size_t i = 0; i < m_sounds.size(); ++i )
 		m_sounds[i]._pSound->release();
+
 }
 
 /*

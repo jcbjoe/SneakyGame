@@ -12,6 +12,9 @@ class StateManager : public Singleton<StateManager>
 public:
 
 	StateManager();
+	~StateManager() {
+		Release();
+	}
 
 	State* getCurrentState();
 

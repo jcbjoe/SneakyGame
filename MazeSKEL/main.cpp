@@ -10,7 +10,6 @@
 #include "StateManager.h"
 #include "UserInterfaceManager.h"
 
-
 using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -89,9 +88,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	GetStateManager()->getCurrentState()->Init();
 
 	Run(Update, Render);
-
 	//shut down
-	GetStateManager()->Release();
 	delete GetMouseAndKeys();
 	delete GetGamepad();
 	delete GetMeshManager();

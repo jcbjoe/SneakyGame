@@ -33,7 +33,8 @@ public:
 	void Update(float dTime) override;
 	void Init() override;
 	void Render(float dTime) override;
-	void Release() override;
+	void ReleaseFromLevel() override;
+	void Destruct() override;
 
 	bool paused = false;
 	
@@ -61,7 +62,9 @@ private:
 
 	vector<levelStats> currGameStats;
 	void saveStats();
+
 	unsigned int musicHdl;
+
 };
 
 

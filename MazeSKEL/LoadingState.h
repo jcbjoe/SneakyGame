@@ -14,7 +14,7 @@ public:
 
 	void Init() override;
 
-	void Release() override;
+	void ReleaseFromLevel() override;
 
 private:
 	FPSCamera mCamera;

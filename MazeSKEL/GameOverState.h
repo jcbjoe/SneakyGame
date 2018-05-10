@@ -8,12 +8,16 @@ class GameOverState : public State
 {
 public:
 	GameOverState();
+	~GameOverState() {
+		Destruct();
+	}
 
 	void Render(float dTime) override;
 	void LoadTextures();
 	void Update(float dTime) override;
 	void Init() override;
-	void Release() override;
+	void ReleaseFromLevel() override;
+	void Destruct() override;
 
 	void setStats(vector<levelStats> ls);
 

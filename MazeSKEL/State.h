@@ -22,6 +22,10 @@ class State
 public:
 	State(string name);
 
+	~State() {
+		Destruct();
+	}
+
 	virtual void Init();
 
 	virtual void Update(float dTime);
@@ -30,7 +34,10 @@ public:
 
 	string getStateName() { return stateName; }
 
-	virtual void Release();
+	virtual void ReleaseFromLevel();
+
+	virtual void Destruct();
+
 
 private:
 

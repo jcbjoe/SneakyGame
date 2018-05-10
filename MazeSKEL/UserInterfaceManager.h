@@ -14,6 +14,7 @@
 class UserInterfaceManager : public Singleton<UserInterfaceManager>
 {
 public:
+	UserInterfaceManager();
 	~UserInterfaceManager() {
 		Release();
 	}
@@ -40,7 +41,6 @@ private:
 	};
 	std::vector<debugText> debugTextVector;
 
-	DirectX::SpriteBatch *mpSpriteBatch = nullptr;
 	DirectX::SpriteFont *mpComicSans = nullptr, *mpAlgerian = nullptr;
 
 	time_t start;

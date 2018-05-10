@@ -229,9 +229,13 @@ GameOverState::bounds GameOverState::drawButton(ID3D11ShaderResourceView *tex, V
 	return boundsOfbutton;
 }
 
-void GameOverState::Release() {
+void GameOverState::ReleaseFromLevel() {
 	FX::MyFX& fx = *FX::GetMyFX();
 	fx.mCache.Release();
+}
+
+void GameOverState::Destruct() {
+
 }
 
 void GameOverState::setStats(vector<levelStats> ls)

@@ -40,7 +40,10 @@ void GameObjectManager::loadObjects()
 
 void GameObjectManager::Release()
 {
-	GetMeshManager()->Release();
+	for (GameObject* obj : gameObjects) {
+		delete obj;
+	}
+	gameObjects.clear();
 }
 
 void GameObjectManager::addGameObject(GameObject* gObj) {

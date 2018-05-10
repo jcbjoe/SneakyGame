@@ -39,7 +39,7 @@ void StateManager::changeState(string stateName) {
 
 	if (found) {
 		recordPress = true;
-		getCurrentState()->Release();
+		getCurrentState()->ReleaseFromLevel();
 		currentState = counter;
 		getCurrentState()->Init();
 	}
@@ -47,7 +47,7 @@ void StateManager::changeState(string stateName) {
 
 void StateManager::changeState(int stateNumb) {
 	if (stateNumb <=  states.size()) {
-		getCurrentState()->Release();
+		getCurrentState()->ReleaseFromLevel();
 		currentState = stateNumb;
 		getCurrentState()->Init();
 	}

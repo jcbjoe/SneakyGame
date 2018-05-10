@@ -300,6 +300,8 @@ vector<Vector3> Enemy::findPath(Vector2 dest) {
 	for (customNode* node : closedList) {
 		delete node;
 	}
+	delete destNode;
+	delete start;
 	closedList.empty();
 	complete.empty();
 	

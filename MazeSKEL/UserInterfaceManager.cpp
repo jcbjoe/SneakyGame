@@ -9,16 +9,15 @@ using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-void UserInterfaceManager::initialiseUI(bool showFPS) {
-
-	mpSpriteBatch = new SpriteBatch(gd3dImmediateContext);
-	assert(mpSpriteBatch);
-
+UserInterfaceManager::UserInterfaceManager() {
 	//Fonts
 	mpComicSans = new SpriteFont(gd3dDevice, L"../bin/data/comicSansMS.spritefont");
 	assert(mpComicSans);
 	mpAlgerian = new SpriteFont(gd3dDevice, L"../bin/data/algerian.spritefont");
 	assert(mpAlgerian);
+}
+
+void UserInterfaceManager::initialiseUI(bool showFPS) {
 
 	FX::MyFX& fx = *FX::GetMyFX();
 
@@ -103,8 +102,9 @@ void UserInterfaceManager::printDebugText(string text) {
 
 void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, const bool& isCrouching, const int playerScore, const int& playerDeposited, const int& maxCoins, const int& hasRedKey, const int& hasBlueKey, const int& hasYellowKey, const bool& RedKey, const bool& BlueKey, const bool& YellowKey, const float& pPosx, const float& pPosz, const float& pRotY, const bool& nearBoxFlag) {
 
+	FX::MyFX& fx = *FX::GetMyFX();
 	CommonStates state(gd3dDevice);
-	mpSpriteBatch->Begin(SpriteSortMode_Deferred, state.NonPremultiplied());
+	fx.mpSpriteB->Begin(SpriteSortMode_Deferred, state.NonPremultiplied());
 
 	if (GetStateManager()->getCurrentStateName() == "MainGameState") {
 		if (((GameState*)(GetStateManager()->getCurrentState()))->paused) {
@@ -130,14 +130,14 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 				crosshair << "-<O>-";
 			}
 			//Draw Crosshair
-			mpComicSans->DrawString(mpSpriteBatch, crosshair.str().c_str(), Vector2(w / 2.0f - 25, h / 2.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+			mpComicSans->DrawString(fx.mpSpriteB, crosshair.str().c_str(), Vector2(w / 2.0f - 25, h / 2.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 			//--- End Crouching Display 
 
 			//--- Begin FPS Counter
 			if (showFPS) {
 				wstringstream FPSCounter;
 				FPSCounter << "FPS: " << fpsNumber;
-				mpAlgerian->DrawString(mpSpriteBatch, FPSCounter.str().c_str(), Vector2(0, 0), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+				mpAlgerian->DrawString(fx.mpSpriteB, FPSCounter.str().c_str(), Vector2(0, 0), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 			}
 			//--- End FPS Counter
 
@@ -146,11 +146,11 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 			//--- Begin Coin Display
 			//wstringstream coinsPickedUp;
 			//coinsPickedUp << "Coins Collected: " << playerScore;
-			//mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+			//mpAlgerian->DrawString(fx.mpSpriteB, coinsPickedUp.str().c_str(), Vector2(0, 50), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 			//
 			//wstringstream coinsDeposited;
 			//coinsDeposited << "Coins Deposited: " << playerDeposited;
-			//mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+			//mpAlgerian->DrawString(fx.mpSpriteB, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 			//--- End Coin Display
 
 			////////////////////////
@@ -170,7 +170,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 			////////////////////////
 
 			//Draw minimap background
-			mpSpriteBatch->Draw(mpMinimapBGTex, Vector2(centerXPos, centerYPos), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(scaleOfMinimap, scaleOfMinimap));
+			fx.mpSpriteB->Draw(mpMinimapBGTex, Vector2(centerXPos, centerYPos), nullptr, Colours::White, 0, mMinimapBGDimentions*0.5f, Vector2(scaleOfMinimap, scaleOfMinimap));
 
 			Level* CurrLVL = GetLevelManager()->getCurrentLevel();
 
@@ -225,19 +225,19 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 							{
 							case 01:
 								transCol = Vector4(1.0f, 1.0f, 1.0f, transparencyPercentage);
-								mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems));
+								fx.mpSpriteB->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems));
 								break;
 							case 11:
 								transCol = Vector4(1.0f, 1.0f, 0.0f, transparencyPercentage);
-								mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY + PI / 4.0f, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.6f, scaleOfItems * 0.6f));
+								fx.mpSpriteB->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY + PI / 4.0f, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.6f, scaleOfItems * 0.6f));
 								break;
 							case 02:
 								transCol = Vector4(0.5f, 0.3f, 0.0f, transparencyPercentage);
-								mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems * 0.2f));
+								fx.mpSpriteB->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems, scaleOfItems * 0.2f));
 								break;
 							case 03:
 								transCol = Vector4(0.5f, 0.3f, 0.0f, transparencyPercentage);
-								mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.2f, scaleOfItems));
+								fx.mpSpriteB->Draw(mpMiniSquareTex, Vector2(xCoord, yCoord), nullptr, transCol, -pRotY, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.2f, scaleOfItems));
 								break;
 							}
 						}
@@ -245,87 +245,87 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 				}
 			}
 			//Draw player position on map
-			mpSpriteBatch->Draw(mpMiniSquareTex, Vector2(centerXPos, centerYPos), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.75f, scaleOfItems * 0.75f));
+			fx.mpSpriteB->Draw(mpMiniSquareTex, Vector2(centerXPos, centerYPos), nullptr, Colours::Green, 0, mMiniSquareDimensions*0.5f, Vector2(scaleOfItems * 0.75f, scaleOfItems * 0.75f));
 
 			//Draw Timer
-			mpSpriteBatch->Draw(mpTimerTex, Vector2(w / 2.0f, mTimerDimensions.y * scaleOfMinimap * 0.5f), nullptr, Colours::White, 0, mTimerDimensions*0.5f, Vector2(scaleOfMinimap, scaleOfMinimap));
+			fx.mpSpriteB->Draw(mpTimerTex, Vector2(w / 2.0f, mTimerDimensions.y * scaleOfMinimap * 0.5f), nullptr, Colours::White, 0, mTimerDimensions*0.5f, Vector2(scaleOfMinimap, scaleOfMinimap));
 			//--- Begin Timer Display
 			wstringstream level;
 			level << "Level: " << (GetLevelManager()->getCurrentLevelNumber() + 1);
 
-			mpAlgerian->DrawString(mpSpriteBatch, level.str().c_str(), Vector2(w * 0.45f, 0), Colours::White, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 2.5f, scaleOfMinimap * 2.5f));
+			mpAlgerian->DrawString(fx.mpSpriteB, level.str().c_str(), Vector2(w * 0.45f, 0), Colours::White, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 2.5f, scaleOfMinimap * 2.5f));
 
 			wstringstream clock;
 			clock << fixed << setprecision(1) << Timer;
 			Vector4 col = Colors::GreenYellow;
 			if (Timer < 10.0f)
 				col = Colors::MediumVioletRed;
-			mpAlgerian->DrawString(mpSpriteBatch, clock.str().c_str(), Vector2(w * 0.47f, mTimerDimensions.y * scaleOfMinimap * 0.4f), col, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 2.5f, scaleOfMinimap * 2.5f));
+			mpAlgerian->DrawString(fx.mpSpriteB, clock.str().c_str(), Vector2(w * 0.47f, mTimerDimensions.y * scaleOfMinimap * 0.4f), col, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 2.5f, scaleOfMinimap * 2.5f));
 
 			//--- End Timer Display
 
 			//--- KEY SIDE OVERLAY
 			//Draw Key UI BG
-			mpSpriteBatch->Draw(mpTimerTex, Vector2((w * 0.1f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 2.0f));
+			fx.mpSpriteB->Draw(mpTimerTex, Vector2((w * 0.1f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 2.0f));
 			//--- Begin Key Display
 			if (hasRedKey)
-				mpSpriteBatch->Draw(mpRedKeyTex, Vector2(0.040 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(keyScale, keyScale));
+				fx.mpSpriteB->Draw(mpRedKeyTex, Vector2(0.040 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mRedKeyDimentions*0.5f, Vector2(keyScale, keyScale));
 			else if (RedKey)
-				mpSpriteBatch->Draw(mpRedEmptyTex, Vector2(0.040 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
+				fx.mpSpriteB->Draw(mpRedEmptyTex, Vector2(0.040 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mRedEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
 
 			if (hasBlueKey)
-				mpSpriteBatch->Draw(mpBlueKeyTex, Vector2(0.136 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(keyScale, keyScale));
+				fx.mpSpriteB->Draw(mpBlueKeyTex, Vector2(0.136 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mBlueKeyDimentions*0.5f, Vector2(keyScale, keyScale));
 			else if (BlueKey)
-				mpSpriteBatch->Draw(mpBlueEmptyTex, Vector2(0.136 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
+				fx.mpSpriteB->Draw(mpBlueEmptyTex, Vector2(0.136 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mBlueEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
 
 			if (hasYellowKey)
-				mpSpriteBatch->Draw(mpYellowKeyTex, Vector2(0.226 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(keyScale, keyScale));
+				fx.mpSpriteB->Draw(mpYellowKeyTex, Vector2(0.226 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mYellowKeyDimentions*0.5f, Vector2(keyScale, keyScale));
 			else if (YellowKey)
-				mpSpriteBatch->Draw(mpYellowEmptyTex, Vector2(0.226 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
+				fx.mpSpriteB->Draw(mpYellowEmptyTex, Vector2(0.226 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.58f)), nullptr, Colours::White, 0, mYellowEmptyDimentions*0.5f, Vector2(keyScale, keyScale));
 
 			//Draw 
-			mpSpriteBatch->Draw(mpTimerTex, Vector2((w * 0.9f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 4.0f));
+			fx.mpSpriteB->Draw(mpTimerTex, Vector2((w * 0.9f), h - (mTimerDimensions.y * scaleOfMinimap * 0.5f)), nullptr, Colours::White, PI, mTimerDimensions*0.5f, Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 4.0f));
 
 			//--- Begin Coin Display
 			//wstringstream coinsPickedUp;
 			//coinsPickedUp << "Coins Collected: " << playerScore;
-			//mpAlgerian->DrawString(mpSpriteBatch, coinsPickedUp.str().c_str(), Vector2(0, 100), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+			//mpAlgerian->DrawString(fx.mpSpriteB, coinsPickedUp.str().c_str(), Vector2(0, 100), Colors::GreenYellow, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
 			//Drawing coins on screen
 			switch (playerScore) {
 			case 1:
-				mpSpriteBatch->Draw(mpOneCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mOneCoinDimentions*0.5f, Vector2(coinScale, coinScale));
+				fx.mpSpriteB->Draw(mpOneCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mOneCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 				break;
 			case 2:
-				mpSpriteBatch->Draw(mpTwoCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mTwoCoinDimentions*0.5f, Vector2(coinScale, coinScale));
+				fx.mpSpriteB->Draw(mpTwoCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mTwoCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 				break;
 			case 3:
-				mpSpriteBatch->Draw(mpThreeCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mThreeCoinDimentions*0.5f, Vector2(coinScale, coinScale));
+				fx.mpSpriteB->Draw(mpThreeCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mThreeCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 				break;
 			case 4:
-				mpSpriteBatch->Draw(mpFourCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mFourCoinDimentions*0.5f, Vector2(coinScale, coinScale));
+				fx.mpSpriteB->Draw(mpFourCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mFourCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 				break;
 			case 5:
-				mpSpriteBatch->Draw(mpFiveCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mFiveCoinDimentions*0.5f, Vector2(coinScale, coinScale));
+				fx.mpSpriteB->Draw(mpFiveCoinTex, Vector2(0.83 * w, h - (mTimerDimensions.y * scaleOfMinimap * 0.61f)), nullptr, Colours::White, 0, mFiveCoinDimentions*0.5f, Vector2(coinScale, coinScale));
 				break;
 			}
 
 			//Collected coins
-			mpSpriteBatch->Draw(mpUIChestTex, Vector2(0.85 * w, h - (mTimerDimensions.y * scaleOfMinimap * 1.60f)), nullptr, Colours::White, 0, mUIChestDimentions*0.5f, Vector2(chestScale, chestScale));
+			fx.mpSpriteB->Draw(mpUIChestTex, Vector2(0.85 * w, h - (mTimerDimensions.y * scaleOfMinimap * 1.60f)), nullptr, Colours::White, 0, mUIChestDimentions*0.5f, Vector2(chestScale, chestScale));
 
 			wstringstream maxCoinsStr;
 			maxCoinsStr << playerDeposited << "/" << maxCoins;
-			mpAlgerian->DrawString(mpSpriteBatch, maxCoinsStr.str().c_str(), Vector2(0.90f * w, h - (mTimerDimensions.y * scaleOfMinimap * 1.8f)), Colors::White, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 3.0f));
+			mpAlgerian->DrawString(fx.mpSpriteB, maxCoinsStr.str().c_str(), Vector2(0.90f * w, h - (mTimerDimensions.y * scaleOfMinimap * 1.8f)), Colors::White, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 3.0f));
 
 			//NEAR DEPOSIT BOX
 			if ((nearBoxFlag == true) && playerScore > 0)
 			{
 				wstringstream nearBoxStr;
 				nearBoxStr << "Press 'CROUCH' To Deposit";
-				mpAlgerian->DrawString(mpSpriteBatch, nearBoxStr.str().c_str(), Vector2(0.3f * w, h * 0.70f), Colors::Orange, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 3.0f));
+				mpAlgerian->DrawString(fx.mpSpriteB, nearBoxStr.str().c_str(), Vector2(0.3f * w, h * 0.70f), Colors::Orange, 0, Vector2(0, 0), Vector2(scaleOfMinimap * 3.0f, scaleOfMinimap * 3.0f));
 				//wstringstream coinsDeposited;
 				//coinsDeposited << "Coins Deposited: " << playerDeposited;
-				//mpAlgerian->DrawString(mpSpriteBatch, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+				//mpAlgerian->DrawString(fx.mpSpriteB, coinsDeposited.str().c_str(), Vector2(0, 100), Colors::AliceBlue, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 				//--- End Coin Display
 
 			}
@@ -336,7 +336,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 				wstringstream textToAdd;
 				textToAdd << debugTextVector.at(elementInVector - 1).text.c_str();
 				int height = 25 * ((debugTextVector.size() - elementInVector) + 1);
-				mpComicSans->DrawString(mpSpriteBatch, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+				mpComicSans->DrawString(fx.mpSpriteB, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
 
 
@@ -346,7 +346,7 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 					wstringstream textToAdd;
 					textToAdd << debugTextVector.at(elementInVector - 1).text.c_str();
 					int height = 25 * ((debugTextVector.size() - elementInVector) + 1);
-					mpComicSans->DrawString(mpSpriteBatch, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+					mpComicSans->DrawString(fx.mpSpriteB, textToAdd.str().c_str(), Vector2(0, height), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
 
 					count++;
 					if (count == 30)
@@ -367,12 +367,15 @@ void UserInterfaceManager::updateUI(const float fpsNumber, const float Timer, co
 			}
 		}
 	}
-	mpSpriteBatch->End();
+	fx.mpSpriteB->End();
 }
 
 void UserInterfaceManager::Release()
 {
 
+	//Fonts
+	delete mpComicSans;
+	delete mpAlgerian;
 }
 
 void UserInterfaceManager::handlePauseMenu() {
@@ -418,14 +421,14 @@ void UserInterfaceManager::handlePauseMenu() {
 			}
 		}
 	}
-
+	FX::MyFX& fx = *FX::GetMyFX();
 		//background
 		int w, h;
 		GetClientExtents(w, h);
 		float sz(h / mPausedDimentions.y);
 		if (sz > 1.25f)
 			sz = 1.25f;
-		mpSpriteBatch->Draw(mpPausedTex, Vector2(w / 2.f, h / 2.f), nullptr, Colours::White, 0, mPausedDimentions*0.5f, DirectX::SimpleMath::Vector2(sz, sz));
+		fx.mpSpriteB->Draw(mpPausedTex, Vector2(w / 2.f, h / 2.f), nullptr, Colours::White, 0, mPausedDimentions*0.5f, DirectX::SimpleMath::Vector2(sz, sz));
 
 		UserInterfaceManager::bounds resumeBounds = drawButton(mpResumeTex, mResumeDimentions, -50, 0);
 
@@ -484,17 +487,18 @@ void UserInterfaceManager::handlePauseMenu() {
 		if (arrowsz > 1.25f)
 			arrowsz = 1.25f;
 
-		mpSpriteBatch->Draw(mArrowTex, Vector2((w / 2.f) + ArrowWOffset, (h / 2.f) + ArrowHOffset), nullptr, Colours::White, 0, mArrowDimentions*0.5f, DirectX::SimpleMath::Vector2(arrowsz, arrowsz));
+		fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + ArrowWOffset, (h / 2.f) + ArrowHOffset), nullptr, Colours::White, 0, mArrowDimentions*0.5f, DirectX::SimpleMath::Vector2(arrowsz, arrowsz));
 }
 
 UserInterfaceManager::bounds UserInterfaceManager::drawButton(ID3D11ShaderResourceView *tex, DirectX::SimpleMath::Vector2 dimentions, float hOffset, float wOffset) {
+	FX::MyFX& fx = *FX::GetMyFX();
 	UserInterfaceManager::bounds boundsOfbutton;
 	int w, h;
 	GetClientExtents(w, h);
 	float sz(h / dimentions.y);
 	if (sz > 1.25f)
 		sz = 1.25f;
-	mpSpriteBatch->Draw(tex, Vector2((w / 2.f) + wOffset, (h / 2.f) + hOffset), nullptr, Colours::White, 0, dimentions*0.5f, Vector2(sz, sz));
+	fx.mpSpriteB->Draw(tex, Vector2((w / 2.f) + wOffset, (h / 2.f) + hOffset), nullptr, Colours::White, 0, dimentions*0.5f, Vector2(sz, sz));
 
 	Vector2 TopLeft = Vector2(((w / 2.f) + wOffset) - (dimentions.x / 2 * sz), ((h / 2.f) + hOffset) - (dimentions.y / 2 * sz));
 	Vector2 BottomRight = Vector2(((w / 2.f) + wOffset) + (dimentions.x / 2 * sz), ((h / 2.f) + hOffset) + (dimentions.y / 2 * sz));

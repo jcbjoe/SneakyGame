@@ -22,6 +22,10 @@ void State::Render(float dTime)
 
 }
 
-void State::Release() {
+void State::ReleaseFromLevel() {
+
+}
+
+void State::Destruct() {
 
 }
