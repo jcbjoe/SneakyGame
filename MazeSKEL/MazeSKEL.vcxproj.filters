@@ -206,6 +206,9 @@
     <ClCompile Include="HighscoreState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="HelpState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -365,6 +368,9 @@
       <Filter>Headers\Levels</Filter>
     </ClInclude>
     <ClInclude Include="HighscoreState.h">
+      <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpState.h">
       <Filter>Headers\States</Filter>
     </ClInclude>
   </ItemGroup>

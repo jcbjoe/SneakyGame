@@ -80,7 +80,7 @@ void MainMenuState::Update(float dTime){
 			if (selected == 1)
 				GetStateManager()->changeState("HighscoreState");
 			if (selected == 2)
-				;
+				GetStateManager()->changeState("HelpState");
 			if(selected == 3)
 				PostQuitMessage(0);
 		}
@@ -168,6 +168,16 @@ void MainMenuState::Render(float dTime) {
 		)
 	{
 		selected = 2;
+	}
+	if (
+		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).x >= helpBounds.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= helpBounds.bottomRight.x))
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).y >= helpBounds.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= helpBounds.bottomRight.y))
+		)
+	{
+		GetStateManager()->changeState("HelpState");
 	}
 
 	//////////////////////////////////////////////////////// EXIT BUTTON //////////////////////////////////////////////////////////////////////
