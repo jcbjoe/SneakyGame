@@ -86,6 +86,9 @@ void Level::reloadLevel() {
 
 	// x and z are level axes (position)
 	// Cycle through the level array and create objects depending on the table above, all objects added to a vector of gameobjects
+
+	int lightIDEnemy = 5;		//Initial light id for enemy torch cone, will be used as a counter for multiple enemy lights
+
 	for (int x(0); x < 20; x++)
 	{
 		for (int z(0); z < 20; z++)
@@ -200,8 +203,9 @@ void Level::reloadLevel() {
 			
 			case 31: //Enemy
 			{ 
-				Enemy* enemy = new Enemy("Enemy", Vector3(x, 0.5f, z), Vector3(0, 0, 0), Vector3(0.007f, 0.007f, 0.007f));
+				Enemy* enemy = new Enemy("Enemy", Vector3(x, 0.5f, z), Vector3(0, 0, 0), Vector3(0.007f, 0.007f, 0.007f), lightIDEnemy);
 				GetGameObjectManager()->addGameObject(enemy);
+				lightIDEnemy++;
 				break;
 			}
 			default:
