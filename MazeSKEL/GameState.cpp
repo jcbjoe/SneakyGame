@@ -47,8 +47,10 @@ void GameState::Destruct() {
 
 
 void GameState::Update(float dTime) {
+	//Keeps calling audiMgr so sounds can repeat
 	GetIAudioMgr()->Update();
 	if(GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
+		//Plays music
 		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 
 	if (GetMouseAndKeys()->IsPressed(VK_BACK)) {
