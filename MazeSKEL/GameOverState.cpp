@@ -16,6 +16,9 @@ GameOverState::GameOverState()
 	totCoinsDeposited = 0;
 	totTimeTaken = 0;
 	keyPressed = false;
+
+	mpComicSans = new SpriteFont(gd3dDevice, L"../bin/data/comicSansMS.spritefont");
+	assert(mpComicSans);
 }
 
 void GameOverState::Init() {
@@ -23,8 +26,7 @@ void GameOverState::Init() {
 	selected = 0;
 	gamepadDown = false;
 
-	mpComicSans = new SpriteFont(gd3dDevice, L"../bin/data/comicSansMS.spritefont");
-	assert(mpComicSans);
+	
 
 	LoadTextures();
 
@@ -307,7 +309,8 @@ void GameOverState::ReleaseFromLevel() {
 }
 
 void GameOverState::Destruct() {
-
+	delete mpComicSans;
+	delete mpSpriteBatch;
 }
 
 void GameOverState::setStats(vector<levelStats> ls)

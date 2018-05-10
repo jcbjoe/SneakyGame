@@ -84,7 +84,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	GetIAudioMgr()->Initialise();
 	new LevelManager;
 	new StateManager;
-
 	GetStateManager()->getCurrentState()->Init();
 
 	Run(Update, Render);
