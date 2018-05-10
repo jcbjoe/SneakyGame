@@ -292,6 +292,23 @@ vector<PlayerStats> GameOverState::loadScores()
 			//Read into an object and push it to the vector
 			PlayerStats readIn;
 			input >> readIn.Name >> readIn.LevelReached >> readIn.ScoreGained;
+
+			// DECRYPT
+			//char x = readIn.Name[0];
+			//char y = readIn.Name[1];
+			//char z = readIn.Name[2];
+			//
+			//x -= 5;
+			//y -= 4;
+			//z -= 3;
+			//
+			//readIn.Name[0] = x;
+			//readIn.Name[1] = y;
+			//readIn.Name[2] = z;
+			//
+			//readIn.ScoreGained -= 50;
+			//readIn.LevelReached -= 50;
+
 			allDataFromFile.push_back(readIn);
 		}
 	}
@@ -378,6 +395,28 @@ void GameOverState::saveToFile()
 	//int score = (int)((float)totCoinsDeposited / (float)totTimeTaken) * 100.0f;
 	//alter loaded vector so it contains/doesnt contain score
 	PlayerStats dataToSave{ pName.str() , levels, scr };
+
+	// "ENCRYPT - obviously basic but any encryption would follow same steps, not worth complicating"
+	//for (int i = 0; i < dataToSave.Name.size() - 1; i++)
+	//{
+	//	dataToSave.Name[i] += 60;
+	////}
+	//
+	//char x = dataToSave.Name[0];
+	//char y = dataToSave.Name[1];
+	//char z = dataToSave.Name[2];
+	//
+	//x += 5;
+	//y += 4;
+	//z += 3;
+	//
+	//dataToSave.Name[0] = x;
+	//dataToSave.Name[1] = y;
+	//dataToSave.Name[2] = z;
+	//
+	//dataToSave.ScoreGained += 50;
+	//dataToSave.LevelReached += 50;
+
 	updateScores(currentScores, dataToSave);
 
 	//save back to file

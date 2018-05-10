@@ -208,6 +208,24 @@ vector<PlayerStats> HighscoreState::loadScores()
 			//Read into an object and push it to the vector
 			PlayerStats readIn;
 			input >> readIn.Name >> readIn.LevelReached >> readIn.ScoreGained;
+
+
+			//// DECRYPT
+			//char x = readIn.Name[0];
+			//char y = readIn.Name[1];
+			//char z = readIn.Name[2];
+			//
+			//x -= 5;
+			//y -= 4;
+			//z -= 3;
+			//
+			//readIn.Name[0] = x;
+			//readIn.Name[1] = y;
+			//readIn.Name[2] = z;
+			//
+			//readIn.ScoreGained -= 50;
+			//readIn.LevelReached -= 50;
+
 			allDataFromFile.push_back(readIn);
 		}
 	}
