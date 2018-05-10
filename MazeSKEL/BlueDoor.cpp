@@ -7,7 +7,6 @@ BlueDoor::BlueDoor(string name, Vector3 position, Vector3 rotation, Vector3 scal
 	GetModel().Initialise(*GetMeshManager()->GetMesh("door"));
 
 	GameObject::setInitialPos();
-	isOpen = false;
 
 	MaterialExt mat = GetModel().GetMesh().GetSubMesh(0).material;
 	mat.gfxData.Set(Vector4(0.4, 0.4, 0.4, 1), Vector4(0.3, 0.3, 1, 0), Vector4(0.0f, 0.0f, 0.0f, 1));
@@ -25,12 +24,12 @@ void BlueDoor::Update(float dTime) {
 
 		//SetPosition(Vector3(0, 0, 0) + Vector3(0, 0, 0.5f));
 
-		SetRotation({ 0, x, 0 });
+		SetRotation({ 0, openMov, 0 });
 		SetPosition(currPos);
 
-		if (x <= PI / 2.0f)
+		if (openMov <= PI / 2.0f)
 		{
-			x += 1 * dTime;
+			openMov += 1 * dTime;
 		}
 		else
 		{
