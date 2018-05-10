@@ -92,6 +92,19 @@ void HighscoreState::Render(float dTime) {
 
 	//Show highscores
 	
+	wstringstream name;
+	name << "NAME: ";
+	mpComicSans->DrawString(fx.mpSpriteB, name.str().c_str() , Vector2(w / 2.0f -w * 0.2f, h / 2 - h * 0.25f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
+
+	wstringstream lvl;
+	lvl << "LEVEL: ";
+	mpComicSans->DrawString(fx.mpSpriteB, lvl.str().c_str(), Vector2(w / 2.0f, h / 2 - h * 0.25f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
+
+	wstringstream scr;
+	scr << "SCORE: ";
+	mpComicSans->DrawString(fx.mpSpriteB, scr.str().c_str(), Vector2(w / 2.0f + w * 0.2f, h / 2 - h * 0.25f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
+
+
 	//For every score in the board
 	for (int i = 0; i < statsToShow.size() - 1; i++)
 	{
@@ -99,15 +112,15 @@ void HighscoreState::Render(float dTime) {
 
 		wstringstream playerName;
 		playerName << statsToShow[i].Name[0] << statsToShow[i].Name[1] << statsToShow[i].Name[2];
-		mpComicSans->DrawString(fx.mpSpriteB, playerName.str().c_str() , Vector2(500, 500 + i * 25), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		mpComicSans->DrawString(fx.mpSpriteB, playerName.str().c_str() , Vector2(w / 2.0f + (-w * 0.2f), h / 2 + (h * 0.05f * i + 1) - h * 0.15f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
 
 		wstringstream playerLevel;
 		playerLevel << statsToShow[i].LevelReached;
-		mpComicSans->DrawString(fx.mpSpriteB, playerLevel.str().c_str(), Vector2(570, 500 + i * 25), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		mpComicSans->DrawString(fx.mpSpriteB, playerLevel.str().c_str(), Vector2(w / 2.0f , h / 2 + (h * 0.05f * i + 1) - h * 0.15f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
 
 		wstringstream playerScore;
 		playerScore << statsToShow[i].ScoreGained;
-		mpComicSans->DrawString(fx.mpSpriteB, playerScore.str().c_str(), Vector2(610, 500 + i * 25), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+		mpComicSans->DrawString(fx.mpSpriteB, playerScore.str().c_str(), Vector2(w / 2.0f + (w * 0.2f), h / 2 + (h * 0.05f * i +1 ) - h * 0.15f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
 
 	}
 	//showHighscores();

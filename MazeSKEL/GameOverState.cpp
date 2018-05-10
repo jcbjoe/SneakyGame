@@ -120,16 +120,6 @@ void GameOverState::Render(float dTime) {
 	int w, h;
 	GetClientExtents(w, h);
 
-
-	wstringstream wss;
-	wss << "YOU SURVIVED TO LEVEL " << to_string(levels).c_str() << " AND COLLECTED " << to_string(totCoinsDeposited).c_str() << " IN " << to_string(totTimeTaken).c_str() << " SECONDS";
-	mpComicSans->DrawString(fx.mpSpriteB, wss.str().c_str(), Vector2(0.0f, 0.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-
-	wstringstream wss2;
-	wss2 << "USE MOVEMENT KEYS TO ENTER A NAME, ENTER TO SUBMIT SCORE";
-	mpComicSans->DrawString(fx.mpSpriteB, wss2.str().c_str(), Vector2(0.25f * w, 20.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-
-
 	float sz(h / mBackgroundDimentions.y);
 	if (sz > 1.25f)
 		sz = 1.25f;
@@ -150,23 +140,35 @@ void GameOverState::Render(float dTime) {
 	if (arrowsz > 1.25f)
 		arrowsz = 1.25f;
 
+
+	//Arrow on main menu button
 	fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + ArrowWOffset, (h / 2.f) + ArrowHOffset), nullptr, Colours::White, 0, mArrowDimentions*0.5f, Vector2(arrowsz, arrowsz));
 
-	wstringstream test1;
-	test1 << " " << name[0] << " ";
-	mpComicSans->DrawString(fx.mpSpriteB, test1.str().c_str(), Vector2(0.25f * w, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	//How long you survived
+	wstringstream wss;
+	wss << "YOU SURVIVED TO LEVEL " << to_string(levels).c_str() << " AND COLLECTED " << to_string(totCoinsDeposited).c_str() << " IN " << to_string(totTimeTaken).c_str() << " SECONDS";
+	mpComicSans->DrawString(fx.mpSpriteB, wss.str().c_str(), Vector2(w * 0.35f, h * 0.35f), Colors::White, 0, Vector2(0, 0), Vector2(0.00052f * w, 0.00052f * w));
 
-	wstringstream test2;
-	test2 << " " << name[1] << " ";
-	mpComicSans->DrawString(fx.mpSpriteB, test2.str().c_str(), Vector2(0.25f * w + 100.0f, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	wstringstream wss2;
+	wss2 << "USE MOVEMENT KEYS TO ENTER A NAME, PRESS 'A' / CLICK TO SUBMIT SCORE";
+	mpComicSans->DrawString(fx.mpSpriteB, wss2.str().c_str(), Vector2(0.30f * w, h * 0.4f), Colors::White, 0, Vector2(0, 0), Vector2(0.00052f * w, 0.00052f * w));
 
-	wstringstream test3;
-	test3 << " " << name[2] << " ";
-	mpComicSans->DrawString(fx.mpSpriteB, test3.str().c_str(), Vector2(0.25f * w + 200.0f, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
 
-	wstringstream test4;
-	test4 << " v ";
-	mpComicSans->DrawString(fx.mpSpriteB, test4.str().c_str(), Vector2(0.25f * w + 100.0f * selector, 25.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	wstringstream namewss;
+	namewss << "[" << name[0] << "] [" << name[1] << "] [" << name[2] << "]";
+	mpComicSans->DrawString(fx.mpSpriteB, namewss.str().c_str(), Vector2(0.4f * w, h * 0.5f), Colors::White, 0, Vector2(0, 0), Vector2(0.00156 * w, 0.00156 * w));
+	
+	//wstringstream test2;
+	//test2 << " " << name[1] << " ";
+	//mpComicSans->DrawString(fx.mpSpriteB, test2.str().c_str(), Vector2(0.25f * w + 100.0f, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	//
+	//wstringstream test3;
+	//test3 << " " << name[2] << " ";
+	//mpComicSans->DrawString(fx.mpSpriteB, test3.str().c_str(), Vector2(0.25f * w + 200.0f, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	//
+	wstringstream slector;
+	slector << "[v] ";
+	mpComicSans->DrawString(fx.mpSpriteB, slector.str().c_str(), Vector2(0.4f * w + (w * 0.06f * selector), h * 0.44), Colors::White, 0, Vector2(0, 0), Vector2(0.00156 * w, 0.00156 * w));
 
 	fx.mpSpriteB->End();
 
