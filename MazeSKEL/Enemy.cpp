@@ -46,7 +46,7 @@ void Enemy::Update(float dTime) {
 
 			for (Vector2 coords : inbetween) {
 				int objType = GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(coords.x, coords.y);
-				if (objType == 1) {
+				if (objType == 1 || objType == 5) {
 					canSeeBool = false;
 					break;
 				}

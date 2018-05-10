@@ -206,6 +206,9 @@
     <ClCompile Include="HighscoreState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="WallWindow.cpp">
+      <Filter>Source Files\Gameobjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -366,6 +369,9 @@
     </ClInclude>
     <ClInclude Include="HighscoreState.h">
       <Filter>Headers\States</Filter>
+    </ClInclude>
+    <ClInclude Include="WallWindow.h">
+      <Filter>Headers\Gameobjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

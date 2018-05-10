@@ -1,6 +1,7 @@
 #include "Level.h"
 #include "Player.h"
 #include "Wall.h"
+#include "WallWindow.h"
 #include "Loot.h"
 #include "Floor.h"
 #include "Ceiling.h"
@@ -35,6 +36,8 @@ string Level::getLevelName() {
 void Level::reloadLevel() {
 
 	maxCoins = 0;
+	int noWindowWalls = 0;
+	vector<Vector2> windowWallCoordinates;
 	((GameState*)GetStateManager()->getCurrentState())->setRedKey(false);
 	((GameState*)GetStateManager()->getCurrentState())->setBlueKey(false);
 	((GameState*)GetStateManager()->getCurrentState())->setYellowKey(false);
@@ -71,6 +74,7 @@ void Level::reloadLevel() {
 	//
 	// 30 = PLAYER
 	// 31 = ENEMY
+
 
 	for (int i(0); i < 20; i++)
 	{
@@ -113,6 +117,12 @@ void Level::reloadLevel() {
 				//Half wall
 				WallHalf* wallHalf = new WallHalf("WallHalf", Vector3(i, 1.5f, j), Vector3(0, 0, 0), Vector3(0.5, 0.5, 0.5));
 				GetGameObjectManager()->addGameObject(wallHalf);
+				break;
+			}
+			case 05: //Wall Window
+			{
+				windowWallCoordinates.push_back({ (float)i, (float)j });
+				noWindowWalls++;
 				break;
 			}
 			case 10: //Return Box
@@ -194,6 +204,10 @@ void Level::reloadLevel() {
 				break;
 			}
 		}
+	}
+	for (int i(0); i < noWindowWalls; i++) {
+		WallWindow* wallWindow = new WallWindow("WallWindow", Vector3(windowWallCoordinates[i].x, 0.99f, windowWallCoordinates[i].y), Vector3(0, 0, 0), Vector3(0.5, 1.0, 0.5));
+		GetGameObjectManager()->addGameObject(wallWindow);
 	}
 	int count(1);
 	for (Vector3 loc : waypointLocations) {

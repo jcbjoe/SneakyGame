@@ -146,6 +146,7 @@
     <ClCompile Include="UtilsDefines.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="WallHalf.cpp" />
+    <ClCompile Include="WallWindow.cpp" />
     <ClCompile Include="WindowUtils.cpp" />
     <ClCompile Include="YellowKey.cpp" />
   </ItemGroup>
@@ -201,6 +202,7 @@
     <ClInclude Include="UtilsDefines.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="WallHalf.h" />
+    <ClInclude Include="WallWindow.h" />
     <ClInclude Include="WindowUtils.h" />
     <ClInclude Include="YellowKey.h" />
   </ItemGroup>
