@@ -62,6 +62,8 @@ private:
 	char name[3] = { 'A' , 'A' , 'A' };
 	int selector;
 	bool keyPressed = false;
+
+	bool pressedOnInit;
 };
 
 #endif
