@@ -27,8 +27,6 @@ public:
 
 	void pathFindToNextWaypoint();
 
-	bool getCaught();
-	void setCaught();
 
 private:
 
@@ -39,7 +37,6 @@ private:
 	int waypointNumber;
 	vector<Vector2> canSee(int x0, int y0, int x1, int y1);
 	bool followingPath;
-	bool caught = false;
 	int currentPathPos;
 	vector<Vector3> currentPath;
 	float movespeed = 1.5f;

@@ -54,8 +54,8 @@ void Enemy::Update(float dTime) {
 
 			float distance = Vector3().Distance(GetModel().GetPosition(), playerPos);
 
-			if (distance < 0.5 && !caught) {
-				setCaught();
+			if (distance < 0.5 && !getCaught()) {
+				setCaught(true);
 				GetIAudioMgr()->GetSfxMgr()->Play("soundCaught", false, false, nullptr, 1.0);
 			}
 
@@ -502,11 +502,4 @@ void Enemy::detectPlayer(bool& canSeeBool)
 		}
 		canSeeBool = false;
 	}
-}
-
-bool Enemy::getCaught() {
-	return caught;
-}
-void Enemy::setCaught() {
-	caught = true;
 }

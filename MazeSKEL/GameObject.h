@@ -71,11 +71,14 @@ public:
 	void incrementRotation(const float x, const float y, const float z) {
 		model_.GetRotation() += Vector3(x, y, z);
 	}
+	
 
 	void moveObject();
 	bool getMove();
 	void setIndex(int index);
 	int getIndex();
+	bool getCaught();
+	void setCaught(bool bl);
 
 	void setInitialPos();
 	void setMove(bool bl);
@@ -86,6 +89,7 @@ private:
 	Vector3 rotation_;
 	Vector3 scale_;
 	bool move_ = false;
+	bool caught = false;
 	int index_;
 
 	Model model_;

@@ -66,3 +66,10 @@ void GameObject::setMove(bool bl)
 {
 	move_ = bl;
 }
+
+bool GameObject::getCaught() {
+	return caught;
+}
+void GameObject::setCaught(bool bl) {
+	caught = bl;
+}
