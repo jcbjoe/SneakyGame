@@ -1,17 +1,16 @@
 #include "GameObjectManager.h"
 #include "Skybox.h"
 
-GameObjectManager::GameObjectManager() : loadedObjects(false){
+//Default Constructor
+GameObjectManager::GameObjectManager() : 
+	loadedObjects(false)
+{}
 
-}
-
+//Load in objects used to populate levels
 void GameObjectManager::loadObjects()
 {
 	if (!loadedObjects) {
 		
-		/*Skybox* skybox = new Skybox("Skybox", Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(1, 1, 1));
-		GetGameObjectManager()->addGameObject(skybox);*/
-
 		//Create Initial Objects to copy
 		BuildFloor(*GetMeshManager());
 		BuildWall(*GetMeshManager());
@@ -38,6 +37,7 @@ void GameObjectManager::loadObjects()
 	}
 }
 
+//Delete all objects from the gameObjects vector
 void GameObjectManager::Release()
 {
 	for (GameObject* obj : gameObjects) {
@@ -46,36 +46,21 @@ void GameObjectManager::Release()
 	gameObjects.clear();
 }
 
+//Add object to vector
 void GameObjectManager::addGameObject(GameObject* gObj) {
 	gameObjects.push_back(gObj);
 }
 
+//Returns the gameObjects vector
 vector<GameObject*>& GameObjectManager::getGameObjects() {
 	return gameObjects;
 }
 
+//Search for an object by its name (returns the first)
 GameObject* GameObjectManager::getFirstObjectByName(const string name) {
 	for (GameObject* obj : gameObjects) {
 		if (obj->GetName() == name) {
 			return obj;
 		}
 	}
-}
-
-void GameObjectManager::deleteAllObjects()
-{
-	GameObject* sky = nullptr;
-	//Delete everything other than the skybox (fixes mesh errors)
-	for (GameObject* object : gameObjects)
-	{
-		if (object->GetName() != "Skybox") {
-			delete object;
-		}
-		else {
-			sky = object;
-		}
-	}
-	gameObjects.clear();
-	if(sky)
-		gameObjects.push_back(sky);
 }

@@ -11,7 +11,7 @@
 
 using namespace std;
 
-
+//Manager for all objects of the GameObject class
 class GameObjectManager : public Singleton<GameObjectManager>
 {
 public:
@@ -46,8 +46,6 @@ public:
 	void GameObjectManager::deleteGameObjectByIndex(const int index){
 		gameObjects.erase(gameObjects.begin() + index);
 	}
-
-	void deleteAllObjects();
 
 	void Release();
 

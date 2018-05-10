@@ -63,7 +63,7 @@ void LevelManager::loadLevel(string levelname) {
 
 void LevelManager::loadLevel(int levelNum) {
 	levels.at(currentLevelNumber)->Release();
-	GetGameObjectManager()->deleteAllObjects();
+	GetGameObjectManager()->Release();
 	currentLevelNumber = levelNum;
 	levels.at(currentLevelNumber)->reloadLevel();
 }

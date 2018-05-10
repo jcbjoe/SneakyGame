@@ -244,7 +244,7 @@ void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 	roll += _roll * dTime * rspeed;
 	Matrix ori;
 
-	//Fix gimble lock
+	//Fix gimbal lock
 	if (pitch < -0.3f)
 		pitch = -0.3f;
 
