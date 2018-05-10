@@ -47,7 +47,7 @@ private:
 	 
 	int levelMap[levelSize][levelSize]; 
 	int maxCoins;
-
+	bool windowWall = false;
 	vector<Vector3> waypointLocations;
 
 };

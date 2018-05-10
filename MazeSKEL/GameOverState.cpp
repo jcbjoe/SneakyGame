@@ -23,10 +23,7 @@ GameOverState::GameOverState()
 
 void GameOverState::Init() {
 	handled = false;
-	selected = 0;
 	gamepadDown = false;
-
-	
 
 	LoadTextures();
 
@@ -57,42 +54,25 @@ void GameOverState::Update(float dTime) {
 	if (GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
 		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 
-	if (handled) {
-		GetStateManager()->changeState("MainMenuState");
-	}
+	//if (handled) {
+	//	GetStateManager()->changeState("MainMenuState");
+	//}
+
 	GetGamepad()->Update();
-	if (GetGamepad()->IsConnected(0)) {
-		if (GetGamepad()->GetState(0).leftStickY < 0) {
-			if (!gamepadDown) {
-				if (selected == 2)
-					selected = 0;
-				else
-					selected++;
-			}
-			gamepadDown = true;
-		}
-		else if (GetGamepad()->GetState(0).leftStickY > 0) {
-			if (!gamepadDown) {
-				if (selected == 0)
-					selected = 2;
-				else
-					selected--;
-			}
-			gamepadDown = true;
-		}
-		else {
-			if (gamepadDown) {
-				gamepadDown = false;
-			}
-		}
+
+	if (GetGamepad()->IsConnected(0))
 		if (!(GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) && pressedOnInit) {
 			pressedOnInit = false;
 		}
 
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 0 && !pressedOnInit) {
-			GetStateManager()->changeState("LoadingState");
-		}
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 2 && !pressedOnInit) {
+	if (GetGamepad()->IsConnected(0)) {
+
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && !pressedOnInit) {
+			saveToFile();
+			levels = 0;
+			totCoinsDeposited = 0;
+			totTimeTaken = 0;
+			keyPressed = false;
 			GetStateManager()->changeState("MainMenuState");
 		}
 	}
@@ -100,21 +80,21 @@ void GameOverState::Update(float dTime) {
 	if (keyPressed == false)
 	{
 		//If ENTER KEY IS NOT PRESSED
-		if (GetMouseAndKeys()->IsPressed(VK_W)) //up
+		if (GetMouseAndKeys()->IsPressed(VK_W) || (GetGamepad()->IsConnected(0) && GetGamepad()->GetState(0).leftStickY > 0)) //up
 		{
 			keyPressed = true;
 
 			if (name[selector] != 65)
 				name[selector] = (char)name[selector] - 1;
 		}
-		else if (GetMouseAndKeys()->IsPressed(VK_S)) // down
+		else if (GetMouseAndKeys()->IsPressed(VK_S) || (GetGamepad()->IsConnected(0) && GetGamepad()->GetState(0).leftStickY < 0)) // down
 		{
 			keyPressed = true;
 
 			if (name[selector] != 90)
 				name[selector] = (char)name[selector] + 1;
 		}
-		else if (GetMouseAndKeys()->IsPressed(VK_A)) // left
+		else if (GetMouseAndKeys()->IsPressed(VK_A) || (GetGamepad()->IsConnected(0) && GetGamepad()->GetState(0).leftStickX < 0)) // left
 		{
 			keyPressed = true;
 			if (selector == 0)
@@ -122,7 +102,7 @@ void GameOverState::Update(float dTime) {
 			else
 				selector -= 1;
 		}
-		else if (GetMouseAndKeys()->IsPressed(VK_D)) //Right
+		else if (GetMouseAndKeys()->IsPressed(VK_D) || (GetGamepad()->IsConnected(0) && GetGamepad()->GetState(0).leftStickX < 0)) //Right
 		{
 			keyPressed = true;
 			if (selector == 2)
@@ -130,16 +110,36 @@ void GameOverState::Update(float dTime) {
 			else
 				selector += 1;
 		}
-		else if (GetMouseAndKeys()->IsPressed(VK_RETURN))
+		else if (GetMouseAndKeys()->IsPressed(VK_RETURN) || GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON))
 		{
+			keyPressed = true;
 			//SUBMIT HIGHSCORES AND GO TO MAIN MENU
+			saveToFile();
+			levels = 0;
+			totCoinsDeposited = 0;
+			totTimeTaken = 0;
+			keyPressed = false;
+			GetStateManager()->changeState("MainMenuState");
 		}
 	}
 	
-	if (!GetMouseAndKeys()->IsPressed(VK_W) && !GetMouseAndKeys()->IsPressed(VK_A) && !GetMouseAndKeys()->IsPressed(VK_S) && !GetMouseAndKeys()->IsPressed(VK_D) && !GetMouseAndKeys()->IsPressed(VK_RETURN))
+	if (GetGamepad()->IsConnected(0))
 	{
-		keyPressed = false;
+		if (GetGamepad()->GetState(0).leftStickY == 0 && GetGamepad()->GetState(0).leftStickX == 0 && !GetMouseAndKeys()->IsPressed(VK_W) && !GetMouseAndKeys()->IsPressed(VK_A) && !GetMouseAndKeys()->IsPressed(VK_S) && !GetMouseAndKeys()->IsPressed(VK_D) && !GetMouseAndKeys()->IsPressed(VK_RETURN))
+		{
+			keyPressed = false;
+		}
 	}
+	else
+	{
+		if (!GetMouseAndKeys()->IsPressed(VK_W) && !GetMouseAndKeys()->IsPressed(VK_A) && !GetMouseAndKeys()->IsPressed(VK_S) && !GetMouseAndKeys()->IsPressed(VK_D) && !GetMouseAndKeys()->IsPressed(VK_RETURN))
+		{
+			keyPressed = false;
+		}
+	}
+	
+
+	
 }
 
 void GameOverState::Render(float dTime) {
@@ -157,124 +157,60 @@ void GameOverState::Render(float dTime) {
 	int w, h;
 	GetClientExtents(w, h);
 
-
-	wstringstream wss;
-	wss << "YOU SURVIVED TO LEVEL " << to_string(levels).c_str() << " AND COLLECTED " << to_string(totCoinsDeposited).c_str() << " IN " << to_string(totTimeTaken).c_str() << " SECONDS";
-	mpComicSans->DrawString(fx.mpSpriteB, wss.str().c_str(), Vector2(0.0f, 0.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-
-	wstringstream wss2;
-	wss2 << "USE MOVEMENT KEYS TO ENTER A NAME, ENTER TO SUBMIT SCORE";
-	mpComicSans->DrawString(fx.mpSpriteB, wss2.str().c_str(), Vector2(0.25f * w, 20.0f), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
-
-
 	float sz(h / mBackgroundDimentions.y);
 	if (sz > 1.25f)
 		sz = 1.25f;
 	fx.mpSpriteB->Draw(mpBackgroundTex, Vector2(w / 2.f, h / 2.f), nullptr, Colours::White, 0, mBackgroundDimentions*0.5f, Vector2(sz, sz));
 
 	////////////////////////////////////////////// PLAY AGAIN //////////////////////////////////////////////////////////////////////////////
-	GameOverState::bounds boundsOfPlayAgain = drawButton(mpPlayAgainTex, mPlayAgainDimentions, 100, 0);
-
-	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfPlayAgain.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfPlayAgain.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfPlayAgain.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfPlayAgain.bottomRight.y))
-		)
-	{
-		selected = 0;
-	}
-
-	if (
-		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfPlayAgain.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfPlayAgain.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfPlayAgain.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfPlayAgain.bottomRight.y))
-		)
-	{
-		GetStateManager()->changeState("LoadingState");
-	}
-
 
 	////////////////////////////////////////////// HIGHSCORES //////////////////////////////////////////////////////////////////////////////
-	GameOverState::bounds boundsOfHighscore = drawButton(mpHighscoreTex, mHighscoreDimentions, 200, 0);
-	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfHighscore.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfHighscore.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfHighscore.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfHighscore.bottomRight.y))
-		)
-	{
-		selected = 1;
-	}
-
-	if (
-		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfHighscore.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfHighscore.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfHighscore.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfHighscore.bottomRight.y))
-		)
-	{
-		GetStateManager()->changeState("HighscoreState");
-	}
 
 	////////////////////////////////////////////// MAINMENU //////////////////////////////////////////////////////////////////////////////
 	GameOverState::bounds boundsOfMainMenu = drawButton(mpMainMenuTex, mMainMenuDimentions, 300, 0);
-	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfMainMenu.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfMainMenu.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfMainMenu.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfMainMenu.bottomRight.y))
-		)
-	{
-		selected = 2;
-	}
-
-	if (
-		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfMainMenu.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfMainMenu.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfMainMenu.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfMainMenu.bottomRight.y))
-		)
-	{
-		GetStateManager()->changeState("MainMenuState");
-	}
 
 	int ArrowHOffset, ArrowWOffset;
-	switch (selected) {
-
-	case 0: ArrowHOffset = 100;
-		ArrowWOffset = -240;
-		break;
-	case 1: ArrowHOffset = 200;
-		ArrowWOffset = -255;
-		break;
-	case 2: ArrowHOffset = 300;
-		ArrowWOffset = -250;
-		break;
-	}
+	ArrowHOffset = 300;
+	ArrowWOffset = -250;
 
 	float arrowsz(h / mArrowDimentions.y);
 	if (arrowsz > 1.25f)
 		arrowsz = 1.25f;
 
+
+	//Arrow on main menu button
 	fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + ArrowWOffset, (h / 2.f) + ArrowHOffset), nullptr, Colours::White, 0, mArrowDimentions*0.5f, Vector2(arrowsz, arrowsz));
 
-	wstringstream test1;
-	test1 << " " << name[0] << " ";
-	mpComicSans->DrawString(fx.mpSpriteB, test1.str().c_str(), Vector2(0.25f * w, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	//How long you survived
+	float tot = totCoinsDeposited;
+	float tot2 = totTimeTaken;
+	float score = (tot / tot2) * 100.0f;
+	int scr = (int)score;
 
-	wstringstream test2;
-	test2 << " " << name[1] << " ";
-	mpComicSans->DrawString(fx.mpSpriteB, test2.str().c_str(), Vector2(0.25f * w + 100.0f, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	wstringstream wss;
+	wss << "YOU SURVIVED TO LEVEL " << to_string(levels).c_str() << " AND GOT A LOOT EFFICIENCY SCORE OF " << to_string(scr).c_str();
+	mpComicSans->DrawString(fx.mpSpriteB, wss.str().c_str(), Vector2(w * 0.35f, h * 0.35f), Colors::White, 0, Vector2(0, 0), Vector2(0.00052f * w, 0.00052f * w));
 
-	wstringstream test3;
-	test3 << " " << name[2] << " ";
-	mpComicSans->DrawString(fx.mpSpriteB, test3.str().c_str(), Vector2(0.25f * w + 200.0f, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	wstringstream wss2;
+	wss2 << "USE MOVEMENT KEYS TO ENTER A NAME, PRESS 'A' / CLICK TO SUBMIT SCORE";
+	mpComicSans->DrawString(fx.mpSpriteB, wss2.str().c_str(), Vector2(0.30f * w, h * 0.4f), Colors::White, 0, Vector2(0, 0), Vector2(0.00052f * w, 0.00052f * w));
 
-	wstringstream test4;
-	test4 << " v ";
-	mpComicSans->DrawString(fx.mpSpriteB, test4.str().c_str(), Vector2(0.25f * w + 100.0f * selector, 25.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+
+	wstringstream namewss;
+	namewss << "[" << name[0] << "] [" << name[1] << "] [" << name[2] << "]";
+	mpComicSans->DrawString(fx.mpSpriteB, namewss.str().c_str(), Vector2(0.4f * w, h * 0.5f), Colors::White, 0, Vector2(0, 0), Vector2(0.00156 * w, 0.00156 * w));
+	
+	//wstringstream test2;
+	//test2 << " " << name[1] << " ";
+	//mpComicSans->DrawString(fx.mpSpriteB, test2.str().c_str(), Vector2(0.25f * w + 100.0f, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	//
+	//wstringstream test3;
+	//test3 << " " << name[2] << " ";
+	//mpComicSans->DrawString(fx.mpSpriteB, test3.str().c_str(), Vector2(0.25f * w + 200.0f, 50.0f), Colors::White, 0, Vector2(0, 0), Vector2(3.f, 3.f));
+	//
+	wstringstream slector;
+	slector << "[v] ";
+	mpComicSans->DrawString(fx.mpSpriteB, slector.str().c_str(), Vector2(0.4f * w + (w * 0.06f * selector), h * 0.44), Colors::White, 0, Vector2(0, 0), Vector2(0.00156 * w, 0.00156 * w));
 
 	fx.mpSpriteB->End();
 
@@ -338,3 +274,152 @@ void GameOverState::setStats(vector<levelStats> ls)
 		totTimeTaken += (int)ls[i].TimeTaken;
 	}
 }
+
+vector<PlayerStats> GameOverState::loadScores()
+{
+	//Open file to input into
+	ifstream input("highscores.txt");
+
+	//Where we will store the data from file
+	vector<PlayerStats> allDataFromFile;
+
+	//If we successfully opened the file
+	if (input.is_open())
+	{
+		//Until we get to the end of the file
+		while (!input.eof())
+		{
+			//Read into an object and push it to the vector
+			PlayerStats readIn;
+			input >> readIn.Name >> readIn.LevelReached >> readIn.ScoreGained;
+
+			// DECRYPT
+			//char x = readIn.Name[0];
+			//char y = readIn.Name[1];
+			//char z = readIn.Name[2];
+			//
+			//x -= 5;
+			//y -= 4;
+			//z -= 3;
+			//
+			//readIn.Name[0] = x;
+			//readIn.Name[1] = y;
+			//readIn.Name[2] = z;
+			//
+			//readIn.ScoreGained -= 50;
+			//readIn.LevelReached -= 50;
+
+			allDataFromFile.push_back(readIn);
+		}
+	}
+	else
+	{
+		//LOAD RESET FILE
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+	}
+	//Finished with file, so close
+	input.close();
+
+	//return vector of all scores
+	return allDataFromFile;
+}
+
+void GameOverState::updateScores(vector<PlayerStats>& allScores, const PlayerStats & playerScore)
+{
+	//For every score in all scores
+	bool dataFound(false);
+
+	for (int i = 0; (i < allScores.size() - 1); i++)
+	{
+		//If score is not being stored yet
+		if (!dataFound)
+		{
+			//Need 2 if statements since score is ordered by level THEN score!
+
+			//If should be inserted above (different level)
+			if (playerScore.LevelReached > allScores[i].LevelReached)
+			{
+				//Insert data above
+				allScores.insert(allScores.begin() + i, playerScore);
+				dataFound = true;
+			}
+			//If should be inserted above (same level)
+			else if (playerScore.LevelReached == allScores[i].LevelReached)
+			{
+				if (playerScore.ScoreGained >= allScores[i].ScoreGained)
+				{
+					//Insert data above
+					allScores.insert(allScores.begin() + i, playerScore);
+					dataFound = true;
+				}
+			}
+		}
+		else
+		{
+			//Can only have a maximum of 5 highscores
+			if ((allScores.size() - 1) > 5)
+				allScores.pop_back();
+		}
+	}
+}
+
+void GameOverState::saveScores(const vector<PlayerStats>& scoresToSave)
+{
+	ofstream output("highscores.txt");
+	//For every score in the vector
+	for (int i = 0; i < scoresToSave.size() - 1; i++)
+	{
+		output << scoresToSave[i].Name << " " << scoresToSave[i].LevelReached << " " << scoresToSave[i].ScoreGained << "\n";
+	}
+	output.close();
+}
+
+void GameOverState::saveToFile()
+{
+	//Load in from file
+	vector<PlayerStats> currentScores = loadScores();
+	
+	stringstream pName;
+	pName << name[0] << name[1] << name[2];
+
+	float tot = totCoinsDeposited;
+	float tot2 = totTimeTaken;
+
+	float score = (tot / tot2) * 100.0f;
+	int scr = (int)score;
+
+	//int score = (int)((float)totCoinsDeposited / (float)totTimeTaken) * 100.0f;
+	//alter loaded vector so it contains/doesnt contain score
+	PlayerStats dataToSave{ pName.str() , levels, scr };
+
+	// "ENCRYPT - obviously basic but any encryption would follow same steps, not worth complicating"
+	//for (int i = 0; i < dataToSave.Name.size() - 1; i++)
+	//{
+	//	dataToSave.Name[i] += 60;
+	////}
+	//
+	//char x = dataToSave.Name[0];
+	//char y = dataToSave.Name[1];
+	//char z = dataToSave.Name[2];
+	//
+	//x += 5;
+	//y += 4;
+	//z += 3;
+	//
+	//dataToSave.Name[0] = x;
+	//dataToSave.Name[1] = y;
+	//dataToSave.Name[2] = z;
+	//
+	//dataToSave.ScoreGained += 50;
+	//dataToSave.LevelReached += 50;
+
+	updateScores(currentScores, dataToSave);
+
+	//save back to file
+	saveScores(currentScores);
+}
+

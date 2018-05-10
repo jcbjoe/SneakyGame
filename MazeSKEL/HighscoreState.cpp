@@ -12,7 +12,8 @@ HighscoreState::HighscoreState()
 	:
 	State("HighscoreState")
 {
-
+	mpComicSans = new SpriteFont(gd3dDevice, L"../bin/data/comicSansMS.spritefont");
+	assert(mpComicSans);
 }
 
 void HighscoreState::Init() {
@@ -21,6 +22,8 @@ void HighscoreState::Init() {
 	LoadTextures();
 
 	ShowCursor(true);
+	
+	statsToShow = loadScores();
 
 	pressedOnInit = false;
 
@@ -65,7 +68,7 @@ void HighscoreState::Render(float dTime) {
 	CommonStates state(gd3dDevice);
 	fx.mpSpriteB->Begin(SpriteSortMode_Deferred, state.NonPremultiplied());
 
-	//background
+	//Show Background
 	int w, h;
 	GetClientExtents(w, h);
 	float sz(h / mBackgroundDimentions.y);
@@ -96,19 +99,48 @@ void HighscoreState::Render(float dTime) {
 		GetStateManager()->changeState("MainMenuState");
 	}
 
-	int ArrowHOffset, ArrowWOffset;
-	switch (selected) {
 
-	case 0: ArrowHOffset = 300;
-		ArrowWOffset = -240;
-		break;
-	}
-
+	//Show Arrow
 	float arrowsz(h / mArrowDimentions.y);
 	if (arrowsz > 1.25f)
 		arrowsz = 1.25f;
+	fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + -240, (h / 2.f) + 300), nullptr, Colours::White, 0, mArrowDimentions*0.5f, Vector2(arrowsz, arrowsz));
 
-	fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + ArrowWOffset, (h / 2.f) + ArrowHOffset), nullptr, Colours::White, 0, mArrowDimentions*0.5f, Vector2(arrowsz, arrowsz));
+
+	//Show highscores
+	
+	wstringstream name;
+	name << "NAME: ";
+	mpComicSans->DrawString(fx.mpSpriteB, name.str().c_str() , Vector2(w / 2.0f -w * 0.2f, h / 2 - h * 0.25f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
+
+	wstringstream lvl;
+	lvl << "LEVEL: ";
+	mpComicSans->DrawString(fx.mpSpriteB, lvl.str().c_str(), Vector2(w / 2.0f, h / 2 - h * 0.25f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
+
+	wstringstream scr;
+	scr << "SCORE: ";
+	mpComicSans->DrawString(fx.mpSpriteB, scr.str().c_str(), Vector2(w / 2.0f + w * 0.2f, h / 2 - h * 0.25f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
+
+
+	//For every score in the board
+	for (int i = 0; i < statsToShow.size() - 1; i++)
+	{
+		//Must use char for wstringstream
+
+		wstringstream playerName;
+		playerName << statsToShow[i].Name[0] << statsToShow[i].Name[1] << statsToShow[i].Name[2];
+		mpComicSans->DrawString(fx.mpSpriteB, playerName.str().c_str() , Vector2(w / 2.0f + (-w * 0.2f), h / 2 + (h * 0.05f * i + 1) - h * 0.15f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
+
+		wstringstream playerLevel;
+		playerLevel << statsToShow[i].LevelReached;
+		mpComicSans->DrawString(fx.mpSpriteB, playerLevel.str().c_str(), Vector2(w / 2.0f , h / 2 + (h * 0.05f * i + 1) - h * 0.15f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
+
+		wstringstream playerScore;
+		playerScore << statsToShow[i].ScoreGained;
+		mpComicSans->DrawString(fx.mpSpriteB, playerScore.str().c_str(), Vector2(w / 2.0f + (w * 0.2f), h / 2 + (h * 0.05f * i +1 ) - h * 0.15f), Colors::White, 0, Vector2(0, 0), Vector2(2.f, 2.f));
+
+	}
+	//showHighscores();
 
 	fx.mpSpriteB->End();
 
@@ -158,3 +190,58 @@ void HighscoreState::Destruct() {
 	delete mpComicSans;
 	delete mpSpriteBatch;
 }
+
+vector<PlayerStats> HighscoreState::loadScores()
+{
+	//Open file to input into
+	ifstream input("highscores.txt");
+
+	//Where we will store the data from file
+	vector<PlayerStats> allDataFromFile;
+
+	//If we successfully opened the file
+	if (input.is_open())
+	{
+		//Until we get to the end of the file
+		while (!input.eof())
+		{
+			//Read into an object and push it to the vector
+			PlayerStats readIn;
+			input >> readIn.Name >> readIn.LevelReached >> readIn.ScoreGained;
+
+
+			//// DECRYPT
+			//char x = readIn.Name[0];
+			//char y = readIn.Name[1];
+			//char z = readIn.Name[2];
+			//
+			//x -= 5;
+			//y -= 4;
+			//z -= 3;
+			//
+			//readIn.Name[0] = x;
+			//readIn.Name[1] = y;
+			//readIn.Name[2] = z;
+			//
+			//readIn.ScoreGained -= 50;
+			//readIn.LevelReached -= 50;
+
+			allDataFromFile.push_back(readIn);
+		}
+	}
+	else
+	{
+		//LOAD RESET FILE
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+	}
+	//Finished with file, so close
+	input.close();
+
+	//return vector of all scores
+	return allDataFromFile;
+}
+

@@ -1,0 +1,5 @@
+ZAZ 7 7
+CAT 4 5
+ABM 3 9
+ACA 3 9
+ACQ 3 8

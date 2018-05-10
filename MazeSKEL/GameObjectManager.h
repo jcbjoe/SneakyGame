@@ -53,7 +53,6 @@ private:
 	bool loadedObjects;
 
 	vector<GameObject*> gameObjects;
-
 };
 SINGLETON_GET(GameObjectManager);
 

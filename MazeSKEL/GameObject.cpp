@@ -41,6 +41,11 @@ void GameObject::Update(float dTime)
 void GameObject::Render()
 {
 	FX::MyFX& fx = *FX::GetMyFX();
+	if (GetName() == "WallWindow") {
+		model_.HasOverrideMat()->flags &= ~MaterialExt::TFlags::CCW_WINDING; //render the back
+		fx.Render(model_, gd3dImmediateContext);
+		model_.HasOverrideMat()->flags |= MaterialExt::TFlags::CCW_WINDING;	//render the front
+	}
 	fx.Render(model_, gd3dImmediateContext);
 }
 

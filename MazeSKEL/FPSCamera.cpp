@@ -152,6 +152,21 @@ void FPSCamera::Move(float dTime, bool forward, bool back, bool left, bool right
 		}
 
 		break;
+	//If Player is near a wallWindow
+	case 05:
+
+		vecFrom.x = mCamPos.x - round(posToCheckX);
+		vecFrom.y = mCamPos.z - round(posToCheckY);
+
+		distanceFromObjectX = 0.7f;
+		distanceFromObjectY = 0.7f;
+		//If you are close to the wall
+		if (abs(vecFrom.x) < distanceFromObjectX && abs(vecFrom.y) < distanceFromObjectY)
+		{
+			//Dont allow the player to move
+			pos.x = mCamPos.x;
+			pos.z = mCamPos.z;
+		}
 
 	//If player is near the deposit box
 	case 10:

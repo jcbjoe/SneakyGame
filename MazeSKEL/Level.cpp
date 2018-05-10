@@ -1,6 +1,7 @@
 #include "Level.h"
 #include "Player.h"
 #include "Wall.h"
+#include "WallWindow.h"
 #include "Loot.h"
 #include "Floor.h"
 #include "Ceiling.h"
@@ -41,8 +42,9 @@ string Level::getLevelName() {
 //Load a level
 void Level::reloadLevel() {
 
-	maxCoins = 0;		//Reset max coins to default amount of zero
-
+	maxCoins = 0;
+	int noWindowWalls = 0;
+	vector<Vector2> windowWallCoordinates;
 	((GameState*)GetStateManager()->getCurrentState())->setRedKey(false);
 	((GameState*)GetStateManager()->getCurrentState())->setBlueKey(false);
 	((GameState*)GetStateManager()->getCurrentState())->setYellowKey(false);		//Reset all keys to be not collected
@@ -132,6 +134,12 @@ void Level::reloadLevel() {
 				GetGameObjectManager()->addGameObject(wallHalf);
 				break;
 			}
+			case 05: //Wall Window
+			{
+				windowWallCoordinates.push_back({ (float)x, (float)z });
+				noWindowWalls++;
+				break;
+			}
 			case 10: //Return Box
 			{ 
 				Vector3 offset;
@@ -213,8 +221,10 @@ void Level::reloadLevel() {
 			}
 		}
 	}
-	//Create waypoints for enemy pathing system
-
+	for (int i(0); i < noWindowWalls; i++) {
+		WallWindow* wallWindow = new WallWindow("WallWindow", Vector3(windowWallCoordinates[i].x, 0.99f, windowWallCoordinates[i].y), Vector3(0, 0, 0), Vector3(0.5, 1.0, 0.5));
+		GetGameObjectManager()->addGameObject(wallWindow);
+	}
 	int count(1);
 	for (Vector3 loc : waypointLocations) {
 		std::ostringstream oss;
