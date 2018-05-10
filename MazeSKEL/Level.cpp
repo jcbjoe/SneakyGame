@@ -136,7 +136,7 @@ void Level::reloadLevel() {
 			}
 			case 05: //Wall Window
 			{
-				windowWallCoordinates.push_back({ (float)i, (float)j });
+				windowWallCoordinates.push_back({ (float)x, (float)z });
 				noWindowWalls++;
 				break;
 			}
