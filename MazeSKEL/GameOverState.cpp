@@ -145,8 +145,13 @@ void GameOverState::Render(float dTime) {
 	fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + ArrowWOffset, (h / 2.f) + ArrowHOffset), nullptr, Colours::White, 0, mArrowDimentions*0.5f, Vector2(arrowsz, arrowsz));
 
 	//How long you survived
+	float tot = totCoinsDeposited;
+	float tot2 = totTimeTaken;
+	float score = (tot / tot2) * 100.0f;
+	int scr = (int)score;
+
 	wstringstream wss;
-	wss << "YOU SURVIVED TO LEVEL " << to_string(levels).c_str() << " AND COLLECTED " << to_string(totCoinsDeposited).c_str() << " IN " << to_string(totTimeTaken).c_str() << " SECONDS";
+	wss << "YOU SURVIVED TO LEVEL " << to_string(levels).c_str() << " AND GOT A LOOT EFFICIENCY SCORE OF " << to_string(scr).c_str();
 	mpComicSans->DrawString(fx.mpSpriteB, wss.str().c_str(), Vector2(w * 0.35f, h * 0.35f), Colors::White, 0, Vector2(0, 0), Vector2(0.00052f * w, 0.00052f * w));
 
 	wstringstream wss2;
@@ -327,8 +332,15 @@ void GameOverState::saveToFile()
 	stringstream pName;
 	pName << name[0] << name[1] << name[2];
 
+	float tot = totCoinsDeposited;
+	float tot2 = totTimeTaken;
+
+	float score = (tot / tot2) * 100.0f;
+	int scr = (int)score;
+
+	//int score = (int)((float)totCoinsDeposited / (float)totTimeTaken) * 100.0f;
 	//alter loaded vector so it contains/doesnt contain score
-	PlayerStats dataToSave{ pName.str() , levels, totCoinsDeposited };
+	PlayerStats dataToSave{ pName.str() , levels, scr };
 	updateScores(currentScores, dataToSave);
 
 	//save back to file
