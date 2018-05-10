@@ -36,6 +36,9 @@ private:
 	DirectX::SimpleMath::Vector2 mMainMenuDimentions; 
 	DirectX::SimpleMath::Vector2 mArrowDimentions;
 
+	DirectX::SpriteBatch *mpSpriteBatch = nullptr;
+	DirectX::SpriteFont *mpComicSans = nullptr, *mpAlgerian = nullptr;
+
 	void handleGameOver();
 
 	std::future<void> mLoadThread;
@@ -51,6 +54,14 @@ private:
 	int selected;
 	bool gamepadDown;
 	unsigned int musicHdl;
+
+	int levels;
+	int totTimeTaken;
+	int totCoinsDeposited;
+
+	char name[3] = { 'A' , 'A' , 'A' };
+	int selector;
+	bool keyPressed = false;
 };
 
 #endif

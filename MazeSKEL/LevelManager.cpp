@@ -16,7 +16,7 @@ LevelManager::LevelManager()
 }
 
 void LevelManager::initialise() {
-	Level1* level1 = new Level1("Level1", 60.0f);
+	Level1* level1 = new Level1("Level1", 8.0f);
 	Level2* level2 = new Level2("Level2", 60.0f);
 	Level3* level3 = new Level3("Level3", 60.0f);
 	Level4* level4 = new Level4("Level4", 60.0f);
