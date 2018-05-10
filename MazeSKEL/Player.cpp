@@ -41,7 +41,7 @@ void Player::Update(float dTime)
 		if (GetMouseAndKeys()->IsPressed(VK_LSHIFT) || (GetGamepad()->IsConnected(0) && GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)))
 		{
 			isCrouched = true;
-			moveSpeed = 20.0f;
+			moveSpeed = 15.0f;
 			mCamera.Crouch(isCrouched);
 
 		}
