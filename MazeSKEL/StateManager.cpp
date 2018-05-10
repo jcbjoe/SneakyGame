@@ -3,6 +3,7 @@
 #include "MainMenuState.h"
 #include "LoadingState.h"
 #include "GameOverState.h"
+#include "HighscoreState.h"
 
 StateManager::StateManager()
 {
@@ -10,11 +11,13 @@ StateManager::StateManager()
 	GameState* gameState = new GameState();
 	LoadingState* loadingState = new LoadingState();
 	GameOverState* gameOverState = new GameOverState();
+	HighscoreState* highscoreState = new HighscoreState();
 
 	states.push_back(mainMenuState);
 	states.push_back(gameState);
 	states.push_back(loadingState);
 	states.push_back(gameOverState);
+	states.push_back(highscoreState);
 	
 
 	currentState = 0;

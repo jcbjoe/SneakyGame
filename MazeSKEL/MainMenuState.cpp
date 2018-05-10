@@ -141,6 +141,16 @@ void MainMenuState::Render(float dTime) {
 	{
 		selected = 1;
 	}
+	if (
+		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).x >= highscoreBounds.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= highscoreBounds.bottomRight.x))
+		&&
+		((GetMouseAndKeys()->GetMousePos(true).y >= highscoreBounds.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= highscoreBounds.bottomRight.y))
+		)
+	{
+		GetStateManager()->changeState("HighscoreState");
+	}
 
 	//////////////////////////////////////////////////////// HELP BUTTON //////////////////////////////////////////////////////////////////////
 

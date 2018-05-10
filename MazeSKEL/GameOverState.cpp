@@ -199,7 +199,7 @@ void GameOverState::Render(float dTime) {
 		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfHighscore.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfHighscore.bottomRight.y))
 		)
 	{
-		//GetStateManager()->changeState("LoadingState");
+		GetStateManager()->changeState("HighscoreState");
 	}
 
 	////////////////////////////////////////////// MAINMENU //////////////////////////////////////////////////////////////////////////////

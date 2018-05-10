@@ -203,6 +203,9 @@
     <ClCompile Include="Level6.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
+    <ClCompile Include="HighscoreState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC.h">
@@ -360,6 +363,9 @@
     </ClInclude>
     <ClInclude Include="LevelStats.h">
       <Filter>Headers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="HighscoreState.h">
+      <Filter>Headers\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

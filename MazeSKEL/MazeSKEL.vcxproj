@@ -105,6 +105,7 @@
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="D3DUtil.cpp" />
     <ClCompile Include="GameOverState.cpp" />
+    <ClCompile Include="HighscoreState.cpp" />
     <ClCompile Include="Level3.cpp" />
     <ClCompile Include="Level4.cpp" />
     <ClCompile Include="Level5.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="D3D.h" />
     <ClInclude Include="D3DUtil.h" />
     <ClInclude Include="GameOverState.h" />
+    <ClInclude Include="HighscoreState.h" />
     <ClInclude Include="Level3.h" />
     <ClInclude Include="Level4.h" />
     <ClInclude Include="Level5.h" />
