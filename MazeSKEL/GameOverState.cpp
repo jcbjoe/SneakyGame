@@ -23,7 +23,6 @@ GameOverState::GameOverState()
 
 void GameOverState::Init() {
 	handled = false;
-	selected = 0;
 	gamepadDown = false;
 
 	
@@ -50,37 +49,11 @@ void GameOverState::Update(float dTime) {
 	if (handled) {
 		GetStateManager()->changeState("MainMenuState");
 	}
+
 	GetGamepad()->Update();
 	if (GetGamepad()->IsConnected(0)) {
 
-		if (GetGamepad()->GetState(0).leftStickY < 0) {
-			if (!gamepadDown) {
-				if (selected == 2)
-					selected = 0;
-				else
-					selected++;
-			}
-			gamepadDown = true;
-		}
-		else if (GetGamepad()->GetState(0).leftStickY > 0) {
-			if (!gamepadDown) {
-				if (selected == 0)
-					selected = 2;
-				else
-					selected--;
-			}
-			gamepadDown = true;
-		}
-		else {
-			if (gamepadDown) {
-				gamepadDown = false;
-			}
-		}
-
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 0) {
-			GetStateManager()->changeState("LoadingState");
-		}
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 2) {
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
 			GetStateManager()->changeState("MainMenu");
 		}
 	}
@@ -121,6 +94,7 @@ void GameOverState::Update(float dTime) {
 		else if (GetMouseAndKeys()->IsPressed(VK_RETURN))
 		{
 			//SUBMIT HIGHSCORES AND GO TO MAIN MENU
+			GetStateManager()->changeState("MainMenu");
 		}
 	}
 	
@@ -161,61 +135,11 @@ void GameOverState::Render(float dTime) {
 	fx.mpSpriteB->Draw(mpBackgroundTex, Vector2(w / 2.f, h / 2.f), nullptr, Colours::White, 0, mBackgroundDimentions*0.5f, Vector2(sz, sz));
 
 	////////////////////////////////////////////// PLAY AGAIN //////////////////////////////////////////////////////////////////////////////
-	GameOverState::bounds boundsOfPlayAgain = drawButton(mpPlayAgainTex, mPlayAgainDimentions, 100, 0);
-
-	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfPlayAgain.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfPlayAgain.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfPlayAgain.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfPlayAgain.bottomRight.y))
-		)
-	{
-		selected = 0;
-	}
-
-	if (
-		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfPlayAgain.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfPlayAgain.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfPlayAgain.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfPlayAgain.bottomRight.y))
-		)
-	{
-		GetStateManager()->changeState("LoadingState");
-	}
-
 
 	////////////////////////////////////////////// HIGHSCORES //////////////////////////////////////////////////////////////////////////////
-	GameOverState::bounds boundsOfHighscore = drawButton(mpHighscoreTex, mHighscoreDimentions, 200, 0);
-	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfHighscore.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfHighscore.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfHighscore.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfHighscore.bottomRight.y))
-		)
-	{
-		selected = 1;
-	}
-
-	if (
-		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfHighscore.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfHighscore.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfHighscore.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfHighscore.bottomRight.y))
-		)
-	{
-		GetStateManager()->changeState("HighscoreState");
-	}
 
 	////////////////////////////////////////////// MAINMENU //////////////////////////////////////////////////////////////////////////////
 	GameOverState::bounds boundsOfMainMenu = drawButton(mpMainMenuTex, mMainMenuDimentions, 300, 0);
-	if (
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfMainMenu.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfMainMenu.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfMainMenu.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfMainMenu.bottomRight.y))
-		)
-	{
-		selected = 2;
-	}
 
 	if (
 		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
@@ -229,18 +153,8 @@ void GameOverState::Render(float dTime) {
 	}
 
 	int ArrowHOffset, ArrowWOffset;
-	switch (selected) {
-
-	case 0: ArrowHOffset = 100;
-		ArrowWOffset = -240;
-		break;
-	case 1: ArrowHOffset = 200;
-		ArrowWOffset = -255;
-		break;
-	case 2: ArrowHOffset = 300;
-		ArrowWOffset = -250;
-		break;
-	}
+	ArrowHOffset = 300;
+	ArrowWOffset = -250;
 
 	float arrowsz(h / mArrowDimentions.y);
 	if (arrowsz > 1.25f)
