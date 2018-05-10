@@ -7,7 +7,6 @@ BlueDoor::BlueDoor(string name, Vector3 position, Vector3 rotation, Vector3 scal
 	GetModel().Initialise(*GetMeshManager()->GetMesh("door"));
 
 	GameObject::setInitialPos();
-	isOpen = false;
 
 	MaterialExt mat = GetModel().GetMesh().GetSubMesh(0).material;
 	mat.gfxData.Set(Vector4(0.4, 0.4, 0.4, 1), Vector4(0.3, 0.3, 1, 0), Vector4(0.0f, 0.0f, 0.0f, 1));
@@ -20,17 +19,16 @@ BlueDoor::BlueDoor(string name, Vector3 position, Vector3 rotation, Vector3 scal
 }
 
 void BlueDoor::Update(float dTime) {
+	//Only do once door is unlocked
 	if (getMove()) {
 		Vector3 currPos = GetPosition();
-
-		//SetPosition(Vector3(0, 0, 0) + Vector3(0, 0, 0.5f));
-
-		SetRotation({ 0, x, 0 });
+		//Rotate door to make it swing open
+		SetRotation({ 0, openMov, 0 });
 		SetPosition(currPos);
-
-		if (x <= PI / 2.0f)
+		//Once door is fully open stop moving it
+		if (openMov <= PI / 2.0f)
 		{
-			x += 1 * dTime;
+			openMov += 1 * dTime;
 		}
 		else
 		{

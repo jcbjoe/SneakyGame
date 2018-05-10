@@ -8,7 +8,7 @@
 
 MainMenuState::MainMenuState() 
 	:
-	State("MainMenu"), selected(0)
+	State("MainMenuState"), selected(0)
 {
 	//Initialise window and hide cursor
 
@@ -47,12 +47,6 @@ void MainMenuState::Update(float dTime){
 		if (!(GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) && pressedOnInit) {
 		pressedOnInit = false;
 	}
-
-	if (GetMouseAndKeys()->IsPressed(VK_1))
-	{
-		GetStateManager()->changeState("LoadingState");
-	}
-
 	
 	if (GetGamepad()->IsConnected(0)) {
 
@@ -83,6 +77,10 @@ void MainMenuState::Update(float dTime){
 		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && !pressedOnInit) {
 			if(selected == 0)
 				GetStateManager()->changeState("LoadingState");
+			if (selected == 1)
+				GetStateManager()->changeState("HighscoreState");
+			if (selected == 2)
+				;
 			if(selected == 3)
 				PostQuitMessage(0);
 		}

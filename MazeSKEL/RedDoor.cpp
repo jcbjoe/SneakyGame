@@ -18,9 +18,9 @@ RedDoor::RedDoor(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 void RedDoor::Update(float dTime) {
 	if (getMove()) {
-		GetModel().GetPosition() = GetPosition() + Vector3(x, 0, 0);
-		if (x <= 0.97) {
-			x += 0.5 * dTime;
+		GetModel().GetPosition() = GetPosition() + Vector3(openMov, 0, 0);
+		if (openMov <= 0.97) {
+			openMov += 0.5 * dTime;
 		}
 		else
 		{

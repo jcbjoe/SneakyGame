@@ -198,6 +198,7 @@ void FPSCamera::Update(float dTime)
 			if (len < 0.3f)
 			{
 				//Move player back
+				go[i]->setCaught(false);
 				mCamPos = startPos;
 			}
 		}
@@ -244,7 +245,7 @@ void FPSCamera::Rotate(float dTime, float _yaw, float _pitch, float _roll)
 	roll += _roll * dTime * rspeed;
 	Matrix ori;
 
-	//Fix gimble lock
+	//Fix gimbal lock
 	if (pitch < -0.3f)
 		pitch = -0.3f;
 

@@ -2,9 +2,9 @@
 #include "StateManager.h"
 #include "GameState.h"
 
-Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
+Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale, int lightID)
 	:
-	GameObject(name, position, rotation, scale) {
+	GameObject(name, position, rotation, scale), lightID(lightID) {
 
 	detectionMeter = 0.0f;
 	waypointNumber = 1;
@@ -37,7 +37,7 @@ void Enemy::Update(float dTime) {
 			Vector3 eye = { 0, 0, -1 };
 			Matrix ma = Matrix::CreateRotationY(GetRotation().y);
 
-			FX::SetupSpotLight(6, true, { GetPosition().x, 0.0f, GetPosition().z }, Vector3::TransformNormal(eye, ma), Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(0.8f, 0.84f, 0.8f), 3.0f, 0.5f, D2R(15), D2R(50));
+			FX::SetupSpotLight(lightID, true, { GetPosition().x, 0.0f, GetPosition().z }, Vector3::TransformNormal(eye, ma), Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(0.8f, 0.84f, 0.8f), 3.0f, 0.5f, D2R(15), D2R(50));
 
 			bool canSeeBool = true;
 
@@ -54,8 +54,8 @@ void Enemy::Update(float dTime) {
 
 			float distance = Vector3().Distance(GetModel().GetPosition(), playerPos);
 
-			if (distance < 0.2 && !caught) {
-				setCaught();
+			if (distance < 0.5 && !getCaught()) {
+				setCaught(true);
 				GetIAudioMgr()->GetSfxMgr()->Play("soundCaught", false, false, nullptr, 1.0);
 			}
 
@@ -210,6 +210,8 @@ void Enemy::pathFindToNextWaypoint() {
 	currentPath = path;
 }
 
+
+
 vector<Vector3> Enemy::findPath(Vector2 dest) {
 
 	vector<customNode*> openList; // all considered squares/nodes to find the shortest path
@@ -230,7 +232,8 @@ vector<Vector3> Enemy::findPath(Vector2 dest) {
 	destNode->gScore = 0;
 	destNode->hScore = 0;
 
-	
+	allNodes.push_back(start);
+	allNodes.push_back(destNode);
 	openList.push_back(start); // Add the start point to the open list
 
 	do {
@@ -293,15 +296,15 @@ vector<Vector3> Enemy::findPath(Vector2 dest) {
 	}
 
 	//Releasing
-	for (customNode* node : openList) {
+	openList.clear();
+	closedList.clear();
+	complete.clear();
+
+	for (customNode* node : allNodes) {
 		delete node;
 	}
-	openList.empty();
-	for (customNode* node : closedList) {
-		delete node;
-	}
-	closedList.empty();
-	complete.empty();
+
+	allNodes.clear();
 	
 	return pathToReturn;
 
@@ -371,6 +374,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		above->parent = node;
 		aboveBool = true;
 		adjSquares.push_back(above);
+		allNodes.push_back(above);
 	}
 	//below
 	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x, node->y - 1) != 1) {
@@ -382,6 +386,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		below->parent = node;
 		belowBool = true;
 		adjSquares.push_back(below);
+		allNodes.push_back(below);
 	}
 
 	//left
@@ -394,6 +399,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		left->parent = node;
 		leftBool = true;
 		adjSquares.push_back(left);
+		allNodes.push_back(left);
 	}
 
 	//right
@@ -406,6 +412,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		right->parent = node;
 		rightBool = true;
 		adjSquares.push_back(right);
+		allNodes.push_back(right);
 	}
 
 	//Diagonals
@@ -420,6 +427,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		UpLeft->parent = node;
 
 		adjSquares.push_back(UpLeft);
+		allNodes.push_back(UpLeft);
 	}
 
 	//Up - Right
@@ -432,6 +440,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		UpRight->parent = node;
 
 		adjSquares.push_back(UpRight);
+		allNodes.push_back(UpRight);
 	}
 
 	//Bottom - Left
@@ -444,6 +453,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		BottomLeft->parent = node;
 
 		adjSquares.push_back(BottomLeft);
+		allNodes.push_back(BottomLeft);
 	}
 
 	//Bottom - Right
@@ -456,6 +466,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		BottomRight->parent = node;
 
 		adjSquares.push_back(BottomRight);
+		allNodes.push_back(BottomRight);
 	}
 
 
@@ -502,11 +513,4 @@ void Enemy::detectPlayer(bool& canSeeBool)
 		}
 		canSeeBool = false;
 	}
-}
-
-bool Enemy::getCaught() {
-	return caught;
-}
-void Enemy::setCaught() {
-	caught = true;
 }

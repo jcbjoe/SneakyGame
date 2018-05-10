@@ -25,6 +25,17 @@ void HighscoreState::Init() {
 	
 	statsToShow = loadScores();
 
+	pressedOnInit = false;
+
+	GetGamepad()->Update();
+
+	if (GetGamepad()->IsConnected(0))
+	{
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A))
+		{
+			pressedOnInit = true;
+		}
+	}
 }
 
 void HighscoreState::Update(float dTime) {
@@ -33,10 +44,16 @@ void HighscoreState::Update(float dTime) {
 		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 
 	GetGamepad()->Update();
+
+	if (GetGamepad()->IsConnected(0))
+		if (!(GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) && pressedOnInit) {
+			pressedOnInit = false;
+		}
+
 	if (GetGamepad()->IsConnected(0)) {
 
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
-			GetStateManager()->changeState("MainMenu");
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && !pressedOnInit) {
+			GetStateManager()->changeState("MainMenuState");
 		}
 	}
 }
@@ -79,7 +96,7 @@ void HighscoreState::Render(float dTime) {
 		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfMainMenu.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfMainMenu.bottomRight.y))
 		)
 	{
-		GetStateManager()->changeState("MainMenu");
+		GetStateManager()->changeState("MainMenuState");
 	}
 
 

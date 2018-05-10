@@ -32,6 +32,16 @@ void GameOverState::Init() {
 	selector = 0;
 
 	mLoadThread = std::async(launch::async, &GameOverState::handleGameOver, this);
+
+	pressedOnInit = false;
+
+	GetGamepad()->Update();
+	if (GetGamepad()->IsConnected(0))
+	{
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
+			pressedOnInit = true;
+		}
+	}
 }
 
 void GameOverState::handleGameOver() {

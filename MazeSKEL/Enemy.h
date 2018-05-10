@@ -21,14 +21,12 @@ class Enemy : public GameObject
 {
 public:
 
-	Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale);
+	Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale, int lightID);
 
 	void Update(float dTime) override;
 
 	void pathFindToNextWaypoint();
 
-	bool getCaught();
-	void setCaught();
 
 private:
 
@@ -39,10 +37,11 @@ private:
 	int waypointNumber;
 	vector<Vector2> canSee(int x0, int y0, int x1, int y1);
 	bool followingPath;
-	bool caught = false;
 	int currentPathPos;
 	vector<Vector3> currentPath;
 	float movespeed = 1.5f;
+
+	int lightID;
 
 	struct customNode {
 		int x;
@@ -58,6 +57,8 @@ private:
 	bool vectorContains(customNode* containNode, vector<customNode*>& nodeVector);
 	vector<customNode*> getAdjacentSquares(customNode* node, customNode* destination);
 	float EnemyPlayerAngle();
+
+	vector<customNode*> allNodes;
 };
 
 #endif

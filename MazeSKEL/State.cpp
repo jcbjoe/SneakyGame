@@ -1,6 +1,8 @@
 #include "State.h"
 
+//Base class for all states
 
+//Constructor
 State::State(string name)
 	:
 	stateName(name)

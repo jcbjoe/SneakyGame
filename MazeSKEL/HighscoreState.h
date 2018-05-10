@@ -46,7 +46,9 @@ private:
 
 	bounds drawButton(ID3D11ShaderResourceView *tex, Vector2 dimentions, float hOffset, float wOffset);
 	int selected;
-	bool gamepadDown;
+	
+	bool pressedOnInit;
+
 	unsigned int musicHdl;
 
 	

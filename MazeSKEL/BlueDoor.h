@@ -18,9 +18,7 @@ class BlueDoor : public GameObject
 public:
 	BlueDoor(string name, Vector3 position, Vector3 rotation, Vector3 scale);
 	void Update(float dTime) override;
-	bool CanMoveInto();
 private:
-	float x = 0;
-	bool isOpen;
+	float openMov = 0;
 };
 #endif
