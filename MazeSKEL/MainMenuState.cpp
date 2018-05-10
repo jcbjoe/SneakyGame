@@ -27,9 +27,13 @@ void MainMenuState::Init() {
 
 	GetIAudioMgr()->GetSfxMgr()->Load("music");
 	pressedOnInit = false;
+
 	GetGamepad()->Update();
-	if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
-		pressedOnInit = true;
+	if (GetGamepad()->IsConnected(0))
+	{
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
+			pressedOnInit = true;
+		}
 	}
 }
 
@@ -37,8 +41,10 @@ void MainMenuState::Update(float dTime){
 	GetIAudioMgr()->Update();
 	if (GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
 		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
+		
 	GetGamepad()->Update();
-	if (!(GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) && pressedOnInit) {
+	if (GetGamepad()->IsConnected(0))
+		if (!(GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) && pressedOnInit) {
 		pressedOnInit = false;
 	}
 

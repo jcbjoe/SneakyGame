@@ -67,7 +67,7 @@ void GameState::Update(float dTime) {
 	}
 
 	nearBoxFlag = false;
-	if (GetMouseAndKeys()->IsPressed(VK_P) || GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_START)) {
+	if (GetMouseAndKeys()->IsPressed(VK_P) || (GetGamepad()->IsConnected(0) && GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_START))) {
 		pDown = true;
 	} else {
 		if (pDown){

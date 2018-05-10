@@ -20,7 +20,7 @@ void Player::Initialise(const float& i, const float& j)
 	hands_.GetScale() = Vector3(0.00185, 0.00185, 0.00185);
 
 	openedBlue = false;
-		openedRed = false;
+	openedRed = false;
 }
 void Player::Release() 
 {
@@ -187,15 +187,6 @@ void Player::setHasYellowKey(const bool& key)
 {
 	hasYellowKey = key;
 }
-
-//void Player::changeKeyNo(int x)
-//{
-//	keyNo += x;
-//	if (keyNo > 0)
-//		setHasKey(true);
-//	else
-//		setHasKey(false);
-//}
 
 void Player::setOpenedRed() {
 	openedRed = true;
