@@ -21,22 +21,22 @@ void Loot::Update(float dTime)
 	if (getMove()) {
 		//Change Lighting
 			MaterialExt mat = GetModel().GetMesh().GetSubMesh(0).material;
-			mat.gfxData.Set(Vector4(0.8, 0.8, 0.8, 1), Vector4(y, y, y, 0), Vector4(1, 1, 1, 1));
+			mat.gfxData.Set(Vector4(0.8, 0.8, 0.8, 1), Vector4(lightChange, lightChange, lightChange, 0), Vector4(1, 1, 1, 1));
 			mat.pTextureRV = FX::GetMyFX()->mCache.LoadTexture("CoinBase.dds", true, gd3dDevice);
 			mat.texture = "CoinBase.dds";
 			GetModel().SetOverrideMat(&mat);
-			y += dTime * 1.5;
+			lightChange += dTime * 1.5;
 		//Rotation
 			incrementRotation(0, dTime * 10, 0);
 		//Scale
-			x += dTime * 0.04;
-			GetModel().GetScale() = GetScale() - Vector3(x, x, x);
-		if (x > 0.02)
+			scaleChange += dTime * 0.04;
+			GetModel().GetScale() = GetScale() - Vector3(scaleChange, scaleChange, scaleChange);
+		if (scaleChange > 0.02)
 			GetGameObjectManager()->deleteGameObjectByIndex(getIndex());
 	}
 	else {
 		incrementRotation(0, dTime * 1.0f, 0);
-		z += dTime;
-		GetModel().GetPosition() = GetPosition() + Vector3(0, sin(z) / 20, 0);
+		idleMov += dTime;
+		GetModel().GetPosition() = GetPosition() + Vector3(0, sin(idleMov) / 20, 0);
 	}
 }

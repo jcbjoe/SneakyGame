@@ -20,8 +20,8 @@ public:
 
 	void Update(float dTime) override;
 private:
-	float x = 0;
-	float i = 0;
-	float y = 0;
+	float idleMov = 0;
+	float textMov = 0;
+	float collectMov = 0;
 };
 #endif
