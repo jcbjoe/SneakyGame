@@ -367,6 +367,9 @@
     <ClInclude Include="HighscoreState.h">
       <Filter>Headers\States</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerStats.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\FX\LightHelper.hlsl">

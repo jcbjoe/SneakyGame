@@ -166,6 +166,7 @@
     <ClInclude Include="LevelStats.h" />
     <ClInclude Include="Level6.h" />
     <ClInclude Include="LoadingState.h" />
+    <ClInclude Include="PlayerStats.h" />
     <ClInclude Include="RedDoor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Error.h" />

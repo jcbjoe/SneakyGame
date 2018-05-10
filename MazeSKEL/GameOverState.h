@@ -4,6 +4,7 @@
 #include "State.h"
 #include "FPSCamera.h"
 #include "LevelStats.h"
+#include "PlayerStats.h"
 class GameOverState : public State
 {
 public:
@@ -20,8 +21,16 @@ public:
 	void Destruct() override;
 
 	void setStats(vector<levelStats> ls);
+	void saveToFile();
 
 private:
+
+	vector<PlayerStats> loadScores();
+	void updateScores(vector<PlayerStats>& allScores, const PlayerStats& playerScore);
+	void saveScores(const vector<PlayerStats>& scoresToSave);
+	
+	void handleGameOver();
+
 	FPSCamera mCamera;
 
 	ID3D11ShaderResourceView *mpBackgroundTex = nullptr;
@@ -39,7 +48,7 @@ private:
 	DirectX::SpriteBatch *mpSpriteBatch = nullptr;
 	DirectX::SpriteFont *mpComicSans = nullptr, *mpAlgerian = nullptr;
 
-	void handleGameOver();
+
 
 	std::future<void> mLoadThread;
 
@@ -51,6 +60,7 @@ private:
 	};
 
 	bounds drawButton(ID3D11ShaderResourceView *tex, Vector2 dimentions, float hOffset, float wOffset);
+
 	bool gamepadDown;
 	unsigned int musicHdl;
 

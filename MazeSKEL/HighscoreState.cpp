@@ -12,7 +12,8 @@ HighscoreState::HighscoreState()
 	:
 	State("HighscoreState")
 {
-
+	mpComicSans = new SpriteFont(gd3dDevice, L"../bin/data/comicSansMS.spritefont");
+	assert(mpComicSans);
 }
 
 void HighscoreState::Init() {
@@ -21,6 +22,8 @@ void HighscoreState::Init() {
 	LoadTextures();
 
 	ShowCursor(true);
+	
+	statsToShow = loadScores();
 
 }
 
@@ -48,7 +51,7 @@ void HighscoreState::Render(float dTime) {
 	CommonStates state(gd3dDevice);
 	fx.mpSpriteB->Begin(SpriteSortMode_Deferred, state.NonPremultiplied());
 
-	//background
+	//Show Background
 	int w, h;
 	GetClientExtents(w, h);
 	float sz(h / mBackgroundDimentions.y);
@@ -79,19 +82,35 @@ void HighscoreState::Render(float dTime) {
 		GetStateManager()->changeState("MainMenu");
 	}
 
-	int ArrowHOffset, ArrowWOffset;
-	switch (selected) {
 
-	case 0: ArrowHOffset = 300;
-		ArrowWOffset = -240;
-		break;
-	}
-
+	//Show Arrow
 	float arrowsz(h / mArrowDimentions.y);
 	if (arrowsz > 1.25f)
 		arrowsz = 1.25f;
+	fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + -240, (h / 2.f) + 300), nullptr, Colours::White, 0, mArrowDimentions*0.5f, Vector2(arrowsz, arrowsz));
 
-	fx.mpSpriteB->Draw(mArrowTex, Vector2((w / 2.f) + ArrowWOffset, (h / 2.f) + ArrowHOffset), nullptr, Colours::White, 0, mArrowDimentions*0.5f, Vector2(arrowsz, arrowsz));
+
+	//Show highscores
+	
+	//For every score in the board
+	for (int i = 0; i < statsToShow.size() - 1; i++)
+	{
+		//Must use char for wstringstream
+
+		wstringstream playerName;
+		playerName << statsToShow[i].Name[0] << statsToShow[i].Name[1] << statsToShow[i].Name[2];
+		mpComicSans->DrawString(fx.mpSpriteB, playerName.str().c_str() , Vector2(500, 500 + i * 25), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+
+		wstringstream playerLevel;
+		playerLevel << statsToShow[i].LevelReached;
+		mpComicSans->DrawString(fx.mpSpriteB, playerLevel.str().c_str(), Vector2(570, 500 + i * 25), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+
+		wstringstream playerScore;
+		playerScore << statsToShow[i].ScoreGained;
+		mpComicSans->DrawString(fx.mpSpriteB, playerScore.str().c_str(), Vector2(610, 500 + i * 25), Colors::White, 0, Vector2(0, 0), Vector2(1.f, 1.f));
+
+	}
+	//showHighscores();
 
 	fx.mpSpriteB->End();
 
@@ -141,3 +160,40 @@ void HighscoreState::Destruct() {
 	delete mpComicSans;
 	delete mpSpriteBatch;
 }
+
+vector<PlayerStats> HighscoreState::loadScores()
+{
+	//Open file to input into
+	ifstream input("highscores.txt");
+
+	//Where we will store the data from file
+	vector<PlayerStats> allDataFromFile;
+
+	//If we successfully opened the file
+	if (input.is_open())
+	{
+		//Until we get to the end of the file
+		while (!input.eof())
+		{
+			//Read into an object and push it to the vector
+			PlayerStats readIn;
+			input >> readIn.Name >> readIn.LevelReached >> readIn.ScoreGained;
+			allDataFromFile.push_back(readIn);
+		}
+	}
+	else
+	{
+		//LOAD RESET FILE
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+	}
+	//Finished with file, so close
+	input.close();
+
+	//return vector of all scores
+	return allDataFromFile;
+}
+

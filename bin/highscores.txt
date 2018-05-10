@@ -1,0 +1,5 @@
+BDB 1 0
+DBA 1 0
+ASS 1 0
+NAN 0 0
+NAN 0 0

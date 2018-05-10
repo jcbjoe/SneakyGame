@@ -4,6 +4,7 @@
 #include "State.h"
 #include "FPSCamera.h"
 #include "LevelStats.h"
+#include "PlayerStats.h"
 class HighscoreState : public State
 {
 public:
@@ -20,8 +21,12 @@ public:
 	void Destruct() override;
 
 	void setStats(vector<levelStats> ls);
+	vector<PlayerStats> loadScores();
 
 private:
+
+	vector<PlayerStats> statsToShow;
+	void showHighscores();
 
 	ID3D11ShaderResourceView *mpBackgroundTex = nullptr;
 	ID3D11ShaderResourceView *mpMainMenuTex = nullptr;
@@ -32,7 +37,7 @@ private:
 	DirectX::SimpleMath::Vector2 mArrowDimentions;
 
 	DirectX::SpriteBatch *mpSpriteBatch = nullptr;
-	DirectX::SpriteFont *mpComicSans = nullptr, *mpAlgerian = nullptr;
+	DirectX::SpriteFont *mpComicSans = nullptr;
 
 	struct bounds {
 		Vector2 topLeft;
@@ -43,6 +48,8 @@ private:
 	int selected;
 	bool gamepadDown;
 	unsigned int musicHdl;
+
+	
 };
 
 #endif

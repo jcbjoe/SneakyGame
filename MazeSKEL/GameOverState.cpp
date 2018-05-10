@@ -25,8 +25,6 @@ void GameOverState::Init() {
 	handled = false;
 	gamepadDown = false;
 
-	
-
 	LoadTextures();
 
 	ShowCursor(true);
@@ -54,6 +52,7 @@ void GameOverState::Update(float dTime) {
 	if (GetGamepad()->IsConnected(0)) {
 
 		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
+			saveToFile();
 			GetStateManager()->changeState("MainMenu");
 		}
 	}
@@ -91,9 +90,11 @@ void GameOverState::Update(float dTime) {
 			else
 				selector += 1;
 		}
-		else if (GetMouseAndKeys()->IsPressed(VK_RETURN))
+		else if (GetMouseAndKeys()->IsPressed(VK_RETURN) || GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON))
 		{
+			keyPressed = true;
 			//SUBMIT HIGHSCORES AND GO TO MAIN MENU
+			saveToFile();
 			GetStateManager()->changeState("MainMenu");
 		}
 	}
@@ -140,17 +141,6 @@ void GameOverState::Render(float dTime) {
 
 	////////////////////////////////////////////// MAINMENU //////////////////////////////////////////////////////////////////////////////
 	GameOverState::bounds boundsOfMainMenu = drawButton(mpMainMenuTex, mMainMenuDimentions, 300, 0);
-
-	if (
-		GetMouseAndKeys()->GetMouseButton(GetMouseAndKeys()->LBUTTON)
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).x >= boundsOfMainMenu.topLeft.x) && (GetMouseAndKeys()->GetMousePos(true).x <= boundsOfMainMenu.bottomRight.x))
-		&&
-		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfMainMenu.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfMainMenu.bottomRight.y))
-		)
-	{
-		GetStateManager()->changeState("MainMenu");
-	}
 
 	int ArrowHOffset, ArrowWOffset;
 	ArrowHOffset = 300;
@@ -240,3 +230,106 @@ void GameOverState::setStats(vector<levelStats> ls)
 		totTimeTaken += (int)ls[i].TimeTaken;
 	}
 }
+
+vector<PlayerStats> GameOverState::loadScores()
+{
+	//Open file to input into
+	ifstream input("highscores.txt");
+
+	//Where we will store the data from file
+	vector<PlayerStats> allDataFromFile;
+
+	//If we successfully opened the file
+	if (input.is_open())
+	{
+		//Until we get to the end of the file
+		while (!input.eof())
+		{
+			//Read into an object and push it to the vector
+			PlayerStats readIn;
+			input >> readIn.Name >> readIn.LevelReached >> readIn.ScoreGained;
+			allDataFromFile.push_back(readIn);
+		}
+	}
+	else
+	{
+		//LOAD RESET FILE
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+		allDataFromFile.push_back(PlayerStats{ "NAN", 0, 0 });
+	}
+	//Finished with file, so close
+	input.close();
+
+	//return vector of all scores
+	return allDataFromFile;
+}
+
+void GameOverState::updateScores(vector<PlayerStats>& allScores, const PlayerStats & playerScore)
+{
+	//For every score in all scores
+	bool dataFound(false);
+
+	for (int i = 0; (i < allScores.size() - 1); i++)
+	{
+		//If score is not being stored yet
+		if (!dataFound)
+		{
+			//Need 2 if statements since score is ordered by level THEN score!
+
+			//If should be inserted above (different level)
+			if (playerScore.LevelReached > allScores[i].LevelReached)
+			{
+				//Insert data above
+				allScores.insert(allScores.begin() + i, playerScore);
+				dataFound = true;
+			}
+			//If should be inserted above (same level)
+			else if (playerScore.LevelReached == allScores[i].LevelReached)
+			{
+				if (playerScore.ScoreGained >= allScores[i].ScoreGained)
+				{
+					//Insert data above
+					allScores.insert(allScores.begin() + i, playerScore);
+					dataFound = true;
+				}
+			}
+		}
+		else
+		{
+			//Can only have a maximum of 5 highscores
+			if ((allScores.size() - 1) > 5)
+				allScores.pop_back();
+		}
+	}
+}
+
+void GameOverState::saveScores(const vector<PlayerStats>& scoresToSave)
+{
+	ofstream output("highscores.txt");
+	//For every score in the vector
+	for (int i = 0; i < scoresToSave.size() - 1; i++)
+	{
+		output << scoresToSave[i].Name << " " << scoresToSave[i].LevelReached << " " << scoresToSave[i].ScoreGained << "\n";
+	}
+	output.close();
+}
+
+void GameOverState::saveToFile()
+{
+	//Load in from file
+	vector<PlayerStats> currentScores = loadScores();
+	
+	stringstream pName;
+	pName << name[0] << name[1] << name[2];
+
+	//alter loaded vector so it contains/doesnt contain score
+	PlayerStats dataToSave{ pName.str() , levels, totCoinsDeposited };
+	updateScores(currentScores, dataToSave);
+
+	//save back to file
+	saveScores(currentScores);
+}
+
