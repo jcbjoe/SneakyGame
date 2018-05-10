@@ -17,7 +17,7 @@ Loot::Loot(string name, Vector3 position, Vector3 rotation, Vector3 scale)
 
 void Loot::Update(float dTime)
 {
-	//GetRotation() = GetRotation() + Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), GetRotationAngle() += dTime * 0.5);
+	//Makes the coins spin fatser, glow birghter, and shrink on collect
 	if (getMove()) {
 		//Change Lighting
 			MaterialExt mat = GetModel().GetMesh().GetSubMesh(0).material;
@@ -35,6 +35,7 @@ void Loot::Update(float dTime)
 			GetGameObjectManager()->deleteGameObjectByIndex(getIndex());
 	}
 	else {
+		//makes coin rotate and bob on idle
 		incrementRotation(0, dTime * 1.0f, 0);
 		idleMov += dTime;
 		GetModel().GetPosition() = GetPosition() + Vector3(0, sin(idleMov) / 20, 0);

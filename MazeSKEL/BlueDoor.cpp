@@ -19,14 +19,13 @@ BlueDoor::BlueDoor(string name, Vector3 position, Vector3 rotation, Vector3 scal
 }
 
 void BlueDoor::Update(float dTime) {
+	//Only do once door is unlocked
 	if (getMove()) {
 		Vector3 currPos = GetPosition();
-
-		//SetPosition(Vector3(0, 0, 0) + Vector3(0, 0, 0.5f));
-
+		//Rotate door to make it swing open
 		SetRotation({ 0, openMov, 0 });
 		SetPosition(currPos);
-
+		//Once door is fully open stop moving it
 		if (openMov <= PI / 2.0f)
 		{
 			openMov += 1 * dTime;
