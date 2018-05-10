@@ -225,7 +225,7 @@ void Level::reloadLevel() {
 void Level::Release() {
 
 }
-
+//Return an object at a specified position (rounds float to be used as int)
 int Level::getObjectAtWorldPos(float x, float y)
 {
 	x = round(x);
@@ -234,6 +234,7 @@ int Level::getObjectAtWorldPos(float x, float y)
 	return getObjectAtCoordinate(x, y);;
 }
 
+//Return an object at a specified position
 int Level::getObjectAtCoordinate(int x, int y) {
 
 	if (x < 0 || x > (levelSize - 1) || y < 0 || y > (levelSize - 1)) {
@@ -247,11 +248,12 @@ int Level::getObjectAtCoordinate(int x, int y) {
 	}
 }
 
-
+//Add a waypoint to the waypoint location vector
 void Level::addWaypointLocation(Vector3 loc) {
 	waypointLocations.push_back(loc);
 }
 
+//Get total waypoints
 int Level::getHowManyWaypoints() {
 	return waypointLocations.size() - 1;
 }
