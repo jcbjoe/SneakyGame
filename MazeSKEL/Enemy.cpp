@@ -210,6 +210,8 @@ void Enemy::pathFindToNextWaypoint() {
 	currentPath = path;
 }
 
+
+
 vector<Vector3> Enemy::findPath(Vector2 dest) {
 
 	vector<customNode*> openList; // all considered squares/nodes to find the shortest path
@@ -230,7 +232,8 @@ vector<Vector3> Enemy::findPath(Vector2 dest) {
 	destNode->gScore = 0;
 	destNode->hScore = 0;
 
-	
+	allNodes.push_back(start);
+	allNodes.push_back(destNode);
 	openList.push_back(start); // Add the start point to the open list
 
 	do {
@@ -293,15 +296,15 @@ vector<Vector3> Enemy::findPath(Vector2 dest) {
 	}
 
 	//Releasing
-	for (customNode* node : openList) {
+	openList.clear();
+	closedList.clear();
+	complete.clear();
+
+	for (customNode* node : allNodes) {
 		delete node;
 	}
-	openList.empty();
-	for (customNode* node : closedList) {
-		delete node;
-	}
-	closedList.empty();
-	complete.empty();
+
+	allNodes.clear();
 	
 	return pathToReturn;
 
@@ -371,6 +374,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		above->parent = node;
 		aboveBool = true;
 		adjSquares.push_back(above);
+		allNodes.push_back(above);
 	}
 	//below
 	if (GetLevelManager()->getCurrentLevel()->getObjectAtWorldPos(node->x, node->y - 1) != 1) {
@@ -382,6 +386,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		below->parent = node;
 		belowBool = true;
 		adjSquares.push_back(below);
+		allNodes.push_back(below);
 	}
 
 	//left
@@ -394,6 +399,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		left->parent = node;
 		leftBool = true;
 		adjSquares.push_back(left);
+		allNodes.push_back(left);
 	}
 
 	//right
@@ -406,6 +412,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		right->parent = node;
 		rightBool = true;
 		adjSquares.push_back(right);
+		allNodes.push_back(right);
 	}
 
 	//Diagonals
@@ -420,6 +427,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		UpLeft->parent = node;
 
 		adjSquares.push_back(UpLeft);
+		allNodes.push_back(UpLeft);
 	}
 
 	//Up - Right
@@ -432,6 +440,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		UpRight->parent = node;
 
 		adjSquares.push_back(UpRight);
+		allNodes.push_back(UpRight);
 	}
 
 	//Bottom - Left
@@ -444,6 +453,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		BottomLeft->parent = node;
 
 		adjSquares.push_back(BottomLeft);
+		allNodes.push_back(BottomLeft);
 	}
 
 	//Bottom - Right
@@ -456,6 +466,7 @@ vector<Enemy::customNode*> Enemy::getAdjacentSquares(customNode* node, customNod
 		BottomRight->parent = node;
 
 		adjSquares.push_back(BottomRight);
+		allNodes.push_back(BottomRight);
 	}
 
 

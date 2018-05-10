@@ -18,7 +18,7 @@ void GameState::Init() {
 
 	Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
 	//Change array to use in level
-	GetLevelManager()->loadLevel(0);
+	GetLevelManager()->loadLevel(4);
 
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);

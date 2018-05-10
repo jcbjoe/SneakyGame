@@ -55,6 +55,8 @@ private:
 	bool vectorContains(customNode* containNode, vector<customNode*>& nodeVector);
 	vector<customNode*> getAdjacentSquares(customNode* node, customNode* destination);
 	float EnemyPlayerAngle();
+
+	vector<customNode*> allNodes;
 };
 
 #endif
