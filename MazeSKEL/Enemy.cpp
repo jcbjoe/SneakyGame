@@ -2,9 +2,9 @@
 #include "StateManager.h"
 #include "GameState.h"
 
-Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale)
+Enemy::Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale, int lightID)
 	:
-	GameObject(name, position, rotation, scale) {
+	GameObject(name, position, rotation, scale), lightID(lightID) {
 
 	detectionMeter = 0.0f;
 	waypointNumber = 1;
@@ -37,7 +37,7 @@ void Enemy::Update(float dTime) {
 			Vector3 eye = { 0, 0, -1 };
 			Matrix ma = Matrix::CreateRotationY(GetRotation().y);
 
-			FX::SetupSpotLight(6, true, { GetPosition().x, 0.0f, GetPosition().z }, Vector3::TransformNormal(eye, ma), Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(0.8f, 0.84f, 0.8f), 3.0f, 0.5f, D2R(15), D2R(50));
+			FX::SetupSpotLight(lightID, true, { GetPosition().x, 0.0f, GetPosition().z }, Vector3::TransformNormal(eye, ma), Vector3(1.0f, 0.84f, 0.8f), Vector3(0.8f, 0.8f, 0.8f), Vector3(0.8f, 0.84f, 0.8f), 3.0f, 0.5f, D2R(15), D2R(50));
 
 			bool canSeeBool = true;
 

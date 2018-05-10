@@ -417,7 +417,7 @@ void UserInterfaceManager::handlePauseMenu() {
 				((GameState*)(GetStateManager()->getCurrentState()))->paused = false;
 			}
 			if (selected == 1) {
-				GetStateManager()->changeState("MainMenu");
+				GetStateManager()->changeState("MainMenuState");
 			}
 		}
 	}
@@ -469,7 +469,7 @@ void UserInterfaceManager::handlePauseMenu() {
 			((GetMouseAndKeys()->GetMousePos(true).y >= mainmenuBounds.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= mainmenuBounds.bottomRight.y))
 			)
 		{
-			GetStateManager()->changeState("MainMenu");
+			GetStateManager()->changeState("MainMenuStates");
 		}
 
 		int ArrowHOffset, ArrowWOffset;

@@ -21,7 +21,7 @@ class Enemy : public GameObject
 {
 public:
 
-	Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale);
+	Enemy(string name, Vector3 position, Vector3 rotation, Vector3 scale, int lightID);
 
 	void Update(float dTime) override;
 
@@ -40,6 +40,8 @@ private:
 	int currentPathPos;
 	vector<Vector3> currentPath;
 	float movespeed = 1.5f;
+
+	int lightID;
 
 	struct customNode {
 		int x;

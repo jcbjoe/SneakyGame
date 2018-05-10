@@ -41,7 +41,7 @@ void Player::Update(float dTime)
 		if (GetMouseAndKeys()->IsPressed(VK_LSHIFT) || (GetGamepad()->IsConnected(0) && GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_RIGHT_SHOULDER)))
 		{
 			isCrouched = true;
-			moveSpeed = 20.0f;
+			moveSpeed = 15.0f;
 			mCamera.Crouch(isCrouched);
 
 		}
@@ -62,7 +62,7 @@ void Player::Update(float dTime)
 		Vector2 m;
 
 		if (GetGamepad()->IsConnected(0))
-			m = (Vector2(GetGamepad()->GetState(0).rightStickX, -GetGamepad()->GetState(0).rightStickY) / turnSpeed * 1.5f);
+			m = (Vector2(GetGamepad()->GetState(0).rightStickX, -GetGamepad()->GetState(0).rightStickY) / turnSpeed * 5.0f);
 
 		m += (GetMouseAndKeys()->GetMouseMoveAndCentre() / turnSpeed);
 

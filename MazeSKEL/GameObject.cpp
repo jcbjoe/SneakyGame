@@ -1,7 +1,8 @@
 #include "GameObject.h"
 
+//Baseclass for the majority of objects placed into each level
 
-
+//Constructor
 GameObject::GameObject(string name, Vector3 position, Vector3 rotation, Vector3 scale) :
 	name_(name),
 	position_(position),
@@ -11,6 +12,7 @@ GameObject::GameObject(string name, Vector3 position, Vector3 rotation, Vector3 
 
 }
 
+//Constructor
 GameObject::GameObject(string name, Vector3 position, Vector3 rotation, Vector3 scale, string mesh, string texture) :
 	name_(name),
 	position_(position),
@@ -30,10 +32,12 @@ GameObject::GameObject(string name, Vector3 position, Vector3 rotation, Vector3 
 	GetModel().SetOverrideMat(&mat);
 }
 
+//Update
 void GameObject::Update(float dTime)
 {
 }
 
+//Render
 void GameObject::Render()
 {
 	FX::MyFX& fx = *FX::GetMyFX();
@@ -45,28 +49,34 @@ void GameObject::Render()
 	fx.Render(model_, gd3dImmediateContext);
 }
 
+//Set the object to moving
 void GameObject::moveObject() {
 	move_ = true;
 }
 
+//Is the object moving
 bool GameObject::getMove() {
 	return move_;
 }
 
+//What is the objects index
 int GameObject::getIndex() {
 	return index_;
 }
 
+//Set the objects index
 void GameObject::setIndex(int index) {
 	index_ = index;
 }
 
+//Set initial attributes of an object
 void GameObject::setInitialPos() {
 	SetPosition(position_);
 	SetRotation(rotation_);
 	SetScale(scale_);
 }
 
+//Set the object to be moving/ not moving
 void GameObject::setMove(bool bl)
 {
 	move_ = bl;

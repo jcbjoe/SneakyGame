@@ -35,6 +35,16 @@ void GameOverState::Init() {
 	selector = 0;
 
 	mLoadThread = std::async(launch::async, &GameOverState::handleGameOver, this);
+
+	pressedOnInit = false;
+
+	GetGamepad()->Update();
+	if (GetGamepad()->IsConnected(0))
+	{
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
+			pressedOnInit = true;
+		}
+	}
 }
 
 void GameOverState::handleGameOver() {
@@ -52,7 +62,6 @@ void GameOverState::Update(float dTime) {
 	}
 	GetGamepad()->Update();
 	if (GetGamepad()->IsConnected(0)) {
-
 		if (GetGamepad()->GetState(0).leftStickY < 0) {
 			if (!gamepadDown) {
 				if (selected == 2)
@@ -76,12 +85,15 @@ void GameOverState::Update(float dTime) {
 				gamepadDown = false;
 			}
 		}
+		if (!(GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) && pressedOnInit) {
+			pressedOnInit = false;
+		}
 
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 0) {
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 0 && !pressedOnInit) {
 			GetStateManager()->changeState("LoadingState");
 		}
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 2) {
-			GetStateManager()->changeState("MainMenu");
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && selected == 2 && !pressedOnInit) {
+			GetStateManager()->changeState("MainMenuState");
 		}
 	}
 
@@ -225,7 +237,7 @@ void GameOverState::Render(float dTime) {
 		((GetMouseAndKeys()->GetMousePos(true).y >= boundsOfMainMenu.topLeft.y) && (GetMouseAndKeys()->GetMousePos(true).y <= boundsOfMainMenu.bottomRight.y))
 		)
 	{
-		GetStateManager()->changeState("MainMenu");
+		GetStateManager()->changeState("MainMenuState");
 	}
 
 	int ArrowHOffset, ArrowWOffset;
