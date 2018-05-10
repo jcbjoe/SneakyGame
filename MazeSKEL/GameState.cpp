@@ -18,7 +18,7 @@ void GameState::Init() {
 
 	Timer = GetLevelManager()->getCurrentLevel()->getLevelTimer();
 	//Change array to use in level
-	GetLevelManager()->loadLevel(0);
+	GetLevelManager()->loadLevel(4);
 
 	//--- Init the UI - 1st Arg = ShowFPS
 	GetUserInterfaceManager()->initialiseUI(true);
@@ -47,8 +47,10 @@ void GameState::Destruct() {
 
 
 void GameState::Update(float dTime) {
+	//Keeps calling audiMgr so sounds can repeat
 	GetIAudioMgr()->Update();
 	if(GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
+		//Plays music
 		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 
 	if (GetMouseAndKeys()->IsPressed(VK_BACK)) {
@@ -108,9 +110,12 @@ void GameState::Update(float dTime) {
 				{
 					if (gPlayer->getHasRedKey()) {
 						if (!(gPlayer->getOpenedRed())) {
+							//Play Sound
 							GetIAudioMgr()->GetSfxMgr()->Play("soundDoorSlide", false, false, nullptr, 1.0);
 						}
+						//Lets player know the door has been opened for Collisions
 						gPlayer->setOpenedRed();
+						//Makes the object react to being touch by the player
 						obj->moveObject();
 						return;
 					}
@@ -121,10 +126,12 @@ void GameState::Update(float dTime) {
 						if (gPlayer->getHasBlueKey()) {
 
 							if (!(gPlayer->getOpenedBlue())) {
+								//Play Sound
 								GetIAudioMgr()->GetSfxMgr()->Play("soundDoorCreak", false, false, nullptr, 1.0);
 							}
-
+							//Lets player know the door has been opened for Collisions
 							gPlayer->setOpenedBlue();
+							//Makes the object react to being touch by the player
 							obj->moveObject();
 							return;
 						}
@@ -135,8 +142,11 @@ void GameState::Update(float dTime) {
 				if (obj->GetName() == "Loot" && !obj->getMove())
 				{
 					gPlayer->increaseScore();
+					//Gives the Object its index so it can be deleted later
 					obj->setIndex(index);
+					//Play Sound
 					GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
+					//Makes the object react to being touch by the player
 					obj->moveObject();
 					return;
 				}
@@ -144,8 +154,11 @@ void GameState::Update(float dTime) {
 					if (obj->GetName() == "RedKey" && !obj->getMove())
 					{
 						gPlayer->setHasRedKey(true);
+						//Gives the Object its index so it can be deleted later
 						obj->setIndex(index);
+						//Play Sound
 						GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
+						//Makes the object react to being touch by the player
 						obj->moveObject();
 						FX::DisableLight(2);
 						return;
@@ -154,8 +167,11 @@ void GameState::Update(float dTime) {
 						if (obj->GetName() == "BlueKey" && !obj->getMove())
 						{
 							gPlayer->setHasBlueKey(true);
+							//Gives the Object its index so it can be deleted later
 							obj->setIndex(index);
+							//Play Sound
 							GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
+							//Makes the object react to being touch by the player
 							obj->moveObject();
 							FX::DisableLight(3);
 							return;
@@ -164,8 +180,11 @@ void GameState::Update(float dTime) {
 							if (obj->GetName() == "YellowKey" && !obj->getMove())
 							{
 								gPlayer->setHasYellowKey(true);
+								//Gives the Object its index so it can be deleted later
 								obj->setIndex(index);
+								//Play Sound
 								GetIAudioMgr()->GetSfxMgr()->Play("soundCoinCollect", false, false, nullptr, 0.5);
+								//Makes the object react to being touch by the player
 								obj->moveObject();
 								FX::DisableLight(4);
 								return;
@@ -179,12 +198,16 @@ void GameState::Update(float dTime) {
 					if (gPlayer->getScore() != 0)
 					{
 						//Deposit them
+						//Play Sound
 						GetIAudioMgr()->GetSfxMgr()->Play("soundCoinDeposit", false, false, nullptr, 1.0);
+						//Updates Player for deposited coins
 						gPlayer->dropOffCoins();
+						//If Player has deposited all the coins on the level then go to next level
 						if (gPlayer->getDeposited() == GetLevelManager()->getCurrentLevel()->getMaxCoins())
 						{
 							saveStats();
 							gPlayer->resetStats();
+							//If last level go to end screen
 							if (GetLevelManager()->getCurrentLevelNumber() == GetLevelManager()->getMaxLevels())
 								GetStateManager()->changeState("GameOverState");
 							else

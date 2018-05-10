@@ -198,6 +198,7 @@ void FPSCamera::Update(float dTime)
 			if (len < 0.3f)
 			{
 				//Move player back
+				go[i]->setCaught(false);
 				mCamPos = startPos;
 			}
 		}

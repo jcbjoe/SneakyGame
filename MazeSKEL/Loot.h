@@ -20,9 +20,9 @@ public:
 
 	void Update(float dTime) override;
 private:
-	float x = 0;
-	float y = 0.6;
-	float z = 0;
+	float scaleChange = 0;
+	float lightChange = 0.6;
+	float idleMov = 0;
 };
 #endif
 
