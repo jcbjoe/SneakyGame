@@ -54,37 +54,47 @@ void GameOverState::Update(float dTime) {
 	if (GetIAudioMgr()->GetSongMgr()->IsPlaying(musicHdl) == false)
 		GetIAudioMgr()->GetSongMgr()->Play("spookyMusic", true, false, &musicHdl, 0.5);
 
-	if (handled) {
-		GetStateManager()->changeState("MainMenuState");
-	}
+	//if (handled) {
+	//	GetStateManager()->changeState("MainMenuState");
+	//}
 
 	GetGamepad()->Update();
+
+	if (GetGamepad()->IsConnected(0))
+		if (!(GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) && pressedOnInit) {
+			pressedOnInit = false;
+		}
+
 	if (GetGamepad()->IsConnected(0)) {
 
-		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A)) {
+		if (GetGamepad()->IsPressed(0, XINPUT_GAMEPAD_A) && !pressedOnInit) {
 			saveToFile();
-			GetStateManager()->changeState("MainMenu");
+			levels = 0;
+			totCoinsDeposited = 0;
+			totTimeTaken = 0;
+			keyPressed = false;
+			GetStateManager()->changeState("MainMenuState");
 		}
 	}
 
 	if (keyPressed == false)
 	{
 		//If ENTER KEY IS NOT PRESSED
-		if (GetMouseAndKeys()->IsPressed(VK_W)) //up
+		if (GetMouseAndKeys()->IsPressed(VK_W) || (GetGamepad()->IsConnected(0) && GetGamepad()->GetState(0).leftStickY > 0)) //up
 		{
 			keyPressed = true;
 
 			if (name[selector] != 65)
 				name[selector] = (char)name[selector] - 1;
 		}
-		else if (GetMouseAndKeys()->IsPressed(VK_S)) // down
+		else if (GetMouseAndKeys()->IsPressed(VK_S) || (GetGamepad()->IsConnected(0) && GetGamepad()->GetState(0).leftStickY < 0)) // down
 		{
 			keyPressed = true;
 
 			if (name[selector] != 90)
 				name[selector] = (char)name[selector] + 1;
 		}
-		else if (GetMouseAndKeys()->IsPressed(VK_A)) // left
+		else if (GetMouseAndKeys()->IsPressed(VK_A) || (GetGamepad()->IsConnected(0) && GetGamepad()->GetState(0).leftStickX < 0)) // left
 		{
 			keyPressed = true;
 			if (selector == 0)
@@ -92,7 +102,7 @@ void GameOverState::Update(float dTime) {
 			else
 				selector -= 1;
 		}
-		else if (GetMouseAndKeys()->IsPressed(VK_D)) //Right
+		else if (GetMouseAndKeys()->IsPressed(VK_D) || (GetGamepad()->IsConnected(0) && GetGamepad()->GetState(0).leftStickX < 0)) //Right
 		{
 			keyPressed = true;
 			if (selector == 2)
@@ -105,14 +115,31 @@ void GameOverState::Update(float dTime) {
 			keyPressed = true;
 			//SUBMIT HIGHSCORES AND GO TO MAIN MENU
 			saveToFile();
-			GetStateManager()->changeState("MainMenu");
+			levels = 0;
+			totCoinsDeposited = 0;
+			totTimeTaken = 0;
+			keyPressed = false;
+			GetStateManager()->changeState("MainMenuState");
 		}
 	}
 	
-	if (!GetMouseAndKeys()->IsPressed(VK_W) && !GetMouseAndKeys()->IsPressed(VK_A) && !GetMouseAndKeys()->IsPressed(VK_S) && !GetMouseAndKeys()->IsPressed(VK_D) && !GetMouseAndKeys()->IsPressed(VK_RETURN))
+	if (GetGamepad()->IsConnected(0))
 	{
-		keyPressed = false;
+		if (GetGamepad()->GetState(0).leftStickY == 0 && GetGamepad()->GetState(0).leftStickX == 0 && !GetMouseAndKeys()->IsPressed(VK_W) && !GetMouseAndKeys()->IsPressed(VK_A) && !GetMouseAndKeys()->IsPressed(VK_S) && !GetMouseAndKeys()->IsPressed(VK_D) && !GetMouseAndKeys()->IsPressed(VK_RETURN))
+		{
+			keyPressed = false;
+		}
 	}
+	else
+	{
+		if (!GetMouseAndKeys()->IsPressed(VK_W) && !GetMouseAndKeys()->IsPressed(VK_A) && !GetMouseAndKeys()->IsPressed(VK_S) && !GetMouseAndKeys()->IsPressed(VK_D) && !GetMouseAndKeys()->IsPressed(VK_RETURN))
+		{
+			keyPressed = false;
+		}
+	}
+	
+
+	
 }
 
 void GameOverState::Render(float dTime) {
